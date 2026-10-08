@@ -7,8 +7,11 @@ extends Control
 @onready var _duel_button: Button = %DuelButton
 @onready var _language_button: Button = %LanguageButton
 @onready var _display_button: Button = %DisplayButton
+@onready var _controls_button: Button = %ControlsButton
 @onready var _credits_button: Button = %CreditsButton
 @onready var _quit_button: Button = %QuitButton
+@onready var _controls_overlay: Control = %ControlsOverlay
+@onready var _close_controls_button: Button = %CloseControlsButton
 @onready var _credits_overlay: Control = %CreditsOverlay
 @onready var _close_credits_button: Button = %CloseCreditsButton
 
@@ -21,6 +24,8 @@ func _ready() -> void:
 	_duel_button.pressed.connect(_start_mode.bind("duel"))
 	_language_button.pressed.connect(LocaleService.cycle_language)
 	_display_button.pressed.connect(DisplayService.cycle_mode)
+	_controls_button.pressed.connect(_toggle_controls.bind(true))
+	_close_controls_button.pressed.connect(_toggle_controls.bind(false))
 	_credits_button.pressed.connect(_toggle_credits.bind(true))
 	_close_credits_button.pressed.connect(_toggle_credits.bind(false))
 	_quit_button.pressed.connect(get_tree().quit)
@@ -29,6 +34,14 @@ func _ready() -> void:
 	DisplayService.mode_changed.connect(func(_mode: int) -> void: _refresh())
 	_refresh()
 	_marathon_button.grab_focus()
+
+
+func _toggle_controls(open: bool) -> void:
+	_controls_overlay.visible = open
+	if open:
+		_close_controls_button.grab_focus()
+	else:
+		_controls_button.grab_focus()
 
 
 func _toggle_credits(open: bool) -> void:

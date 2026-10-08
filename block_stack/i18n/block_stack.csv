@@ -7,6 +7,26 @@ MENU_MODE_DUEL,Duell vs. CPU,Duel vs CPU
 MENU_OPTIONS,Optionen,Options
 MENU_CREDITS,Credits,Credits
 MENU_CREDITS_TEXT,"Block Stack - Godot 4.7 GDScript\nDesign & Code: Antigravity\nSchrift: Open Sans (Apache 2.0)\nGrafik & Sound: Prozedural","Block Stack - Godot 4.7 GDScript\nDesign & Code: Antigravity\nFont: Open Sans (Apache 2.0)\nGraphics & Sound: Procedural"
+MENU_CONTROLS,Steuerung,Controls
+CONTROLS_TITLE,Steuerung,Controls
+CONTROLS_MOVE,Links / Rechts,Move Left / Right
+CONTROLS_KEYS_MOVE,← / → oder A / D,← / → or A / D
+CONTROLS_SOFT_DROP,Soft Drop (Schneller),Soft Drop (Faster)
+CONTROLS_KEYS_SOFT_DROP,↓ oder S,↓ or S
+CONTROLS_HARD_DROP,Hard Drop (Fallen lassen),Hard Drop (Instant Drop)
+CONTROLS_KEYS_HARD_DROP,Leertaste,Space
+CONTROLS_ROTATE_CW,Drehen (Uhrzeigersinn),Rotate (Clockwise)
+CONTROLS_KEYS_ROTATE_CW,↑ oder X,↑ or X
+CONTROLS_ROTATE_CCW,Drehen (Gegen Uhrzeigersinn),Rotate (Counter-Clockwise)
+CONTROLS_KEYS_ROTATE_CCW,Z oder Strg,Z or Ctrl
+CONTROLS_HOLD,Tauschen (Hold),Hold Piece
+CONTROLS_KEYS_HOLD,C oder Umschalt,C or Shift
+CONTROLS_PAUSE,Pause,Pause
+CONTROLS_KEYS_PAUSE,Esc oder P,Esc or P
+CONTROLS_FULLSCREEN,Vollbild,Fullscreen
+CONTROLS_KEYS_FULLSCREEN,F11 oder Alt+Enter,F11 or Alt+Enter
+CONTROLS_GAMEPAD,Gamepad,Gamepad
+CONTROLS_KEYS_GAMEPAD,"Stick/D-Pad, A/B (Drehen), LB/RB (Hold), Y (Drop)","Stick/D-Pad, A/B (Rotate), LB/RB (Hold), Y (Drop)"
 MENU_HIGHSCORES,Rekorde,Highscores
 MENU_DIFFICULTY_EASY,Leicht,Easy
 MENU_DIFFICULTY_MEDIUM,Mittel,Medium

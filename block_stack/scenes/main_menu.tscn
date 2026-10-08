@@ -83,6 +83,12 @@ unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 68)
 layout_mode = 2
 
+[node name="ControlsButton" type="Button" parent="Center/Box"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 68)
+layout_mode = 2
+text = "MENU_CONTROLS"
+
 [node name="CreditsButton" type="Button" parent="Center/Box"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 68)
@@ -94,6 +100,152 @@ unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 68)
 layout_mode = 2
 text = "COMMON_QUIT"
+
+[node name="ControlsOverlay" type="ColorRect" parent="."]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.04, 0.05, 0.1, 0.96)
+
+[node name="Center" type="CenterContainer" parent="ControlsOverlay"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Box" type="VBoxContainer" parent="ControlsOverlay/Center"]
+custom_minimum_size = Vector2(880, 0)
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="Title" type="Label" parent="ControlsOverlay/Center/Box"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0.898, 1, 1)
+theme_override_font_sizes/font_size = 64
+text = "CONTROLS_TITLE"
+horizontal_alignment = 1
+
+[node name="Grid" type="GridContainer" parent="ControlsOverlay/Center/Box"]
+layout_mode = 2
+theme_override_constants/h_separation = 36
+theme_override_constants/v_separation = 12
+columns = 2
+
+[node name="Lbl1" type="Label" parent="ControlsOverlay/Center/Box/Grid"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0.898, 1, 1)
+theme_override_font_sizes/font_size = 26
+text = "CONTROLS_MOVE"
+
+[node name="Key1" type="Label" parent="ControlsOverlay/Center/Box/Grid"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 26
+text = "CONTROLS_KEYS_MOVE"
+
+[node name="Lbl2" type="Label" parent="ControlsOverlay/Center/Box/Grid"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0.898, 1, 1)
+theme_override_font_sizes/font_size = 26
+text = "CONTROLS_SOFT_DROP"
+
+[node name="Key2" type="Label" parent="ControlsOverlay/Center/Box/Grid"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 26
+text = "CONTROLS_KEYS_SOFT_DROP"
+
+[node name="Lbl3" type="Label" parent="ControlsOverlay/Center/Box/Grid"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0.898, 1, 1)
+theme_override_font_sizes/font_size = 26
+text = "CONTROLS_HARD_DROP"
+
+[node name="Key3" type="Label" parent="ControlsOverlay/Center/Box/Grid"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 26
+text = "CONTROLS_KEYS_HARD_DROP"
+
+[node name="Lbl4" type="Label" parent="ControlsOverlay/Center/Box/Grid"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0.898, 1, 1)
+theme_override_font_sizes/font_size = 26
+text = "CONTROLS_ROTATE_CW"
+
+[node name="Key4" type="Label" parent="ControlsOverlay/Center/Box/Grid"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 26
+text = "CONTROLS_KEYS_ROTATE_CW"
+
+[node name="Lbl5" type="Label" parent="ControlsOverlay/Center/Box/Grid"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0.898, 1, 1)
+theme_override_font_sizes/font_size = 26
+text = "CONTROLS_ROTATE_CCW"
+
+[node name="Key5" type="Label" parent="ControlsOverlay/Center/Box/Grid"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 26
+text = "CONTROLS_KEYS_ROTATE_CCW"
+
+[node name="Lbl6" type="Label" parent="ControlsOverlay/Center/Box/Grid"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0.898, 1, 1)
+theme_override_font_sizes/font_size = 26
+text = "CONTROLS_HOLD"
+
+[node name="Key6" type="Label" parent="ControlsOverlay/Center/Box/Grid"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 26
+text = "CONTROLS_KEYS_HOLD"
+
+[node name="Lbl7" type="Label" parent="ControlsOverlay/Center/Box/Grid"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0.898, 1, 1)
+theme_override_font_sizes/font_size = 26
+text = "CONTROLS_PAUSE"
+
+[node name="Key7" type="Label" parent="ControlsOverlay/Center/Box/Grid"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 26
+text = "CONTROLS_KEYS_PAUSE"
+
+[node name="Lbl8" type="Label" parent="ControlsOverlay/Center/Box/Grid"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0.898, 1, 1)
+theme_override_font_sizes/font_size = 26
+text = "CONTROLS_FULLSCREEN"
+
+[node name="Key8" type="Label" parent="ControlsOverlay/Center/Box/Grid"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 26
+text = "CONTROLS_KEYS_FULLSCREEN"
+
+[node name="Lbl9" type="Label" parent="ControlsOverlay/Center/Box/Grid"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0.898, 1, 1)
+theme_override_font_sizes/font_size = 26
+text = "CONTROLS_GAMEPAD"
+
+[node name="Key9" type="Label" parent="ControlsOverlay/Center/Box/Grid"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 26
+text = "CONTROLS_KEYS_GAMEPAD"
+
+[node name="Spacer" type="Control" parent="ControlsOverlay/Center/Box"]
+custom_minimum_size = Vector2(0, 16)
+layout_mode = 2
+
+[node name="CloseControlsButton" type="Button" parent="ControlsOverlay/Center/Box"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 68)
+layout_mode = 2
+text = "COMMON_BACK"
 
 [node name="CreditsOverlay" type="ColorRect" parent="."]
 unique_name_in_owner = true

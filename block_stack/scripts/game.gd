@@ -107,6 +107,8 @@ func _setup_game() -> void:
 	_hud.resume_pressed.connect(_set_paused.bind(false))
 	_hud.restart_pressed.connect(_restart_game)
 	_hud.menu_pressed.connect(_to_menu)
+	_hud.controls_opened.connect(func() -> void: _set_paused(true))
+	_hud.controls_closed.connect(func() -> void: _set_paused(false))
 
 	_update_hud()
 	is_active = true
@@ -165,15 +167,14 @@ func _process_handling(delta: float) -> void:
 
 
 func _unhandled_input(event: InputEvent) -> void:
-	if not is_active:
-		return
-
 	if event.is_action_pressed("pause"):
+		if logic == null or logic.game_over or not is_active:
+			return
 		_set_paused(not is_paused)
 		get_viewport().set_input_as_handled()
 		return
 
-	if is_paused or autoplay:
+	if not is_active or is_paused or autoplay:
 		return
 
 	if event.is_action_pressed("move_left"):
@@ -260,6 +261,7 @@ func _on_cpu_lines_cleared(_count: int, _clear_name: String, _pts: int, _tot: in
 
 func _on_player_game_over() -> void:
 	is_active = false
+	_set_paused(false)
 	_sound.play_game_over()
 	if is_duel:
 		_hud.show_game_over("MSG_CPU_WINS", "MSG_GAME_OVER_HINT")
@@ -272,11 +274,13 @@ func _on_player_game_over() -> void:
 
 func _on_cpu_game_over() -> void:
 	is_active = false
+	_set_paused(false)
 	_hud.show_game_over("MSG_PLAYER_WINS", "MSG_VICTORY_HINT")
 
 
 func _end_sprint_mode() -> void:
 	is_active = false
+	_set_paused(false)
 	if game_time < best_sprint_time:
 		best_sprint_time = game_time
 		SaveService.set_value("highscore", "sprint", best_sprint_time)
@@ -285,6 +289,7 @@ func _end_sprint_mode() -> void:
 
 func _end_ultra_mode() -> void:
 	is_active = false
+	_set_paused(false)
 	if logic.score > best_ultra_score:
 		best_ultra_score = logic.score
 		SaveService.set_value("highscore", "ultra", best_ultra_score)

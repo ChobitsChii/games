@@ -1,11 +1,15 @@
 class_name Hud
-extends Control
-## HUD für Block Stack: Punktestand, Level, Hold, Next, Zeit, Banner und Pause-Menü.
+extends CanvasLayer
+## HUD für Block Stack: CanvasLayer für auflösungsunabhängige, zentrierte Menüs.
+## Punktestand, Level, Hold, Next, Zeit, Banner, Pause-, Steuerungs- und Ergebnis-Overlay.
 
 signal resume_pressed()
 signal restart_pressed()
 signal menu_pressed()
+signal controls_opened()
+signal controls_closed()
 
+@onready var _root: Control = %Root
 @onready var _score_label: Label = %ScoreLabel
 @onready var _best_label: Label = %BestLabel
 @onready var _level_label: Label = %LevelLabel
@@ -20,12 +24,15 @@ signal menu_pressed()
 	%NextPreview4,
 ]
 
+@onready var _ingame_controls_button: Button = %InGameControlsButton
+
 @onready var _banner: Control = %ActionBanner
 @onready var _banner_main: Label = %BannerMainLabel
 @onready var _banner_sub: Label = %BannerSubLabel
 
 @onready var _pause_overlay: Control = %PauseOverlay
 @onready var _resume_button: Button = %ResumeButton
+@onready var _pause_controls_button: Button = %PauseControlsButton
 @onready var _restart_button: Button = %RestartButton
 @onready var _menu_button: Button = %MenuButton
 
@@ -35,17 +42,30 @@ signal menu_pressed()
 @onready var _result_retry_button: Button = %ResultRetryButton
 @onready var _result_menu_button: Button = %ResultMenuButton
 
+@onready var _controls_overlay: Control = %ControlsOverlay
+@onready var _close_controls_button: Button = %CloseControlsButton
+
 var _banner_timer: float = 0.0
+var _opened_controls_from_pause: bool = false
 
 
 func _ready() -> void:
+	_root.theme = ThemeFactory.build(StackConfig.PALETTE)
+
 	_resume_button.pressed.connect(func() -> void: resume_pressed.emit())
 	_restart_button.pressed.connect(func() -> void: restart_pressed.emit())
 	_menu_button.pressed.connect(func() -> void: menu_pressed.emit())
 	_result_retry_button.pressed.connect(func() -> void: restart_pressed.emit())
 	_result_menu_button.pressed.connect(func() -> void: menu_pressed.emit())
+
+	_pause_controls_button.pressed.connect(_on_pause_controls_clicked)
+	if _ingame_controls_button != null:
+		_ingame_controls_button.pressed.connect(_on_ingame_controls_clicked)
+	_close_controls_button.pressed.connect(_close_controls)
+
 	_pause_overlay.visible = false
 	_result_overlay.visible = false
+	_controls_overlay.visible = false
 	_banner.visible = false
 
 
@@ -54,6 +74,15 @@ func _process(delta: float) -> void:
 		_banner_timer -= delta
 		if _banner_timer <= 0.0:
 			_banner.visible = false
+
+
+func _unhandled_input(event: InputEvent) -> void:
+	if _controls_overlay.visible and (event.is_action_pressed("pause") or event.is_action_pressed("ui_cancel")):
+		_close_controls()
+		get_viewport().set_input_as_handled()
+	elif _pause_overlay.visible and event.is_action_pressed("pause"):
+		resume_pressed.emit()
+		get_viewport().set_input_as_handled()
 
 
 func set_score(val: int) -> void:
@@ -101,10 +130,13 @@ func show_action(main_key: String, sub_key: String = "") -> void:
 func show_pause(paused: bool) -> void:
 	_pause_overlay.visible = paused
 	if paused:
+		_controls_overlay.visible = false
 		_resume_button.grab_focus()
 
 
 func show_game_over(title_key: String = "MSG_GAME_OVER", hint_key: String = "MSG_GAME_OVER_HINT") -> void:
+	_pause_overlay.visible = false
+	_controls_overlay.visible = false
 	_result_title.text = tr(title_key)
 	_result_hint.text = tr(hint_key)
 	_result_overlay.visible = true
@@ -113,3 +145,32 @@ func show_game_over(title_key: String = "MSG_GAME_OVER", hint_key: String = "MSG
 
 func hide_result() -> void:
 	_result_overlay.visible = false
+
+
+func is_overlay_visible() -> bool:
+	return _pause_overlay.visible or _result_overlay.visible or _controls_overlay.visible
+
+
+func _on_pause_controls_clicked() -> void:
+	_opened_controls_from_pause = true
+	_pause_overlay.visible = false
+	_controls_overlay.visible = true
+	_close_controls_button.grab_focus()
+
+
+func _on_ingame_controls_clicked() -> void:
+	_opened_controls_from_pause = false
+	controls_opened.emit()
+	_controls_overlay.visible = true
+	_close_controls_button.grab_focus()
+
+
+func _close_controls() -> void:
+	_controls_overlay.visible = false
+	if _opened_controls_from_pause:
+		_pause_overlay.visible = true
+		_pause_controls_button.grab_focus()
+	else:
+		controls_closed.emit()
+		if _ingame_controls_button != null and _ingame_controls_button.is_inside_tree():
+			_ingame_controls_button.grab_focus()

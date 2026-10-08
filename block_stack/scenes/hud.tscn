@@ -3,7 +3,13 @@
 [ext_resource type="Script" path="res://scripts/ui/hud.gd" id="1_hud"]
 [ext_resource type="Script" path="res://scripts/ui/piece_preview.gd" id="2_prev"]
 
-[node name="Hud" type="Control"]
+[node name="Hud" type="CanvasLayer"]
+process_mode = 3
+layer = 10
+script = ExtResource("1_hud")
+
+[node name="Root" type="Control" parent="."]
+unique_name_in_owner = true
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -11,69 +17,77 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
-script = ExtResource("1_hud")
 
-[node name="LeftPanel" type="PanelContainer" parent="."]
-custom_minimum_size = Vector2(240, 480)
+[node name="LeftPanel" type="PanelContainer" parent="Root"]
+custom_minimum_size = Vector2(250, 560)
 layout_mode = 0
-offset_left = 420.0
+offset_left = 410.0
 offset_top = 100.0
 offset_right = 660.0
-offset_bottom = 580.0
+offset_bottom = 660.0
 
-[node name="VBox" type="VBoxContainer" parent="LeftPanel"]
+[node name="VBox" type="VBoxContainer" parent="Root/LeftPanel"]
 layout_mode = 2
-theme_override_constants/separation = 16
+theme_override_constants/separation = 14
 
-[node name="HoldTitle" type="Label" parent="LeftPanel/VBox"]
+[node name="HoldTitle" type="Label" parent="Root/LeftPanel/VBox"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0, 0.898, 1, 1)
 theme_override_font_sizes/font_size = 28
 text = "HUD_HOLD"
 horizontal_alignment = 1
 
-[node name="HoldPreview" type="Control" parent="LeftPanel/VBox"]
+[node name="HoldPreview" type="Control" parent="Root/LeftPanel/VBox"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(160, 100)
+custom_minimum_size = Vector2(160, 96)
 layout_mode = 2
 script = ExtResource("2_prev")
 
-[node name="HSeparator" type="HSeparator" parent="LeftPanel/VBox"]
+[node name="HSeparator" type="HSeparator" parent="Root/LeftPanel/VBox"]
 layout_mode = 2
 
-[node name="ScoreLabel" type="Label" parent="LeftPanel/VBox"]
+[node name="ScoreLabel" type="Label" parent="Root/LeftPanel/VBox"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_font_sizes/font_size = 26
 text = "HUD_SCORE_FMT"
 
-[node name="BestLabel" type="Label" parent="LeftPanel/VBox"]
+[node name="BestLabel" type="Label" parent="Root/LeftPanel/VBox"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(0.7, 0.75, 0.9, 1)
 theme_override_font_sizes/font_size = 22
 text = "HUD_BEST_FMT"
 
-[node name="LevelLabel" type="Label" parent="LeftPanel/VBox"]
+[node name="LevelLabel" type="Label" parent="Root/LeftPanel/VBox"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_font_sizes/font_size = 26
 text = "HUD_LEVEL_FMT"
 
-[node name="LinesLabel" type="Label" parent="LeftPanel/VBox"]
+[node name="LinesLabel" type="Label" parent="Root/LeftPanel/VBox"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_font_sizes/font_size = 26
 text = "HUD_LINES_FMT"
 
-[node name="TimeLabel" type="Label" parent="LeftPanel/VBox"]
+[node name="TimeLabel" type="Label" parent="Root/LeftPanel/VBox"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(0.9, 0.9, 1, 1)
 theme_override_font_sizes/font_size = 24
 text = "HUD_TIME_FMT"
 
-[node name="RightPanel" type="PanelContainer" parent="."]
+[node name="HSeparator2" type="HSeparator" parent="Root/LeftPanel/VBox"]
+layout_mode = 2
+
+[node name="InGameControlsButton" type="Button" parent="Root/LeftPanel/VBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 52)
+layout_mode = 2
+text = "MENU_CONTROLS"
+
+[node name="RightPanel" type="PanelContainer" parent="Root"]
 custom_minimum_size = Vector2(240, 720)
 layout_mode = 0
 offset_left = 1260.0
@@ -81,48 +95,48 @@ offset_top = 100.0
 offset_right = 1500.0
 offset_bottom = 820.0
 
-[node name="VBox" type="VBoxContainer" parent="RightPanel"]
+[node name="VBox" type="VBoxContainer" parent="Root/RightPanel"]
 layout_mode = 2
 theme_override_constants/separation = 12
 
-[node name="NextTitle" type="Label" parent="RightPanel/VBox"]
+[node name="NextTitle" type="Label" parent="Root/RightPanel/VBox"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0, 0.898, 1, 1)
 theme_override_font_sizes/font_size = 28
 text = "HUD_NEXT"
 horizontal_alignment = 1
 
-[node name="NextPreview0" type="Control" parent="RightPanel/VBox"]
+[node name="NextPreview0" type="Control" parent="Root/RightPanel/VBox"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(160, 96)
 layout_mode = 2
 script = ExtResource("2_prev")
 
-[node name="NextPreview1" type="Control" parent="RightPanel/VBox"]
+[node name="NextPreview1" type="Control" parent="Root/RightPanel/VBox"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(160, 96)
 layout_mode = 2
 script = ExtResource("2_prev")
 
-[node name="NextPreview2" type="Control" parent="RightPanel/VBox"]
+[node name="NextPreview2" type="Control" parent="Root/RightPanel/VBox"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(160, 96)
 layout_mode = 2
 script = ExtResource("2_prev")
 
-[node name="NextPreview3" type="Control" parent="RightPanel/VBox"]
+[node name="NextPreview3" type="Control" parent="Root/RightPanel/VBox"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(160, 96)
 layout_mode = 2
 script = ExtResource("2_prev")
 
-[node name="NextPreview4" type="Control" parent="RightPanel/VBox"]
+[node name="NextPreview4" type="Control" parent="Root/RightPanel/VBox"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(160, 96)
 layout_mode = 2
 script = ExtResource("2_prev")
 
-[node name="ActionBanner" type="Control" parent="."]
+[node name="ActionBanner" type="Control" parent="Root"]
 unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 8
@@ -138,7 +152,7 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 
-[node name="VBox" type="VBoxContainer" parent="ActionBanner"]
+[node name="VBox" type="VBoxContainer" parent="Root/ActionBanner"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -147,7 +161,7 @@ grow_horizontal = 2
 grow_vertical = 2
 alignment = 1
 
-[node name="BannerMainLabel" type="Label" parent="ActionBanner/VBox"]
+[node name="BannerMainLabel" type="Label" parent="Root/ActionBanner/VBox"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 0.9, 0.2, 1)
@@ -157,70 +171,15 @@ theme_override_constants/shadow_offset_y = 3
 theme_override_font_sizes/font_size = 54
 horizontal_alignment = 1
 
-[node name="BannerSubLabel" type="Label" parent="ActionBanner/VBox"]
+[node name="BannerSubLabel" type="Label" parent="Root/ActionBanner/VBox"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(0, 0.9, 1, 1)
 theme_override_font_sizes/font_size = 38
 horizontal_alignment = 1
 
-[node name="PauseOverlay" type="ColorRect" parent="."]
+[node name="PauseOverlay" type="ColorRect" parent="Root"]
 unique_name_in_owner = true
-process_mode = 2
-visible = false
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-color = Color(0.04, 0.05, 0.1, 0.82)
-
-[node name="Center" type="CenterContainer" parent="PauseOverlay"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="Box" type="VBoxContainer" parent="PauseOverlay/Center"]
-custom_minimum_size = Vector2(440, 0)
-layout_mode = 2
-theme_override_constants/separation = 20
-
-[node name="Title" type="Label" parent="PauseOverlay/Center/Box"]
-layout_mode = 2
-theme_override_colors/font_color = Color(0, 0.898, 1, 1)
-theme_override_font_sizes/font_size = 72
-text = "COMMON_PAUSED"
-horizontal_alignment = 1
-
-[node name="Spacer" type="Control" parent="PauseOverlay/Center/Box"]
-custom_minimum_size = Vector2(0, 24)
-layout_mode = 2
-
-[node name="ResumeButton" type="Button" parent="PauseOverlay/Center/Box"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 68)
-layout_mode = 2
-text = "COMMON_RESUME"
-
-[node name="RestartButton" type="Button" parent="PauseOverlay/Center/Box"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 68)
-layout_mode = 2
-text = "MENU_RESTART"
-
-[node name="MenuButton" type="Button" parent="PauseOverlay/Center/Box"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 68)
-layout_mode = 2
-text = "COMMON_MAIN_MENU"
-
-[node name="ResultOverlay" type="ColorRect" parent="."]
-unique_name_in_owner = true
-process_mode = 3
 visible = false
 layout_mode = 1
 anchors_preset = 15
@@ -230,7 +189,7 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.04, 0.05, 0.1, 0.88)
 
-[node name="Center" type="CenterContainer" parent="ResultOverlay"]
+[node name="Center" type="CenterContainer" parent="Root/PauseOverlay"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -238,12 +197,71 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Box" type="VBoxContainer" parent="ResultOverlay/Center"]
+[node name="Box" type="VBoxContainer" parent="Root/PauseOverlay/Center"]
+custom_minimum_size = Vector2(460, 0)
+layout_mode = 2
+theme_override_constants/separation = 18
+
+[node name="Title" type="Label" parent="Root/PauseOverlay/Center/Box"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0.898, 1, 1)
+theme_override_font_sizes/font_size = 72
+text = "COMMON_PAUSED"
+horizontal_alignment = 1
+
+[node name="Spacer" type="Control" parent="Root/PauseOverlay/Center/Box"]
+custom_minimum_size = Vector2(0, 16)
+layout_mode = 2
+
+[node name="ResumeButton" type="Button" parent="Root/PauseOverlay/Center/Box"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 68)
+layout_mode = 2
+text = "COMMON_RESUME"
+
+[node name="PauseControlsButton" type="Button" parent="Root/PauseOverlay/Center/Box"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 68)
+layout_mode = 2
+text = "MENU_CONTROLS"
+
+[node name="RestartButton" type="Button" parent="Root/PauseOverlay/Center/Box"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 68)
+layout_mode = 2
+text = "MENU_RESTART"
+
+[node name="MenuButton" type="Button" parent="Root/PauseOverlay/Center/Box"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 68)
+layout_mode = 2
+text = "COMMON_MAIN_MENU"
+
+[node name="ResultOverlay" type="ColorRect" parent="Root"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.04, 0.05, 0.1, 0.92)
+
+[node name="Center" type="CenterContainer" parent="Root/ResultOverlay"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Box" type="VBoxContainer" parent="Root/ResultOverlay/Center"]
 custom_minimum_size = Vector2(520, 0)
 layout_mode = 2
 theme_override_constants/separation = 20
 
-[node name="ResultTitle" type="Label" parent="ResultOverlay/Center/Box"]
+[node name="ResultTitle" type="Label" parent="Root/ResultOverlay/Center/Box"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 0.2, 0.4, 1)
@@ -251,7 +269,7 @@ theme_override_font_sizes/font_size = 76
 text = "MSG_GAME_OVER"
 horizontal_alignment = 1
 
-[node name="ResultHint" type="Label" parent="ResultOverlay/Center/Box"]
+[node name="ResultHint" type="Label" parent="Root/ResultOverlay/Center/Box"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(0.8, 0.85, 1, 1)
@@ -259,18 +277,164 @@ theme_override_font_sizes/font_size = 28
 text = "MSG_GAME_OVER_HINT"
 horizontal_alignment = 1
 
-[node name="Spacer" type="Control" parent="ResultOverlay/Center/Box"]
+[node name="Spacer" type="Control" parent="Root/ResultOverlay/Center/Box"]
 custom_minimum_size = Vector2(0, 24)
 layout_mode = 2
 
-[node name="ResultRetryButton" type="Button" parent="ResultOverlay/Center/Box"]
+[node name="ResultRetryButton" type="Button" parent="Root/ResultOverlay/Center/Box"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 68)
 layout_mode = 2
 text = "MENU_RESTART"
 
-[node name="ResultMenuButton" type="Button" parent="ResultOverlay/Center/Box"]
+[node name="ResultMenuButton" type="Button" parent="Root/ResultOverlay/Center/Box"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 68)
 layout_mode = 2
 text = "COMMON_MAIN_MENU"
+
+[node name="ControlsOverlay" type="ColorRect" parent="Root"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.04, 0.05, 0.1, 0.96)
+
+[node name="Center" type="CenterContainer" parent="Root/ControlsOverlay"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Box" type="VBoxContainer" parent="Root/ControlsOverlay/Center"]
+custom_minimum_size = Vector2(880, 0)
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="Title" type="Label" parent="Root/ControlsOverlay/Center/Box"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0.898, 1, 1)
+theme_override_font_sizes/font_size = 64
+text = "CONTROLS_TITLE"
+horizontal_alignment = 1
+
+[node name="Grid" type="GridContainer" parent="Root/ControlsOverlay/Center/Box"]
+layout_mode = 2
+theme_override_constants/h_separation = 36
+theme_override_constants/v_separation = 12
+columns = 2
+
+[node name="Lbl1" type="Label" parent="Root/ControlsOverlay/Center/Box/Grid"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0.898, 1, 1)
+theme_override_font_sizes/font_size = 26
+text = "CONTROLS_MOVE"
+
+[node name="Key1" type="Label" parent="Root/ControlsOverlay/Center/Box/Grid"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 26
+text = "CONTROLS_KEYS_MOVE"
+
+[node name="Lbl2" type="Label" parent="Root/ControlsOverlay/Center/Box/Grid"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0.898, 1, 1)
+theme_override_font_sizes/font_size = 26
+text = "CONTROLS_SOFT_DROP"
+
+[node name="Key2" type="Label" parent="Root/ControlsOverlay/Center/Box/Grid"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 26
+text = "CONTROLS_KEYS_SOFT_DROP"
+
+[node name="Lbl3" type="Label" parent="Root/ControlsOverlay/Center/Box/Grid"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0.898, 1, 1)
+theme_override_font_sizes/font_size = 26
+text = "CONTROLS_HARD_DROP"
+
+[node name="Key3" type="Label" parent="Root/ControlsOverlay/Center/Box/Grid"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 26
+text = "CONTROLS_KEYS_HARD_DROP"
+
+[node name="Lbl4" type="Label" parent="Root/ControlsOverlay/Center/Box/Grid"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0.898, 1, 1)
+theme_override_font_sizes/font_size = 26
+text = "CONTROLS_ROTATE_CW"
+
+[node name="Key4" type="Label" parent="Root/ControlsOverlay/Center/Box/Grid"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 26
+text = "CONTROLS_KEYS_ROTATE_CW"
+
+[node name="Lbl5" type="Label" parent="Root/ControlsOverlay/Center/Box/Grid"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0.898, 1, 1)
+theme_override_font_sizes/font_size = 26
+text = "CONTROLS_ROTATE_CCW"
+
+[node name="Key5" type="Label" parent="Root/ControlsOverlay/Center/Box/Grid"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 26
+text = "CONTROLS_KEYS_ROTATE_CCW"
+
+[node name="Lbl6" type="Label" parent="Root/ControlsOverlay/Center/Box/Grid"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0.898, 1, 1)
+theme_override_font_sizes/font_size = 26
+text = "CONTROLS_HOLD"
+
+[node name="Key6" type="Label" parent="Root/ControlsOverlay/Center/Box/Grid"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 26
+text = "CONTROLS_KEYS_HOLD"
+
+[node name="Lbl7" type="Label" parent="Root/ControlsOverlay/Center/Box/Grid"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0.898, 1, 1)
+theme_override_font_sizes/font_size = 26
+text = "CONTROLS_PAUSE"
+
+[node name="Key7" type="Label" parent="Root/ControlsOverlay/Center/Box/Grid"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 26
+text = "CONTROLS_KEYS_PAUSE"
+
+[node name="Lbl8" type="Label" parent="Root/ControlsOverlay/Center/Box/Grid"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0.898, 1, 1)
+theme_override_font_sizes/font_size = 26
+text = "CONTROLS_FULLSCREEN"
+
+[node name="Key8" type="Label" parent="Root/ControlsOverlay/Center/Box/Grid"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 26
+text = "CONTROLS_KEYS_FULLSCREEN"
+
+[node name="Lbl9" type="Label" parent="Root/ControlsOverlay/Center/Box/Grid"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0.898, 1, 1)
+theme_override_font_sizes/font_size = 26
+text = "CONTROLS_GAMEPAD"
+
+[node name="Key9" type="Label" parent="Root/ControlsOverlay/Center/Box/Grid"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 26
+text = "CONTROLS_KEYS_GAMEPAD"
+
+[node name="Spacer" type="Control" parent="Root/ControlsOverlay/Center/Box"]
+custom_minimum_size = Vector2(0, 16)
+layout_mode = 2
+
+[node name="CloseControlsButton" type="Button" parent="Root/ControlsOverlay/Center/Box"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 68)
+layout_mode = 2
+text = "COMMON_BACK"
