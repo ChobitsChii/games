@@ -20,6 +20,12 @@ for project in "$ROOT"/*/project.godot; do
 	godot --headless --path "$dir" --export-release "Windows" "$ROOT/build/$name/windows/$name.exe"
 	if ls "$HOME"/.local/share/godot/export_templates/*/web_release.zip >/dev/null 2>&1; then
 		godot --headless --path "$dir" --export-release "Web" "$ROOT/build/$name/web/index.html"
+		if [ -f "$ROOT/tools/web/coi-serviceworker.js" ]; then
+			cp "$ROOT/tools/web/coi-serviceworker.js" "$ROOT/build/$name/web/"
+			if ! grep -q "coi-serviceworker.js" "$ROOT/build/$name/web/index.html"; then
+				sed -i 's|<head>|<head>\n\t\t<script src="coi-serviceworker.js"></script>|' "$ROOT/build/$name/web/index.html"
+			fi
+		fi
 	else
 		echo "WARNUNG: Web-Export-Templates (web_release.zip) fehlen, Web-Build wird übersprungen."
 	fi

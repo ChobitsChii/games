@@ -5,6 +5,7 @@ export_credentials.cfg
 
 # Build-Ausgaben
 build/
+public/
 
 # Editor / OS
 .vscode/
