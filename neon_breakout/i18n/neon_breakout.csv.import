@@ -1,0 +1,19 @@
+[remap]
+
+importer="csv_translation"
+type="Translation"
+uid="uid://dyrtsy1q46wa3"
+
+[deps]
+
+files=["res://i18n/neon_breakout.de.translation", "res://i18n/neon_breakout.en.translation"]
+
+source_file="res://i18n/neon_breakout.csv"
+dest_files=["res://i18n/neon_breakout.de.translation", "res://i18n/neon_breakout.en.translation"]
+
+[params]
+
+compress=1
+delimiter=0
+unescape_keys=false
+unescape_translations=true

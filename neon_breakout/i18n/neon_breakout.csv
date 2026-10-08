@@ -1,0 +1,12 @@
+keys,de,en
+GAME_TITLE,Neon Breakout,Neon Breakout
+HUD_SCORE_FMT,Punkte %d,Score %d
+HUD_BEST_FMT,Rekord %d,Best %d
+HUD_LEVEL_FMT,Level %d,Level %d
+HUD_LIVES_FMT,Leben %d,Lives %d
+MSG_READY,Bereit?,Ready?
+MSG_READY_HINT,"Leertaste, Klick oder A-Taste zum Starten","Press Space, click or A to launch"
+MSG_GAME_OVER,Game Over,Game Over
+MSG_GAME_OVER_HINT,"Leertaste, Klick oder A-Taste für einen neuen Versuch","Press Space, click or A to try again"
+MSG_LEVEL_CLEAR,Level geschafft!,Level cleared!
+MSG_LEVEL_CLEAR_HINT,"Leertaste, Klick oder A-Taste für das nächste Level","Press Space, click or A for the next level"

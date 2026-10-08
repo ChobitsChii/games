@@ -50,8 +50,8 @@ data/levels/level_01.txt ...   # ASCII-Level: Zeichen = Blocktyp
 - Verwendete Assets mit Lizenz in `CREDITS.md`, Credits-Bildschirm im Spiel
 
 ## Meilensteine
-0. **M0 Setup:** Git-Repo, Projekt anlegen, Compatibility-Renderer, Input Map, `export_presets.cfg` (Linux, Windows, Web), `tools/build_all.sh`, `shared/` mit `LocaleService` (DE/EN-CSV), `DisplayService` (Vollbild/F11) und Theme-Gerüst, `CREDITS.md`
-1. **M1 Spielkern:** Schläger, Ball, Wände, Blöcke, Leben, Punkte (mit Platzhalter-Optik)
+0. ✅ **M0 Setup:** Git-Repo, Projekt anlegen, Compatibility-Renderer, Input Map, `export_presets.cfg` (Linux, Windows, Web), `tools/build_all.sh`, `shared/` mit `LocaleService` (DE/EN-CSV), `DisplayService` (Vollbild/F11) und Theme-Gerüst, `CREDITS.md`
+1. ✅ **M1 Spielkern:** Schläger, Ball, Wände, Blöcke, Leben, Punkte (mit Platzhalter-Optik)
 2. **M2 Optik-Vertical-Slice:** Ein Level in **finaler Optik** (Glow, Partikel, Ball-Schweif, Hintergrund-Shader, eigenes UI-Theme, Shake, Sound). Dient als Optik-Check mit Jennifer, bevor wir weiterbauen.
 3. **M3 Level:** ASCII-Level-Loader, 10 Level, Fortschritt zwischen Leveln
 4. **M4 Power-Ups** und Combo-System

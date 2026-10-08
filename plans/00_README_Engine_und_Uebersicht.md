@@ -46,7 +46,7 @@ Sammlung kleiner Spiele (Single Player oder gegen den Computer), die **nativ unt
 
 ### 2.2 Vollbild und Darstellung
 
-- Optionen: **Fenster**, **rahmenloses Vollbild** (Standard) und **exklusives Vollbild**. Umschalten mit `F11` und `Alt+Enter` sowie im Optionsmenü. Die Wahl wird gespeichert.
+- Optionen: **Fenster** (Standard beim ersten Start), **rahmenloses Vollbild** und **exklusives Vollbild** (im Browser nur Fenster/Vollbild). Umschalten mit `F11` und `Alt+Enter` sowie im Optionsmenü. Die Wahl wird gespeichert.
 - Auflösungsunabhängig dank Stretch-Mode `canvas_items`, bei anderem Seitenverhältnis erscheinen Balken oder erweiterte Ränder (Hintergrund wird dafür über den sichtbaren Bereich hinaus gezeichnet).
 - Optional einstellbar: VSync, FPS-Limit, Effekt-Qualität (Glow an/aus, Partikeldichte), Bildschirmschütteln an/aus.
 - **Web:** Vollbild funktioniert nur nach einer Nutzer-Aktion (Browser-Regel). Ein Button "Vollbild" im Spiel löst das aus.
@@ -153,8 +153,8 @@ python -m http.server 8080 --directory build/<spiel>/web
 
 ## 6. Qualitätssicherung / Fehlerbehebung
 
-- **Unit-Tests:** [gdUnit4](https://github.com/MikeSchulze/gdUnit4) (CLI-fähig) für Spiellogik wie KI, Punktezählung und Kollisionsregeln. Die Logik wird bewusst von der Darstellung getrennt.
-- **Smoke-Test:** Jedes Spiel startet headless ohne Fehler im Log.
+- **Unit-Tests:** Für Spiellogik wie KI, Punktezählung und Kollisionsregeln. Die Logik wird bewusst von der Darstellung getrennt. Aktuell nutzen wir einen kleinen eigenen Runner (`tests/run_tests.gd`, ohne Fremdabhängigkeit). Bei Bedarf wechseln wir später auf [gdUnit4](https://github.com/MikeSchulze/gdUnit4).
+- **Smoke-Test:** Jedes Spiel läuft headless mit einem Autopiloten (`tests/smoke.tscn`, mit `--fixed-fps 480` schneller als in Echtzeit) ohne Fehler im Log. `tools/run_tests.sh` führt alles aus.
 - **Lokalisierungstest:** Alle Schlüssel in allen Sprachen vorhanden.
 - **Debug-Overlay** (F3): FPS, Entity-Zahl, Seed, aktueller Zustand.
 - **Reproduzierbarkeit:** Zufall läuft über einen `RandomNumberGenerator` mit sichtbarem Seed. Ein Bug-Report kann den Seed nennen.

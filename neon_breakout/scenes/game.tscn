@@ -1,0 +1,21 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/game.gd" id="1_game"]
+[ext_resource type="PackedScene" path="res://scenes/paddle.tscn" id="2_paddle"]
+[ext_resource type="PackedScene" path="res://scenes/ball.tscn" id="3_ball"]
+[ext_resource type="PackedScene" path="res://scenes/hud.tscn" id="4_hud"]
+
+[node name="Game" type="Node2D"]
+script = ExtResource("1_game")
+
+[node name="Walls" type="StaticBody2D" parent="."]
+collision_layer = 1
+collision_mask = 0
+
+[node name="Bricks" type="Node2D" parent="."]
+
+[node name="Paddle" parent="." instance=ExtResource("2_paddle")]
+
+[node name="Ball" parent="." instance=ExtResource("3_ball")]
+
+[node name="Hud" parent="." instance=ExtResource("4_hud")]
