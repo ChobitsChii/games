@@ -13,6 +13,11 @@ config_version=5
 config/name="Block Stack"
 run/main_scene="res://scenes/main_menu.tscn"
 config/features=PackedStringArray("4.7", "GL Compatibility")
+boot_splash/bg_color=Color(0.031, 0.039, 0.094, 1)
+boot_splash/show_image=true
+boot_splash/image="res://assets/splash.png"
+boot_splash/use_filter=true
+boot_splash/minimum_display_time=1200
 config/icon="res://icon.svg"
 
 [autoload]
