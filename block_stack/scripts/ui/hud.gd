@@ -93,15 +93,21 @@ func _unhandled_input(event: InputEvent) -> void:
 
 func set_layout_mode(is_duel: bool) -> void:
 	if is_duel:
-		_left_panel.position = Vector2(100, 100)
+		_left_panel.position = Vector2(40, 100)
+		_left_panel.custom_minimum_size = Vector2(290, 560)
+		_left_panel.size = Vector2(290, 560)
 		_right_panel.position = Vector2(850, 100)
 		_right_panel.custom_minimum_size = Vector2(220, 720)
 		_right_panel.size = Vector2(220, 720)
 		if _cpu_panel != null:
 			_cpu_panel.visible = true
-			_cpu_panel.position = Vector2(1580, 100)
+			_cpu_panel.position = Vector2(1590, 100)
+			_cpu_panel.custom_minimum_size = Vector2(290, 240)
+			_cpu_panel.size = Vector2(290, 240)
 	else:
 		_left_panel.position = Vector2(410, 100)
+		_left_panel.custom_minimum_size = Vector2(250, 560)
+		_left_panel.size = Vector2(250, 560)
 		_right_panel.position = Vector2(1260, 100)
 		_right_panel.custom_minimum_size = Vector2(240, 720)
 		_right_panel.size = Vector2(240, 720)

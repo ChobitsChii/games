@@ -80,8 +80,8 @@ func _setup_game() -> void:
 
 	if is_duel:
 		# Duell-Modus: 2 Bretter nebeneinander
-		_board_view.set_board_position(Vector2(380, 100))
-		_cpu_board_view.set_board_position(Vector2(1100, 100))
+		_board_view.set_board_position(Vector2(370, 100))
+		_cpu_board_view.set_board_position(Vector2(1110, 100))
 		_board_view.visible = true
 		_cpu_board_view.visible = true
 		_player_label.visible = true
