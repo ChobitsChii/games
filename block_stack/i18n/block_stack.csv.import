@@ -1,0 +1,19 @@
+[remap]
+
+importer="csv_translation"
+type="Translation"
+uid="uid://ihu0q8t7b23n"
+
+[deps]
+
+files=["res://i18n/block_stack.de.translation", "res://i18n/block_stack.en.translation"]
+
+source_file="res://i18n/block_stack.csv"
+dest_files=["res://i18n/block_stack.de.translation", "res://i18n/block_stack.en.translation"]
+
+[params]
+
+compress=1
+delimiter=0
+unescape_keys=false
+unescape_translations=true

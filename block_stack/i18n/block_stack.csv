@@ -1,0 +1,44 @@
+keys,de,en
+GAME_TITLE,Block Stack,Block Stack
+MENU_MODE_MARATHON,Marathon,Marathon
+MENU_MODE_SPRINT,Sprint (40),Sprint (40)
+MENU_MODE_ULTRA,Ultra (2 Min),Ultra (2 Min)
+MENU_MODE_DUEL,Duell vs. CPU,Duel vs CPU
+MENU_OPTIONS,Optionen,Options
+MENU_CREDITS,Credits,Credits
+MENU_HIGHSCORES,Rekorde,Highscores
+MENU_DIFFICULTY_EASY,Leicht,Easy
+MENU_DIFFICULTY_MEDIUM,Mittel,Medium
+MENU_DIFFICULTY_HARD,Schwer,Hard
+HUD_SCORE,Punkte,Score
+HUD_SCORE_FMT,Punkte: %d,Score: %d
+HUD_LEVEL,Level,Level
+HUD_LEVEL_FMT,Level: %d,Level: %d
+HUD_LINES,Reihen,Lines
+HUD_LINES_FMT,Reihen: %d,Lines: %d
+HUD_HOLD,HOLD,HOLD
+HUD_NEXT,NEXT,NEXT
+HUD_TIME,Zeit,Time
+HUD_BEST,Rekord,Best
+HUD_BEST_FMT,Rekord: %d,Best: %d
+HUD_DUEL_PLAYER,Spieler,Player
+HUD_DUEL_CPU,CPU,CPU
+HUD_GARBAGE,Müll,Garbage
+MSG_READY,Bereit?,Ready?
+MSG_READY_HINT,Beliebige Taste zum Starten,Press any key to start
+MSG_GAME_OVER,Game Over,Game Over
+MSG_GAME_OVER_HINT,Leertaste für neuen Versuch,Press Space to try again
+MSG_VICTORY,Geschafft!,Victory!
+MSG_VICTORY_HINT,Leertaste zum Fortfahren,Press Space to continue
+MSG_PLAYER_WINS,Du hast gewonnen!,You won!
+MSG_CPU_WINS,CPU hat gewonnen!,CPU won!
+MSG_SINGLE,Single!,Single!
+MSG_DOUBLE,Double!,Double!
+MSG_TRIPLE,Triple!,Triple!
+MSG_QUAD,Quad!,Quad!
+MSG_TSPIN,T-Spin!,T-Spin!
+MSG_TSPIN_SINGLE,T-Spin Single!,T-Spin Single!
+MSG_TSPIN_DOUBLE,T-Spin Double!,T-Spin Double!
+MSG_TSPIN_TRIPLE,T-Spin Triple!,T-Spin Triple!
+MSG_BACK_TO_BACK,Back-to-Back!,Back-to-Back!
+MSG_COMBO_FMT,%d Combo!,%d Combo!
