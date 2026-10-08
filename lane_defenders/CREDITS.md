@@ -4,6 +4,7 @@
 |---|---|---|---|---|
 | Standard-Schrift der Engine (Open Sans) | Steve Matteson / Godot-Projekt | https://godotengine.org | Apache 2.0 | Alle UI-Texte |
 | Icon (`icon.svg`) | selbst erstellt | – | CC0 | Projekt-Icon |
+| Start-Logo / Splash (`assets/splash.png`) | Antigravity (KI-generiert) | – | CC0 | Boot-Splash-Logo |
 
 Alle Grafiken, Einheiten, Projektile, Hintergründe und Effekte werden prozedural und hochauflösend per Godot CanvasItem / Vektoren im Flat-Cartoon-Stil gezeichnet.
 
