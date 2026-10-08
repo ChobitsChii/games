@@ -1,0 +1,60 @@
+[gd_resource type="Resource" script_class="LevelData" format=3]
+
+[ext_resource type="Script" path="res://scripts/core/level_data.gd" id="1_ijduq"]
+
+[resource]
+script = ExtResource("1_ijduq")
+level_id = "1-2"
+level_number = 2
+title_key = "WORLD_1_NAME"
+spawns = Array[Dictionary]([{
+"enemy_id": "runner",
+"lane": 2,
+"time": 14.0
+}, {
+"enemy_id": "runner",
+"lane": 1,
+"time": 26.0
+}, {
+"enemy_id": "fast_runner",
+"lane": 3,
+"time": 38.0
+}, {
+"enemy_id": "runner",
+"lane": 0,
+"time": 50.0
+}, {
+"enemy_id": "runner",
+"lane": 4,
+"time": 52.0
+}, {
+"enemy_id": "fast_runner",
+"lane": 2,
+"time": 66.0
+}, {
+"enemy_id": "runner",
+"lane": 1,
+"time": 72.0
+}, {
+"enemy_id": "runner",
+"lane": 0,
+"time": 90.0
+}, {
+"enemy_id": "fast_runner",
+"lane": 1,
+"time": 91.0
+}, {
+"enemy_id": "runner",
+"lane": 2,
+"time": 92.0
+}, {
+"enemy_id": "runner",
+"lane": 3,
+"time": 92.5
+}, {
+"enemy_id": "fast_runner",
+"lane": 4,
+"time": 93.0
+}])
+available_units = Array[String](["generator", "shooter", "wall"])
+total_duration = 105.0

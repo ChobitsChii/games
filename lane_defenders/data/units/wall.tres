@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="UnitData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/core/unit_data.gd" id="1_unit"]
+
+[resource]
+script = ExtResource("1_unit")
+id = "wall"
+name_key = "UNIT_WALL"
+desc_key = "UNIT_WALL_DESC"
+cost = 50
+cooldown = 20.0
+max_hp = 4000
+attack_damage = 0
+attack_interval = 0.0
+shots_per_attack = 1
+slow_duration = 0.0
+slow_factor = 1.0
+arm_time = 0.0
+hits_adjacent_lanes = false
+produces_energy = false
+energy_interval = 0.0
+energy_amount = 0
+color = Color(0.63, 0.53, 0.5, 1)

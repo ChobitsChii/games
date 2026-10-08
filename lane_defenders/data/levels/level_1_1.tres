@@ -1,0 +1,44 @@
+[gd_resource type="Resource" script_class="LevelData" format=3]
+
+[ext_resource type="Script" path="res://scripts/core/level_data.gd" id="1_55tgq"]
+
+[resource]
+script = ExtResource("1_55tgq")
+title_key = "WORLD_1_NAME"
+description_key = "TUTORIAL_STEP_1"
+spawns = Array[Dictionary]([{
+"enemy_id": "runner",
+"lane": 2,
+"time": 16.0
+}, {
+"enemy_id": "runner",
+"lane": 1,
+"time": 32.0
+}, {
+"enemy_id": "runner",
+"lane": 3,
+"time": 46.0
+}, {
+"enemy_id": "runner",
+"lane": 0,
+"time": 60.0
+}, {
+"enemy_id": "runner",
+"lane": 4,
+"time": 63.0
+}, {
+"enemy_id": "runner",
+"lane": 1,
+"time": 76.0
+}, {
+"enemy_id": "runner",
+"lane": 2,
+"time": 77.0
+}, {
+"enemy_id": "runner",
+"lane": 3,
+"time": 78.0
+}])
+available_units = Array[String](["generator", "shooter"])
+is_tutorial = true
+total_duration = 90.0

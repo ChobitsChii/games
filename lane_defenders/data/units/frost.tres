@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="UnitData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/core/unit_data.gd" id="1_unit"]
+
+[resource]
+script = ExtResource("1_unit")
+id = "frost"
+name_key = "UNIT_FROST"
+desc_key = "UNIT_FROST_DESC"
+cost = 150
+cooldown = 7.0
+max_hp = 300
+attack_damage = 10
+attack_interval = 1.4
+shots_per_attack = 1
+slow_duration = 3.0
+slow_factor = 0.5
+arm_time = 0.0
+hits_adjacent_lanes = false
+produces_energy = false
+energy_interval = 0.0
+energy_amount = 0
+color = Color(0.5, 0.85, 1, 1)

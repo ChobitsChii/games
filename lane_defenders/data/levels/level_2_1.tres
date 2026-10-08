@@ -1,0 +1,60 @@
+[gd_resource type="Resource" script_class="LevelData" format=3]
+
+[ext_resource type="Script" path="res://scripts/core/level_data.gd" id="1_43x0e"]
+
+[resource]
+script = ExtResource("1_43x0e")
+level_id = "2-1"
+world = 2
+title_key = "WORLD_2_NAME"
+spawns = Array[Dictionary]([{
+"enemy_id": "shield",
+"lane": 2,
+"time": 12.0
+}, {
+"enemy_id": "runner",
+"lane": 1,
+"time": 24.0
+}, {
+"enemy_id": "shield",
+"lane": 3,
+"time": 36.0
+}, {
+"enemy_id": "fast_runner",
+"lane": 0,
+"time": 48.0
+}, {
+"enemy_id": "shield",
+"lane": 4,
+"time": 58.0
+}, {
+"enemy_id": "fast_runner",
+"lane": 2,
+"time": 70.0
+}, {
+"enemy_id": "shield",
+"lane": 1,
+"time": 82.0
+}, {
+"enemy_id": "shield",
+"lane": 0,
+"time": 102.0
+}, {
+"enemy_id": "fast_runner",
+"lane": 1,
+"time": 103.0
+}, {
+"enemy_id": "shield",
+"lane": 2,
+"time": 104.0
+}, {
+"enemy_id": "fast_runner",
+"lane": 3,
+"time": 104.5
+}, {
+"enemy_id": "shield",
+"lane": 4,
+"time": 105.0
+}])
+available_units = Array[String](["generator", "shooter", "double_shooter", "frost", "wall", "mine", "area_launcher"])
+total_duration = 120.0

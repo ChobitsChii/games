@@ -1,0 +1,54 @@
+keys,de,en
+MENU_TITLE,Lane Defenders,Lane Defenders
+MENU_PLAY,Spielen,Play
+MENU_LEVEL_SELECT,Levelauswahl,Level Select
+MENU_HOW_TO_PLAY,Anleitung,How to Play
+MENU_CREDITS,Mitwirkende,Credits
+MENU_SETTINGS,Optionen,Settings
+MENU_QUIT,Beenden,Quit
+HUD_ENERGY,Energie: %d,Energy: %d
+HUD_LIVES,Leben: %d,Lives: %d
+HUD_WAVE,Welle %d / %d,Wave %d / %d
+HUD_FINAL_WAVE,GROSSE SCHLUSSWELLE!,FINAL WAVE INCOMING!
+HUD_LEVEL,Level %s,Level %s
+HUD_SHOVEL,Schaufel,Shovel
+HUD_PAUSE,Pause,Pause
+HUD_WIN,LEVEL GESCHAFFT!,LEVEL COMPLETE!
+HUD_LOSE,BASIS ÜBERRANNT!,BASE OVERRUN!
+HUD_RETRY,Nochmal,Retry
+HUD_NEXT_LEVEL,Nächstes Level,Next Level
+HUD_BACK_MENU,Hauptmenü,Main Menu
+HUD_CONTINUE,Weiter,Continue
+UNIT_GENERATOR,Generator,Generator
+UNIT_GENERATOR_DESC,Erzeugt alle 15 s 25 Energie.,Produces 25 energy every 15s.
+UNIT_SHOOTER,Schütze,Shooter
+UNIT_SHOOTER_DESC,Schießt geradeaus (20 Schaden).,Fires straight ahead (20 damage).
+UNIT_DOUBLE_SHOOTER,Doppelschütze,Double Shooter
+UNIT_DOUBLE_SHOOTER_DESC,Feuert zwei Schüsse hintereinander.,Fires two shots in succession.
+UNIT_FROST,Frostturm,Frost Tower
+UNIT_FROST_DESC,Verlangsamt Gegner um 50 % für 3 s.,Slows enemies by 50% for 3s.
+UNIT_WALL,Mauer,Wall
+UNIT_WALL_DESC,Hohe Lebenspunkte, blockiert Gegner.,High durability, blocks enemies.
+UNIT_MINE,Mine,Mine
+UNIT_MINE_DESC,Scharf nach 12 s, gewaltiger Schaden.,Arms after 12s, massive blast damage.
+UNIT_AREA_LAUNCHER,Flächenwerfer,Area Launcher
+UNIT_AREA_LAUNCHER_DESC,Trifft 3 benachbarte Bahnen.,Attacks across 3 adjacent lanes.
+ENEMY_RUNNER,Läufer,Runner
+ENEMY_FAST_RUNNER,Schneller Läufer,Fast Runner
+ENEMY_TANK,Panzer,Tank
+ENEMY_JUMPER,Springer,Jumper
+ENEMY_SHIELD,Schild-Träger,Shield Bearer
+ENEMY_BOSS,Giga-Boss,Giga Boss
+WORLD_1_NAME,Welt 1: Grüne Wiese,World 1: Green Meadow
+WORLD_2_NAME,Welt 2: Dunkler Pfad,World 2: Dark Path
+LEVEL_LOCKED,Gesperrt,Locked
+LEVEL_STARS,%d / 3 Sterne,%d / 3 Stars
+TUTORIAL_STEP_1,Sammle Energie aus dem Himmel und baue Generatoren!,Collect energy from the sky and place generators!
+TUTORIAL_STEP_2,Platziere Schützen auf den Bahnen, um Gegner aufzuhalten.,Place shooters in lanes to stop incoming enemies.
+TUTORIAL_STEP_3,Jede Einheit hat Abklingzeit und Energiekosten.,Each unit requires energy and has a cooldown.
+TUTORIAL_GOT_IT,Verstanden!,Got it!
+SETTINGS_SFX,Effekte,SFX
+SETTINGS_MUSIC,Musik,Music
+SETTINGS_AUTO_COLLECT,Energie automatisch sammeln,Auto-collect energy
+CREDITS_TITLE,Mitwirkende,Credits
+CREDITS_BACK,Zurück,Back

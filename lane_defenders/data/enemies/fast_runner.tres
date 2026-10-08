@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="EnemyData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/core/enemy_data.gd" id="1_enemy"]
+
+[resource]
+script = ExtResource("1_enemy")
+id = "fast_runner"
+name_key = "ENEMY_FAST_RUNNER"
+hp = 150
+speed = 38.0
+damage_per_second = 100.0
+is_jumper = false
+has_shield = false
+is_boss = false
+color = Color(1, 0.6, 0.2, 1)

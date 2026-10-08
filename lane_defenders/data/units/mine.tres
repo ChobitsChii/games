@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="UnitData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/core/unit_data.gd" id="1_unit"]
+
+[resource]
+script = ExtResource("1_unit")
+id = "mine"
+name_key = "UNIT_MINE"
+desc_key = "UNIT_MINE_DESC"
+cost = 25
+cooldown = 25.0
+max_hp = 100
+attack_damage = 1200
+attack_interval = 0.0
+shots_per_attack = 1
+slow_duration = 0.0
+slow_factor = 1.0
+arm_time = 12.0
+hits_adjacent_lanes = false
+produces_energy = false
+energy_interval = 0.0
+energy_amount = 0
+color = Color(1, 0.44, 0.26, 1)

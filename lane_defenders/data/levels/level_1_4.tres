@@ -1,0 +1,64 @@
+[gd_resource type="Resource" script_class="LevelData" format=3]
+
+[ext_resource type="Script" path="res://scripts/core/level_data.gd" id="1_vsgkv"]
+
+[resource]
+script = ExtResource("1_vsgkv")
+level_id = "1-4"
+level_number = 4
+title_key = "WORLD_1_NAME"
+spawns = Array[Dictionary]([{
+"enemy_id": "runner",
+"lane": 2,
+"time": 12.0
+}, {
+"enemy_id": "jumper",
+"lane": 1,
+"time": 22.0
+}, {
+"enemy_id": "tank",
+"lane": 3,
+"time": 34.0
+}, {
+"enemy_id": "fast_runner",
+"lane": 0,
+"time": 46.0
+}, {
+"enemy_id": "jumper",
+"lane": 4,
+"time": 56.0
+}, {
+"enemy_id": "tank",
+"lane": 2,
+"time": 68.0
+}, {
+"enemy_id": "fast_runner",
+"lane": 1,
+"time": 80.0
+}, {
+"enemy_id": "jumper",
+"lane": 3,
+"time": 88.0
+}, {
+"enemy_id": "jumper",
+"lane": 0,
+"time": 111.0
+}, {
+"enemy_id": "tank",
+"lane": 1,
+"time": 112.0
+}, {
+"enemy_id": "fast_runner",
+"lane": 2,
+"time": 112.5
+}, {
+"enemy_id": "tank",
+"lane": 3,
+"time": 113.0
+}, {
+"enemy_id": "jumper",
+"lane": 4,
+"time": 114.0
+}])
+available_units = Array[String](["generator", "shooter", "double_shooter", "frost", "wall", "mine"])
+total_duration = 130.0

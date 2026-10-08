@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="UnitData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/core/unit_data.gd" id="1_unit"]
+
+[resource]
+script = ExtResource("1_unit")
+id = "double_shooter"
+name_key = "UNIT_DOUBLE_SHOOTER"
+desc_key = "UNIT_DOUBLE_SHOOTER_DESC"
+cost = 175
+cooldown = 7.0
+max_hp = 300
+attack_damage = 20
+attack_interval = 1.4
+shots_per_attack = 2
+slow_duration = 0.0
+slow_factor = 1.0
+arm_time = 0.0
+hits_adjacent_lanes = false
+produces_energy = false
+energy_interval = 0.0
+energy_amount = 0
+color = Color(0.01, 0.53, 0.82, 1)

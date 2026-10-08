@@ -58,14 +58,14 @@ scenes/ main_menu  level_select  game  hud  unit_card  ...
 - Verwendete Assets mit Lizenz in `CREDITS.md`, Credits-Bildschirm im Spiel
 
 ## Meilensteine
-1. **M0:** Setup aus Vorlage (`shared/`: Menü, Theme, `LocaleService` mit DE/EN-CSV, `DisplayService`/Vollbild, Credits) und Platzhalter-Optik
-2. **M1:** Raster, Platzieren und Entfernen von Einheiten, Energie-System
-3. **M2:** Ein Gegnertyp, Schütze, Lebenspunkte, Projektile
-4. **M3:** Wellen-Director und Level-Daten
-5. **M4:** Alle Einheiten und Gegner, Abklingzeiten, Karten-UI
-6. **M5:** 10 Level in 2 Welten mit Boss, Freischaltungen
-7. **M6:** Fortschritts-Speicherung, Level-Auswahl, Tutorial-Level
-8. **M7:** Juice, Sound, Balancing-Durchgang, Export
+1. ✅ **M0:** Setup aus Vorlage (`shared/`: Menü, Theme, `LocaleService` mit DE/EN-CSV, `DisplayService`/Vollbild, Credits) und Platzhalter-Optik
+2. ✅ **M1:** Raster, Platzieren und Entfernen von Einheiten, Energie-System
+3. ✅ **M2:** Ein Gegnertyp, Schütze, Lebenspunkte, Projektile
+4. ✅ **M3:** Wellen-Director und Level-Daten
+5. ✅ **M4:** Alle Einheiten und Gegner, Abklingzeiten, Karten-UI
+6. ✅ **M5:** 10 Level in 2 Welten mit Boss, Freischaltungen
+7. ✅ **M6:** Fortschritts-Speicherung, Level-Auswahl, Tutorial-Level
+8. ✅ **M7:** Juice, Sound, Balancing-Durchgang, Export
 
 ## Hinweise zur Umsetzung
 Alle Zahlen sind Startwerte für das Balancing und liegen in `.tres`-Dateien, nicht im Code.
@@ -94,12 +94,12 @@ Alle Zahlen sind Startwerte für das Balancing und liegen in `.tres`-Dateien, ni
 **Bot-Test (`tests/bot.gd`):** Der Bot baut zuerst 3 Generatoren in Spalte 0, danach Schützen in der Lane, in der gerade ein Gegner ist. Er muss Level 1–3 gewinnen. Ändert sich das Balancing so, dass das nicht mehr geht, schlägt der Test fehl und das Balancing wird bewusst angepasst.
 
 ### Abnahmekriterien
-- [ ] Alle Einheiten und Gegner aus der Tabelle funktionieren
-- [ ] 10 Level in 2 Welten, Boss am Ende von Welt 1, Freischaltungen gespeichert
-- [ ] Tutorial-Level erklärt Energie, Platzieren und Abklingzeit
-- [ ] Bot-Test grün, kein Gegner kann durch Einheiten laufen
-- [ ] 60 FPS im Web-Build mit vielen Gegnern und Projektilen
-- [ ] Kartenleiste bedienbar mit Maus, Tastatur (1–7) und Gamepad
+- [x] Alle Einheiten und Gegner aus der Tabelle funktionieren
+- [x] 10 Level in 2 Welten, Boss am Ende von Welt 1, Freischaltungen gespeichert
+- [x] Tutorial-Level erklärt Energie, Platzieren und Abklingzeit
+- [x] Bot-Test grün, kein Gegner kann durch Einheiten laufen
+- [x] 60 FPS im Web-Build mit vielen Gegnern und Projektilen
+- [x] Kartenleiste bedienbar mit Maus, Tastatur (1–7) und Gamepad
 
 ## Tests
 - Kostenprüfung, Abklingzeit, Platzierungsregeln
