@@ -11,6 +11,7 @@ Pläne und Entscheidungen: [plans/](plans/00_README_Engine_und_Uebersicht.md)
 | Spiel | Stand |
 |---|---|
 | [Neon Breakout](neon_breakout/README.md) | M0 (Setup) und M1 (Spielkern) fertig, Optik noch Platzhalter |
+| [Block Stack](block_stack/README.md) | Vollständig spielbar (Marathon, Sprint, Ultra, CPU-Duell), M0–M7 fertig |
 
 ## Werkzeuge
 ```bash

@@ -7,7 +7,10 @@ extends Control
 @onready var _duel_button: Button = %DuelButton
 @onready var _language_button: Button = %LanguageButton
 @onready var _display_button: Button = %DisplayButton
+@onready var _credits_button: Button = %CreditsButton
 @onready var _quit_button: Button = %QuitButton
+@onready var _credits_overlay: Control = %CreditsOverlay
+@onready var _close_credits_button: Button = %CloseCreditsButton
 
 
 func _ready() -> void:
@@ -18,12 +21,22 @@ func _ready() -> void:
 	_duel_button.pressed.connect(_start_mode.bind("duel"))
 	_language_button.pressed.connect(LocaleService.cycle_language)
 	_display_button.pressed.connect(DisplayService.cycle_mode)
+	_credits_button.pressed.connect(_toggle_credits.bind(true))
+	_close_credits_button.pressed.connect(_toggle_credits.bind(false))
 	_quit_button.pressed.connect(get_tree().quit)
 	_quit_button.visible = not OS.has_feature("web")
 	LocaleService.language_changed.connect(func(_code: String) -> void: _refresh())
 	DisplayService.mode_changed.connect(func(_mode: int) -> void: _refresh())
 	_refresh()
 	_marathon_button.grab_focus()
+
+
+func _toggle_credits(open: bool) -> void:
+	_credits_overlay.visible = open
+	if open:
+		_close_credits_button.grab_focus()
+	else:
+		_credits_button.grab_focus()
 
 
 func _refresh() -> void:

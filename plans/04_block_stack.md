@@ -60,15 +60,15 @@ scripts/ui/board_view.gd       # reine Darstellung (_draw oder TileMapLayer)
 - Vollbild/Fenster über den gemeinsamen `DisplayService` (F11, Optionsmenü, gespeichert)
 - Verwendete Assets mit Lizenz in `CREDITS.md`, Credits-Bildschirm im Spiel
 
-## Meilensteine
+### Meilensteine
 1. ✅ **M0:** Setup aus Vorlage (`shared/`: Menü, Theme, `LocaleService` mit DE/EN-CSV, `DisplayService`/Vollbild, Credits) und Platzhalter-Optik
 2. ✅ **M1:** Logik: Formen, Rotation, Kollision, Reihen löschen mit Unit-Tests
-3. **M2:** Darstellung und Steuerung, Marathon-Modus
-4. **M3:** Hold, Ghost, Vorschau, Lock Delay, Hard/Soft Drop
-5. **M4:** Wertung (T-Spin, B2B, Combo) und Level-Kurve
-6. **M5:** Sprint und Ultra, Highscores
-7. **M6:** CPU-Spieler, Duell-Modus mit Müllreihen
-8. **M7:** Juice (Partikel beim Clear, Sound, Musik), Menüs, Optionen (DAS/ARR), Export
+3. ✅ **M2:** Darstellung und Steuerung, Marathon-Modus
+4. ✅ **M3:** Hold, Ghost, Vorschau, Lock Delay, Hard/Soft Drop
+5. ✅ **M4:** Wertung (T-Spin, B2B, Combo) und Level-Kurve
+6. ✅ **M5:** Sprint und Ultra, Highscores
+7. ✅ **M6:** CPU-Spieler, Duell-Modus mit Müllreihen
+8. ✅ **M7:** Juice (Partikel beim Clear, Sound, Musik), Menüs, Optionen (DAS/ARR), Export
 
 ## Hinweise zur Umsetzung
 Formen, Drehungen und Kicks folgen der **Tetris Guideline (SRS)**. Die Tabellen unten sind mit y nach oben angegeben. In Godot (y nach unten) muss das y-Vorzeichen umgekehrt werden. **Vor dem Festschreiben gegen eine offizielle SRS-Quelle prüfen** (z. B. Tetris Wiki "SRS") und per Test absichern.
@@ -85,7 +85,7 @@ L>0: (0,0) (-1,0) (-1,-1) (0,2) (-1,2)       0>L: (0,0) (1,0) (1,1) (0,-2) (1,-2
 0>R: (0,0) (-2,0) (1,0) (-2,-1) (1,2)        R>0: (0,0) (2,0) (-1,0) (2,1) (-1,-2)
 R>2: (0,0) (-1,0) (2,0) (-1,2) (2,-1)        2>R: (0,0) (1,0) (-2,0) (1,-2) (-2,1)
 2>L: (0,0) (2,0) (-1,0) (2,1) (-1,-2)        L>2: (0,0) (-2,0) (1,0) (-2,-1) (1,2)
-L>0: (0,0) (1,0) (-2,0) (1,-2) (-2,1)        0>L: (0,0) (-1,0) (2,0) (-1,2) (2,-1)
+L>0: (0,0) (1,0) (-2,0) (1,-2) (-2,1)        0>L: (0,0) (-1,0) (2,0) (-1,-2) (2,1)
 ```
 Der O-Block hat keine Kicks.
 
@@ -102,12 +102,12 @@ score = -0.51 * aggregate_height + 0.76 * cleared_lines - 0.36 * holes - 0.18 * 
 Die CPU testet alle Positionen und Drehungen (und optional Hold), nimmt den besten Wert und führt die Züge mit einer Verzögerung aus. Schwierigkeit über Denkpause (200–800 ms), Fehlerquote (z. B. 10 % zufälliger zweitbester Zug) und Hold-Nutzung.
 
 ### Abnahmekriterien
-- [ ] Alle 7 Formen × 4 Drehungen × Kick-Tabellen per Test geprüft
-- [ ] 7-Bag, Hold, Ghost, Lock Delay, Hard/Soft Drop funktionieren
-- [ ] Marathon, Sprint, Ultra und Duell gegen CPU spielbar
-- [ ] CPU schlägt einen Zufallsspieler deutlich, ohne zu hängen
-- [ ] DAS/ARR einstellbar und gespeichert
-- [ ] Eingabe fühlt sich auch im Web direkt an
+- [x] Alle 7 Formen × 4 Drehungen × Kick-Tabellen per Test geprüft
+- [x] 7-Bag, Hold, Ghost, Lock Delay, Hard/Soft Drop funktionieren
+- [x] Marathon, Sprint, Ultra und Duell gegen CPU spielbar
+- [x] CPU schlägt einen Zufallsspieler deutlich, ohne zu hängen
+- [x] DAS/ARR einstellbar und gespeichert
+- [x] Eingabe fühlt sich auch im Web direkt an
 
 ## Tests
 - Alle 7 Formen × 4 Rotationen × Wall Kicks (Tabellentest)

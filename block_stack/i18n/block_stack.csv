@@ -6,6 +6,7 @@ MENU_MODE_ULTRA,Ultra (2 Min),Ultra (2 Min)
 MENU_MODE_DUEL,Duell vs. CPU,Duel vs CPU
 MENU_OPTIONS,Optionen,Options
 MENU_CREDITS,Credits,Credits
+MENU_CREDITS_TEXT,"Block Stack - Godot 4.7 GDScript\nDesign & Code: Antigravity\nSchrift: Open Sans (Apache 2.0)\nGrafik & Sound: Prozedural","Block Stack - Godot 4.7 GDScript\nDesign & Code: Antigravity\nFont: Open Sans (Apache 2.0)\nGraphics & Sound: Procedural"
 MENU_HIGHSCORES,Rekorde,Highscores
 MENU_DIFFICULTY_EASY,Leicht,Easy
 MENU_DIFFICULTY_MEDIUM,Mittel,Medium
@@ -19,8 +20,10 @@ HUD_LINES_FMT,Reihen: %d,Lines: %d
 HUD_HOLD,HOLD,HOLD
 HUD_NEXT,NEXT,NEXT
 HUD_TIME,Zeit,Time
+HUD_TIME_FMT,Zeit: %s,Time: %s
 HUD_BEST,Rekord,Best
 HUD_BEST_FMT,Rekord: %d,Best: %d
+MENU_RESTART,Neu starten,Restart
 HUD_DUEL_PLAYER,Spieler,Player
 HUD_DUEL_CPU,CPU,CPU
 HUD_GARBAGE,Müll,Garbage

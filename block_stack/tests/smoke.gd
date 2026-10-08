@@ -1,7 +1,7 @@
 extends Node
-## Smoke-Test für Block Stack: Menü und Spielinstanzierung prüfen.
+## Smoke-Test für Block Stack: Menü und automatisches Spiel prüfen.
 
-const SMOKE_FRAMES := 120
+const SMOKE_FRAMES := 600
 
 var _frames := 0
 var _game: Node2D
@@ -20,6 +20,10 @@ func _ready() -> void:
 func _physics_process(_delta: float) -> void:
 	_frames += 1
 	if _frames >= SMOKE_FRAMES:
-		print("Smoke-Test ok: frames=%d" % _frames)
-		get_tree().quit(0)
+		if _game.logic.score > 0:
+			print("Smoke-Test ok: Punkte=%d, Zeilen=%d, Level=%d" % [_game.logic.score, _game.logic.lines, _game.logic.level])
+			get_tree().quit(0)
+		else:
+			printerr("FEHLER: Nach %d Frames wurde kein Punkt erzielt" % _frames)
+			get_tree().quit(1)
 		set_physics_process(false)
