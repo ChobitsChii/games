@@ -62,7 +62,7 @@ scripts/ui/board_view.gd       # reine Darstellung (_draw oder TileMapLayer)
 
 ## Meilensteine
 1. ✅ **M0:** Setup aus Vorlage (`shared/`: Menü, Theme, `LocaleService` mit DE/EN-CSV, `DisplayService`/Vollbild, Credits) und Platzhalter-Optik
-2. **M1:** Logik: Formen, Rotation, Kollision, Reihen löschen mit Unit-Tests
+2. ✅ **M1:** Logik: Formen, Rotation, Kollision, Reihen löschen mit Unit-Tests
 3. **M2:** Darstellung und Steuerung, Marathon-Modus
 4. **M3:** Hold, Ghost, Vorschau, Lock Delay, Hard/Soft Drop
 5. **M4:** Wertung (T-Spin, B2B, Combo) und Level-Kurve
