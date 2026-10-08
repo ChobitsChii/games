@@ -4,6 +4,7 @@ extends Control
 ## Verwendet Vektor-/Canvas-Primitiven ohne Pixel-Art.
 
 @export var cell_size: float = StackConfig.CELL_SIZE
+@export var border_color: Color = Color(0.0, 0.9, 1.0, 0.85)
 
 var logic: GameLogic
 var flash_rows: Array[int] = []
@@ -16,7 +17,13 @@ var _particles: Array[Dictionary] = []
 
 func _ready() -> void:
 	custom_minimum_size = Vector2(StackConfig.COLS * cell_size, StackConfig.VISIBLE_ROWS * cell_size)
-	_base_position = position
+	if _base_position == Vector2.ZERO:
+		_base_position = position
+
+
+func set_board_position(pos: Vector2) -> void:
+	_base_position = pos
+	position = pos
 
 
 func set_logic(game_logic: GameLogic) -> void:
@@ -112,8 +119,7 @@ func _draw() -> void:
 		draw_line(Vector2(0, y), Vector2(total_w, y), grid_col, 1.0)
 
 	# Rahmen mit sanftem Glow
-	var border_col := Color(0.0, 0.9, 1.0, 0.85)
-	draw_rect(board_rect, border_col, false, 2.5)
+	draw_rect(board_rect, border_color, false, 2.5)
 
 	if logic == null:
 		return

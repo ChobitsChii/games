@@ -19,11 +19,12 @@ grow_vertical = 2
 mouse_filter = 2
 
 [node name="LeftPanel" type="PanelContainer" parent="Root"]
-custom_minimum_size = Vector2(250, 560)
+unique_name_in_owner = true
+custom_minimum_size = Vector2(240, 560)
 layout_mode = 0
 offset_left = 410.0
 offset_top = 100.0
-offset_right = 660.0
+offset_right = 650.0
 offset_bottom = 660.0
 
 [node name="VBox" type="VBoxContainer" parent="Root/LeftPanel"]
@@ -88,6 +89,7 @@ layout_mode = 2
 text = "MENU_CONTROLS"
 
 [node name="RightPanel" type="PanelContainer" parent="Root"]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(240, 720)
 layout_mode = 0
 offset_left = 1260.0
@@ -135,6 +137,42 @@ unique_name_in_owner = true
 custom_minimum_size = Vector2(160, 96)
 layout_mode = 2
 script = ExtResource("2_prev")
+
+[node name="CpuPanel" type="PanelContainer" parent="Root"]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(240, 240)
+layout_mode = 0
+offset_left = 1580.0
+offset_top = 100.0
+offset_right = 1820.0
+offset_bottom = 340.0
+
+[node name="VBox" type="VBoxContainer" parent="Root/CpuPanel"]
+layout_mode = 2
+theme_override_constants/separation = 14
+
+[node name="CpuTitle" type="Label" parent="Root/CpuPanel/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.3, 0.3, 1)
+theme_override_font_sizes/font_size = 28
+text = "HUD_DUEL_CPU"
+horizontal_alignment = 1
+
+[node name="HSeparator" type="HSeparator" parent="Root/CpuPanel/VBox"]
+layout_mode = 2
+
+[node name="CpuScoreLabel" type="Label" parent="Root/CpuPanel/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 26
+text = "HUD_SCORE_FMT"
+
+[node name="CpuLinesLabel" type="Label" parent="Root/CpuPanel/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 26
+text = "HUD_LINES_FMT"
 
 [node name="ActionBanner" type="Control" parent="Root"]
 unique_name_in_owner = true

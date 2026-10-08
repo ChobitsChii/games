@@ -13,6 +13,28 @@ offset_bottom = 1080.0
 mouse_filter = 2
 color = Color(0.031, 0.039, 0.094, 1)
 
+[node name="PlayerLabel" type="Label" parent="."]
+visible = false
+offset_left = 380.0
+offset_top = 50.0
+offset_right = 820.0
+offset_bottom = 90.0
+theme_override_colors/font_color = Color(0, 0.898, 1, 1)
+theme_override_font_sizes/font_size = 32
+text = "HUD_DUEL_PLAYER"
+horizontal_alignment = 1
+
+[node name="CpuLabel" type="Label" parent="."]
+visible = false
+offset_left = 1100.0
+offset_top = 50.0
+offset_right = 1540.0
+offset_bottom = 90.0
+theme_override_colors/font_color = Color(1, 0.3, 0.3, 1)
+theme_override_font_sizes/font_size = 32
+text = "HUD_DUEL_CPU"
+horizontal_alignment = 1
+
 [node name="BoardView" type="Control" parent="."]
 layout_mode = 3
 anchors_preset = 0
@@ -31,16 +53,6 @@ offset_top = 100.0
 offset_right = 1540.0
 offset_bottom = 980.0
 script = ExtResource("2_board")
-
-[node name="CpuLabel" type="Label" parent="."]
-visible = false
-offset_left = 1100.0
-offset_top = 50.0
-offset_right = 1540.0
-offset_bottom = 90.0
-theme_override_colors/font_color = Color(1, 0.3, 0.3, 1)
-theme_override_font_sizes/font_size = 32
-text = "HUD_DUEL_CPU"
-horizontal_alignment = 1
+border_color = Color(1, 0.3, 0.35, 0.85)
 
 [node name="Hud" parent="." instance=ExtResource("3_hud")]

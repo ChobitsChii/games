@@ -24,6 +24,12 @@ signal controls_closed()
 	%NextPreview4,
 ]
 
+@onready var _left_panel: PanelContainer = %LeftPanel
+@onready var _right_panel: PanelContainer = %RightPanel
+@onready var _cpu_panel: PanelContainer = %CpuPanel
+@onready var _cpu_score_label: Label = %CpuScoreLabel
+@onready var _cpu_lines_label: Label = %CpuLinesLabel
+
 @onready var _ingame_controls_button: Button = %InGameControlsButton
 
 @onready var _banner: Control = %ActionBanner
@@ -83,6 +89,31 @@ func _unhandled_input(event: InputEvent) -> void:
 	elif _pause_overlay.visible and event.is_action_pressed("pause"):
 		resume_pressed.emit()
 		get_viewport().set_input_as_handled()
+
+
+func set_layout_mode(is_duel: bool) -> void:
+	if is_duel:
+		_left_panel.position = Vector2(100, 100)
+		_right_panel.position = Vector2(850, 100)
+		_right_panel.custom_minimum_size = Vector2(220, 720)
+		_right_panel.size = Vector2(220, 720)
+		if _cpu_panel != null:
+			_cpu_panel.visible = true
+			_cpu_panel.position = Vector2(1580, 100)
+	else:
+		_left_panel.position = Vector2(410, 100)
+		_right_panel.position = Vector2(1260, 100)
+		_right_panel.custom_minimum_size = Vector2(240, 720)
+		_right_panel.size = Vector2(240, 720)
+		if _cpu_panel != null:
+			_cpu_panel.visible = false
+
+
+func set_cpu_stats(score: int, lines: int) -> void:
+	if _cpu_score_label != null:
+		_cpu_score_label.text = tr("HUD_SCORE_FMT") % score
+	if _cpu_lines_label != null:
+		_cpu_lines_label.text = tr("HUD_LINES_FMT") % lines
 
 
 func set_score(val: int) -> void:

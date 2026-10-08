@@ -35,6 +35,7 @@ var best_ultra_score: int = 0
 
 @onready var _board_view: BoardView = $BoardView
 @onready var _cpu_board_view: BoardView = $CpuBoardView
+@onready var _player_label: Label = $PlayerLabel
 @onready var _cpu_label: Label = $CpuLabel
 @onready var _hud: Hud = $Hud
 
@@ -79,10 +80,13 @@ func _setup_game() -> void:
 
 	if is_duel:
 		# Duell-Modus: 2 Bretter nebeneinander
-		_board_view.position = Vector2(380, 100)
+		_board_view.set_board_position(Vector2(380, 100))
+		_cpu_board_view.set_board_position(Vector2(1100, 100))
+		_board_view.visible = true
 		_cpu_board_view.visible = true
+		_player_label.visible = true
 		_cpu_label.visible = true
-		_cpu_board_view.position = Vector2(1100, 100)
+		_hud.set_layout_mode(true)
 
 		var cpu_rng := RandomNumberGenerator.new()
 		cpu_rng.seed = rng.seed + 101
@@ -95,9 +99,11 @@ func _setup_game() -> void:
 		cpu_logic.game_over_triggered.connect(_on_cpu_game_over)
 	else:
 		# Einzelspieler: Brett in der Mitte
-		_board_view.position = Vector2(740, 100)
+		_board_view.set_board_position(Vector2(740, 100))
 		_cpu_board_view.visible = false
 		_cpu_label.visible = false
+		_player_label.visible = false
+		_hud.set_layout_mode(false)
 
 	if autoplay:
 		player_ai = CpuPlayer.new(logic, rng)
@@ -234,6 +240,9 @@ func _update_hud() -> void:
 	if mode == "ultra":
 		current_best = best_ultra_score
 	_hud.set_best(current_best)
+
+	if is_duel and cpu_logic != null:
+		_hud.set_cpu_stats(cpu_logic.score, cpu_logic.lines)
 
 
 func _on_player_lines_cleared(count: int, clear_name: String, _points: int, lines_total: int, garbage_to_send: int) -> void:
