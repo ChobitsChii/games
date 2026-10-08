@@ -50,13 +50,13 @@ scenes/ board_view.tscn  disc.tscn  hud.tscn  menu.tscn
 - Verwendete Assets mit Lizenz in `CREDITS.md`, Credits-Bildschirm im Spiel
 
 ## Meilensteine
-1. **M0:** Setup aus Vorlage (`shared/`: Menü, Theme, `LocaleService` mit DE/EN-CSV, `DisplayService`/Vollbild, Credits) und Platzhalter-Optik
-2. **M1:** `board.gd` mit Bitboards und vollständigen Unit-Tests
-3. **M2:** Darstellung und Maus-Eingabe, Hot-Seat-Modus
-4. **M3:** KI leicht und mittel
-5. **M4:** KI schwer (Alpha-Beta, Zugsortierung), Zeitlimit
-6. **M5:** Animationen, Sound, Gewinn-Effekt, Statistik (Siege/Niederlagen pro Stufe)
-7. **M6:** Menüs, Optionen, Export
+1. **M0:** Setup aus Vorlage (`shared/`: Menü, Theme, `LocaleService` mit DE/EN-CSV, `DisplayService`/Vollbild, Credits) und Platzhalter-Optik ✅
+2. **M1:** `board.gd` mit Bitboards und vollständigen Unit-Tests ✅
+3. **M2:** Darstellung und Maus-Eingabe, Hot-Seat-Modus ✅
+4. **M3:** KI leicht und mittel ✅
+5. **M4:** KI schwer (Alpha-Beta, Zugsortierung), Zeitlimit ✅
+6. **M5:** Animationen, Sound, Gewinn-Effekt, Statistik (Siege/Niederlagen pro Stufe) ✅
+7. **M6:** Menüs, Optionen, Export ✅
 
 ## Hinweise zur Umsetzung
 **Bitboard (7 Spalten, je 7 Bit: 6 Felder plus 1 Sperrbit, passt in 49 Bit eines 64-Bit-`int`):**
@@ -88,12 +88,12 @@ Nach `play()` gehört `position ^ mask` dem Spieler, der gerade gezogen hat. Des
 **Farbenblind-Modus:** Rote Steine zeigen einen Ring, gelbe einen Punkt.
 
 ### Abnahmekriterien
-- [ ] Alle Gewinnrichtungen, volle Spalten und Unentschieden korrekt (Tests)
-- [ ] KI findet Sofortgewinn und blockiert Sofortverlust (Tests)
-- [ ] Schwer schlägt Mittel in mindestens 90 % von 50 Partien (Test mit festen Seeds)
-- [ ] Antwortzeit der schweren KI nativ unter 1 s, im Web ohne Ruckeln der Oberfläche
-- [ ] Spielbar mit Maus, Tastatur und Gamepad
-- [ ] Statistik pro Schwierigkeit bleibt gespeichert
+- [x] Alle Gewinnrichtungen, volle Spalten und Unentschieden korrekt (Tests)
+- [x] KI findet Sofortgewinn und blockiert Sofortverlust (Tests)
+- [x] Schwer schlägt Mittel in mindestens 90 % von 50 Partien (Test mit festen Seeds)
+- [x] Antwortzeit der schweren KI nativ unter 1 s, im Web ohne Ruckeln der Oberfläche
+- [x] Spielbar mit Maus, Tastatur und Gamepad
+- [x] Statistik pro Schwierigkeit bleibt gespeichert
 
 ## Tests (besonders wichtig)
 - Gewinnerkennung für alle Richtungen und Randfälle

@@ -1,0 +1,79 @@
+class_name Game
+extends Node2D
+## Haupt-Spielszene von Connect Four Deluxe.
+## Verbindet GameController, BoardView, HUD und Audio.
+
+@export var autoplay: bool = false
+
+@onready var board_view: BoardView = $BoardView
+@onready var hud: HUD = $HUD
+
+var controller: GameController
+var sound_effects: SoundEffects
+
+# Für den Smoke-Test
+var moves_played: int = 0
+var is_finished: bool = false
+
+
+func _ready() -> void:
+	sound_effects = SoundEffects.new()
+	add_child(sound_effects)
+
+	controller = GameController.new()
+	if autoplay:
+		controller.is_autoplay = true
+
+	board_view.setup(controller)
+	hud.setup(controller)
+
+	board_view.column_clicked.connect(_on_column_clicked)
+	hud.restart_pressed.connect(_on_restart_pressed)
+	hud.menu_pressed.connect(_on_menu_pressed)
+	controller.move_completed.connect(_on_move_completed)
+	controller.game_ended.connect(_on_game_ended)
+
+	# Modus aus Konfiguration oder Standard starten
+	controller.start_game(GameController.GameMode.AI, ConnectFourAI.Difficulty.MEDIUM, GameController.Starter.PLAYER_1)
+
+
+func _unhandled_input(event: InputEvent) -> void:
+	if autoplay or controller == null:
+		return
+
+	if event.is_action_pressed("move_left"):
+		controller.move_column_left()
+		if sound_effects != null:
+			sound_effects.play_hover()
+		board_view.queue_redraw()
+	elif event.is_action_pressed("move_right"):
+		controller.move_column_right()
+		if sound_effects != null:
+			sound_effects.play_hover()
+		board_view.queue_redraw()
+	elif event.is_action_pressed("drop"):
+		controller.request_drop()
+
+
+func _on_column_clicked(col: int) -> void:
+	if controller != null:
+		controller.request_drop(col)
+
+
+func _on_move_completed(_col: int, _row: int, _player: int) -> void:
+	moves_played += 1
+
+
+func _on_game_ended(_winner: int, _winning: Array[Vector2i]) -> void:
+	is_finished = true
+
+
+func _on_restart_pressed() -> void:
+	moves_played = 0
+	is_finished = false
+	board_view.reset_view()
+	controller.start_game(controller.mode, controller.difficulty, controller.starter)
+
+
+func _on_menu_pressed() -> void:
+	get_tree().change_scene_to_file("res://scenes/main_menu.tscn")

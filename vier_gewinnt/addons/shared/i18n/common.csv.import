@@ -1,0 +1,19 @@
+[remap]
+
+importer="csv_translation"
+type="Translation"
+uid="uid://bawd2b6ejiksk"
+
+[deps]
+
+files=["res://addons/shared/i18n/common.de.translation", "res://addons/shared/i18n/common.en.translation"]
+
+source_file="res://addons/shared/i18n/common.csv"
+dest_files=["res://addons/shared/i18n/common.de.translation", "res://addons/shared/i18n/common.en.translation"]
+
+[params]
+
+compress=1
+delimiter=0
+unescape_keys=false
+unescape_translations=true

@@ -1,0 +1,39 @@
+keys,de,en
+MENU_TITLE,Vier gewinnt Deluxe,Connect Four Deluxe
+MENU_PLAY_AI,Gegen Computer,vs Computer
+MENU_PLAY_HOTSEAT,2 Spieler (Lokal),2 Players (Local)
+MENU_DIFFICULTY,Schwierigkeit,Difficulty
+MENU_DIFF_EASY,Leicht,Easy
+MENU_DIFF_MEDIUM,Mittel,Medium
+MENU_DIFF_HARD,Schwer,Hard
+MENU_STARTER,Startspieler,First Player
+MENU_STARTER_PLAYER1,Spieler 1 (Rot),Player 1 (Red)
+MENU_STARTER_PLAYER2,Spieler 2 / KI (Gelb),Player 2 / AI (Yellow)
+MENU_STARTER_RANDOM,Zufällig,Random
+MENU_COLORBLIND,Farbenblind-Modus,Colorblind Mode
+MENU_COLORBLIND_ON,An (Symbole),On (Symbols)
+MENU_COLORBLIND_OFF,Aus,Off
+MENU_STATS,Statistik,Statistics
+MENU_OPTIONS,Optionen,Options
+MENU_CREDITS,Credits,Credits
+MENU_RESET_STATS,Statistik zurücksetzen,Reset statistics
+GAME_TURN_PLAYER1,Spieler 1 (Rot) am Zug,Player 1 (Red) turn
+GAME_TURN_PLAYER2,Spieler 2 (Gelb) am Zug,Player 2 (Yellow) turn
+GAME_TURN_CPU,Computer denkt nach...,Computer thinking...
+GAME_WIN_PLAYER1,Spieler 1 (Rot) gewinnt!,Player 1 (Red) wins!
+GAME_WIN_PLAYER2,Spieler 2 (Gelb) gewinnt!,Player 2 (Yellow) wins!
+GAME_WIN_CPU,Computer gewinnt!,Computer wins!
+GAME_DRAW,Unentschieden! Das Brett ist voll.,Draw! The board is full.
+GAME_HINT,Tipp,Hint
+GAME_HINT_COL,Tipp: Spalte %d empfohlen,Hint: Column %d recommended
+GAME_UNDO,Rückgängig,Undo
+GAME_RESTART,Neues Spiel,New Game
+GAME_COLUMN_FULL,Spalte ist bereits voll!,Column is already full!
+HUD_SCORE_PLAYER1,Rot: %d,Red: %d
+HUD_SCORE_PLAYER2,Gelb: %d,Yellow: %d
+HUD_STATS_EASY,Leicht: %d S / %d N / %d U,Easy: %d W / %d L / %d D
+HUD_STATS_MEDIUM,Mittel: %d S / %d N / %d U,Medium: %d W / %d L / %d D
+HUD_STATS_HARD,Schwer: %d S / %d N / %d U,Hard: %d W / %d L / %d D
+HUD_STATS_HOTSEAT,Lokal: %d Rot / %d Gelb / %d U,Local: %d Red / %d Yellow / %d D
+HUD_STATS_RESET,Statistik zurückgesetzt,Statistics reset
+CONTROLS_HINT,Mausklick / Pfeiltasten / Leertaste,Mouse click / Arrow keys / Space
