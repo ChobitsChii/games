@@ -97,40 +97,44 @@ Sammlung kleiner Spiele (Single Player oder gegen den Computer), die **nativ unt
 ## 4. Projektstruktur
 
 ```
-game/
+games/                      # Repo-Wurzel (lokal: ~/development/games, GitHub: games)
 ├── plans/                  # diese Pläne
-├── games/
-│   ├── neon_breakout/
-│   │   ├── project.godot
-│   │   ├── scenes/  scripts/  assets/  i18n/  tests/
-│   │   ├── CREDITS.md
-│   │   └── export_presets.cfg
-│   └── ...
-├── shared/                 # gemeinsame Bausteine (Menü, Audio, Save, i18n, Theme)
+├── shared/                 # Quelle der gemeinsamen Bausteine (Menü, Audio, Save, i18n, Theme)
+├── tools/                  # build_all.sh, run_tests.sh, serve_web.sh, sync_shared.sh
+├── neon_breakout/          # je Spiel ein eigenes Godot-Projekt direkt in der Wurzel
+│   ├── project.godot
+│   ├── scenes/  scripts/  assets/  i18n/  tests/
+│   ├── addons/shared/      # eingecheckte Kopie von shared/ (per tools/sync_shared.sh)
+│   ├── CREDITS.md
+│   └── export_presets.cfg
+├── connect_four/  asteroid_drift/  block_stack/  lane_defenders/  crypt_dash/  ...
 ├── build/                  # Export-Ausgabe (gitignored)
-├── tools/                  # build_all.sh, run_tests.sh, serve_web.sh
 ├── CREDITS.md              # Sammel-Credits
 ├── .gitignore  .gitattributes
 └── README.md
 ```
 
+> [!NOTE]
+> **Gemeinsamer Code:** Ein Godot-Projekt kann nur Dateien unterhalb seines eigenen Ordners per `res://` laden. `shared/` liegt aber außerhalb der Spiel-Projekte. Deshalb kopiert `tools/sync_shared.sh` den Inhalt von `shared/` in `<spiel>/addons/shared/`. Die Kopie wird eingecheckt. Das funktioniert unter Linux und Windows und braucht keine Symlinks. Änderungen macht man nur in `shared/` und synchronisiert danach.
+
 ### Standard-Kommandos
 
 ```bash
+# Alle Befehle im Repo-Wurzelverzeichnis (games/) ausführen
 # Projekt importieren (einmalig/nach Asset-Änderungen)
-godot --headless --path games/<spiel> --import
+godot --headless --path <spiel> --import
 
 # Skripte auf Syntaxfehler prüfen
-godot --headless --path games/<spiel> --check-only --quit
+godot --headless --path <spiel> --check-only --quit
 
 # Spiel starten / kurz headless laufen lassen (Smoke-Test)
-godot --path games/<spiel>
-godot --headless --path games/<spiel> --quit-after 300
+godot --path <spiel>
+godot --headless --path <spiel> --quit-after 300
 
 # Exporte
-godot --headless --path games/<spiel> --export-release "Linux"   build/<spiel>/linux/<spiel>.x86_64
-godot --headless --path games/<spiel> --export-release "Windows" build/<spiel>/windows/<spiel>.exe
-godot --headless --path games/<spiel> --export-release "Web"     build/<spiel>/web/index.html
+godot --headless --path <spiel> --export-release "Linux"   build/<spiel>/linux/<spiel>.x86_64
+godot --headless --path <spiel> --export-release "Windows" build/<spiel>/windows/<spiel>.exe
+godot --headless --path <spiel> --export-release "Web"     build/<spiel>/web/index.html
 
 # Web-Build lokal testen
 python -m http.server 8080 --directory build/<spiel>/web
@@ -138,7 +142,7 @@ python -m http.server 8080 --directory build/<spiel>/web
 
 ## 5. Git & Backup
 
-- **Lokales Git-Repo** im Verzeichnis `game/`, ein Repo für alle Spiele.
+- **Lokales Git-Repo** im Verzeichnis `games/`, ein Repo für alle Spiele.
 - **Branching:** `main` bleibt immer lauffähig. Größere Arbeiten laufen auf Branches (`feature/<spiel>-<thema>`), Merge nach Meilenstein.
 - **Commits:** kleine, sprechende Commits (Conventional Commits wie `feat(breakout): ...`, `fix(connect4): ...`), mindestens einer pro Meilenstein.
 - **Tags:** pro veröffentlichtem Stand, z. B. `breakout-v0.1.0`.
