@@ -59,6 +59,24 @@ data/levels/level_01.txt ...   # ASCII-Level: Zeichen = Blocktyp
 6. **M6 Menüs:** Hauptmenü, Pause, Highscore (`user://`), Optionen (Sprache, Anzeigemodus, Lautstärke, Effektqualität), Credits-Bildschirm
 7. **M7 Politur & Export:** Balancing, Tests (inkl. Lokalisierung), Builds für alle 3 Plattformen, README
 
+## Hinweise zur Umsetzung (M2–M7)
+- **Stand:** M0 und M1 sind fertig (Ball, Schläger, Blöcke, HUD, Menü). Der Abprall wird in `BreakoutMath` berechnet und ist getestet.
+- **Power-Ups:** Jeder zerstörte Block lässt mit 12 % Wahrscheinlichkeit ein Item fallen (Fallgeschwindigkeit 220 px/s). Items werden nur vom Schläger eingesammelt. Dauer-Effekte (Breiter Schläger 15 s, Slow 10 s) laufen über Timer in Spielzeit. Ein erneut eingesammelter Effekt verlängert die Zeit.
+- **Multiball:** Der Ball teilt sich in 3 Bälle mit je ±20° Abweichung. Ein Leben geht erst verloren, wenn der **letzte** Ball unten ist. Dafür muss `game.gd` eine Liste von Bällen statt einen einzelnen Ball verwalten.
+- **Combo:** Zählt zerstörte Blöcke seit dem letzten Schlägerkontakt. Multiplikator = `1 + 0.25 × (Combo - 1)`, maximal 4. Beim Schlägerkontakt oder Verlust zurücksetzen.
+- **Level-Dateien:** Ab M3 liegen Level als `res://data/levels/level_NN.txt` im selben Zeichenformat wie jetzt (`.`, `1`-`3`, `X`). Die Datei `scripts/levels.gd` lädt sie, der Test `test_all_levels_are_valid` prüft alle Dateien.
+- **Glow:** Zuerst `WorldEnvironment` mit 2D-Glow versuchen. Falls er im Web-Build fehlt oder zu langsam ist, den Glow über zusätzlich gezeichnete halbtransparente Formen (wie jetzt bei Ball und Block) lösen. In den Optionen soll Glow abschaltbar sein.
+- **Hintergrund-Shader:** Ein `ColorRect` mit Canvas-Shader (langsam wandernder Verlauf und Gitter). Keine Texturen nötig.
+- **Sound:** Töne ggf. per Code synthetisieren (`AudioStreamWAV` mit berechneten Samples), wenn keine passenden CC0-Dateien gefunden werden. Dann steht "selbst erzeugt" in den Credits.
+
+### Abnahmekriterien
+- [ ] Alle Meilensteine M2–M7 abgeschlossen, 10 Level spielbar
+- [ ] Optik-Vertical-Slice (M2) von Jennifer freigegeben, bevor M3 beginnt
+- [ ] Alle Power-Ups funktionieren, Multiball verliert Leben erst beim letzten Ball
+- [ ] Rekord bleibt nach Neustart erhalten
+- [ ] Alles zweisprachig, Vollbild-Umschaltung in Menü und per `F11`
+- [ ] `tools/run_tests.sh` grün, Linux-, Windows- und Web-Build laufen
+
 ## Tests
 - Abprallwinkel-Funktion (Unit-Test)
 - Level-Loader: gültige und ungültige Dateien

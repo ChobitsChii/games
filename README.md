@@ -3,6 +3,8 @@
 Kleine, modern gestaltete Spiele mit Godot 4.7 (GDScript) für Linux, Windows und Web (HTML5).
 Sprachen: Deutsch und Englisch (erweiterbar).
 
+Arbeitsanweisungen (auch für KI-Agenten): [AGENTS.md](AGENTS.md)
+
 Pläne und Entscheidungen: [plans/](plans/00_README_Engine_und_Uebersicht.md)
 
 ## Spiele

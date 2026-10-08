@@ -67,6 +67,40 @@ scenes/ main_menu  level_select  game  hud  unit_card  ...
 7. **M6:** Fortschritts-Speicherung, Level-Auswahl, Tutorial-Level
 8. **M7:** Juice, Sound, Balancing-Durchgang, Export
 
+## Hinweise zur Umsetzung
+Alle Zahlen sind Startwerte für das Balancing und liegen in `.tres`-Dateien, nicht im Code.
+
+**Raster:** 9 Spalten × 5 Lanes, Feldgröße 140 × 140 px, Spielfeld links oben bei (260, 200). Gegner starten rechts außerhalb des Feldes, die Basis liegt links.
+
+**Wirtschaft:** Startenergie 150. Energie fällt alle 8 s vom Himmel (je 25) und muss angeklickt werden (verfällt nach 7 s). Generatoren erzeugen alle 15 s 25 Energie (Sammeln per Klick oder automatisch, Option).
+
+**Einheiten (`UnitData`: `id`, `name_key`, `cost`, `cooldown`, `max_hp`, `components`):**
+| Einheit | Kosten | Abklingzeit | HP | Besonderheit |
+|---|---|---|---|---|
+| Generator | 50 | 7 s | 300 | 25 Energie / 15 s |
+| Schütze | 100 | 7 s | 300 | 20 Schaden / 1,4 s |
+| Doppelschütze | 175 | 7 s | 300 | 2 × 20 Schaden / 1,4 s |
+| Frostturm | 150 | 7 s | 300 | 10 Schaden, Gegner 50 % langsamer für 3 s |
+| Mauer | 50 | 20 s | 4000 | blockiert |
+| Mine | 25 | 25 s | 100 | scharf nach 12 s, 1200 Schaden im Feld |
+| Flächenwerfer | 200 | 10 s | 300 | 40 Schaden, trifft 3 Lanes |
+
+**Gegner (`EnemyData`: `id`, `hp`, `speed`, `damage_per_second`, `flags`):** Läufer 200 HP, 20 px/s, 100 DPS. Schneller Läufer 150 HP, 38 px/s. Panzer 900 HP, 14 px/s. Springer überspringt die erste Einheit einmal. Schild-Träger: Geradeaus-Schüsse machen 50 % weniger Schaden. Boss 6000 HP.
+
+**Treffer ohne Physik:** Projektile fliegen nur in ihrer Lane. Pro Frame wird geprüft, ob die x-Position eines Projektils den ersten Gegner derselben Lane erreicht hat. Gegner prüfen die Einheit direkt vor sich über die Zellen-Zuordnung (`grid.get_unit(lane, col)`). Kein `Area2D`, keine Physik-Engine.
+
+**Wellen (`LevelData`):** Liste von `{time, lane, enemy_id}`, sortiert nach Zeit. Die große Schlusswelle beginnt bei 85 % der Spieldauer und wird mit Banner und Sound angekündigt. Ein Level dauert 3–5 Minuten. Der Test prüft, dass genau diese Liste gespawnt wird.
+
+**Bot-Test (`tests/bot.gd`):** Der Bot baut zuerst 3 Generatoren in Spalte 0, danach Schützen in der Lane, in der gerade ein Gegner ist. Er muss Level 1–3 gewinnen. Ändert sich das Balancing so, dass das nicht mehr geht, schlägt der Test fehl und das Balancing wird bewusst angepasst.
+
+### Abnahmekriterien
+- [ ] Alle Einheiten und Gegner aus der Tabelle funktionieren
+- [ ] 10 Level in 2 Welten, Boss am Ende von Welt 1, Freischaltungen gespeichert
+- [ ] Tutorial-Level erklärt Energie, Platzieren und Abklingzeit
+- [ ] Bot-Test grün, kein Gegner kann durch Einheiten laufen
+- [ ] 60 FPS im Web-Build mit vielen Gegnern und Projektilen
+- [ ] Kartenleiste bedienbar mit Maus, Tastatur (1–7) und Gamepad
+
 ## Tests
 - Kostenprüfung, Abklingzeit, Platzierungsregeln
 - Wellen-Director erzeugt exakt die Gegner aus `LevelData`

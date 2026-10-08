@@ -70,6 +70,36 @@ autoload/ event_bus.gd  run_state.gd  save_service.gd
 8. **M7:** Meta-Fortschritt (Seelen und Freischaltungen) und Speichern
 9. **M8:** Juice, Sound, Musik, Balancing, Export
 
+## Hinweise zur Umsetzung
+**Raumgröße:** 20 × 11 Kacheln à 64 px (1280 × 704 px), Türen in der Mitte jeder Seite. Der Spielbereich ist kleiner als der Bildschirm, die Kamera zeigt zusätzlich Dekoration außen.
+
+**Dungeon-Generator (pro Etage, mit eigenem RNG `seed + etage * 1000`):**
+1. Raster 7 × 7, Startraum in der Mitte.
+2. Raumanzahl `7 + etage * 2`: wiederholt einen zufälligen vorhandenen Raum wählen und ein zufälliges freies Nachbarfeld nehmen, das höchstens einen belegten Nachbarn hat (vermeidet Klumpen).
+3. Bossraum = per Breitensuche entferntester Raum, Schatzraum = ein Sackgassen-Raum (nur eine Tür), alle anderen sind Kampfräume.
+4. Türen entstehen zwischen benachbarten belegten Räumen. Jeder Kampfraum nimmt eine zufällige Vorlage aus `room_templates/` mit Spawnpunkten.
+5. Test: Breitensuche über 1000 Seeds muss alle Räume erreichen, gleicher Seed ergibt gleiches Layout.
+
+**Spieler:** 6 Herzen (12 halbe), Geschwindigkeit 420 px/s, Dash 0,18 s mit 1400 px/s und Unverwundbarkeit, Abklingzeit 0,8 s, Schussrate 0,3 s, Schaden 1.
+
+**Item-Modifikatoren:** `ItemData` hat `stat_adds` und `stat_muls` (Dictionary von Wertname auf Zahl). Endwert = `(Basis + Summe der Zuschläge) × Produkt der Faktoren`. Die Berechnung liegt in einer eigenen Klasse ohne Nodes und wird getestet (Stapeln, Reihenfolge, Obergrenzen).
+
+**Gegner:** Zustandsautomat `IDLE → CHASE → ATTACK → STUNNED → DEAD` in einer gemeinsamen Basisklasse, Unterklassen überschreiben nur das Verhalten. Einfaches Steering (direkt zum Spieler, Wände meiden) reicht. `NavigationAgent2D` nur, wenn Gegner an Hindernissen hängen.
+
+**Bosse:** Jeder Boss hat 2–3 Phasen mit eigenen Angriffsmustern. Die Muster sind Listen von Schritten (`{aktion, dauer}`), damit sie sich testen lassen. Ein Test lässt jeden Boss alle Phasen durchlaufen.
+
+**Meta-Fortschritt:** Seelen (aus Gegnern) werden am Ende des Runs gespeichert und schalten Upgrades und Startwaffen frei (`SaveService`, Abschnitt `meta`).
+
+**Umfang begrenzen:** Erst eine spielbare Etage mit 2 Gegnertypen, 5 Items und Boss 1 (M1–M5). Danach erst Etagen 2 und 3 und die restlichen Inhalte.
+
+### Abnahmekriterien
+- [ ] Ein kompletter Run (3 Etagen, 3 Bosse) ist spielbar und gewinnbar
+- [ ] Generator-Tests für 1000 Seeds grün, Seed im Spiel sichtbar
+- [ ] Mindestens 15 Items, 6 Gegnertypen, 3 Bosse
+- [ ] Meta-Fortschritt bleibt nach Neustart erhalten
+- [ ] Licht und Schatten sehen auch im Web-Build gut aus, 60 FPS
+- [ ] Smoke-Test: Bot läuft durch Etagen ohne Fehler
+
 ## Tests
 - Generator: Alle Räume sind erreichbar (Graph-Test über 1000 Seeds)
 - Gleicher Seed ergibt exakt dasselbe Layout

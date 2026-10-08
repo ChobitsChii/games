@@ -2,6 +2,9 @@
 
 Sammlung kleiner Spiele (Single Player oder gegen den Computer), die **nativ unter Linux und Windows** laufen und zusätzlich als **HTML5-Version im Browser** spielbar sind. Sie sollen **modern und hochwertig aussehen**, **zweisprachig (Deutsch/Englisch)** sein und weitere Sprachen ohne Code-Änderung unterstützen.
 
+> [!NOTE]
+> Arbeitsanweisungen für KI-Agenten und Mitwirkende (Ablauf, Regeln, Befehle, Stolperfallen) stehen in [AGENTS.md](../AGENTS.md).
+
 ## 1. Engine-Entscheidung: **Godot 4.7** (GDScript)
 
 | Kriterium | Godot 4.7 | Unity 6 | Unreal 5 | Phaser 3 + Wrapper | Bevy (Rust) |

@@ -58,6 +58,43 @@ scenes/ board_view.tscn  disc.tscn  hud.tscn  menu.tscn
 6. **M5:** Animationen, Sound, Gewinn-Effekt, Statistik (Siege/Niederlagen pro Stufe)
 7. **M6:** Menüs, Optionen, Export
 
+## Hinweise zur Umsetzung
+**Bitboard (7 Spalten, je 7 Bit: 6 Felder plus 1 Sperrbit, passt in 49 Bit eines 64-Bit-`int`):**
+```
+# Bitindex = col * 7 + row   (row 0 = unten)
+# position   = Steine des Spielers, der gerade am Zug ist
+# mask       = alle belegten Felder
+func can_play(col):  return (mask & (1 << (col * 7 + 5))) == 0
+func play(col):      position ^= mask; mask |= mask + (1 << (col * 7)); moves += 1
+func is_win(bb):
+    for s in [1, 7, 6, 8]:      # senkrecht, waagerecht, zwei Diagonalen
+        var m := bb & (bb >> s)
+        if m & (m >> (2 * s)): return true
+    return false
+```
+Nach `play()` gehört `position ^ mask` dem Spieler, der gerade gezogen hat. Dessen Gewinn wird mit `is_win(position ^ mask)` geprüft.
+
+**Negamax mit Alpha-Beta:**
+- Zugreihenfolge: `[3, 2, 4, 1, 5, 0, 6]` (Mitte zuerst).
+- Sofortgewinn prüfen, bevor gesucht wird. Züge, die dem Gegner einen Sofortgewinn erlauben, nur wählen, wenn nichts anderes bleibt.
+- Transposition-Table: `Dictionary` mit Schlüssel `position + mask` (eindeutig), Wert Bewertung und Tiefe. Größe begrenzen (z. B. 500 000 Einträge, danach leeren).
+- Bewertung bei Tiefenende: Anzahl offener Dreierreihen (+/−), Mittelspalte (+3 je Stein), sonst 0. Gewinn = `+(100000 − moves)`, damit schnellere Siege bevorzugt werden.
+- Schwierigkeit: Leicht = zufällig mit Sofortgewinn/-block. Mittel = Tiefe 4. Schwer = Tiefe 8–10 mit Zeitlimit 800 ms (iterative Vertiefung, Zug der letzten fertigen Tiefe nehmen).
+
+**Zeitgeteilte Suche (Web ist single-threaded):** Die Suche ist eine Coroutine. Alle 2000 Knoten wird `Time.get_ticks_usec()` geprüft. Sind seit dem letzten Frame mehr als 8 ms vergangen, folgt `await get_tree().process_frame`. Nativ läuft dieselbe Suche, ein Thread ist nicht nötig.
+
+**3D im Compatibility-Renderer:** Brett als Meshes mit `StandardMaterial3D`, Beleuchtung durch eine `DirectionalLight3D`. Schattenqualität im Web-Build prüfen. Wenn sie schwach ist, den Schatten als vorberechnete Textur unter das Brett legen. Die Kamera ist fest, das Spiel selbst bleibt logisch 2D.
+
+**Farbenblind-Modus:** Rote Steine zeigen einen Ring, gelbe einen Punkt.
+
+### Abnahmekriterien
+- [ ] Alle Gewinnrichtungen, volle Spalten und Unentschieden korrekt (Tests)
+- [ ] KI findet Sofortgewinn und blockiert Sofortverlust (Tests)
+- [ ] Schwer schlägt Mittel in mindestens 90 % von 50 Partien (Test mit festen Seeds)
+- [ ] Antwortzeit der schweren KI nativ unter 1 s, im Web ohne Ruckeln der Oberfläche
+- [ ] Spielbar mit Maus, Tastatur und Gamepad
+- [ ] Statistik pro Schwierigkeit bleibt gespeichert
+
 ## Tests (besonders wichtig)
 - Gewinnerkennung für alle Richtungen und Randfälle
 - Volle Spalte, volles Brett (Unentschieden)

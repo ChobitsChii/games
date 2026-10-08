@@ -61,6 +61,41 @@ scripts/ ship.gd  asteroid.gd  ufo.gd  wave_director.gd  upgrades.gd  screen_wra
 7. **M6:** Juice (Explosionen, Triebwerks-Partikel, Shake, Musik) und Sound
 8. **M7:** Menüs, Highscore, Export
 
+## Hinweise zur Umsetzung
+Richtwerte, die beim Spieltest angepasst werden dürfen. Sie gehören in eine Konstantendatei, nicht verstreut in den Code.
+
+**Schiff** (Bewegung selbst integrieren, in `_physics_process`):
+```
+velocity += Vector2.UP.rotated(rotation) * thrust * delta     # thrust 600 px/s², nur bei gedrücktem Schub
+velocity *= pow(0.6, delta)                                   # leichte Dämpfung
+velocity = velocity.limit_length(700.0)
+rotation += turn_input * 4.0 * delta                          # 4 rad/s
+```
+Schuss: Geschwindigkeit 900 px/s (plus Schiffsgeschwindigkeit), Lebensdauer 1,0 s, Feuerrate 0,25 s. Nach dem Tod 2 s Unverwundbarkeit (Blinken). Respawn in der Mitte erst, wenn dort kein Asteroid im Umkreis von 200 px ist.
+
+**Asteroiden:**
+| Größe | Radius | Punkte | Zerfall |
+|---|---|---|---|
+| groß | 80 | 20 | 2 mittlere |
+| mittel | 45 | 50 | 2 kleine |
+| klein | 22 | 100 | – |
+
+Teilstücke fliegen in ±(20–60)° zur ursprünglichen Richtung, mit 1,3-facher Geschwindigkeit. Die Form entsteht aus 10–14 Eckpunkten: Winkel `i · 2π / n`, Radius `r · randf(0.75, 1.15)`. **Kollision immer als Kreis** (`CircleShape2D`, Radius `r · 0.85`), niemals konkave Polygone.
+
+**Wellen:** Anzahl Großasteroiden = `min(3 + welle, 12)`, Geschwindigkeitsfaktor `1 + 0.05 · welle`. Spawn am Bildschirmrand, mindestens 300 px vom Schiff entfernt. UFOs: großes ab Welle 2, kleines ab Welle 3, Minen ab Welle 5. Wellen werden als `WaveData`-Ressource (`asteroid_count`, `speed_factor`, `ufo_spawns`) definiert.
+
+**Wrap-around:** `wrap_position(pos, rect)` mit `posmod`, getestet an allen vier Rändern und Ecken.
+
+**Upgrades:** `UpgradeData`-Ressource mit `id`, `name_key`, `desc_key`, `max_stacks` und einem Wörterbuch von Spielerwerten (`fire_rate_mul`, `bullet_count`, `shield_max`, …). Der Endwert eines Werts ist Basiswert plus Summe der Zuschläge, multipliziert mit dem Produkt der Faktoren. Alle Namen und Beschreibungen laufen über Übersetzungsschlüssel.
+
+### Abnahmekriterien
+- [ ] Schiff fühlt sich flüssig an (Trägheit, Wrap-around ohne Ruckeln)
+- [ ] Asteroiden zerfallen wie in der Tabelle, Punkte stimmen
+- [ ] Mindestens 10 Wellen spielbar, Schwierigkeit steigt spürbar
+- [ ] UFOs, Minen und Upgrade-Auswahl funktionieren
+- [ ] 60 FPS im Web-Build bei vollem Bildschirm (Pooling aktiv)
+- [ ] Tests und Smoke-Test (Autopilot) grün
+
 ## Tests
 - `wrap_position` (Randfälle)
 - Asteroid-Zerfall: Anzahl und Größen der Teilstücke
