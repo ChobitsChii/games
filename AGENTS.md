@@ -13,8 +13,9 @@ Gilt für jedes Modell und jeden Menschen. Bitte vor der Arbeit lesen.
 2. Neue Logik bekommt Tests in `<spiel>/tests/test_*.gd` (Methoden `test_*`, Basisklasse `TestCase`).
 3. Spielbares prüfen: Autopilot-Smoke-Test, bei optischen Änderungen zusätzlich ein Screenshot (siehe 5.).
 4. Commit pro Meilenstein oder sinnvoller Einheit (Conventional Commits, z. B. `feat(breakout): ...`, `fix(...)`), dann `git push`.
-5. Bei Fehlern von Spielern: Seed und Schritte erfragen, per Test oder Autopilot reproduzieren, beheben, Test ergänzen.
-6. Pläne, `README.md` des Spiels und `CREDITS.md` aktuell halten.
+5. **Releases & Versionierung:** Nach Meilensteinen oder relevanten Änderungen (neue Features, Bugfixes, Assets) ein Release erstellen mit `tools/release_game.sh <spiel> [patch|minor|major]` (z. B. `tools/release_game.sh lane_defenders minor`). Das Skript testet, baut, schnürt ZIPs, erstellt das GitHub-Release, aktualisiert `<spiel>-latest`, pflegt die `README.md` und stößt den Pages-Deploy an.
+6. Bei Fehlern von Spielern: Seed und Schritte erfragen, per Test oder Autopilot reproduzieren, beheben, Test ergänzen.
+7. Pläne, `README.md` des Spiels und `CREDITS.md` aktuell halten.
 
 ## 3. Verbindliche Regeln
 - **Kein Pixel-Art.** Modern, hochauflösend, Linear-Filter. Basis-Auflösung 1920×1080 (`canvas_items`, `keep`).
@@ -25,6 +26,7 @@ Gilt für jedes Modell und jeden Menschen. Bitte vor der Arbeit lesen.
 - **Logik getrennt von Darstellung:** Spielregeln, KI und Berechnungen in Klassen ohne Nodes (`class_name … extends RefCounted`), damit sie testbar sind.
 - **Reproduzierbarkeit:** Zufall über einen `RandomNumberGenerator` mit ausgegebenem und per `-- --seed=N` setzbarem Seed.
 - **Statische Typen** in GDScript (`var x: int`, Rückgabetypen).
+- **Versionierung:** Semantic Versioning (`v<Major>.<Minor>.<Patch>`). Vollständig spielbare Spiele (M0–M7) starten mit `v1.0.0`, frühe Prototypen mit `v0.1.0`. Features = Minor-Bump (`v1.1.0`), Fixes = Patch-Bump (`v1.0.1`). Nach jedem Release den Floating Tag `<spiel>-latest` aktualisieren (erledigt `tools/release_game.sh` automatisch).
 - Bestehende Kommentare und Doku, die nichts mit der Änderung zu tun haben, bleiben erhalten.
 
 ## 4. Projektstruktur und gemeinsamer Code
@@ -42,6 +44,9 @@ tools/sync_shared.sh                         # shared/ in alle Spiele kopieren
 tools/run_tests.sh                           # Logik-Tests und Smoke-Test aller Spiele
 tools/build_all.sh [spiel]                   # Exporte nach build/<spiel>/{linux,windows,web}
 tools/serve_web.sh <spiel> [port]            # Web-Build lokal ansehen
+tools/build_web_portal.sh [ziel]             # Web-Portal für GitHub Pages bauen
+tools/package_release.sh <spiel> <version>   # Release-ZIPs (Linux, Windows, Web) packen
+tools/release_game.sh <spiel> [art]          # Komplettes Release erstellen, taggen, hochladen & README updaten
 godot --path <spiel>                         # Spiel starten
 godot --path <spiel> -- --seed=42            # mit festem Seed
 godot --headless --path <spiel> --import     # nach neuen Skripten, class_name, Assets, CSV
