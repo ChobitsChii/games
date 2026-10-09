@@ -6,8 +6,8 @@ MENU_HOW_TO_PLAY,Anleitung,How to Play
 MENU_CREDITS,Mitwirkende,Credits
 MENU_SETTINGS,Optionen,Settings
 MENU_QUIT,Beenden,Quit
-HUD_ENERGY,Energie: %d,Energy: %d
-HUD_LIVES,Leben: %d,Lives: %d
+HUD_ENERGY,☀️ %d,☀️ %d
+HUD_LIVES,❤️ %d,❤️ %d
 HUD_WAVE,Welle %d / %d,Wave %d / %d
 HUD_FINAL_WAVE,GROSSE SCHLUSSWELLE!,FINAL WAVE INCOMING!
 HUD_LEVEL,Level %s,Level %s
@@ -43,7 +43,7 @@ WORLD_1_NAME,Welt 1: Grüne Wiese,World 1: Green Meadow
 WORLD_2_NAME,Welt 2: Dunkler Pfad,World 2: Dark Path
 LEVEL_LOCKED,Gesperrt,Locked
 LEVEL_STARS,%d / 3 Sterne,%d / 3 Stars
-TUTORIAL_STEP_1,Sammle Energie aus dem Himmel und baue Generatoren!,Collect energy from the sky and place generators!
+TUTORIAL_STEP_1,"Sammle Sonnen (klicke oder fahre mit der Maus darüber) und wähle eine Karte, um Einheiten auf dem Rasen zu platzieren!","Collect suns (click or hover over them) and choose a card to place units on the lawn!"
 TUTORIAL_STEP_2,Platziere Schützen auf den Bahnen, um Gegner aufzuhalten.,Place shooters in lanes to stop incoming enemies.
 TUTORIAL_STEP_3,Jede Einheit hat Abklingzeit und Energiekosten.,Each unit requires energy and has a cooldown.
 TUTORIAL_GOT_IT,Verstanden!,Got it!

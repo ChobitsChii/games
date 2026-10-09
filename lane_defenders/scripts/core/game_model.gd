@@ -34,9 +34,11 @@ class SimEnergyDrop:
 	extends RefCounted
 	var id: int = 0
 	var position: Vector2 = Vector2.ZERO
+	var target_position: Vector2 = Vector2.ZERO
 	var amount: int = 25
-	var lifetime: float = 7.0
+	var lifetime: float = 8.0
 	var is_from_sky: bool = false
+	var is_falling: bool = false
 
 var state: State = State.PRE_WAVE
 var energy: int = LaneDefendersConfig.INITIAL_ENERGY
@@ -209,6 +211,13 @@ func step(delta: float) -> void:
 	var drop_idx := energy_drops.size() - 1
 	while drop_idx >= 0:
 		var d := energy_drops[drop_idx]
+		if d.is_falling:
+			if d.position.y < d.target_position.y:
+				d.position.y = minf(d.target_position.y, d.position.y + delta * 240.0)
+				d.position.x = d.target_position.x + sin(d.position.y * 0.03) * 12.0
+			else:
+				d.position = d.target_position
+				d.is_falling = false
 		d.lifetime -= delta
 		if auto_collect_energy:
 			collect_energy(d.id)
@@ -249,10 +258,12 @@ func _spawn_energy(pos: Vector2, amount: int, is_sky: bool) -> SimEnergyDrop:
 	var drop := SimEnergyDrop.new()
 	drop.id = _next_entity_id
 	_next_entity_id += 1
-	drop.position = pos
+	drop.target_position = pos
+	drop.position = Vector2(pos.x, -50.0) if is_sky else pos
 	drop.amount = amount
 	drop.lifetime = LaneDefendersConfig.SKY_ENERGY_LIFETIME
 	drop.is_from_sky = is_sky
+	drop.is_falling = is_sky
 	energy_drops.append(drop)
 	if on_energy_dropped.is_valid():
 		on_energy_dropped.call(drop)

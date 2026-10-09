@@ -29,6 +29,9 @@ var _shake_amount: float = 0.0
 @onready var _proj_container: Node2D = $ProjectilesContainer
 @onready var _drops_container: Node2D = $DropsContainer
 @onready var _effects_container: Node2D = $EffectsContainer
+@onready var _ghost_layer: Node2D = $GhostLayer
+
+var _ghost_sprite: Sprite2D
 
 
 func _ready() -> void:
@@ -48,6 +51,10 @@ func _ready() -> void:
 	model = GameModel.new(current_level, seed_val)
 	_setup_model_callbacks()
 
+	_ghost_sprite = Sprite2D.new()
+	_ghost_sprite.visible = false
+	_ghost_layer.add_child(_ghost_sprite)
+
 	# HUD Initialisierung
 	var avail_units: Array[UnitData] = []
 	for u_id in current_level.available_units:
@@ -65,7 +72,7 @@ func _ready() -> void:
 	hud.next_level_requested.connect(_load_next_level)
 	hud.main_menu_requested.connect(_go_to_menu)
 
-	if current_level.is_tutorial:
+	if current_level.is_tutorial and not autoplay:
 		hud.show_tutorial_step("TUTORIAL_STEP_1")
 
 	# Board Layer Redraw verbinden
@@ -129,8 +136,6 @@ func _setup_model_callbacks() -> void:
 		_proj_container.add_child(view)
 		_proj_views[p.id] = view
 
-		var key := "%d" % p.lane
-		# Spiele Schuss-Sound und Einheit-Rückstoß
 		for c in range(LaneDefendersConfig.COLS):
 			var u_key := "%d_%d" % [p.lane, c]
 			if _unit_views.has(u_key):
@@ -151,12 +156,12 @@ func _setup_model_callbacks() -> void:
 		_drop_views[d.id] = view
 
 	model.on_energy_collected = func(d: GameModel.SimEnergyDrop) -> void:
+		_spawn_floating_text(d.position, "+25 ☀️", Color("ffe600"))
 		if _drop_views.has(d.id):
 			var view: EnergyDropView = _drop_views[d.id]
 			_drop_views.erase(d.id)
-			# Fliege zur Energieanzeige
 			var t := create_tween()
-			t.tween_property(view, "position", Vector2(100, 50), 0.3).set_trans(Tween.TRANS_BACK)
+			t.tween_property(view, "position", Vector2(100, 50), 0.35).set_trans(Tween.TRANS_BACK)
 			t.finished.connect(view.queue_free)
 		sfx.play_sun_collect()
 
@@ -184,6 +189,50 @@ func _process(delta: float) -> void:
 		position = Vector2(randf_range(-_shake_amount, _shake_amount), randf_range(-_shake_amount, _shake_amount))
 	else:
 		position = Vector2.ZERO
+
+	var mpos := get_global_mouse_position()
+
+	# Hover-Einsammeln von Energie
+	if not get_tree().paused:
+		for d in model.energy_drops:
+			if mpos.distance_to(d.position) <= 65.0:
+				model.collect_energy(d.id)
+				break
+
+	_update_ghost_view(mpos)
+
+
+func _update_ghost_view(mpos: Vector2) -> void:
+	if selected_unit_data != null:
+		var tex_path := "res://assets/units/%s.png" % selected_unit_data.id
+		if ResourceLoader.exists(tex_path):
+			_ghost_sprite.texture = load(tex_path)
+			var max_dim := maxf(float(_ghost_sprite.texture.get_width()), float(_ghost_sprite.texture.get_height()))
+			var s := 105.0 / max_dim
+			_ghost_sprite.scale = Vector2(s, s)
+		_ghost_sprite.visible = true
+
+		if _hover_lane >= 0 and _hover_col >= 0 and _hover_lane < LaneDefendersConfig.LANES and _hover_col < LaneDefendersConfig.COLS:
+			_ghost_sprite.position = model.grid.get_cell_center(_hover_lane, _hover_col) + Vector2(0, -6.0)
+			if model.grid.is_cell_empty(_hover_lane, _hover_col):
+				_ghost_sprite.modulate = Color(0.8, 1.2, 0.8, 0.85)
+			else:
+				_ghost_sprite.modulate = Color(1.5, 0.4, 0.4, 0.75)
+		else:
+			_ghost_sprite.position = mpos
+			_ghost_sprite.modulate = Color(1.0, 1.0, 1.0, 0.7)
+
+	elif hud.is_shovel_active:
+		if ResourceLoader.exists("res://assets/ui/shovel.png"):
+			_ghost_sprite.texture = load("res://assets/ui/shovel.png")
+			var max_dim := maxf(float(_ghost_sprite.texture.get_width()), float(_ghost_sprite.texture.get_height()))
+			var s := 65.0 / max_dim
+			_ghost_sprite.scale = Vector2(s, s)
+		_ghost_sprite.visible = true
+		_ghost_sprite.position = mpos + Vector2(20, -20)
+		_ghost_sprite.modulate = Color.WHITE
+	else:
+		_ghost_sprite.visible = false
 
 
 func _physics_process(delta: float) -> void:
@@ -227,8 +276,11 @@ func _unhandled_input(event: InputEvent) -> void:
 		return
 
 	if event.is_action_pressed("cursor_cancel"):
-		selected_unit_data = null
-		hud.set_shovel_active(false)
+		if selected_unit_data != null or hud.is_shovel_active:
+			selected_unit_data = null
+			hud.set_shovel_active(false)
+			sfx.play_click()
+			_board_draw.queue_redraw()
 		get_viewport().set_input_as_handled()
 		return
 
@@ -269,51 +321,69 @@ func _unhandled_input(event: InputEvent) -> void:
 	# Maus-Eingabe
 	if event is InputEventMouseMotion:
 		_using_gamepad_cursor = false
-		var mpos: Vector2 = event.position
+		var mpos := get_global_mouse_position()
 		_hover_lane = model.grid.get_lane_for_y(mpos.y)
 		_hover_col = model.grid.get_col_for_x(mpos.x)
 		_board_draw.queue_redraw()
-	elif event is InputEventMouseButton and event.pressed:
-		if event.button_index == MOUSE_BUTTON_LEFT:
-			# Prüfe Klick auf Energie-Drop
+	elif event is InputEventMouseButton:
+		if event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
+			var mpos := get_global_mouse_position()
 			var clicked_drop := false
 			for d in model.energy_drops:
-				if event.position.distance_to(d.position) <= 45.0:
+				if mpos.distance_to(d.position) <= 65.0:
 					model.collect_energy(d.id)
 					clicked_drop = true
 					break
 
 			if not clicked_drop:
-				var mpos: Vector2 = event.position
 				var l := model.grid.get_lane_for_y(mpos.y)
 				var c := model.grid.get_col_for_x(mpos.x)
 				if l >= 0 and c >= 0 and l < LaneDefendersConfig.LANES and c < LaneDefendersConfig.COLS:
 					_handle_cell_interaction(l, c)
-		elif event.button_index == MOUSE_BUTTON_RIGHT:
-			selected_unit_data = null
-			hud.set_shovel_active(false)
+		elif event.button_index == MOUSE_BUTTON_RIGHT and event.pressed:
+			if selected_unit_data != null or hud.is_shovel_active:
+				selected_unit_data = null
+				hud.set_shovel_active(false)
+				sfx.play_click()
+				_board_draw.queue_redraw()
 
 
 func _handle_cell_interaction(lane: int, col: int) -> void:
 	if hud.is_shovel_active:
-		model.try_remove_unit(lane, col)
-		hud.set_shovel_active(false)
+		var has_unit := model.grid.get_unit(lane, col) != null
+		if has_unit:
+			model.try_remove_unit(lane, col)
+			sfx.play_dig()
+			_spawn_floating_text(model.grid.get_cell_center(lane, col), "⛏️", Color.WHITE)
+			hud.set_shovel_active(false)
+		else:
+			hud.set_shovel_active(false)
+		_board_draw.queue_redraw()
 	elif selected_unit_data != null:
 		var ok := model.try_place_unit(lane, col, selected_unit_data)
 		if ok:
+			_spawn_floating_text(model.grid.get_cell_center(lane, col), "🌱", Color.GREEN)
 			selected_unit_data = null
+		else:
+			sfx.play_error()
+		_board_draw.queue_redraw()
 
 
 func _on_card_selected(udata: UnitData) -> void:
 	if selected_unit_data == udata:
 		selected_unit_data = null
+		sfx.play_click()
 	else:
 		selected_unit_data = udata
+		sfx.play_card_select()
+	_board_draw.queue_redraw()
 
 
 func _on_shovel_toggled(active: bool) -> void:
 	if active:
 		selected_unit_data = null
+		sfx.play_click()
+	_board_draw.queue_redraw()
 
 
 func _toggle_pause() -> void:
@@ -365,51 +435,51 @@ func _unlock_next_level() -> void:
 		SaveService.set_value("lane_defenders", "unlocked_" + next_id, true)
 
 
-func _spawn_damage_number(pos: Vector2, dmg: int) -> void:
+func _spawn_floating_text(pos: Vector2, text: String, color: Color) -> void:
 	var lbl := Label.new()
-	lbl.text = "-%d" % dmg
-	lbl.position = pos + Vector2(randf_range(-15, 15), randf_range(-10, 10))
-	lbl.add_theme_font_size_override("font_size", 24)
-	lbl.add_theme_color_override("font_color", Color("ffeb3b"))
+	lbl.text = text
+	lbl.position = pos + Vector2(-30.0, -20.0)
+	lbl.add_theme_font_size_override("font_size", 28)
+	lbl.add_theme_color_override("font_color", color)
 	_effects_container.add_child(lbl)
 	var t := create_tween()
-	t.tween_property(lbl, "position:y", lbl.position.y - 40.0, 0.6)
-	t.parallel().tween_property(lbl, "modulate:a", 0.0, 0.6)
+	t.tween_property(lbl, "position:y", lbl.position.y - 45.0, 0.7)
+	t.parallel().tween_property(lbl, "modulate:a", 0.0, 0.7)
 	t.finished.connect(lbl.queue_free)
 
 
+func _spawn_damage_number(pos: Vector2, dmg: int) -> void:
+	_spawn_floating_text(pos, "-%d" % dmg, Color("ffeb3b"))
+
+
 func _draw_board() -> void:
-	# 1. Spielfeld-Hintergrund
-	var origin := LaneDefendersConfig.GRID_ORIGIN
-	var total_w := LaneDefendersConfig.COLS * LaneDefendersConfig.CELL_WIDTH
-	var total_h := LaneDefendersConfig.LANES * LaneDefendersConfig.CELL_HEIGHT
-
-	# Basis-Festung links
-	_board_draw.draw_rect(Rect2(0, 0, origin.x, 1080), Color("122416"))
-	_board_draw.draw_line(Vector2(origin.x, 0), Vector2(origin.x, 1080), Color("2e5936"), 6.0)
-
-	# Gegner-Weg rechts
-	_board_draw.draw_rect(Rect2(origin.x + total_w, 0, 1920 - (origin.x + total_w), 1080), Color("151a14"))
-
-	# Rasen-Streifen für jede Lane
+	# Dezent schachbrettartiges Rasen-Muster
 	for l in range(LaneDefendersConfig.LANES):
-		var lane_y := origin.y + l * LaneDefendersConfig.CELL_HEIGHT
-		var lane_rect := Rect2(origin.x, lane_y, total_w, LaneDefendersConfig.CELL_HEIGHT)
-		var lane_color := LaneDefendersConfig.PALETTE["grid_cell_even"] if l % 2 == 0 else LaneDefendersConfig.PALETTE["grid_cell_odd"]
-		_board_draw.draw_rect(lane_rect, lane_color)
-		_board_draw.draw_line(Vector2(origin.x, lane_y), Vector2(origin.x + total_w, lane_y), Color(0.18, 0.38, 0.22, 0.4), 2.0)
-
-	# Spalten-Trennlinien
-	for c in range(LaneDefendersConfig.COLS + 1):
-		var col_x := origin.x + c * LaneDefendersConfig.CELL_WIDTH
-		_board_draw.draw_line(Vector2(col_x, origin.y), Vector2(col_x, origin.y + total_h), Color(0.18, 0.38, 0.22, 0.3), 1.5)
+		for c in range(LaneDefendersConfig.COLS):
+			var r := model.grid.get_cell_rect(l, c)
+			var cell_col := Color(1, 1, 1, 0.035) if (l + c) % 2 == 0 else Color(0, 0, 0, 0.04)
+			_board_draw.draw_rect(r, cell_col)
+			_board_draw.draw_rect(r, Color(1, 1, 1, 0.12), false, 1.0)
 
 	# Hover- oder Cursor-Hervorhebung
 	var hl_lane := _cursor_lane if _using_gamepad_cursor else _hover_lane
 	var hl_col := _cursor_col if _using_gamepad_cursor else _hover_col
 	if hl_lane >= 0 and hl_col >= 0 and hl_lane < LaneDefendersConfig.LANES and hl_col < LaneDefendersConfig.COLS:
 		var r := model.grid.get_cell_rect(hl_lane, hl_col)
-		_board_draw.draw_rect(r, LaneDefendersConfig.PALETTE["grid_cell_hover"], false, 3.0)
+		if selected_unit_data != null:
+			if model.grid.is_cell_empty(hl_lane, hl_col):
+				_board_draw.draw_rect(r, Color(0.2, 0.9, 0.3, 0.35))
+				_board_draw.draw_rect(r, Color(0.3, 1.0, 0.4, 0.9), false, 3.5)
+			else:
+				_board_draw.draw_rect(r, Color(0.9, 0.2, 0.2, 0.35))
+				_board_draw.draw_rect(r, Color(1.0, 0.3, 0.3, 0.9), false, 3.5)
+		elif hud.is_shovel_active:
+			if not model.grid.is_cell_empty(hl_lane, hl_col):
+				_board_draw.draw_rect(r, Color(1.0, 0.3, 0.1, 0.4))
+				_board_draw.draw_rect(r, Color(1.0, 0.4, 0.1, 0.95), false, 3.5)
+		else:
+			_board_draw.draw_rect(r, Color(1.0, 1.0, 1.0, 0.15))
+			_board_draw.draw_rect(r, Color(1.0, 1.0, 0.8, 0.45), false, 2.0)
 
 
 func _run_autoplay_tick() -> void:

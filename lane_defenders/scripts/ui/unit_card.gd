@@ -13,14 +13,18 @@ var cooldown_ratio: float = 0.0
 
 @onready var _button: Button = $Button
 @onready var _name_label: Label = $VBox/NameLabel
-@onready var _cost_label: Label = $VBox/CostLabel
-@onready var _slot_label: Label = $VBox/SlotLabel
+@onready var _cost_label: Label = $VBox/TopHBox/CostLabel
+@onready var _slot_label: Label = $VBox/TopHBox/SlotLabel
+@onready var _icon_rect: TextureRect = $VBox/IconCenter/IconRect
 @onready var _cooldown_rect: ColorRect = $CooldownOverlay
+@onready var _selection_highlight: ReferenceRect = $SelectionHighlight
 
 
 func _ready() -> void:
 	if _button:
 		_button.pressed.connect(_on_pressed)
+		_button.mouse_entered.connect(_on_mouse_entered)
+		_button.mouse_exited.connect(_on_mouse_exited)
 	update_display()
 
 
@@ -36,9 +40,13 @@ func update_display() -> void:
 	if _name_label:
 		_name_label.text = tr(unit_data.name_key)
 	if _cost_label:
-		_cost_label.text = "%d" % unit_data.cost
+		_cost_label.text = "%d ☀️" % unit_data.cost
 	if _slot_label:
-		_slot_label.text = str(slot_index)
+		_slot_label.text = "[%d]" % slot_index
+	if _icon_rect:
+		var tex_path := "res://assets/units/%s.png" % unit_data.id
+		if ResourceLoader.exists(tex_path):
+			_icon_rect.texture = load(tex_path)
 
 
 func set_state(p_can_afford: bool, p_cooldown_ratio: float, p_is_selected: bool) -> void:
@@ -50,10 +58,29 @@ func set_state(p_can_afford: bool, p_cooldown_ratio: float, p_is_selected: bool)
 		_cooldown_rect.visible = (cooldown_ratio > 0.0)
 		_cooldown_rect.anchor_top = 1.0 - cooldown_ratio
 
-	if _button:
-		_button.disabled = (cooldown_ratio > 0.0 or not can_afford)
+	if _selection_highlight:
+		_selection_highlight.visible = is_active
 
-	modulate = Color.WHITE if can_afford else Color(0.65, 0.65, 0.65, 0.8)
+	if is_active:
+		scale = Vector2(1.08, 1.08)
+		modulate = Color(1.1, 1.1, 1.0, 1.0)
+	elif not can_afford or cooldown_ratio > 0.0:
+		scale = Vector2.ONE
+		modulate = Color(0.6, 0.6, 0.6, 0.75)
+	else:
+		if scale.x > 1.03 and not _button.is_hovered():
+			scale = Vector2.ONE
+		modulate = Color.WHITE
+
+
+func _on_mouse_entered() -> void:
+	if not is_active and can_afford and cooldown_ratio <= 0.0:
+		scale = Vector2(1.04, 1.04)
+
+
+func _on_mouse_exited() -> void:
+	if not is_active:
+		scale = Vector2.ONE
 
 
 func _on_pressed() -> void:

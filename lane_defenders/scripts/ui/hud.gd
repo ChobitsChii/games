@@ -50,6 +50,9 @@ var is_shovel_active: bool = false
 func _ready() -> void:
 	if _root:
 		_root.theme = ThemeFactory.build(LaneDefendersConfig.PALETTE)
+	if ResourceLoader.exists("res://assets/ui/shovel.png"):
+		_shovel_button.icon = load("res://assets/ui/shovel.png")
+		_shovel_button.expand_icon = true
 	_shovel_button.toggled.connect(_on_shovel_toggled)
 	_pause_button.pressed.connect(func() -> void: pause_requested.emit())
 	_resume_button.pressed.connect(func() -> void: resume_requested.emit())
@@ -62,7 +65,10 @@ func _ready() -> void:
 	_lose_retry_button.pressed.connect(func() -> void: retry_requested.emit())
 	_lose_menu_button.pressed.connect(func() -> void: main_menu_requested.emit())
 
-	_tutorial_button.pressed.connect(func() -> void: _tutorial_overlay.visible = false)
+	_tutorial_button.pressed.connect(func() -> void:
+		_tutorial_overlay.visible = false
+		get_tree().paused = false
+	)
 
 	_final_wave_banner.visible = false
 	_victory_overlay.visible = false
@@ -141,6 +147,7 @@ func show_tutorial_step(step_key: String) -> void:
 	if step_key != "":
 		_tutorial_label.text = tr(step_key)
 		_tutorial_overlay.visible = true
+		get_tree().paused = true
 		_tutorial_button.grab_focus()
 
 
