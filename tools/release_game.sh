@@ -43,6 +43,7 @@ echo "🚀 Starte Release-Prozess für: $DISPLAY_NAME ($GAME)"
 echo "=========================================================="
 
 # Letzten Release-Tag ermitteln
+git fetch --tags origin 2>/dev/null || true
 LAST_TAG="$(git tag -l "${GAME}-v*" | sort -V | tail -n 1 || true)"
 if [ -z "$LAST_TAG" ]; then
 	LAST_VER="v1.0.0"
