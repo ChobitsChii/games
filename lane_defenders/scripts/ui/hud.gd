@@ -19,7 +19,6 @@ signal main_menu_requested
 @onready var _cards_container: HBoxContainer = %CardsContainer
 @onready var _shovel_button: Button = %ShovelButton
 @onready var _pause_button: Button = %PauseButton
-@onready var _almanac_button: Button = %AlmanacButton
 
 # Overlays
 @onready var _final_wave_banner: PanelContainer = %FinalWaveBanner
@@ -64,7 +63,6 @@ func _ready() -> void:
 	_shovel_button.tooltip_text = tr("HUD_SHOVEL_DESC")
 	_shovel_button.toggled.connect(_on_shovel_toggled)
 	_pause_button.pressed.connect(func() -> void: pause_requested.emit())
-	_almanac_button.pressed.connect(_open_almanac)
 	_resume_button.pressed.connect(func() -> void: resume_requested.emit())
 	_pause_almanac_button.pressed.connect(_open_almanac)
 	_pause_folder_button.pressed.connect(_on_open_folder_pressed)

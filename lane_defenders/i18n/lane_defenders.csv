@@ -50,8 +50,8 @@ WORLD_1_NAME,Welt 1: Grüne Wiese,World 1: Green Meadow
 WORLD_2_NAME,Welt 2: Dunkler Pfad,World 2: Dark Path
 WORLD_3_NAME,Welt 3: Winterwald,World 3: Winter Forest
 WORLD_4_NAME,Welt 4: Magma-Ödland,World 4: Magma Wasteland
-MENU_ALMANAC,Almanach,Almanac
-MENU_ALMANAC_TITLE,Einheiten- & Gegner-Almanach,Unit & Enemy Almanac
+MENU_ALMANAC,Lexikon,Lexicon
+MENU_ALMANAC_TITLE,Einheiten- & Gegner-Lexikon,Unit & Enemy Lexicon
 MENU_ALMANAC_UNITS,Verteidigungseinheiten,Defense Units
 MENU_ALMANAC_ENEMIES,Goblin-Invasoren,Goblin Invaders
 UNIT_STAT_COST,Kosten: %d ☀️ | Abklingzeit: %.1f s | Leben: %d,Cost: %d ☀️ | Cooldown: %.1fs | Health: %d
@@ -80,7 +80,7 @@ CREDITS_FONT_DESC,Open Sans von Steve Matteson (Apache 2.0),Open Sans by Steve M
 HUD_SAVE_AND_QUIT,Speichern & Beenden,Save & Quit
 HUD_AUTOSAVE_HINT,💾 Fortschritt wird nach jedem Level automatisch gespeichert.,💾 Progress is automatically saved after each level.
 HUD_SAVE_SCREENSHOT,📸 Sieg-Screenshot speichern,📸 Save Victory Screenshot
-HUD_OPEN_SCREENSHOTS,📁 Ordner öffnen,📁 Open Folder
+HUD_OPEN_SCREENSHOTS,📁 Screenshot-Ordner,📁 Screenshot Folder
 HUD_SCREENSHOT_SAVED,✓ Screenshot gespeichert!,✓ Screenshot saved!
 TUTORIAL_GOAL,Ziel des Spiels,Game Objective
 TUTORIAL_GOAL_DESC,"Verteidige deinen Garten vor den Goblin-Wellen! Erreichen Goblins die linke Kante, verlierst du Leben (❤️).","Defend your garden against incoming goblin waves! If goblins reach the left edge, you lose lives (❤️)."

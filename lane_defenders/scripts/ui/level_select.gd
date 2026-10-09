@@ -18,20 +18,44 @@ func _ready() -> void:
 
 func _populate_levels() -> void:
 	var containers := [_world1_container, _world2_container, _world3_container, _world4_container]
+	var save_needed := false
 	for w in range(1, 5):
 		var container: Container = containers[w - 1]
 		for i in range(1, 6):
 			var lvl_id := "%d-%d" % [w, i]
-			_create_level_button(container, lvl_id, w == 1 and i == 1)
+			var is_unlocked := _check_and_update_unlocked(w, i)
+			if is_unlocked and not bool(SaveService.get_value("lane_defenders", "unlocked_" + lvl_id, false)) and lvl_id != "1-1":
+				SaveService.set_value("lane_defenders", "unlocked_" + lvl_id, true)
+				save_needed = true
+			_create_level_button(container, lvl_id, is_unlocked)
+	if save_needed:
+		SaveService.save()
 
 
-func _create_level_button(parent: Container, lvl_id: String, default_unlocked: bool) -> void:
+func _check_and_update_unlocked(w: int, i: int) -> bool:
+	if w == 1 and i == 1:
+		return true
+	var lvl_id := "%d-%d" % [w, i]
+	if bool(SaveService.get_value("lane_defenders", "unlocked_" + lvl_id, false)):
+		return true
+	var prev_id := ""
+	if i > 1:
+		prev_id = "%d-%d" % [w, i - 1]
+	elif w > 1:
+		prev_id = "%d-5" % [w - 1]
+	if prev_id != "":
+		var prev_stars: int = int(SaveService.get_value("lane_defenders", "stars_" + prev_id, 0))
+		if prev_stars > 0:
+			return true
+	return false
+
+
+func _create_level_button(parent: Container, lvl_id: String, is_unlocked: bool) -> void:
 	var btn := Button.new()
 	btn.custom_minimum_size = Vector2(200, 95)
 	btn.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	btn.add_theme_font_size_override("font_size", 26)
 
-	var is_unlocked := default_unlocked or bool(SaveService.get_value("lane_defenders", "unlocked_" + lvl_id, false))
 	var stars: int = int(SaveService.get_value("lane_defenders", "stars_" + lvl_id, 0))
 
 	if is_unlocked:

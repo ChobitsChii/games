@@ -48,18 +48,18 @@ func _populate() -> void:
 
 func _create_unit_card(udata: UnitData) -> Control:
 	var panel := PanelContainer.new()
-	panel.custom_minimum_size = Vector2(490, 110)
+	panel.custom_minimum_size = Vector2(510, 115)
 	panel.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 
 	var margin := MarginContainer.new()
-	margin.add_theme_constant_override("margin_left", 12)
-	margin.add_theme_constant_override("margin_top", 10)
-	margin.add_theme_constant_override("margin_right", 12)
-	margin.add_theme_constant_override("margin_bottom", 10)
+	margin.add_theme_constant_override("margin_left", 18)
+	margin.add_theme_constant_override("margin_top", 12)
+	margin.add_theme_constant_override("margin_right", 18)
+	margin.add_theme_constant_override("margin_bottom", 12)
 	panel.add_child(margin)
 
 	var hbox := HBoxContainer.new()
-	hbox.add_theme_constant_override("separation", 14)
+	hbox.add_theme_constant_override("separation", 16)
 	margin.add_child(hbox)
 
 	var icon := TextureRect.new()
@@ -99,18 +99,18 @@ func _create_unit_card(udata: UnitData) -> Control:
 
 func _create_enemy_card(edata: EnemyData) -> Control:
 	var panel := PanelContainer.new()
-	panel.custom_minimum_size = Vector2(490, 110)
+	panel.custom_minimum_size = Vector2(510, 115)
 	panel.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 
 	var margin := MarginContainer.new()
-	margin.add_theme_constant_override("margin_left", 12)
-	margin.add_theme_constant_override("margin_top", 10)
-	margin.add_theme_constant_override("margin_right", 12)
-	margin.add_theme_constant_override("margin_bottom", 10)
+	margin.add_theme_constant_override("margin_left", 18)
+	margin.add_theme_constant_override("margin_top", 12)
+	margin.add_theme_constant_override("margin_right", 18)
+	margin.add_theme_constant_override("margin_bottom", 12)
 	panel.add_child(margin)
 
 	var hbox := HBoxContainer.new()
-	hbox.add_theme_constant_override("separation", 14)
+	hbox.add_theme_constant_override("separation", 16)
 	margin.add_child(hbox)
 
 	var icon := TextureRect.new()

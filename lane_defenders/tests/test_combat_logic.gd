@@ -196,3 +196,19 @@ func test_consecutive_placements_different_lanes() -> void:
 	assert_true(model.grid.get_unit(1, 0) != null, "Einheit an (1,0) vorhanden")
 	assert_true(model.grid.get_unit(2, 0) != null, "Einheit an (2,0) vorhanden")
 
+
+func test_retroactive_level_unlock() -> void:
+	var ls := LevelSelect.new()
+	# Standard: 1-1 ist immer offen
+	assert_true(ls._check_and_update_unlocked(1, 1), "1-1 ist standardmäßig freigeschaltet")
+
+	# Vorher 2-5 abgeschlossen (z.B. 2 Sterne)
+	SaveService.set_value("lane_defenders", "stars_2-5", 2)
+	assert_true(ls._check_and_update_unlocked(3, 1), "3-1 wird automatisch freigeschaltet wenn 2-5 Sterne hat")
+
+	# Vorher 3-1 abgeschlossen -> 3-2 freigeschaltet
+	SaveService.set_value("lane_defenders", "stars_3-1", 1)
+	assert_true(ls._check_and_update_unlocked(3, 2), "3-2 wird freigeschaltet wenn 3-1 abgeschlossen ist")
+	ls.free()
+
+

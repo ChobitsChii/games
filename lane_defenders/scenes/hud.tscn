@@ -83,13 +83,6 @@ custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 show_percentage = false
 
-[node name="AlmanacButton" type="Button" parent="Root/TopBar/Margin/HBox"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(120, 60)
-layout_mode = 2
-size_flags_vertical = 4
-text = "MENU_ALMANAC"
-
 [node name="PauseButton" type="Button" parent="Root/TopBar/Margin/HBox"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(110, 60)
