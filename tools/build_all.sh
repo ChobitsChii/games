@@ -26,6 +26,30 @@ for project in "$ROOT"/*/project.godot; do
 				sed -i 's|<head>|<head>\n\t\t<script src="coi-serviceworker.js"></script>|' "$ROOT/build/$name/web/index.html"
 			fi
 		fi
+		if [ -f "$ROOT/tools/web/game_topbar_template.html" ]; then
+			case "$name" in
+				"block_stack")   disp="Block Stack" ;;
+				"lane_defenders") disp="Lane Defenders" ;;
+				"vier_gewinnt")  disp="Connect Four Deluxe" ;;
+				"neon_breakout") disp="Neon Breakout" ;;
+				*)               disp="$name" ;;
+			esac
+			ver="$(git tag -l "${name}-v*" 2>/dev/null | sort -V | tail -n 1 | sed "s/^${name}-//" || true)"
+			[ -n "$ver" ] || ver="v1.0.0"
+			python3 -c "
+import sys
+html_path, template_path, game_name, game_ver = sys.argv[1:5]
+with open(html_path, 'r', encoding='utf-8') as f:
+    html = f.read()
+if 'id=\"game-topbar\"' not in html:
+    with open(template_path, 'r', encoding='utf-8') as f:
+        tpl = f.read()
+    tpl = tpl.replace('%%GAME_NAME%%', game_name).replace('%%GAME_VERSION%%', game_ver)
+    html = html.replace('</body>', tpl + '\n</body>')
+    with open(html_path, 'w', encoding='utf-8') as f:
+        f.write(html)
+" "$ROOT/build/$name/web/index.html" "$ROOT/tools/web/game_topbar_template.html" "$disp" "$ver"
+		fi
 	else
 		echo "WARNUNG: Web-Export-Templates (web_release.zip) fehlen, Web-Build wird übersprungen."
 	fi

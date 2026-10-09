@@ -41,6 +41,32 @@ for project in "$ROOT"/*/project.godot; do
 	if ! grep -q "coi-serviceworker.js" "$TARGET_DIR/$name/index.html"; then
 		sed -i 's|<head>|<head>\n\t\t<script src="coi-serviceworker.js"></script>|' "$TARGET_DIR/$name/index.html"
 	fi
+
+	# Auto-Hide Topbar zur Rückkehr zur Spiele-Übersicht einbinden
+	if [ -f "$ROOT/tools/web/game_topbar_template.html" ] && [ -f "$TARGET_DIR/$name/index.html" ]; then
+		case "$name" in
+			"block_stack")   disp="Block Stack" ;;
+			"lane_defenders") disp="Lane Defenders" ;;
+			"vier_gewinnt")  disp="Connect Four Deluxe" ;;
+			"neon_breakout") disp="Neon Breakout" ;;
+			*)               disp="$name" ;;
+		esac
+		ver="$(git tag -l "${name}-v*" 2>/dev/null | sort -V | tail -n 1 | sed "s/^${name}-//" || true)"
+		[ -n "$ver" ] || ver="v1.0.0"
+		python3 -c "
+import sys
+html_path, template_path, game_name, game_ver = sys.argv[1:5]
+with open(html_path, 'r', encoding='utf-8') as f:
+    html = f.read()
+if 'id=\"game-topbar\"' not in html:
+    with open(template_path, 'r', encoding='utf-8') as f:
+        tpl = f.read()
+    tpl = tpl.replace('%%GAME_NAME%%', game_name).replace('%%GAME_VERSION%%', game_ver)
+    html = html.replace('</body>', tpl + '\n</body>')
+    with open(html_path, 'w', encoding='utf-8') as f:
+        f.write(html)
+" "$TARGET_DIR/$name/index.html" "$ROOT/tools/web/game_topbar_template.html" "$disp" "$ver"
+	fi
 done
 
 # 3. coi-serviceworker und .nojekyll im Root
@@ -102,6 +128,38 @@ cat << 'EOF' > "$TARGET_DIR/index.html"
 			margin: 0 auto;
 		}
 
+		.top-nav-bar {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			gap: 1rem;
+			flex-wrap: wrap;
+			margin-bottom: 1.5rem;
+		}
+
+		.btn-back-hub {
+			display: inline-flex;
+			align-items: center;
+			gap: 0.5rem;
+			padding: 0.35rem 1rem;
+			border-radius: 9999px;
+			background: rgba(255, 255, 255, 0.05);
+			border: 1px solid rgba(255, 255, 255, 0.12);
+			font-size: 0.85rem;
+			font-weight: 500;
+			color: #e2e8f0;
+			text-decoration: none;
+			backdrop-filter: blur(8px);
+			transition: all 0.2s ease;
+		}
+
+		.btn-back-hub:hover {
+			background: rgba(255, 255, 255, 0.12);
+			border-color: rgba(255, 255, 255, 0.25);
+			transform: translateY(-2px);
+			color: #ffffff;
+		}
+
 		.badge-top {
 			display: inline-flex;
 			align-items: center;
@@ -113,7 +171,6 @@ cat << 'EOF' > "$TARGET_DIR/index.html"
 			font-size: 0.85rem;
 			font-weight: 500;
 			color: #38bdf8;
-			margin-bottom: 1.25rem;
 			backdrop-filter: blur(8px);
 		}
 
@@ -429,9 +486,15 @@ cat << 'EOF' > "$TARGET_DIR/index.html"
 </head>
 <body>
 	<header>
-		<div class="badge-top">
-			<span class="dot"></span>
-			Godot 4.7 HTML5 Web Portal
+		<div class="top-nav-bar">
+			<a href="https://chobitschii.github.io/" class="btn-back-hub" title="Zurück zur ChobitsChii Projektübersicht">
+				<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+				<span>Hauptseite (ChobitsChii Hub)</span>
+			</a>
+			<div class="badge-top">
+				<span class="dot"></span>
+				Godot 4.7 HTML5 Web Portal
+			</div>
 		</div>
 		<h1>Mini-Games Launcher</h1>
 		<p class="lead">Kleine, moderne Spiele mit Godot 4.7 (GDScript) – direkt im Browser spielbar oder als Desktop-Builds für Linux & Windows.</p>
@@ -578,6 +641,8 @@ cat << 'EOF' > "$TARGET_DIR/index.html"
 	<footer>
 		<p>Erstellt mit <strong>Godot Engine 4.7</strong> • Veröffentlicht als freie Software</p>
 		<div class="footer-links">
+			<a href="https://chobitschii.github.io/">← Hauptseite (ChobitsChii Hub)</a>
+			<span>•</span>
 			<a href="https://github.com/ChobitsChii/games" target="_blank" rel="noopener">GitHub Repository</a>
 			<span>•</span>
 			<a href="https://github.com/ChobitsChii/games/releases" target="_blank" rel="noopener">Alle Releases & Downloads</a>

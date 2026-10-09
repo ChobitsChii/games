@@ -7,6 +7,7 @@ Arbeitsanweisungen (auch für KI-Agenten): [AGENTS.md](AGENTS.md)
 
 Pläne und Entscheidungen: [plans/](plans/00_README_Engine_und_Uebersicht.md)
 
+🏠 **Hauptseite (ChobitsChii Hub):** [https://chobitschii.github.io/](https://chobitschii.github.io/)  
 🌐 **Web-Portal / Im Browser spielen:** [https://chobitschii.github.io/games/](https://chobitschii.github.io/games/)
 
 ## Spiele
