@@ -137,10 +137,31 @@ func get_cooldown_progress(data: UnitData) -> float:
 	return clampf(remaining / data.cooldown, 0.0, 1.0)
 
 
-func try_place_unit(lane: int, col: int, data: UnitData) -> bool:
+func get_cooldown_remaining(data: UnitData) -> float:
+	if data == null:
+		return 0.0
+	return maxf(0.0, float(cooldowns.get(data.id, 0.0)))
+
+
+func can_place_unit(lane: int, col: int, data: UnitData) -> String:
 	if state != State.RUNNING and state != State.PRE_WAVE:
-		return false
-	if not can_afford(data) or is_on_cooldown(data):
+		return "HUD_PAUSE"
+	if data == null:
+		return "MSG_INVALID_UNIT"
+	if not grid.is_valid_cell(lane, col):
+		return "MSG_INVALID_CELL"
+	if not grid.is_cell_empty(lane, col):
+		return "MSG_CELL_OCCUPIED"
+	if not can_afford(data):
+		return "MSG_NOT_ENOUGH_ENERGY"
+	if is_on_cooldown(data):
+		return "MSG_COOLDOWN"
+	return ""
+
+
+func try_place_unit(lane: int, col: int, data: UnitData) -> bool:
+	var err := can_place_unit(lane, col, data)
+	if err != "":
 		return false
 	var placed := grid.place_unit(lane, col, data)
 	if placed == null:

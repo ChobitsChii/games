@@ -53,3 +53,8 @@ SETTINGS_MUSIC,Musik,Music
 SETTINGS_AUTO_COLLECT,Energie automatisch sammeln,Auto-collect energy
 CREDITS_TITLE,Mitwirkende,Credits
 CREDITS_BACK,Zurück,Back
+MSG_CELL_OCCUPIED,Besetzt!,Occupied!
+MSG_NOT_ENOUGH_ENERGY,Zu wenig Energie!,Not enough energy!
+MSG_COOLDOWN,Abklingzeit!,Cooldown!
+MSG_INVALID_UNIT,Ungültige Einheit!,Invalid unit!
+MSG_INVALID_CELL,Ungültiges Feld!,Invalid cell!

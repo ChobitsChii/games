@@ -65,6 +65,7 @@ func _ready() -> void:
 
 	# HUD Signale verbinden
 	hud.card_selected.connect(_on_card_selected)
+	hud.card_blocked.connect(_on_card_blocked)
 	hud.shovel_toggled.connect(_on_shovel_toggled)
 	hud.pause_requested.connect(_toggle_pause)
 	hud.resume_requested.connect(_toggle_pause)
@@ -341,17 +342,26 @@ func _unhandled_input(event: InputEvent) -> void:
 	elif event is InputEventMouseButton:
 		if event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
 			var mpos := get_global_mouse_position()
-			var clicked_drop := false
-			for d in model.energy_drops:
-				if mpos.distance_to(d.position) <= 65.0:
-					model.collect_energy(d.id)
-					clicked_drop = true
-					break
+			var l := model.grid.get_lane_for_y(mpos.y)
+			var c := model.grid.get_col_for_x(mpos.x)
+			var on_board := (l >= 0 and c >= 0 and l < LaneDefendersConfig.LANES and c < LaneDefendersConfig.COLS)
 
-			if not clicked_drop:
-				var l := model.grid.get_lane_for_y(mpos.y)
-				var c := model.grid.get_col_for_x(mpos.x)
-				if l >= 0 and c >= 0 and l < LaneDefendersConfig.LANES and c < LaneDefendersConfig.COLS:
+			if on_board and (selected_unit_data != null or hud.is_shovel_active):
+				_handle_cell_interaction(l, c)
+				# Falls am Klickort auch eine Sonnenenergie lag, diese zusätzlich einsammeln
+				for d in model.energy_drops:
+					if mpos.distance_to(d.position) <= 65.0:
+						model.collect_energy(d.id)
+						break
+			else:
+				var clicked_drop := false
+				for d in model.energy_drops:
+					if mpos.distance_to(d.position) <= 65.0:
+						model.collect_energy(d.id)
+						clicked_drop = true
+						break
+
+				if not clicked_drop and on_board:
 					_handle_cell_interaction(l, c)
 		elif event.button_index == MOUSE_BUTTON_RIGHT and event.pressed:
 			if selected_unit_data != null or hud.is_shovel_active:
@@ -374,13 +384,21 @@ func _handle_cell_interaction(lane: int, col: int) -> void:
 			hud.set_shovel_active(false)
 		_board_draw.queue_redraw()
 	elif selected_unit_data != null:
-		var ok := model.try_place_unit(lane, col, selected_unit_data)
-		if ok:
+		var err := model.can_place_unit(lane, col, selected_unit_data)
+		if err == "":
+			model.try_place_unit(lane, col, selected_unit_data)
 			_spawn_floating_text(model.grid.get_cell_center(lane, col), "🌱", Color.GREEN)
 			selected_unit_data = null
 		else:
 			sfx.play_error()
+			_spawn_floating_text(model.grid.get_cell_center(lane, col), tr(err), Color("ff5252"))
 		_board_draw.queue_redraw()
+
+
+func _on_card_blocked(reason_key: String) -> void:
+	sfx.play_error()
+	var mpos := get_global_mouse_position()
+	_spawn_floating_text(mpos, tr(reason_key), Color("ff5252"))
 
 
 func _on_card_selected(udata: UnitData) -> void:

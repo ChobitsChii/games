@@ -3,6 +3,7 @@ extends CanvasLayer
 ## HUD für Lane Defenders: Ressourcen-Anzeige, Kartenleiste, Fortschritt und Overlays.
 
 signal card_selected(unit_data: UnitData)
+signal card_blocked(reason_key: String)
 signal shovel_toggled(active: bool)
 signal pause_requested
 signal resume_requested
@@ -89,6 +90,7 @@ func setup_cards(available_units: Array[UnitData]) -> void:
 		_cards_container.add_child(card)
 		card.setup(udata, slot)
 		card.selected.connect(_on_card_selected)
+		card.blocked.connect(func(reason: String) -> void: card_blocked.emit(reason))
 		_cards.append(card)
 		slot += 1
 
@@ -104,8 +106,9 @@ func update_hud(model: GameModel, selected_unit: UnitData) -> void:
 	for card in _cards:
 		var can_buy := model.can_afford(card.unit_data)
 		var cd_progress := model.get_cooldown_progress(card.unit_data)
+		var cd_remaining := model.get_cooldown_remaining(card.unit_data)
 		var is_sel := (selected_unit == card.unit_data)
-		card.set_state(can_buy, cd_progress, is_sel)
+		card.set_state(can_buy, cd_progress, is_sel, cd_remaining)
 
 
 func set_level_name(level_id: String) -> void:
@@ -155,7 +158,11 @@ func show_tutorial_step(step_key: String) -> void:
 func select_slot(slot: int) -> void:
 	if slot >= 1 and slot <= _cards.size():
 		var card := _cards[slot - 1]
-		if card.can_afford and card.cooldown_ratio <= 0.0:
+		if card.cooldown_ratio > 0.0:
+			card_blocked.emit("MSG_COOLDOWN")
+		elif not card.can_afford:
+			card_blocked.emit("MSG_NOT_ENOUGH_ENERGY")
+		else:
 			card_selected.emit(card.unit_data)
 
 

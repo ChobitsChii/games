@@ -3,6 +3,7 @@ extends PanelContainer
 ## UI-Karte für eine Einheit in der Auswahlleiste.
 
 signal selected(unit_data: UnitData)
+signal blocked(reason_key: String)
 
 @export var unit_data: UnitData
 @export var slot_index: int = 1
@@ -17,6 +18,7 @@ var cooldown_ratio: float = 0.0
 @onready var _slot_label: Label = $VBox/TopHBox/SlotLabel
 @onready var _icon_rect: TextureRect = $VBox/IconCenter/IconRect
 @onready var _cooldown_rect: ColorRect = $CooldownOverlay
+@onready var _cooldown_label: Label = $CooldownLabel
 @onready var _selection_highlight: ReferenceRect = $SelectionHighlight
 
 
@@ -49,14 +51,20 @@ func update_display() -> void:
 			_icon_rect.texture = load(tex_path)
 
 
-func set_state(p_can_afford: bool, p_cooldown_ratio: float, p_is_selected: bool) -> void:
+func set_state(p_can_afford: bool, p_cooldown_ratio: float, p_is_selected: bool, remaining_seconds: float = 0.0) -> void:
 	can_afford = p_can_afford
 	cooldown_ratio = p_cooldown_ratio
 	is_active = p_is_selected
 
 	if _cooldown_rect:
 		_cooldown_rect.visible = (cooldown_ratio > 0.0)
-		_cooldown_rect.anchor_top = 1.0 - cooldown_ratio
+
+	if _cooldown_label:
+		if cooldown_ratio > 0.0 and remaining_seconds > 0.05:
+			_cooldown_label.visible = true
+			_cooldown_label.text = "%.1fs" % remaining_seconds
+		else:
+			_cooldown_label.visible = false
 
 	if _selection_highlight:
 		_selection_highlight.visible = is_active
@@ -84,5 +92,11 @@ func _on_mouse_exited() -> void:
 
 
 func _on_pressed() -> void:
-	if cooldown_ratio <= 0.0 and can_afford and unit_data != null:
+	if unit_data == null:
+		return
+	if cooldown_ratio > 0.0:
+		blocked.emit("MSG_COOLDOWN")
+	elif not can_afford:
+		blocked.emit("MSG_NOT_ENOUGH_ENERGY")
+	else:
 		selected.emit(unit_data)

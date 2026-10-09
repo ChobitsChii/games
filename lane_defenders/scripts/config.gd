@@ -6,10 +6,10 @@ const LANES := 5
 const COLS := 9
 const CELL_WIDTH := 140.0
 const CELL_HEIGHT := 140.0
-const GRID_ORIGIN := Vector2(260.0, 200.0)
+const GRID_ORIGIN := Vector2(330.0, 270.0)
 
-const SPAWN_X := 1620.0
-const BASE_X := 260.0
+const SPAWN_X := 1680.0
+const BASE_X := 330.0
 
 const INITIAL_ENERGY := 150
 const INITIAL_LIVES := 3

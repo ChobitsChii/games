@@ -37,15 +37,15 @@ func test_place_and_remove_unit() -> void:
 
 func test_coordinates_conversion() -> void:
 	var grid := GridModel.new(5, 9)
-	# GRID_ORIGIN = (260, 200), CELL_WIDTH = 140, CELL_HEIGHT = 140
-	assert_eq(grid.get_col_for_x(260.0), 0, "Spalte bei 260 ist 0")
-	assert_eq(grid.get_col_for_x(400.0), 1, "Spalte bei 400 ist 1")
-	assert_eq(grid.get_col_for_x(250.0), -1, "Spalte links vom Raster ist -1")
+	# GRID_ORIGIN = (330, 270), CELL_WIDTH = 140, CELL_HEIGHT = 140
+	assert_eq(grid.get_col_for_x(330.0), 0, "Spalte bei 330 ist 0")
+	assert_eq(grid.get_col_for_x(470.0), 1, "Spalte bei 470 ist 1")
+	assert_eq(grid.get_col_for_x(320.0), -1, "Spalte links vom Raster ist -1")
 
-	assert_eq(grid.get_lane_for_y(200.0), 0, "Lane bei 200 ist 0")
-	assert_eq(grid.get_lane_for_y(340.0), 1, "Lane bei 340 ist 1")
-	assert_eq(grid.get_lane_for_y(150.0), -1, "Lane oberhalb ist -1")
+	assert_eq(grid.get_lane_for_y(270.0), 0, "Lane bei 270 ist 0")
+	assert_eq(grid.get_lane_for_y(410.0), 1, "Lane bei 410 ist 1")
+	assert_eq(grid.get_lane_for_y(200.0), -1, "Lane oberhalb ist -1")
 
 	var center := grid.get_cell_center(0, 0)
-	assert_almost(center.x, 330.0, "Center X von (0,0)")
-	assert_almost(center.y, 270.0, "Center Y von (0,0)")
+	assert_almost(center.x, 400.0, "Center X von (0,0)")
+	assert_almost(center.y, 340.0, "Center Y von (0,0)")
