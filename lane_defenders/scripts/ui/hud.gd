@@ -108,7 +108,7 @@ func update_hud(model: GameModel, selected_unit: UnitData) -> void:
 		var cd_progress := model.get_cooldown_progress(card.unit_data)
 		var cd_remaining := model.get_cooldown_remaining(card.unit_data)
 		var is_sel := (selected_unit == card.unit_data)
-		card.set_state(can_buy, cd_progress, is_sel, cd_remaining)
+		card.set_state(can_buy, cd_progress, is_sel, cd_remaining, model.energy)
 
 
 func set_level_name(level_id: String) -> void:
@@ -159,9 +159,9 @@ func select_slot(slot: int) -> void:
 	if slot >= 1 and slot <= _cards.size():
 		var card := _cards[slot - 1]
 		if card.cooldown_ratio > 0.0:
-			card_blocked.emit("MSG_COOLDOWN")
+			card_blocked.emit(tr("MSG_COOLDOWN_TIME") % card.remaining_cooldown_seconds)
 		elif not card.can_afford:
-			card_blocked.emit("MSG_NOT_ENOUGH_ENERGY")
+			card_blocked.emit(tr("MSG_NEED_ENERGY") % [card.unit_data.cost, card.current_energy])
 		else:
 			card_selected.emit(card.unit_data)
 

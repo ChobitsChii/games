@@ -51,10 +51,16 @@ func update_display() -> void:
 			_icon_rect.texture = load(tex_path)
 
 
-func set_state(p_can_afford: bool, p_cooldown_ratio: float, p_is_selected: bool, remaining_seconds: float = 0.0) -> void:
+var remaining_cooldown_seconds: float = 0.0
+var current_energy: int = 0
+
+
+func set_state(p_can_afford: bool, p_cooldown_ratio: float, p_is_selected: bool, remaining_seconds: float = 0.0, p_energy: int = 0) -> void:
 	can_afford = p_can_afford
 	cooldown_ratio = p_cooldown_ratio
 	is_active = p_is_selected
+	remaining_cooldown_seconds = remaining_seconds
+	current_energy = p_energy
 
 	if _cooldown_rect:
 		_cooldown_rect.visible = (cooldown_ratio > 0.0)
@@ -95,8 +101,8 @@ func _on_pressed() -> void:
 	if unit_data == null:
 		return
 	if cooldown_ratio > 0.0:
-		blocked.emit("MSG_COOLDOWN")
+		blocked.emit(tr("MSG_COOLDOWN_TIME") % remaining_cooldown_seconds)
 	elif not can_afford:
-		blocked.emit("MSG_NOT_ENOUGH_ENERGY")
+		blocked.emit(tr("MSG_NEED_ENERGY") % [unit_data.cost, current_energy])
 	else:
 		selected.emit(unit_data)

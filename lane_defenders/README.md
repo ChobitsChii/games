@@ -7,6 +7,7 @@ Mini-Tower-Defense (Lane-basiert) mit modernem Flat-Cartoon-Look. Godot 4.7 (GDS
 |---|---|
 | Einheit wählen (Slots 1–7) | Zifferntasten `1`–`7` oder Klick auf Karte |
 | Platzieren | Linksklick auf Zelle oder `Leertaste`/`Enter`/Gamepad `A` auf Cursor |
+| Mehrfach-Platzieren | `Shift` gedrückt halten beim Platzieren |
 | Schaufel / Einheit entfernen | `X`, Gamepad `Y` oder Klick auf Schaufel-Button |
 | Energie einsammeln | Linksklick auf fallende/erzeugte Sonnen |
 | Auswahl abbrechen | Rechtsklick, `Esc` oder Gamepad `B` |

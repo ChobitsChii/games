@@ -58,3 +58,6 @@ MSG_NOT_ENOUGH_ENERGY,Zu wenig Energie!,Not enough energy!
 MSG_COOLDOWN,Abklingzeit!,Cooldown!
 MSG_INVALID_UNIT,Ungültige Einheit!,Invalid unit!
 MSG_INVALID_CELL,Ungültiges Feld!,Invalid cell!
+MSG_SELECT_UNIT_FIRST,Wähle zuerst eine Karte oben!,Select a card above first!
+MSG_COOLDOWN_TIME,Abklingzeit: noch %.1fs,Cooldown: %.1fs left
+MSG_NEED_ENERGY,Kostet %d Sonnen (du hast %d),Costs %d suns (you have %d)

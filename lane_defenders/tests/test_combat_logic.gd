@@ -122,3 +122,59 @@ func test_shovel_removes_unit_and_refunds_energy() -> void:
 	assert_true(removed, "Einheit mit Schaufel entfernt")
 	assert_eq(model.energy, 150, "Energie nach 50% Erstattung ist 150")
 	assert_true(model.grid.is_cell_empty(1, 1), "Feld ist wieder frei")
+
+
+func test_placement_all_cells() -> void:
+	var model := GameModel.new()
+	var gen: UnitData = model.unit_catalog.get("generator")
+	var shooter: UnitData = model.unit_catalog.get("shooter")
+
+	# 1. Place generator at (0, 0)
+	var err1 := model.can_place_unit(0, 0, gen)
+	assert_eq(err1, "", "First placement valid")
+	model.try_place_unit(0, 0, gen)
+
+	# 2. Check all other 44 cells with shooter (remaining energy is 100):
+	for l in range(5):
+		for c in range(9):
+			if l == 0 and c == 0:
+				assert_eq(model.can_place_unit(0, 0, shooter), "MSG_CELL_OCCUPIED")
+			else:
+				var err := model.can_place_unit(l, c, shooter)
+				assert_eq(err, "", "Cell (%d, %d) should be valid for shooter, got: %s" % [l, c, err])
+
+
+func test_multi_generator_and_shooter_placement() -> void:
+	var model := GameModel.new()
+	var gen: UnitData = model.unit_catalog.get("generator")
+	var shooter: UnitData = model.unit_catalog.get("shooter")
+
+	# Start: 150 Energie
+	assert_eq(model.energy, 150)
+
+	# 1. Ersten Generator platzieren (-50 Energie)
+	assert_eq(model.can_place_unit(0, 0, gen), "")
+	assert_true(model.try_place_unit(0, 0, gen))
+	assert_eq(model.energy, 100)
+
+	# Direkt danach: Abklingzeit aktiv
+	assert_eq(model.can_place_unit(1, 0, gen), "MSG_COOLDOWN")
+
+	# Nach 1.05s: Abklingzeit vorbei, zweiter Generator kann gebaut werden!
+	model.step(1.05)
+	assert_eq(model.can_place_unit(1, 0, gen), "")
+	assert_true(model.try_place_unit(1, 0, gen))
+	assert_eq(model.energy, 50)
+
+	# Nach Sonnen-Drop (+25) und Himmelsenergie (+25) = 100 Energie -> Schütze bauen
+	model.energy += 50
+	assert_eq(model.energy, 100)
+	assert_eq(model.can_place_unit(2, 0, shooter), "")
+	assert_true(model.try_place_unit(2, 0, shooter))
+	assert_eq(model.energy, 0)
+
+	# Alle 3 Einheiten existieren auf ihren Plätzen
+	assert_eq(model.grid.get_unit(0, 0).unit_data.id, "generator")
+	assert_eq(model.grid.get_unit(1, 0).unit_data.id, "generator")
+	assert_eq(model.grid.get_unit(2, 0).unit_data.id, "shooter")
+

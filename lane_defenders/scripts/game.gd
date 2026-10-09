@@ -346,7 +346,7 @@ func _unhandled_input(event: InputEvent) -> void:
 			var c := model.grid.get_col_for_x(mpos.x)
 			var on_board := (l >= 0 and c >= 0 and l < LaneDefendersConfig.LANES and c < LaneDefendersConfig.COLS)
 
-			if on_board and (selected_unit_data != null or hud.is_shovel_active):
+			if on_board:
 				_handle_cell_interaction(l, c)
 				# Falls am Klickort auch eine Sonnenenergie lag, diese zusätzlich einsammeln
 				for d in model.energy_drops:
@@ -354,15 +354,10 @@ func _unhandled_input(event: InputEvent) -> void:
 						model.collect_energy(d.id)
 						break
 			else:
-				var clicked_drop := false
 				for d in model.energy_drops:
 					if mpos.distance_to(d.position) <= 65.0:
 						model.collect_energy(d.id)
-						clicked_drop = true
 						break
-
-				if not clicked_drop and on_board:
-					_handle_cell_interaction(l, c)
 		elif event.button_index == MOUSE_BUTTON_RIGHT and event.pressed:
 			if selected_unit_data != null or hud.is_shovel_active:
 				selected_unit_data = null
@@ -388,17 +383,34 @@ func _handle_cell_interaction(lane: int, col: int) -> void:
 		if err == "":
 			model.try_place_unit(lane, col, selected_unit_data)
 			_spawn_floating_text(model.grid.get_cell_center(lane, col), "🌱", Color.GREEN)
-			selected_unit_data = null
+			if not Input.is_key_pressed(KEY_SHIFT) or not model.can_afford(selected_unit_data):
+				selected_unit_data = null
 		else:
 			sfx.play_error()
-			_spawn_floating_text(model.grid.get_cell_center(lane, col), tr(err), Color("ff5252"))
+			if err == "MSG_CELL_OCCUPIED":
+				_spawn_floating_text(model.grid.get_cell_center(lane, col), tr("MSG_CELL_OCCUPIED"), Color("ff5252"))
+			elif err == "MSG_NOT_ENOUGH_ENERGY":
+				_spawn_floating_text(model.grid.get_cell_center(lane, col), tr("MSG_NEED_ENERGY") % [selected_unit_data.cost, model.energy], Color("ff5252"))
+				selected_unit_data = null
+			elif err == "MSG_COOLDOWN":
+				var rem := model.get_cooldown_remaining(selected_unit_data)
+				_spawn_floating_text(model.grid.get_cell_center(lane, col), tr("MSG_COOLDOWN_TIME") % rem, Color("ff5252"))
+				selected_unit_data = null
+			else:
+				_spawn_floating_text(model.grid.get_cell_center(lane, col), tr(err), Color("ff5252"))
+				selected_unit_data = null
 		_board_draw.queue_redraw()
+	else:
+		var u := model.grid.get_unit(lane, col)
+		if u == null:
+			_spawn_floating_text(model.grid.get_cell_center(lane, col), tr("MSG_SELECT_UNIT_FIRST"), Color("a8e6cf"))
 
 
-func _on_card_blocked(reason_key: String) -> void:
+func _on_card_blocked(message: String) -> void:
 	sfx.play_error()
 	var mpos := get_global_mouse_position()
-	_spawn_floating_text(mpos, tr(reason_key), Color("ff5252"))
+	var text := tr(message) if message.begins_with("MSG_") else message
+	_spawn_floating_text(mpos, text, Color("ff5252"))
 
 
 func _on_card_selected(udata: UnitData) -> void:
