@@ -178,3 +178,21 @@ func test_multi_generator_and_shooter_placement() -> void:
 	assert_eq(model.grid.get_unit(1, 0).unit_data.id, "generator")
 	assert_eq(model.grid.get_unit(2, 0).unit_data.id, "shooter")
 
+
+func test_consecutive_placements_different_lanes() -> void:
+	var model := GameModel.new()
+	var shooter: UnitData = model.unit_catalog.get("shooter")
+	model.energy = 500
+
+	# 1. Erster Schütze an (2, 0)
+	assert_eq(model.can_place_unit(2, 0, shooter), "")
+	assert_true(model.try_place_unit(2, 0, shooter))
+	assert_eq(model.can_place_unit(2, 0, shooter), "MSG_CELL_OCCUPIED")
+
+	# 2. Zweiter Schütze an (1, 0) nach Cooldown
+	model.cooldowns.clear()
+	assert_eq(model.can_place_unit(1, 0, shooter), "")
+	assert_true(model.try_place_unit(1, 0, shooter))
+	assert_true(model.grid.get_unit(1, 0) != null, "Einheit an (1,0) vorhanden")
+	assert_true(model.grid.get_unit(2, 0) != null, "Einheit an (2,0) vorhanden")
+

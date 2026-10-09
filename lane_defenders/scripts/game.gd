@@ -327,7 +327,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		_using_gamepad_cursor = true
 		_cursor_lane = clampi(_cursor_lane + 1, 0, LaneDefendersConfig.LANES - 1)
 		_board_draw.queue_redraw()
-	elif event.is_action_pressed("cursor_confirm"):
+	elif event.is_action_pressed("cursor_confirm") and not (event is InputEventMouseButton):
 		_handle_cell_interaction(_cursor_lane, _cursor_col)
 		get_viewport().set_input_as_handled()
 		return
@@ -335,13 +335,18 @@ func _unhandled_input(event: InputEvent) -> void:
 	# Maus-Eingabe
 	if event is InputEventMouseMotion:
 		_using_gamepad_cursor = false
-		var mpos := get_global_mouse_position()
+		var mm := event as InputEventMouseMotion
+		var mpos: Vector2 = mm.position
 		_hover_lane = model.grid.get_lane_for_y(mpos.y)
 		_hover_col = model.grid.get_col_for_x(mpos.x)
+		if _hover_lane >= 0 and _hover_col >= 0 and _hover_lane < LaneDefendersConfig.LANES and _hover_col < LaneDefendersConfig.COLS:
+			_cursor_lane = _hover_lane
+			_cursor_col = _hover_col
 		_board_draw.queue_redraw()
 	elif event is InputEventMouseButton:
-		if event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
-			var mpos := get_global_mouse_position()
+		var mb := event as InputEventMouseButton
+		if mb.button_index == MOUSE_BUTTON_LEFT and mb.pressed:
+			var mpos: Vector2 = mb.position
 			var l := model.grid.get_lane_for_y(mpos.y)
 			var c := model.grid.get_col_for_x(mpos.x)
 			var on_board := (l >= 0 and c >= 0 and l < LaneDefendersConfig.LANES and c < LaneDefendersConfig.COLS)
@@ -358,7 +363,7 @@ func _unhandled_input(event: InputEvent) -> void:
 					if mpos.distance_to(d.position) <= 65.0:
 						model.collect_energy(d.id)
 						break
-		elif event.button_index == MOUSE_BUTTON_RIGHT and event.pressed:
+		elif mb.button_index == MOUSE_BUTTON_RIGHT and mb.pressed:
 			if selected_unit_data != null or hud.is_shovel_active:
 				selected_unit_data = null
 				hud.set_shovel_active(false)
