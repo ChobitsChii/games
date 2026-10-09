@@ -19,12 +19,14 @@ signal main_menu_requested
 @onready var _cards_container: HBoxContainer = %CardsContainer
 @onready var _shovel_button: Button = %ShovelButton
 @onready var _pause_button: Button = %PauseButton
+@onready var _almanac_button: Button = %AlmanacButton
 
 # Overlays
 @onready var _final_wave_banner: PanelContainer = %FinalWaveBanner
 @onready var _victory_overlay: Control = %VictoryOverlay
 @onready var _defeat_overlay: Control = %DefeatOverlay
 @onready var _pause_overlay: Control = %PauseOverlay
+@onready var _almanac_overlay: AlmanacModal = %AlmanacOverlay
 @onready var _tutorial_overlay: Control = %TutorialOverlay
 @onready var _tutorial_label: Label = %TutorialLabel
 @onready var _tutorial_button: Button = %TutorialButton
@@ -44,6 +46,8 @@ signal main_menu_requested
 
 # Pause elements
 @onready var _resume_button: Button = %ResumeButton
+@onready var _pause_almanac_button: Button = %PauseAlmanacButton
+@onready var _pause_folder_button: Button = %PauseFolderButton
 @onready var _pause_menu_button: Button = %PauseMenuButton
 
 var card_scene: PackedScene = preload("res://scenes/unit_card.tscn")
@@ -60,7 +64,11 @@ func _ready() -> void:
 	_shovel_button.tooltip_text = tr("HUD_SHOVEL_DESC")
 	_shovel_button.toggled.connect(_on_shovel_toggled)
 	_pause_button.pressed.connect(func() -> void: pause_requested.emit())
+	_almanac_button.pressed.connect(_open_almanac)
 	_resume_button.pressed.connect(func() -> void: resume_requested.emit())
+	_pause_almanac_button.pressed.connect(_open_almanac)
+	_pause_folder_button.pressed.connect(_on_open_folder_pressed)
+	_pause_folder_button.visible = not OS.has_feature("web")
 	_pause_menu_button.pressed.connect(func() -> void: main_menu_requested.emit())
 
 	_win_retry_button.pressed.connect(func() -> void: retry_requested.emit())
@@ -77,6 +85,9 @@ func _ready() -> void:
 		_tutorial_overlay.visible = false
 		get_tree().paused = false
 	)
+
+	_almanac_overlay.closed.connect(_on_almanac_closed)
+	_almanac_overlay.visible = false
 
 	_final_wave_banner.visible = false
 	_victory_overlay.visible = false
@@ -226,3 +237,17 @@ func set_shovel_active(active: bool) -> void:
 func _on_shovel_toggled(button_pressed: bool) -> void:
 	is_shovel_active = button_pressed
 	shovel_toggled.emit(button_pressed)
+
+
+var _was_paused_before_almanac: bool = false
+
+
+func _open_almanac() -> void:
+	_was_paused_before_almanac = get_tree().paused
+	get_tree().paused = true
+	_almanac_overlay.open()
+
+
+func _on_almanac_closed() -> void:
+	if not _pause_overlay.visible and not _tutorial_overlay.visible and not _victory_overlay.visible and not _defeat_overlay.visible:
+		get_tree().paused = _was_paused_before_almanac

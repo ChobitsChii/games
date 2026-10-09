@@ -1,9 +1,11 @@
 class_name LevelSelect
 extends Control
-## Levelauswahl für Lane Defenders: 2 Welten mit je 5 Leveln.
+## Levelauswahl für Lane Defenders: 4 Welten mit je 5 Leveln.
 
 @onready var _world1_container: GridContainer = %World1Grid
 @onready var _world2_container: GridContainer = %World2Grid
+@onready var _world3_container: GridContainer = %World3Grid
+@onready var _world4_container: GridContainer = %World4Grid
 @onready var _back_button: Button = %BackButton
 
 
@@ -15,15 +17,12 @@ func _ready() -> void:
 
 
 func _populate_levels() -> void:
-	# Welt 1
-	for i in range(1, 6):
-		var lvl_id := "1-%d" % i
-		_create_level_button(_world1_container, lvl_id, i == 1)
-
-	# Welt 2
-	for i in range(1, 6):
-		var lvl_id := "2-%d" % i
-		_create_level_button(_world2_container, lvl_id, false)
+	var containers := [_world1_container, _world2_container, _world3_container, _world4_container]
+	for w in range(1, 5):
+		var container: Container = containers[w - 1]
+		for i in range(1, 6):
+			var lvl_id := "%d-%d" % [w, i]
+			_create_level_button(container, lvl_id, w == 1 and i == 1)
 
 
 func _create_level_button(parent: Container, lvl_id: String, default_unlocked: bool) -> void:

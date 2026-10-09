@@ -1,0 +1,96 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/ui/almanac_modal.gd" id="1_almanac"]
+
+[node name="AlmanacModal" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_almanac")
+
+[node name="Dim" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.8)
+
+[node name="Center" type="CenterContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="PanelContainer" parent="Center"]
+custom_minimum_size = Vector2(1100, 840)
+layout_mode = 2
+
+[node name="Margin" type="MarginContainer" parent="Center/Panel"]
+layout_mode = 2
+theme_override_constants/margin_left = 32
+theme_override_constants/margin_top = 28
+theme_override_constants/margin_right = 32
+theme_override_constants/margin_bottom = 28
+
+[node name="Box" type="VBoxContainer" parent="Center/Panel/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Title" type="Label" parent="Center/Panel/Margin/Box"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.24, 0.86, 0.52, 1)
+theme_override_font_sizes/font_size = 42
+text = "MENU_ALMANAC_TITLE"
+horizontal_alignment = 1
+
+[node name="Scroll" type="ScrollContainer" parent="Center/Panel/Margin/Box"]
+custom_minimum_size = Vector2(0, 640)
+layout_mode = 2
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+
+[node name="ContentBox" type="VBoxContainer" parent="Center/Panel/Margin/Box/Scroll"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 20
+
+[node name="UnitsHeader" type="Label" parent="Center/Panel/Margin/Box/Scroll/ContentBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.35, 0.95, 0.65, 1)
+theme_override_font_sizes/font_size = 28
+text = "MENU_ALMANAC_UNITS"
+
+[node name="UnitsGrid" type="GridContainer" parent="Center/Panel/Margin/Box/Scroll/ContentBox"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/h_separation = 16
+theme_override_constants/v_separation = 14
+columns = 2
+
+[node name="EnemiesHeader" type="Label" parent="Center/Panel/Margin/Box/Scroll/ContentBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.45, 0.45, 1)
+theme_override_font_sizes/font_size = 28
+text = "MENU_ALMANAC_ENEMIES"
+
+[node name="EnemiesGrid" type="GridContainer" parent="Center/Panel/Margin/Box/Scroll/ContentBox"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/h_separation = 16
+theme_override_constants/v_separation = 14
+columns = 2
+
+[node name="CloseButton" type="Button" parent="Center/Panel/Margin/Box"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 56)
+layout_mode = 2
+text = "COMMON_BACK"

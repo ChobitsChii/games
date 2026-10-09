@@ -51,6 +51,10 @@ func _ready() -> void:
 	model = GameModel.new(current_level, seed_val)
 	_setup_model_callbacks()
 
+	var bg_path := "res://assets/battlefield_world_%d.png" % current_level.world
+	if ResourceLoader.exists(bg_path):
+		$Background.texture = load(bg_path)
+
 	_ghost_sprite = Sprite2D.new()
 	_ghost_sprite.visible = false
 	_ghost_layer.add_child(_ghost_sprite)
@@ -474,8 +478,8 @@ func _get_next_level_id() -> String:
 	var n := int(parts[1])
 	if n < 5:
 		return "%d-%d" % [w, n + 1]
-	elif w == 1:
-		return "2-1"
+	elif w < 4:
+		return "%d-1" % [w + 1]
 	return ""
 
 

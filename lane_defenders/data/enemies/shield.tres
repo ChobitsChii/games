@@ -5,6 +5,7 @@
 [resource]
 script = ExtResource("1_enemy")
 id = "shield"
+desc_key = "ENEMY_SHIELD_DESC"
 name_key = "ENEMY_SHIELD"
 hp = 350
 speed = 18.0

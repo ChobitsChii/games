@@ -95,11 +95,12 @@ Alle Zahlen sind Startwerte für das Balancing und liegen in `.tres`-Dateien, ni
 
 ### Abnahmekriterien
 - [x] Alle Einheiten und Gegner aus der Tabelle funktionieren
-- [x] 10 Level in 2 Welten, Boss am Ende von Welt 1, Freischaltungen gespeichert
+- [x] 20 Level in 4 Welten mit Bosskämpfen und individuellen Schlachtfeld-Themen, Freischaltungen gespeichert
 - [x] Tutorial-Level erklärt Energie, Platzieren und Abklingzeit
 - [x] Bot-Test grün, kein Gegner kann durch Einheiten laufen
 - [x] 60 FPS im Web-Build mit vielen Gegnern und Projektilen
-- [x] Kartenleiste bedienbar mit Maus, Tastatur (1–7) und Gamepad
+- [x] Kartenleiste bedienbar mit Maus, Tastatur (1–7) und Gamepad mit dynamischen Info-Tooltips
+- [x] Interaktiver Almanach / Lexikon für alle Einheiten und Gegner integriert
 
 ## Tests
 - Kostenprüfung, Abklingzeit, Platzierungsregeln

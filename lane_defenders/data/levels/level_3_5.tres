@@ -1,0 +1,78 @@
+[gd_resource type="Resource" script_class="LevelData" format=3]
+
+[ext_resource type="Script" path="res://scripts/core/level_data.gd" id="1_lvl"]
+
+[resource]
+script = ExtResource("1_lvl")
+level_id = "3-5"
+world = 3
+level_number = 5
+title_key = "WORLD_3_NAME"
+spawns = Array[Dictionary]([
+{
+"enemy_id": "fast_runner",
+"lane": 2,
+"time": 8.0
+}, {
+"enemy_id": "shield",
+"lane": 1,
+"time": 18.0
+}, {
+"enemy_id": "tank",
+"lane": 3,
+"time": 28.0
+}, {
+"enemy_id": "jumper",
+"lane": 0,
+"time": 38.0
+}, {
+"enemy_id": "fast_runner",
+"lane": 4,
+"time": 48.0
+}, {
+"enemy_id": "tank",
+"lane": 2,
+"time": 60.0
+}, {
+"enemy_id": "jumper",
+"lane": 1,
+"time": 72.0
+}, {
+"enemy_id": "shield",
+"lane": 3,
+"time": 84.0
+}, {
+"enemy_id": "tank",
+"lane": 0,
+"time": 96.0
+}, {
+"enemy_id": "jumper",
+"lane": 4,
+"time": 108.0
+}, {
+"enemy_id": "shield",
+"lane": 2,
+"time": 120.0
+}, {
+"enemy_id": "boss",
+"lane": 2,
+"time": 132.0
+}, {
+"enemy_id": "tank",
+"lane": 0,
+"time": 134.0
+}, {
+"enemy_id": "fast_runner",
+"lane": 1,
+"time": 135.0
+}, {
+"enemy_id": "jumper",
+"lane": 3,
+"time": 136.0
+}, {
+"enemy_id": "shield",
+"lane": 4,
+"time": 137.0
+}])
+available_units = Array[String](["generator", "shooter", "double_shooter", "frost", "wall", "mine", "area_launcher"])
+total_duration = 155.0

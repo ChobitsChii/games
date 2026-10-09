@@ -5,6 +5,7 @@
 [resource]
 script = ExtResource("1_enemy")
 id = "tank"
+desc_key = "ENEMY_TANK_DESC"
 name_key = "ENEMY_TANK"
 hp = 900
 speed = 14.0

@@ -5,6 +5,7 @@ extends Control
 @onready var _play_button: Button = %PlayButton
 @onready var _level_select_button: Button = %LevelSelectButton
 @onready var _how_to_play_button: Button = %HowToPlayButton
+@onready var _almanac_button: Button = %AlmanacButton
 @onready var _credits_button: Button = %CreditsButton
 @onready var _language_button: Button = %LanguageButton
 @onready var _display_button: Button = %DisplayButton
@@ -12,6 +13,7 @@ extends Control
 
 @onready var _how_to_play_overlay: Control = %HowToPlayOverlay
 @onready var _close_how_button: Button = %CloseHowButton
+@onready var _almanac_overlay: AlmanacModal = %AlmanacOverlay
 @onready var _credits_overlay: Control = %CreditsOverlay
 @onready var _close_credits_button: Button = %CloseCreditsButton
 
@@ -22,6 +24,7 @@ func _ready() -> void:
 	_level_select_button.pressed.connect(_on_level_select_pressed)
 	_how_to_play_button.pressed.connect(_toggle_how_to_play.bind(true))
 	_close_how_button.pressed.connect(_toggle_how_to_play.bind(false))
+	_almanac_button.pressed.connect(func() -> void: _almanac_overlay.open())
 	_credits_button.pressed.connect(_toggle_credits.bind(true))
 	_close_credits_button.pressed.connect(_toggle_credits.bind(false))
 	_language_button.pressed.connect(LocaleService.cycle_language)
@@ -43,7 +46,7 @@ func _refresh() -> void:
 func _on_play_pressed() -> void:
 	# Finde das höchste freigeschaltete Level
 	var current_id := "1-1"
-	for w in range(1, 3):
+	for w in range(1, 5):
 		for n in range(1, 6):
 			var test_id := "%d-%d" % [w, n]
 			if bool(SaveService.get_value("lane_defenders", "unlocked_" + test_id, test_id == "1-1")):

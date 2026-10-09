@@ -1,6 +1,7 @@
 [gd_scene format=3]
 
 [ext_resource type="Script" path="res://scripts/ui/hud.gd" id="1_hud"]
+[ext_resource type="PackedScene" path="res://scenes/almanac_modal.tscn" id="2_almanac"]
 
 [node name="HUD" type="CanvasLayer"]
 process_mode = 3
@@ -81,6 +82,13 @@ unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 show_percentage = false
+
+[node name="AlmanacButton" type="Button" parent="Root/TopBar/Margin/HBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(120, 60)
+layout_mode = 2
+size_flags_vertical = 4
+text = "MENU_ALMANAC"
 
 [node name="PauseButton" type="Button" parent="Root/TopBar/Margin/HBox"]
 unique_name_in_owner = true
@@ -316,6 +324,18 @@ custom_minimum_size = Vector2(0, 68)
 layout_mode = 2
 text = "COMMON_RESUME"
 
+[node name="PauseAlmanacButton" type="Button" parent="Root/PauseOverlay/Center/Box"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 68)
+layout_mode = 2
+text = "MENU_ALMANAC"
+
+[node name="PauseFolderButton" type="Button" parent="Root/PauseOverlay/Center/Box"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 68)
+layout_mode = 2
+text = "HUD_OPEN_SCREENSHOTS"
+
 [node name="PauseMenuButton" type="Button" parent="Root/PauseOverlay/Center/Box"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 68)
@@ -385,3 +405,7 @@ unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 64)
 layout_mode = 2
 text = "TUTORIAL_GOT_IT"
+
+[node name="AlmanacOverlay" parent="Root" instance=ExtResource("2_almanac")]
+unique_name_in_owner = true
+visible = false

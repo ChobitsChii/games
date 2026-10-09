@@ -4,6 +4,7 @@ extends Resource
 
 @export var id: String = ""
 @export var name_key: String = ""
+@export var desc_key: String = ""
 @export var hp: int = 200
 @export var speed: float = 20.0
 @export var damage_per_second: float = 100.0
