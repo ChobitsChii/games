@@ -27,6 +27,7 @@ signal disc_dropped(col: int, row: int, player: int)
 signal move_completed(col: int, row: int, player: int)
 signal game_ended(winner: int, winning_cells: Array[Vector2i])
 signal hint_ready(col: int)
+signal undo_performed()
 signal stats_updated()
 
 var board: Board
@@ -137,23 +138,26 @@ func request_undo() -> bool:
 	if state != State.PLAYER_TURN or board.moves == 0:
 		return false
 
+	var ok := false
 	if mode == GameMode.HOTSEAT:
-		var ok := board.undo()
+		ok = board.undo()
 		if ok:
 			_change_state(State.PLAYER_TURN)
-		return ok
 	else:
 		# Im KI-Modus: 2 Züge zurück (KI und Spieler)
 		if board.moves >= 2:
 			board.undo()
 			board.undo()
 			_change_state(State.PLAYER_TURN)
-			return true
+			ok = true
 		elif board.moves == 1 and board.current_player() != human_player:
 			board.undo()
 			_change_state(State.PLAYER_TURN)
-			return true
-	return false
+			ok = true
+
+	if ok:
+		undo_performed.emit()
+	return ok
 
 
 func request_hint() -> void:

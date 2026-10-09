@@ -21,6 +21,7 @@ signal hint_pressed()
 @onready var btn_fullscreen: Button = %BtnFullscreen
 
 var controller: GameController
+var _hint_hide_timer: float = 0.0
 
 
 func _ready() -> void:
@@ -47,11 +48,20 @@ func _ready() -> void:
 	btn_fullscreen.pressed.connect(_on_fullscreen_pressed)
 
 
+func _process(delta: float) -> void:
+	if _hint_hide_timer > 0.0:
+		_hint_hide_timer -= delta
+		if _hint_hide_timer <= 0.0:
+			_hide_hint()
+
+
 func setup(p_controller: GameController) -> void:
 	controller = p_controller
 	controller.state_changed.connect(_on_state_changed)
 	controller.game_ended.connect(_on_game_ended)
 	controller.hint_ready.connect(_on_hint_ready)
+	controller.disc_dropped.connect(_on_disc_dropped)
+	controller.undo_performed.connect(_on_undo_performed)
 	_update_ui()
 
 
@@ -68,12 +78,14 @@ func _unhandled_input(event: InputEvent) -> void:
 		_on_fullscreen_pressed()
 
 
-func _on_state_changed(_new_state: GameController.State) -> void:
+func _on_state_changed(new_state: GameController.State) -> void:
+	if new_state != GameController.State.PLAYER_TURN:
+		_hide_hint()
 	_update_ui()
 
 
 func _update_ui() -> void:
-	if controller == null:
+	if controller == null or btn_undo == null:
 		return
 
 	btn_undo.disabled = (controller.board.moves == 0 or controller.state == GameController.State.DROPPING or controller.state == GameController.State.AI_THINKING)
@@ -96,10 +108,14 @@ func _update_ui() -> void:
 	turn_indicator.queue_redraw()
 
 
+func _on_disc_dropped(_col: int, _row: int, _player: int) -> void:
+	_hide_hint()
+
+
 func _on_game_ended(winner: int, _winning: Array[Vector2i]) -> void:
 	btn_hint.disabled = true
 	btn_undo.disabled = true
-	hint_label.visible = false
+	_hide_hint()
 
 	if winner == Board.CELL_EMPTY:
 		status_label.text = "GAME_DRAW"
@@ -123,6 +139,13 @@ func _on_hint_ready(col: int) -> void:
 		sfx.play_hint()
 	hint_label.text = tr("GAME_HINT_COL") % (col + 1)
 	hint_label.visible = true
+	_hint_hide_timer = 4.0
+
+
+func _hide_hint() -> void:
+	_hint_hide_timer = 0.0
+	if hint_label != null:
+		hint_label.visible = false
 
 
 func _on_hint_pressed() -> void:
@@ -131,16 +154,19 @@ func _on_hint_pressed() -> void:
 
 
 func _on_undo_pressed() -> void:
-	hint_label.visible = false
 	if controller != null and controller.request_undo():
 		var sfx := SoundEffects.get_instance()
 		if sfx != null:
 			sfx.play_undo()
-		_update_ui()
+
+
+func _on_undo_performed() -> void:
+	_hide_hint()
+	_update_ui()
 
 
 func _on_restart_pressed() -> void:
-	hint_label.visible = false
+	_hide_hint()
 	pause_modal.visible = false
 	restart_pressed.emit()
 

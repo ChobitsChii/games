@@ -31,6 +31,7 @@ func setup(p_controller: GameController) -> void:
 	controller.disc_dropped.connect(_on_disc_dropped)
 	controller.game_ended.connect(_on_game_ended)
 	controller.hint_ready.connect(_on_hint_ready)
+	controller.undo_performed.connect(reset_view)
 	controller.state_changed.connect(func(_s: GameController.State) -> void: queue_redraw())
 	queue_redraw()
 

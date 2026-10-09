@@ -194,3 +194,36 @@ func test_scenes_instantiate() -> void:
 	var game = load("res://scenes/game.tscn").instantiate()
 	assert_true(game != null, "Game instanziiert")
 	game.free()
+
+
+func test_hud_hint_lifecycle() -> void:
+	var hud: HUD = load("res://scenes/hud.tscn").instantiate()
+	var tree := Engine.get_main_loop() as SceneTree
+	if tree != null and tree.root != null:
+		tree.root.add_child(hud)
+		hud._ready()
+
+	var controller := GameController.new()
+	controller.start_game(GameController.GameMode.HOTSEAT, ConnectFourAI.Difficulty.EASY, GameController.Starter.PLAYER_1)
+	hud.setup(controller)
+
+	# 1. Hint anfordern
+	controller.request_hint()
+	assert_true(hud.hint_label.visible, "Tipp-Label nach Anforderung sichtbar")
+
+	# 2. Chip einwerfen -> Tipp muss sofort verschwinden!
+	controller.request_drop(3)
+	assert_false(hud.hint_label.visible, "Tipp-Label nach Chip-Einwurf ausgeblendet")
+
+	# 3. Animation beenden und nochmals Tipp anfordern
+	controller.on_drop_animation_finished()
+	controller.request_hint()
+	assert_true(hud.hint_label.visible, "Tipp-Label erneut sichtbar")
+
+	# 4. Undo -> Tipp muss verschwinden
+	controller.request_undo()
+	assert_false(hud.hint_label.visible, "Tipp-Label nach Undo ausgeblendet")
+
+	if tree != null and tree.root != null:
+		tree.root.remove_child(hud)
+	hud.free()
