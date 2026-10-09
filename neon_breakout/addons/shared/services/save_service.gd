@@ -7,23 +7,51 @@ extends Node
 const SETTINGS_PATH := "user://settings.cfg"
 
 var _config := ConfigFile.new()
+var _loaded := false
+var is_test_mode := false
+
+
+func _init() -> void:
+	for arg in OS.get_cmdline_args():
+		if "tests/run_tests.gd" in arg or "tests/smoke" in arg:
+			is_test_mode = true
+			break
 
 
 func _ready() -> void:
-	# Eine fehlende Datei beim ersten Start ist normal und kein Fehler.
-	_config.load(SETTINGS_PATH)
+	_ensure_loaded()
+
+
+func _ensure_loaded() -> void:
+	if not _loaded:
+		if not is_test_mode:
+			_config.load(SETTINGS_PATH)
+		_loaded = true
 
 
 func get_value(section: String, key: String, default: Variant = null) -> Variant:
+	_ensure_loaded()
 	return _config.get_value(section, key, default)
 
 
 func set_value(section: String, key: String, value: Variant) -> void:
+	_ensure_loaded()
 	_config.set_value(section, key, value)
-	save()
+	if not is_test_mode:
+		save()
 
 
 func save() -> void:
+	if is_test_mode:
+		return
 	var err := _config.save(SETTINGS_PATH)
 	if err != OK:
 		push_warning("SaveService: %s konnte nicht gespeichert werden (Fehler %d)" % [SETTINGS_PATH, err])
+
+
+## Schaltet isolierten Test-Modus ein oder aus, um Spieler-Spielstände zu schützen.
+func set_test_mode(enabled: bool) -> void:
+	is_test_mode = enabled
+	_config = ConfigFile.new()
+	_loaded = true
+
