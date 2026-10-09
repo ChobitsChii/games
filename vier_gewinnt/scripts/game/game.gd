@@ -33,8 +33,17 @@ func _ready() -> void:
 	controller.move_completed.connect(_on_move_completed)
 	controller.game_ended.connect(_on_game_ended)
 
-	# Modus aus Konfiguration oder Standard starten
-	controller.start_game(GameController.GameMode.AI, ConnectFourAI.Difficulty.MEDIUM, GameController.Starter.PLAYER_1)
+	# Modus und Einstellungen aus SaveService laden
+	var mode := GameController.GameMode.AI
+	var diff := ConnectFourAI.Difficulty.MEDIUM
+	var starter := GameController.Starter.PLAYER_1
+	var save_service: Node = Engine.get_main_loop().root.get_node_or_null("SaveService") if Engine.get_main_loop() != null else null
+	if save_service != null:
+		mode = save_service.get_value("session", "mode", GameController.GameMode.AI)
+		diff = save_service.get_value("connect_four", "difficulty", ConnectFourAI.Difficulty.MEDIUM)
+		starter = save_service.get_value("connect_four", "starter", GameController.Starter.PLAYER_1)
+
+	controller.start_game(mode, diff, starter)
 
 
 func _unhandled_input(event: InputEvent) -> void:

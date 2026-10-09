@@ -9,6 +9,8 @@ signal column_clicked(col: int)
 @export var cell_spacing: float = GameConfig.CELL_SPACING
 @export var disc_radius: float = GameConfig.DISC_RADIUS
 
+const BOARD_ORIGIN_Y := 150.0
+
 var controller: GameController
 
 var _falling_discs: Array[Dictionary] = []
@@ -16,6 +18,8 @@ var _particles: Array[Dictionary] = []
 var _winning_cells: Array[Vector2i] = []
 var _win_pulse_time: float = 0.0
 var _hover_arrow_time: float = 0.0
+var _hint_col: int = -1
+var _hint_timer: float = 0.0
 
 
 func _ready() -> void:
@@ -26,6 +30,7 @@ func setup(p_controller: GameController) -> void:
 	controller = p_controller
 	controller.disc_dropped.connect(_on_disc_dropped)
 	controller.game_ended.connect(_on_game_ended)
+	controller.hint_ready.connect(_on_hint_ready)
 	controller.state_changed.connect(func(_s: GameController.State) -> void: queue_redraw())
 	queue_redraw()
 
@@ -38,6 +43,12 @@ func _process(delta: float) -> void:
 	if not _winning_cells.is_empty():
 		_win_pulse_time += delta * 5.0
 		needs_redraw = true
+
+	if _hint_timer > 0.0:
+		_hint_timer = maxf(0.0, _hint_timer - delta)
+		needs_redraw = true
+		if _hint_timer <= 0.0:
+			_hint_col = -1
 
 	# Fallende Steine animieren
 	var i := _falling_discs.size() - 1
@@ -93,6 +104,9 @@ func _gui_input(event: InputEvent) -> void:
 
 
 func _on_disc_dropped(col: int, row: int, player: int) -> void:
+	_hint_col = -1
+	_hint_timer = 0.0
+
 	var start_y := _get_cell_center(col, 5).y - disc_radius * 3.0
 	var target_y := _get_cell_center(col, row).y
 
@@ -104,6 +118,12 @@ func _on_disc_dropped(col: int, row: int, player: int) -> void:
 		"target_y": target_y,
 		"progress": 0.0,
 	})
+	queue_redraw()
+
+
+func _on_hint_ready(col: int) -> void:
+	_hint_col = col
+	_hint_timer = 2.5
 	queue_redraw()
 
 
@@ -124,55 +144,77 @@ func reset_view() -> void:
 	_particles.clear()
 	_winning_cells.clear()
 	_win_pulse_time = 0.0
+	_hint_col = -1
+	_hint_timer = 0.0
 	queue_redraw()
 
 
 func _draw() -> void:
 	var origin_x := (size.x - GameConfig.BOARD_WIDTH) * 0.5
-	var origin_y := 120.0
+	var origin_y := BOARD_ORIGIN_Y
 	var board_rect := Rect2(origin_x, origin_y, GameConfig.BOARD_WIDTH, GameConfig.BOARD_HEIGHT)
 
 	# 1. Tisch-/Hintergrund-Schatten
 	var shadow_rect := Rect2(origin_x + 8, origin_y + 16, GameConfig.BOARD_WIDTH, GameConfig.BOARD_HEIGHT + 20)
 	draw_rect(shadow_rect, Color(0, 0, 0, 0.45), true)
 
-	# 2. Rückwand des Bretts (hinter den Löchern)
-	draw_rect(board_rect, GameConfig.PALETTE["board_back"])
+	# 2. Standfüße des Bretts
+	var front_col: Color = GameConfig.PALETTE["board_front"]
+	var rim_col: Color = GameConfig.PALETTE["board_rim"]
+	var leg_w := 34.0
+	var leg_h := 36.0
+	draw_rect(Rect2(board_rect.position.x - 14, board_rect.end.y - 10, leg_w + 14, leg_h), front_col.darkened(0.25))
+	draw_rect(Rect2(board_rect.end.x - leg_w, board_rect.end.y - 10, leg_w + 14, leg_h), front_col.darkened(0.25))
 
-	# 3. Bereits platzierte Steine auf der Rückwand zeichnen
-	if controller != null:
-		for c in range(Board.WIDTH):
-			for r in range(Board.HEIGHT):
-				# Falls der Stein gerade im Flug ist, hier noch nicht zeichnen
-				var is_dropping := false
-				for d in _falling_discs:
-					if d["col"] == c and d["row"] == r:
-						is_dropping = true
-						break
-				if is_dropping:
-					continue
+	# 3. Solide blaue Vorderseite des Bretts mit Rahmen
+	draw_rect(board_rect, front_col, true)
+	draw_rect(board_rect, rim_col, false, 5.0)
 
-				var cell_val := controller.board.get_cell(c, r)
-				if cell_val != Board.CELL_EMPTY:
-					var center := _get_cell_center(c, r)
-					var is_win_disc := _winning_cells.has(Vector2i(c, r))
-					_draw_disc(center, disc_radius, cell_val, is_win_disc)
+	# 4. Spalten-Tipp-Hervorhebung (Aufblinken der Spalte bei Klick auf Tipp)
+	if _hint_timer > 0.0 and _hint_col >= 0 and _hint_col < Board.WIDTH:
+		var col_center_x := _get_cell_center(_hint_col, 0).x
+		var col_rect := Rect2(col_center_x - cell_spacing * 0.5 + 4, origin_y + 6, cell_spacing - 8, GameConfig.BOARD_HEIGHT - 12)
+		var pulse := 0.5 + 0.5 * sin(_hint_timer * 12.0)
+		var h_gold: Color = GameConfig.PALETTE["win_gold"]
+		draw_rect(col_rect, Color(h_gold.r, h_gold.g, h_gold.b, 0.22 + 0.25 * pulse), true)
+		draw_rect(col_rect, Color(1.0, 0.95, 0.5, 0.6 + 0.3 * pulse), false, 3.0)
 
-	# 4. Fallende Steine zeichnen
+	# 5. Alle 7x6 Felder zeichnen (Löcher bzw. platzierte Chips)
+	for c in range(Board.WIDTH):
+		for r in range(Board.HEIGHT):
+			var center := _get_cell_center(c, r)
+			var cell_val := controller.board.get_cell(c, r) if controller != null else Board.CELL_EMPTY
+
+			# Falls der Stein in diesem Feld gerade fällt, betrachten wir das Feld noch als leer
+			var is_dropping_here := false
+			for d in _falling_discs:
+				if d["col"] == c and d["row"] == r:
+					is_dropping_here = true
+					break
+
+			if is_dropping_here or cell_val == Board.CELL_EMPTY:
+				# Leeres Loch: Dunkle Öffnung
+				draw_circle(center, disc_radius, GameConfig.PALETTE["slot_empty"])
+			else:
+				# Belegtes Feld: Echter, farbiger Spielstein (Rot oder Gelb)!
+				var is_win_disc := _winning_cells.has(Vector2i(c, r))
+				_draw_disc(center, disc_radius, cell_val, is_win_disc)
+
+			# 3D-Loch-Kanten und Bevels (räumliche Tiefe des Plastik-Gitters)
+			draw_arc(center, disc_radius, PI * 0.9, PI * 2.1, 24, Color(0, 0, 0, 0.5), 3.0)
+			draw_arc(center, disc_radius, 0.0, PI, 24, Color(1, 1, 1, 0.22), 2.0)
+			draw_arc(center, disc_radius + 1.0, 0.0, TAU, 32, rim_col.darkened(0.2), 1.5)
+
+	# 6. Fallende Steine über den leeren Löchern animieren
 	for d in _falling_discs:
 		var c: int = d["col"]
 		var prog: float = d["progress"]
-		# Easing mit leichtem Bounce am Ende
 		var eased_prog := _ease_out_bounce(prog)
 		var cur_y: float = lerpf(d["start_y"], d["target_y"], eased_prog)
 		var center := Vector2(_get_cell_center(c, 0).x, cur_y)
 		_draw_disc(center, disc_radius, d["player"], false)
 
-	# 5. Vorderwand des Bretts (Blaue Front mit runden Gucklöchern)
-	# Zeichnen als abgerundetes Rechteck mit Aussparungen (Raster)
-	_draw_board_front(board_rect)
-
-	# 6. Spalten-Hover-Vorschau und Einwurf-Indikator
+	# 7. Spalten-Hover-Vorschau und Einwurf-Pfeil
 	if controller != null and controller.state == GameController.State.PLAYER_TURN:
 		var sel_c := controller.selected_col
 		if controller.board.can_play(sel_c):
@@ -180,7 +222,7 @@ func _draw() -> void:
 			var hover_y := origin_y - disc_radius - 16.0 + sin(_hover_arrow_time) * 6.0
 			var hover_center := Vector2(top_cell.x, hover_y)
 			var turn_player := controller.board.current_player()
-			_draw_disc(hover_center, disc_radius * 0.9, turn_player, false, 0.75)
+			_draw_disc(hover_center, disc_radius * 0.9, turn_player, false, 0.8)
 
 			# Dezent leuchtender Einwurf-Pfeil
 			var arrow_tip := hover_center + Vector2(0, disc_radius * 0.95 + 8)
@@ -188,46 +230,25 @@ func _draw() -> void:
 			draw_line(arrow_tip, arrow_tip + Vector2(-12, -12), arrow_col, 3.0)
 			draw_line(arrow_tip, arrow_tip + Vector2(12, -12), arrow_col, 3.0)
 
-	# 7. Gewinner-Linie und Hervorhebung
+	# 8. Tipp-Pfeil über der empfohlenen Spalte
+	if _hint_timer > 0.0 and _hint_col >= 0 and _hint_col < Board.WIDTH:
+		var hint_x := _get_cell_center(_hint_col, 5).x
+		var hint_y := origin_y - 20.0 + sin(_hint_timer * 10.0) * 8.0
+		var tip := Vector2(hint_x, hint_y)
+		var gold_col: Color = GameConfig.PALETTE["win_gold"]
+		draw_colored_polygon([tip, tip + Vector2(-18, -26), tip + Vector2(18, -26)], gold_col)
+		draw_polyline([tip, tip + Vector2(-18, -26), tip + Vector2(18, -26), tip], Color.WHITE, 2.5)
+
+	# 9. Gewinner-Linie und Hervorhebung
 	if not _winning_cells.is_empty():
 		_draw_winning_highlight()
 
-	# 8. Partikel zeichnen
+	# 10. Partikel zeichnen
 	for pt in _particles:
 		var alpha: float = clampf(pt["life"] / pt["max_life"], 0.0, 1.0)
 		var col: Color = pt["color"]
 		col.a *= alpha
 		draw_circle(pt["pos"], pt["size"] * alpha, col)
-
-
-func _draw_board_front(board_rect: Rect2) -> void:
-	# Front-Rahmen mit sanftem Farbverlauf
-	var front_col: Color = GameConfig.PALETTE["board_front"]
-	var rim_col: Color = GameConfig.PALETTE["board_rim"]
-
-	draw_rect(board_rect, front_col, true)
-	draw_rect(board_rect, rim_col, false, 5.0)
-
-	# Füße / Standbeine des Bretts
-	var leg_w := 34.0
-	var leg_h := 36.0
-	draw_rect(Rect2(board_rect.position.x - 14, board_rect.end.y - 10, leg_w + 14, leg_h), front_col.darkened(0.2))
-	draw_rect(Rect2(board_rect.end.x - leg_w, board_rect.end.y - 10, leg_w + 14, leg_h), front_col.darkened(0.2))
-
-	# Aussparungen für jedes der 7x6 Felder zeichnen
-	for c in range(Board.WIDTH):
-		for r in range(Board.HEIGHT):
-			var center := _get_cell_center(c, r)
-			var is_empty := (controller == null or controller.board.get_cell(c, r) == Board.CELL_EMPTY)
-
-			if is_empty:
-				# Leeres Loch: Dunkle Tiefenöffnung
-				draw_circle(center, disc_radius, GameConfig.PALETTE["slot_empty"])
-
-			# Innere Lichtkante (Bevel-Look)
-			draw_arc(center, disc_radius, 0.0, TAU, 32, Color(1, 1, 1, 0.22), 2.0)
-			# Äußerer Schattenring
-			draw_arc(center, disc_radius + 2.0, PI * 0.5, PI * 1.5, 24, Color(0, 0, 0, 0.45), 2.5)
 
 
 func _draw_disc(center: Vector2, radius: float, player: int, is_win: bool, alpha: float = 1.0) -> void:
@@ -289,7 +310,7 @@ func _draw_winning_highlight() -> void:
 
 func _get_cell_center(col: int, row: int) -> Vector2:
 	var origin_x := (size.x - GameConfig.BOARD_WIDTH) * 0.5
-	var origin_y := 120.0
+	var origin_y := BOARD_ORIGIN_Y
 	var pad_x := (GameConfig.BOARD_WIDTH - (float(Board.WIDTH - 1) * cell_spacing)) * 0.5
 	var pad_y := (GameConfig.BOARD_HEIGHT - (float(Board.HEIGHT - 1) * cell_spacing)) * 0.5
 

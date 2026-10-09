@@ -14,7 +14,7 @@ signal hint_pressed()
 @onready var btn_undo: Button = %BtnUndo
 @onready var btn_restart: Button = %BtnRestart
 @onready var btn_pause: Button = %BtnPause
-@onready var pause_modal: PanelContainer = %PauseModal
+@onready var pause_modal: Control = %PauseModal
 @onready var btn_resume: Button = %BtnResume
 @onready var btn_modal_restart: Button = %BtnModalRestart
 @onready var btn_modal_menu: Button = %BtnModalMenu
@@ -24,10 +24,17 @@ var controller: GameController
 
 
 func _ready() -> void:
+	$RootControl.theme = _build_hud_theme()
+
 	if turn_indicator != null:
 		turn_indicator.hud = self
 	pause_modal.visible = false
 	hint_label.visible = false
+
+	var ds := _get_display_service()
+	if ds != null and ds.has_signal("mode_changed"):
+		ds.mode_changed.connect(func(_m: int) -> void: _update_fullscreen_button_text())
+	_update_fullscreen_button_text()
 
 	btn_hint.pressed.connect(_on_hint_pressed)
 	btn_undo.pressed.connect(_on_undo_pressed)
@@ -167,13 +174,69 @@ func _on_modal_menu_pressed() -> void:
 
 
 func _on_fullscreen_pressed() -> void:
-	var display_service := _get_display_service()
-	if display_service != null and display_service.has_method("toggle_fullscreen"):
-		display_service.toggle_fullscreen()
+	var ds := _get_display_service()
+	if ds != null and ds.has_method("toggle"):
+		ds.toggle()
+	_update_fullscreen_button_text()
+
+
+func _update_fullscreen_button_text() -> void:
+	var ds := _get_display_service()
+	if ds != null and "mode" in ds and ds.mode != 0:
+		btn_fullscreen.text = "DISPLAY_WINDOWED"
+	else:
+		btn_fullscreen.text = "DISPLAY_FULLSCREEN"
+
+
+func _build_hud_theme() -> Theme:
+	var hud_theme := Theme.new()
+	hud_theme.default_font_size = 20
+
+	var accent: Color = GameConfig.PALETTE["board_rim"]
+	var accent_alt: Color = GameConfig.PALETTE["win_gold"]
+	var panel_col: Color = GameConfig.PALETTE["panel"]
+	var text_col: Color = GameConfig.PALETTE["text"]
+	var text_dim: Color = GameConfig.PALETTE["text_dim"]
+
+	var normal := _create_box(Color(panel_col.r, panel_col.g, panel_col.b, 0.9), Color(accent.r, accent.g, accent.b, 0.45), 2, 12, Color(0, 0, 0, 0.35), 6)
+	var hover := _create_box(Color(accent.r, accent.g, accent.b, 0.3), accent, 2, 12, Color(accent.r, accent.g, accent.b, 0.6), 14)
+	var pressed := _create_box(Color(accent.r, accent.g, accent.b, 0.5), accent_alt, 2, 12, Color(accent_alt.r, accent_alt.g, accent_alt.b, 0.6), 10)
+	var disabled := _create_box(Color(panel_col.r, panel_col.g, panel_col.b, 0.45), Color(text_dim.r, text_dim.g, text_dim.b, 0.2), 1, 12)
+	var focus := _create_box(Color(0, 0, 0, 0), accent_alt, 2, 12)
+	focus.draw_center = false
+
+	hud_theme.set_stylebox("normal", "Button", normal)
+	hud_theme.set_stylebox("hover", "Button", hover)
+	hud_theme.set_stylebox("pressed", "Button", pressed)
+	hud_theme.set_stylebox("disabled", "Button", disabled)
+	hud_theme.set_stylebox("focus", "Button", focus)
+	hud_theme.set_color("font_color", "Button", text_col)
+	hud_theme.set_color("font_hover_color", "Button", Color.WHITE)
+	hud_theme.set_color("font_pressed_color", "Button", Color.WHITE)
+	hud_theme.set_color("font_disabled_color", "Button", text_dim)
+
+	var modal_panel := _create_box(Color(0.06, 0.08, 0.15, 0.97), Color(accent.r, accent.g, accent.b, 0.75), 2, 20, Color(0, 0, 0, 0.75), 28)
+	hud_theme.set_stylebox("panel", "PanelContainer", modal_panel)
+	return hud_theme
+
+
+func _create_box(bg: Color, border: Color, border_w: int = 2, radius: int = 12, shadow: Color = Color(0, 0, 0, 0), shadow_sz: int = 0) -> StyleBoxFlat:
+	var b := StyleBoxFlat.new()
+	b.bg_color = bg
+	b.border_color = border
+	b.set_border_width_all(border_w)
+	b.set_corner_radius_all(radius)
+	b.shadow_color = shadow
+	b.shadow_size = shadow_sz
+	b.content_margin_left = 18
+	b.content_margin_right = 18
+	b.content_margin_top = 8
+	b.content_margin_bottom = 8
+	return b
 
 
 func _get_display_service() -> Node:
-	if Engine.get_main_loop() != null:
+	if Engine.get_main_loop() != null and Engine.get_main_loop() is SceneTree:
 		var root := (Engine.get_main_loop() as SceneTree).root
 		if root != null and root.has_node("DisplayService"):
 			return root.get_node("DisplayService")

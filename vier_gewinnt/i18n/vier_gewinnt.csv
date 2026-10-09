@@ -16,6 +16,7 @@ MENU_COLORBLIND_OFF,Aus,Off
 MENU_STATS,Statistik,Statistics
 MENU_OPTIONS,Optionen,Options
 MENU_CREDITS,Credits,Credits
+MENU_CREDITS_TEXT,"Connect Four Deluxe – Godot 4.7 GDScript\n\nDesign & Entwicklung: Antigravity\nSchrift: Open Sans (Apache 2.0)\nStart-Logo / Artwork: Antigravity (CC0)\nGrafik & Effekte: Prozedurales 2.5D Canvas-Rendering\nAudio: Prozedurale Soundeffekte\n\nLizenz: MIT-kompatibel / Freie Assets","Connect Four Deluxe – Godot 4.7 GDScript\n\nDesign & Development: Antigravity\nFont: Open Sans (Apache 2.0)\nBoot Splash / Artwork: Antigravity (CC0)\nGraphics & Effects: Procedural 2.5D Canvas Rendering\nAudio: Procedural Sound Effects\n\nLicense: MIT compatible / Free Assets"
 MENU_RESET_STATS,Statistik zurücksetzen,Reset statistics
 GAME_TURN_PLAYER1,Spieler 1 (Rot) am Zug,Player 1 (Red) turn
 GAME_TURN_PLAYER2,Spieler 2 (Gelb) am Zug,Player 2 (Yellow) turn

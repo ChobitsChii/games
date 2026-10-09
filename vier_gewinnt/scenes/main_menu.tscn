@@ -255,6 +255,7 @@ layout_mode = 2
 size_flags_horizontal = 3
 theme_override_colors/font_color = Color(0.82, 0.86, 0.94, 1)
 theme_override_font_sizes/font_size = 18
+text = "MENU_CREDITS_TEXT"
 autowrap_mode = 2
 
 [node name="BtnCloseCredits" type="Button" parent="CreditsModal/MarginContainer/VBoxContainer"]

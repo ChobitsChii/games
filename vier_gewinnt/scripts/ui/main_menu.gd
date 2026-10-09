@@ -43,6 +43,14 @@ func _ready() -> void:
 	_load_saved_settings()
 	_update_button_texts()
 
+	var ls := _get_locale_service()
+	if ls != null and ls.has_signal("language_changed"):
+		ls.language_changed.connect(func(_code: String) -> void: _update_button_texts())
+
+	var ds := _get_display_service()
+	if ds != null and ds.has_signal("mode_changed"):
+		ds.mode_changed.connect(func(_mode: int) -> void: _update_button_texts())
+
 	stats_modal.visible = false
 	credits_modal.visible = false
 
@@ -102,14 +110,28 @@ func _update_button_texts() -> void:
 
 	btn_colorblind.text = "MENU_COLORBLIND_ON" if _colorblind else "MENU_COLORBLIND_OFF"
 
+	var ls := _get_locale_service()
+	var lang_name: String = ls.get_language_name() if (ls != null and ls.has_method("get_language_name")) else "Deutsch"
+	btn_language.text = "%s: %s" % [tr("COMMON_LANGUAGE"), lang_name]
+
+	var ds := _get_display_service()
+	var mode_key: String = ds.get_mode_key() if (ds != null and ds.has_method("get_mode_key")) else "DISPLAY_WINDOWED"
+	btn_display.text = "%s: %s" % [tr("COMMON_DISPLAY_MODE"), tr(mode_key)]
+
 
 func _on_play_ai() -> void:
 	_save_settings()
+	var ss := _get_save_service()
+	if ss != null:
+		ss.set_value("session", "mode", GameController.GameMode.AI)
 	get_tree().change_scene_to_file("res://scenes/game.tscn")
 
 
 func _on_play_hotseat() -> void:
 	_save_settings()
+	var ss := _get_save_service()
+	if ss != null:
+		ss.set_value("session", "mode", GameController.GameMode.HOTSEAT)
 	get_tree().change_scene_to_file("res://scenes/game.tscn")
 
 
@@ -144,18 +166,17 @@ func _on_toggle_colorblind() -> void:
 
 
 func _on_toggle_language() -> void:
-	var loc_service := _get_locale_service()
-	if loc_service != null:
-		var current: String = loc_service.get_locale()
-		var next_lang := "en" if current.begins_with("de") else "de"
-		loc_service.set_locale(next_lang)
-		_update_button_texts()
+	var ls := _get_locale_service()
+	if ls != null and ls.has_method("cycle_language"):
+		ls.cycle_language()
+	_update_button_texts()
 
 
 func _on_toggle_display() -> void:
-	var disp_service := _get_display_service()
-	if disp_service != null and disp_service.has_method("toggle_fullscreen"):
-		disp_service.toggle_fullscreen()
+	var ds := _get_display_service()
+	if ds != null and ds.has_method("cycle_mode"):
+		ds.cycle_mode()
+	_update_button_texts()
 
 
 func _on_open_stats() -> void:
@@ -202,9 +223,7 @@ func _on_reset_stats() -> void:
 
 
 func _on_open_credits() -> void:
-	var file := FileAccess.open("res://CREDITS.md", FileAccess.READ)
-	if file != null:
-		credits_content.text = file.get_as_text()
+	credits_content.text = tr("MENU_CREDITS_TEXT")
 	credits_modal.visible = true
 
 
