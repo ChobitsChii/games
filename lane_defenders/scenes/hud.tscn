@@ -2,6 +2,8 @@
 
 [ext_resource type="Script" path="res://scripts/ui/hud.gd" id="1_hud"]
 [ext_resource type="PackedScene" path="res://scenes/almanac_modal.tscn" id="2_almanac"]
+[ext_resource type="Texture2D" path="res://assets/ui/sun.png" id="3_sun"]
+[ext_resource type="Texture2D" path="res://assets/ui/heart.png" id="4_heart"]
 
 [node name="HUD" type="CanvasLayer"]
 process_mode = 3
@@ -36,17 +38,45 @@ theme_override_constants/margin_bottom = 14
 layout_mode = 2
 theme_override_constants/separation = 24
 
-[node name="EnergyLabel" type="Label" parent="Root/TopBar/Margin/HBox"]
+[node name="EnergyBox" type="HBoxContainer" parent="Root/TopBar/Margin/HBox"]
+layout_mode = 2
+theme_override_constants/separation = 10
+alignment = 1
+
+[node name="EnergyIcon" type="TextureRect" parent="Root/TopBar/Margin/HBox/EnergyBox"]
+custom_minimum_size = Vector2(44, 44)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+texture = ExtResource("3_sun")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="EnergyLabel" type="Label" parent="Root/TopBar/Margin/HBox/EnergyBox"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 0.9, 0.2, 1)
 theme_override_font_sizes/font_size = 32
 text = "HUD_ENERGY"
 
-[node name="LivesLabel" type="Label" parent="Root/TopBar/Margin/HBox"]
+[node name="LivesBox" type="HBoxContainer" parent="Root/TopBar/Margin/HBox"]
+layout_mode = 2
+theme_override_constants/separation = 10
+alignment = 1
+
+[node name="LivesIcon" type="TextureRect" parent="Root/TopBar/Margin/HBox/LivesBox"]
+custom_minimum_size = Vector2(38, 38)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+texture = ExtResource("4_heart")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="LivesLabel" type="Label" parent="Root/TopBar/Margin/HBox/LivesBox"]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_colors/font_color = Color(1, 0.3, 0.3, 1)
+theme_override_colors/font_color = Color(1, 0.35, 0.35, 1)
 theme_override_font_sizes/font_size = 32
 text = "HUD_LIVES"
 

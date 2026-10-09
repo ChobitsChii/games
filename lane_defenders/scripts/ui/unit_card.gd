@@ -42,14 +42,14 @@ func update_display() -> void:
 	if _name_label:
 		_name_label.text = tr(unit_data.name_key)
 	if _cost_label:
-		_cost_label.text = "%d ☀️" % unit_data.cost
+		_cost_label.text = "%d" % unit_data.cost
 	if _slot_label:
 		_slot_label.text = "[%d]" % slot_index
 	if _icon_rect:
 		var tex_path := "res://assets/units/%s.png" % unit_data.id
 		if ResourceLoader.exists(tex_path):
 			_icon_rect.texture = load(tex_path)
-	var tip := "%s (%d ☀️)\n%s" % [tr(unit_data.name_key), unit_data.cost, tr(unit_data.desc_key)]
+	var tip := "%s (%d)\n%s" % [tr(unit_data.name_key), unit_data.cost, tr(unit_data.desc_key)]
 	tooltip_text = tip
 	if _button:
 		_button.tooltip_text = tip

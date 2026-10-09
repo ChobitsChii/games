@@ -1,6 +1,7 @@
 [gd_scene format=3]
 
 [ext_resource type="Script" path="res://scripts/ui/unit_card.gd" id="1_card"]
+[ext_resource type="Texture2D" path="res://assets/ui/sun.png" id="2_sun"]
 
 [node name="UnitCard" type="PanelContainer"]
 custom_minimum_size = Vector2(110, 138)
@@ -18,6 +19,7 @@ alignment = 1
 [node name="TopHBox" type="HBoxContainer" parent="VBox"]
 layout_mode = 2
 mouse_filter = 2
+theme_override_constants/separation = 3
 alignment = 1
 
 [node name="SlotLabel" type="Label" parent="VBox/TopHBox"]
@@ -34,6 +36,15 @@ mouse_filter = 2
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 0.9, 0.2, 1)
 theme_override_font_sizes/font_size = 18
+
+[node name="CostSunIcon" type="TextureRect" parent="VBox/TopHBox"]
+custom_minimum_size = Vector2(18, 18)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+texture = ExtResource("2_sun")
+expand_mode = 1
+stretch_mode = 5
 
 [node name="IconCenter" type="CenterContainer" parent="VBox"]
 custom_minimum_size = Vector2(0, 72)

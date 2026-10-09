@@ -161,7 +161,7 @@ func _setup_model_callbacks() -> void:
 		_drop_views[d.id] = view
 
 	model.on_energy_collected = func(d: GameModel.SimEnergyDrop) -> void:
-		_spawn_floating_text(d.position, "+25 ☀️", Color("ffe600"))
+		_spawn_floating_text(d.position, "+25", Color("ffe600"))
 		if _drop_views.has(d.id):
 			var view: EnergyDropView = _drop_views[d.id]
 			_drop_views.erase(d.id)
@@ -382,7 +382,7 @@ func _handle_cell_interaction(lane: int, col: int) -> void:
 			var refund := int(float(u.unit_data.cost) * 0.5)
 			model.try_remove_unit(lane, col)
 			sfx.play_dig()
-			_spawn_floating_text(model.grid.get_cell_center(lane, col), "+%d ☀️" % refund, Color("ffe600"))
+			_spawn_floating_text(model.grid.get_cell_center(lane, col), "+%d" % refund, Color("ffe600"))
 			hud.set_shovel_active(false)
 		else:
 			hud.set_shovel_active(false)

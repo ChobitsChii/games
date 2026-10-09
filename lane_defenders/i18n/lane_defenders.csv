@@ -6,8 +6,8 @@ MENU_HOW_TO_PLAY,Anleitung,How to Play
 MENU_CREDITS,Mitwirkende,Credits
 MENU_SETTINGS,Optionen,Settings
 MENU_QUIT,Beenden,Quit
-HUD_ENERGY,☀️ %d,☀️ %d
-HUD_LIVES,❤️ %d,❤️ %d
+HUD_ENERGY,%d,%d
+HUD_LIVES,%d,%d
 HUD_WAVE,Welle %d / %d,Wave %d / %d
 HUD_FINAL_WAVE,GROSSE SCHLUSSWELLE!,FINAL WAVE INCOMING!
 HUD_LEVEL,Level %s,Level %s
@@ -54,7 +54,7 @@ MENU_ALMANAC,Lexikon,Lexicon
 MENU_ALMANAC_TITLE,Einheiten- & Gegner-Lexikon,Unit & Enemy Lexicon
 MENU_ALMANAC_UNITS,Verteidigungseinheiten,Defense Units
 MENU_ALMANAC_ENEMIES,Goblin-Invasoren,Goblin Invaders
-UNIT_STAT_COST,Kosten: %d ☀️ | Abklingzeit: %.1f s | Leben: %d,Cost: %d ☀️ | Cooldown: %.1fs | Health: %d
+UNIT_STAT_COST,Kosten: %d Sonnen | Abklingzeit: %.1f s | Leben: %d,Cost: %d Suns | Cooldown: %.1fs | Health: %d
 ENEMY_STAT_INFO,Leben: %d | Geschwindigkeit: %.0f,Health: %d | Speed: %.0f
 LEVEL_LOCKED,Gesperrt,Locked
 LEVEL_STARS,%d / 3 Sterne,%d / 3 Stars
@@ -78,14 +78,14 @@ CREDITS_AUDIO_DESC,Kenney (CC0 1.0 Universal),Kenney (CC0 1.0 Universal)
 CREDITS_FONT,Schriftart,Typography
 CREDITS_FONT_DESC,Open Sans von Steve Matteson (Apache 2.0),Open Sans by Steve Matteson (Apache 2.0)
 HUD_SAVE_AND_QUIT,Speichern & Beenden,Save & Quit
-HUD_AUTOSAVE_HINT,💾 Fortschritt wird nach jedem Level automatisch gespeichert.,💾 Progress is automatically saved after each level.
-HUD_SAVE_SCREENSHOT,📸 Sieg-Screenshot speichern,📸 Save Victory Screenshot
-HUD_OPEN_SCREENSHOTS,📁 Screenshot-Ordner,📁 Screenshot Folder
-HUD_SCREENSHOT_SAVED,✓ Screenshot gespeichert!,✓ Screenshot saved!
+HUD_AUTOSAVE_HINT,Fortschritt wird nach jedem Level automatisch gespeichert.,Progress is automatically saved after each level.
+HUD_SAVE_SCREENSHOT,Sieg-Screenshot speichern,Save Victory Screenshot
+HUD_OPEN_SCREENSHOTS,Screenshot-Ordner,Screenshot Folder
+HUD_SCREENSHOT_SAVED,Screenshot gespeichert!,Screenshot saved!
 TUTORIAL_GOAL,Ziel des Spiels,Game Objective
-TUTORIAL_GOAL_DESC,"Verteidige deinen Garten vor den Goblin-Wellen! Erreichen Goblins die linke Kante, verlierst du Leben (❤️).","Defend your garden against incoming goblin waves! If goblins reach the left edge, you lose lives (❤️)."
+TUTORIAL_GOAL_DESC,"Verteidige deinen Garten vor den Goblin-Wellen! Erreichen Goblins die linke Kante, verlierst du Leben.","Defend your garden against incoming goblin waves! If goblins reach the left edge, you lose lives."
 TUTORIAL_ENERGY,Sonnenenergie & Baukosten,Sun Energy & Costs
-TUTORIAL_ENERGY_DESC,"Sammle herabfallende Sonnen oder pflanze Sonnen-Generatoren (+25 ☀️ alle 15 s). Jede Einheit hat feste Baukosten (Generator: 50 ☀️, Schütze: 100 ☀️, Mauer: 50 ☀️ usw.). Die Kosten steigen beim Bauen nicht an!","Collect falling suns or plant sun generators (+25 ☀️ every 15s). Each unit has fixed building costs (Generator: 50 ☀️, Shooter: 100 ☀️, Wall: 50 ☀️ etc.). Costs never increase when building!"
+TUTORIAL_ENERGY_DESC,"Sammle herabfallende Sonnen oder pflanze Sonnen-Generatoren (+25 Sonnen alle 15 s). Jede Einheit hat feste Baukosten (Generator: 50, Schütze: 100, Mauer: 50 usw.). Die Kosten steigen beim Bauen nicht an!","Collect falling suns or plant sun generators (+25 suns every 15s). Each unit has fixed building costs (Generator: 50, Shooter: 100, Wall: 50 etc.). Costs never increase when building!"
 TUTORIAL_CONTROLS,Steuerung & Schaufel,Controls & Shovel
 TUTORIAL_CONTROLS_DESC,"Wähle Karten per Mausklick oder Zifferntaste (1-7) und klicke auf ein freies Feld. Mit der Schaufel kannst du Einheiten ausgraben und erhältst 50 % der Sonnen zurück. Rechtsklick bricht die Auswahl ab.","Select cards by clicking or pressing 1-7 and place them on empty cells. Use the shovel to dig up units and refund 50% sun energy. Right-click cancels selection."
 TUTORIAL_SAVE,Automatisches Speichern,Automatic Saving
