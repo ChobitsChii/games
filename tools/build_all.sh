@@ -34,7 +34,11 @@ for project in "$ROOT"/*/project.godot; do
 				"neon_breakout") disp="Neon Breakout" ;;
 				*)               disp="$name" ;;
 			esac
-			ver="$(git tag -l "${name}-v*" 2>/dev/null | sort -V | tail -n 1 | sed "s/^${name}-//" || true)"
+			# Version primär aus README.md lesen, Fallback auf Git-Tags
+			ver="$(awk -F'|' -v g="$name/README.md" '$0 ~ g { gsub(/[ `]/, "", $3); print $3 }' "$ROOT/README.md" 2>/dev/null || true)"
+			if [ -z "$ver" ]; then
+				ver="$(git tag -l "${name}-v*" 2>/dev/null | sort -V | tail -n 1 | sed "s/^${name}-//" || true)"
+			fi
 			[ -n "$ver" ] || ver="v1.0.0"
 			python3 -c "
 import sys
