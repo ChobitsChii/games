@@ -457,6 +457,7 @@ func _load_next_level() -> void:
 
 
 func _go_to_menu() -> void:
+	SaveService.save()
 	get_tree().paused = false
 	get_tree().change_scene_to_file("res://scenes/main_menu.tscn")
 

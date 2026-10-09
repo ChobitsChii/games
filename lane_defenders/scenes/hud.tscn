@@ -173,11 +173,45 @@ custom_minimum_size = Vector2(0, 64)
 layout_mode = 2
 text = "HUD_RETRY"
 
+[node name="ScreenshotRow" type="HBoxContainer" parent="Root/VictoryOverlay/Center/Box"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="WinScreenshotButton" type="Button" parent="Root/VictoryOverlay/Center/Box/ScreenshotRow"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 64)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "HUD_SAVE_SCREENSHOT"
+
+[node name="WinFolderButton" type="Button" parent="Root/VictoryOverlay/Center/Box/ScreenshotRow"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(180, 64)
+layout_mode = 2
+text = "HUD_OPEN_SCREENSHOTS"
+
+[node name="ScreenshotFeedback" type="Label" parent="Root/VictoryOverlay/Center/Box"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+theme_override_colors/font_color = Color(0.35, 0.95, 0.65, 1)
+theme_override_font_sizes/font_size = 20
+text = "HUD_SCREENSHOT_SAVED"
+horizontal_alignment = 1
+
 [node name="WinMenuButton" type="Button" parent="Root/VictoryOverlay/Center/Box"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 64)
 layout_mode = 2
-text = "HUD_BACK_MENU"
+text = "HUD_SAVE_AND_QUIT"
+
+[node name="WinAutosaveLabel" type="Label" parent="Root/VictoryOverlay/Center/Box"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.7, 0.85, 0.75, 0.85)
+theme_override_font_sizes/font_size = 18
+text = "HUD_AUTOSAVE_HINT"
+horizontal_alignment = 1
+autowrap_mode = 2
 
 [node name="DefeatOverlay" type="Control" parent="Root"]
 unique_name_in_owner = true
@@ -228,7 +262,15 @@ text = "HUD_RETRY"
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 64)
 layout_mode = 2
-text = "HUD_BACK_MENU"
+text = "HUD_SAVE_AND_QUIT"
+
+[node name="LoseAutosaveLabel" type="Label" parent="Root/DefeatOverlay/Center/Box"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.7, 0.85, 0.75, 0.85)
+theme_override_font_sizes/font_size = 18
+text = "HUD_AUTOSAVE_HINT"
+horizontal_alignment = 1
+autowrap_mode = 2
 
 [node name="PauseOverlay" type="Control" parent="Root"]
 unique_name_in_owner = true
@@ -278,7 +320,15 @@ text = "COMMON_RESUME"
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 68)
 layout_mode = 2
-text = "COMMON_MAIN_MENU"
+text = "HUD_SAVE_AND_QUIT"
+
+[node name="PauseAutosaveLabel" type="Label" parent="Root/PauseOverlay/Center/Box"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.7, 0.85, 0.75, 0.85)
+theme_override_font_sizes/font_size = 18
+text = "HUD_AUTOSAVE_HINT"
+horizontal_alignment = 1
+autowrap_mode = 2
 
 [node name="TutorialOverlay" type="Control" parent="Root"]
 unique_name_in_owner = true

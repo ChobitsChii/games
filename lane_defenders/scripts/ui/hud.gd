@@ -34,6 +34,9 @@ signal main_menu_requested
 @onready var _next_level_button: Button = %NextLevelButton
 @onready var _win_retry_button: Button = %WinRetryButton
 @onready var _win_menu_button: Button = %WinMenuButton
+@onready var _win_screenshot_button: Button = %WinScreenshotButton
+@onready var _win_folder_button: Button = %WinFolderButton
+@onready var _screenshot_feedback: Label = %ScreenshotFeedback
 
 # Defeat elements
 @onready var _lose_retry_button: Button = %LoseRetryButton
@@ -63,6 +66,9 @@ func _ready() -> void:
 	_win_retry_button.pressed.connect(func() -> void: retry_requested.emit())
 	_win_menu_button.pressed.connect(func() -> void: main_menu_requested.emit())
 	_next_level_button.pressed.connect(func() -> void: next_level_requested.emit())
+	_win_screenshot_button.pressed.connect(_on_save_screenshot_pressed)
+	_win_folder_button.pressed.connect(_on_open_folder_pressed)
+	_win_folder_button.visible = not OS.has_feature("web")
 
 	_lose_retry_button.pressed.connect(func() -> void: retry_requested.emit())
 	_lose_menu_button.pressed.connect(func() -> void: main_menu_requested.emit())
@@ -77,6 +83,8 @@ func _ready() -> void:
 	_defeat_overlay.visible = false
 	_pause_overlay.visible = false
 	_tutorial_overlay.visible = false
+	if _screenshot_feedback:
+		_screenshot_feedback.visible = false
 
 
 func setup_cards(available_units: Array[UnitData]) -> void:
@@ -128,12 +136,48 @@ func show_final_wave_banner() -> void:
 
 func show_victory(stars: int, has_next: bool) -> void:
 	_victory_overlay.visible = true
+	if _screenshot_feedback:
+		_screenshot_feedback.visible = false
 	_stars_label.text = "★".repeat(stars) + "☆".repeat(3 - stars)
 	_next_level_button.visible = has_next
 	if has_next:
 		_next_level_button.grab_focus()
 	else:
 		_win_retry_button.grab_focus()
+
+
+func _on_save_screenshot_pressed() -> void:
+	_win_screenshot_button.disabled = true
+	_victory_overlay.visible = false
+	await get_tree().process_frame
+	await RenderingServer.frame_post_draw
+	var img: Image = get_viewport().get_texture().get_image()
+	_victory_overlay.visible = true
+	_win_screenshot_button.disabled = false
+
+	var dir_path := "user://screenshots"
+	DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path(dir_path))
+	var timestamp := Time.get_datetime_string_from_system().replace(":", "-")
+	var file_name := "lane_defenders_%s.png" % timestamp
+	var full_path := dir_path.path_join(file_name)
+	img.save_png(full_path)
+
+	if OS.has_feature("web"):
+		var buffer := img.save_png_to_buffer()
+		JavaScriptBridge.download_buffer(buffer, file_name, "image/png")
+
+	if _screenshot_feedback:
+		_screenshot_feedback.text = tr("HUD_SCREENSHOT_SAVED")
+		_screenshot_feedback.visible = true
+		var tween := create_tween()
+		tween.tween_interval(3.5)
+		tween.tween_callback(func() -> void: if is_instance_valid(_screenshot_feedback): _screenshot_feedback.visible = false)
+
+
+func _on_open_folder_pressed() -> void:
+	var global_dir := ProjectSettings.globalize_path("user://screenshots")
+	DirAccess.make_dir_recursive_absolute(global_dir)
+	OS.shell_open(global_dir)
 
 
 func show_defeat() -> void:

@@ -32,6 +32,8 @@ Der Seed steht beim Start in der Konsole. Bitte bei Fehlermeldungen angeben.
 - **7 Einheiten:** Generator, Schütze, Doppelschütze, Frostturm, Mauer, Mine, Flächenwerfer
 - **6 Gegnertypen:** Läufer, Schneller Läufer, Panzer, Springer, Schild-Träger, Giga-Boss
 - **10 Level in 2 Welten:** Welt 1 (Wiese mit Bosskampf) und Welt 2 (Dunkler Pfad)
-- **Speicherstand:** Freigeschaltete Level und Sterne (1–3 pro Level) werden in `user://` gesichert.
+- **Speicherstand & Autosave:** Freigeschaltete Level und Sterne (1–3 pro Level) werden automatisch nach jedem gemeisterten Level gesichert. "Speichern & Beenden" im Pause- und Endmenü.
+- **Sieg-Screenshots:** Nach Levelabschluss kann ein gewonnener Spielfeld-Screenshot gespeichert und der Ordner direkt geöffnet werden.
 
 Siehe [Plan](../plans/05_lane_defenders.md).
+

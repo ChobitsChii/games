@@ -28,7 +28,9 @@ func _populate_levels() -> void:
 
 func _create_level_button(parent: Container, lvl_id: String, default_unlocked: bool) -> void:
 	var btn := Button.new()
-	btn.custom_minimum_size = Vector2(160, 90)
+	btn.custom_minimum_size = Vector2(200, 95)
+	btn.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	btn.add_theme_font_size_override("font_size", 26)
 
 	var is_unlocked := default_unlocked or bool(SaveService.get_value("lane_defenders", "unlocked_" + lvl_id, false))
 	var stars: int = int(SaveService.get_value("lane_defenders", "stars_" + lvl_id, 0))

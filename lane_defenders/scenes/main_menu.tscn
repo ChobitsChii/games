@@ -117,52 +117,82 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="Panel" type="PanelContainer" parent="HowToPlayOverlay/Center"]
-custom_minimum_size = Vector2(760, 0)
+custom_minimum_size = Vector2(980, 0)
 layout_mode = 2
 
 [node name="Margin" type="MarginContainer" parent="HowToPlayOverlay/Center/Panel"]
 layout_mode = 2
 theme_override_constants/margin_left = 40
-theme_override_constants/margin_top = 40
+theme_override_constants/margin_top = 36
 theme_override_constants/margin_right = 40
-theme_override_constants/margin_bottom = 40
+theme_override_constants/margin_bottom = 36
 
 [node name="Box" type="VBoxContainer" parent="HowToPlayOverlay/Center/Panel/Margin"]
 layout_mode = 2
-theme_override_constants/separation = 20
+theme_override_constants/separation = 16
 
 [node name="Title" type="Label" parent="HowToPlayOverlay/Center/Panel/Margin/Box"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.24, 0.86, 0.52, 1)
-theme_override_font_sizes/font_size = 48
+theme_override_font_sizes/font_size = 46
 text = "MENU_HOW_TO_PLAY"
 horizontal_alignment = 1
 
+[node name="H1" type="Label" parent="HowToPlayOverlay/Center/Panel/Margin/Box"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.35, 0.95, 0.65, 1)
+theme_override_font_sizes/font_size = 24
+text = "TUTORIAL_GOAL"
+
 [node name="T1" type="Label" parent="HowToPlayOverlay/Center/Panel/Margin/Box"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 24
-text = "TUTORIAL_STEP_1"
+theme_override_font_sizes/font_size = 20
+text = "TUTORIAL_GOAL_DESC"
 autowrap_mode = 2
+
+[node name="H2" type="Label" parent="HowToPlayOverlay/Center/Panel/Margin/Box"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.35, 0.95, 0.65, 1)
+theme_override_font_sizes/font_size = 24
+text = "TUTORIAL_ENERGY"
 
 [node name="T2" type="Label" parent="HowToPlayOverlay/Center/Panel/Margin/Box"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 24
-text = "TUTORIAL_STEP_2"
+theme_override_font_sizes/font_size = 20
+text = "TUTORIAL_ENERGY_DESC"
 autowrap_mode = 2
+
+[node name="H3" type="Label" parent="HowToPlayOverlay/Center/Panel/Margin/Box"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.35, 0.95, 0.65, 1)
+theme_override_font_sizes/font_size = 24
+text = "TUTORIAL_CONTROLS"
 
 [node name="T3" type="Label" parent="HowToPlayOverlay/Center/Panel/Margin/Box"]
 layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "TUTORIAL_CONTROLS_DESC"
+autowrap_mode = 2
+
+[node name="H4" type="Label" parent="HowToPlayOverlay/Center/Panel/Margin/Box"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.35, 0.95, 0.65, 1)
 theme_override_font_sizes/font_size = 24
-text = "TUTORIAL_STEP_3"
+text = "TUTORIAL_SAVE"
+
+[node name="T4" type="Label" parent="HowToPlayOverlay/Center/Panel/Margin/Box"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "TUTORIAL_SAVE_DESC"
 autowrap_mode = 2
 
 [node name="Spacer" type="Control" parent="HowToPlayOverlay/Center/Panel/Margin/Box"]
-custom_minimum_size = Vector2(0, 16)
+custom_minimum_size = Vector2(0, 8)
 layout_mode = 2
 
 [node name="CloseHowButton" type="Button" parent="HowToPlayOverlay/Center/Panel/Margin/Box"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 64)
+custom_minimum_size = Vector2(0, 60)
 layout_mode = 2
 text = "COMMON_BACK"
 
@@ -194,35 +224,94 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="Panel" type="PanelContainer" parent="CreditsOverlay/Center"]
-custom_minimum_size = Vector2(760, 0)
+custom_minimum_size = Vector2(880, 0)
 layout_mode = 2
 
 [node name="Margin" type="MarginContainer" parent="CreditsOverlay/Center/Panel"]
 layout_mode = 2
 theme_override_constants/margin_left = 40
-theme_override_constants/margin_top = 40
+theme_override_constants/margin_top = 36
 theme_override_constants/margin_right = 40
-theme_override_constants/margin_bottom = 40
+theme_override_constants/margin_bottom = 36
 
 [node name="Box" type="VBoxContainer" parent="CreditsOverlay/Center/Panel/Margin"]
 layout_mode = 2
-theme_override_constants/separation = 20
+theme_override_constants/separation = 16
 
 [node name="Title" type="Label" parent="CreditsOverlay/Center/Panel/Margin/Box"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.24, 0.86, 0.52, 1)
-theme_override_font_sizes/font_size = 48
+theme_override_font_sizes/font_size = 46
 text = "CREDITS_TITLE"
 horizontal_alignment = 1
 
-[node name="CreditsText" type="Label" parent="CreditsOverlay/Center/Panel/Margin/Box"]
+[node name="Grid" type="GridContainer" parent="CreditsOverlay/Center/Panel/Margin/Box"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 24
-text = "MENU_TITLE"
-horizontal_alignment = 1
+theme_override_constants/h_separation = 30
+theme_override_constants/v_separation = 14
+columns = 2
+
+[node name="L1" type="Label" parent="CreditsOverlay/Center/Panel/Margin/Box/Grid"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.35, 0.95, 0.65, 1)
+theme_override_font_sizes/font_size = 22
+text = "CREDITS_DEVELOPMENT"
+
+[node name="V1" type="Label" parent="CreditsOverlay/Center/Panel/Margin/Box/Grid"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 22
+text = "CREDITS_DEV_NAMES"
+
+[node name="L2" type="Label" parent="CreditsOverlay/Center/Panel/Margin/Box/Grid"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.35, 0.95, 0.65, 1)
+theme_override_font_sizes/font_size = 22
+text = "CREDITS_ENGINE"
+
+[node name="V2" type="Label" parent="CreditsOverlay/Center/Panel/Margin/Box/Grid"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 22
+text = "CREDITS_ENGINE_DESC"
+
+[node name="L3" type="Label" parent="CreditsOverlay/Center/Panel/Margin/Box/Grid"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.35, 0.95, 0.65, 1)
+theme_override_font_sizes/font_size = 22
+text = "CREDITS_ART"
+
+[node name="V3" type="Label" parent="CreditsOverlay/Center/Panel/Margin/Box/Grid"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 22
+text = "CREDITS_ART_DESC"
+
+[node name="L4" type="Label" parent="CreditsOverlay/Center/Panel/Margin/Box/Grid"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.35, 0.95, 0.65, 1)
+theme_override_font_sizes/font_size = 22
+text = "CREDITS_AUDIO"
+
+[node name="V4" type="Label" parent="CreditsOverlay/Center/Panel/Margin/Box/Grid"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 22
+text = "CREDITS_AUDIO_DESC"
+
+[node name="L5" type="Label" parent="CreditsOverlay/Center/Panel/Margin/Box/Grid"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.35, 0.95, 0.65, 1)
+theme_override_font_sizes/font_size = 22
+text = "CREDITS_FONT"
+
+[node name="V5" type="Label" parent="CreditsOverlay/Center/Panel/Margin/Box/Grid"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 22
+text = "CREDITS_FONT_DESC"
+
+[node name="Spacer" type="Control" parent="CreditsOverlay/Center/Panel/Margin/Box"]
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
 
 [node name="CloseCreditsButton" type="Button" parent="CreditsOverlay/Center/Panel/Margin/Box"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 64)
+custom_minimum_size = Vector2(0, 60)
 layout_mode = 2
 text = "COMMON_BACK"
