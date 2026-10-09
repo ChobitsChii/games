@@ -9,36 +9,36 @@ description_key = "TUTORIAL_STEP_1"
 spawns = Array[Dictionary]([{
 "enemy_id": "runner",
 "lane": 2,
-"time": 16.0
+"time": 6.0
 }, {
 "enemy_id": "runner",
 "lane": 1,
-"time": 32.0
+"time": 20.0
 }, {
 "enemy_id": "runner",
 "lane": 3,
-"time": 46.0
+"time": 35.0
 }, {
 "enemy_id": "runner",
 "lane": 0,
-"time": 60.0
+"time": 48.0
 }, {
 "enemy_id": "runner",
 "lane": 4,
-"time": 63.0
+"time": 51.0
 }, {
 "enemy_id": "runner",
 "lane": 1,
-"time": 76.0
+"time": 64.0
 }, {
 "enemy_id": "runner",
 "lane": 2,
-"time": 77.0
+"time": 65.0
 }, {
 "enemy_id": "runner",
 "lane": 3,
-"time": 78.0
+"time": 66.0
 }])
 available_units = Array[String](["generator", "shooter"])
 is_tutorial = true
-total_duration = 90.0
+total_duration = 78.0

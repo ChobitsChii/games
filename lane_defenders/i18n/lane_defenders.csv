@@ -12,6 +12,7 @@ HUD_WAVE,Welle %d / %d,Wave %d / %d
 HUD_FINAL_WAVE,GROSSE SCHLUSSWELLE!,FINAL WAVE INCOMING!
 HUD_LEVEL,Level %s,Level %s
 HUD_SHOVEL,Schaufel,Shovel
+HUD_SHOVEL_DESC,"Schaufel: Gräbt eine Einheit aus (+50 % Sonnen-Erstattung).","Shovel: Digs up a unit (refunds 50% sun)."
 HUD_PAUSE,Pause,Pause
 HUD_WIN,LEVEL GESCHAFFT!,LEVEL COMPLETE!
 HUD_LOSE,BASIS ÜBERRANNT!,BASE OVERRUN!

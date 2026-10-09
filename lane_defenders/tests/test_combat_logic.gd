@@ -107,3 +107,18 @@ func test_base_life_loss() -> void:
 	runner.x = LaneDefendersConfig.BASE_X - 10.0 # Basis erreicht
 	model.step(0.1)
 	assert_eq(model.lives, 2, "Leben auf 2 gesunken")
+
+
+func test_shovel_removes_unit_and_refunds_energy() -> void:
+	var model := GameModel.new()
+	var shooter: UnitData = model.unit_catalog.get("shooter") # Kosten 100
+	model.energy = 200
+	var ok := model.try_place_unit(1, 1, shooter)
+	assert_true(ok, "Schütze platziert")
+	assert_eq(model.energy, 100, "Energie nach Platzierung ist 100")
+
+	# Ausgraben mit Schaufel erstattet 50% = 50 Energie
+	var removed := model.try_remove_unit(1, 1)
+	assert_true(removed, "Einheit mit Schaufel entfernt")
+	assert_eq(model.energy, 150, "Energie nach 50% Erstattung ist 150")
+	assert_true(model.grid.is_cell_empty(1, 1), "Feld ist wieder frei")

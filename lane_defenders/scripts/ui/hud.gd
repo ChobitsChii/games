@@ -53,6 +53,7 @@ func _ready() -> void:
 	if ResourceLoader.exists("res://assets/ui/shovel.png"):
 		_shovel_button.icon = load("res://assets/ui/shovel.png")
 		_shovel_button.expand_icon = true
+	_shovel_button.tooltip_text = tr("HUD_SHOVEL_DESC")
 	_shovel_button.toggled.connect(_on_shovel_toggled)
 	_pause_button.pressed.connect(func() -> void: pause_requested.emit())
 	_resume_button.pressed.connect(func() -> void: resume_requested.emit())

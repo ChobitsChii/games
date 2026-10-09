@@ -82,7 +82,7 @@ func get_col_for_x(x: float) -> int:
 	if offset < 0.0:
 		return -1
 	var c: int = int(floor(offset / LaneDefendersConfig.CELL_WIDTH))
-	return c if c < cols else cols
+	return c if (c >= 0 and c < cols) else -1
 
 
 func get_lane_for_y(y: float) -> int:

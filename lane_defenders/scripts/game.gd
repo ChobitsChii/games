@@ -160,10 +160,14 @@ func _setup_model_callbacks() -> void:
 		if _drop_views.has(d.id):
 			var view: EnergyDropView = _drop_views[d.id]
 			_drop_views.erase(d.id)
-			var t := create_tween()
-			t.tween_property(view, "position", Vector2(100, 50), 0.35).set_trans(Tween.TRANS_BACK)
-			t.finished.connect(view.queue_free)
+			view.fly_to_hud_and_free(Vector2(100, 50))
 		sfx.play_sun_collect()
+
+	model.on_energy_expired = func(d: GameModel.SimEnergyDrop) -> void:
+		if _drop_views.has(d.id):
+			var view: EnergyDropView = _drop_views[d.id]
+			_drop_views.erase(d.id)
+			view.fade_out_and_free()
 
 	model.on_final_wave = func() -> void:
 		hud.show_final_wave_banner()
@@ -264,7 +268,16 @@ func _physics_process(delta: float) -> void:
 		if _enemy_views.has(e.id):
 			var ev: EnemyView = _enemy_views[e.id]
 			ev.position.x = e.x
-			ev.update_view(delta)
+	# Synchronisiere / Bereinige Energie-Drop Views
+	var active_drop_ids := {}
+	for d in model.energy_drops:
+		active_drop_ids[d.id] = true
+	for d_id in _drop_views.keys():
+		if not active_drop_ids.has(d_id):
+			var dv: EnergyDropView = _drop_views[d_id]
+			_drop_views.erase(d_id)
+			if is_instance_valid(dv):
+				dv.fade_out_and_free()
 
 	_board_draw.queue_redraw()
 
@@ -350,11 +363,12 @@ func _unhandled_input(event: InputEvent) -> void:
 
 func _handle_cell_interaction(lane: int, col: int) -> void:
 	if hud.is_shovel_active:
-		var has_unit := model.grid.get_unit(lane, col) != null
-		if has_unit:
+		var u := model.grid.get_unit(lane, col)
+		if u != null:
+			var refund := int(float(u.unit_data.cost) * 0.5)
 			model.try_remove_unit(lane, col)
 			sfx.play_dig()
-			_spawn_floating_text(model.grid.get_cell_center(lane, col), "⛏️", Color.WHITE)
+			_spawn_floating_text(model.grid.get_cell_center(lane, col), "+%d ☀️" % refund, Color("ffe600"))
 			hud.set_shovel_active(false)
 		else:
 			hud.set_shovel_active(false)
@@ -453,33 +467,58 @@ func _spawn_damage_number(pos: Vector2, dmg: int) -> void:
 
 
 func _draw_board() -> void:
-	# Dezent schachbrettartiges Rasen-Muster
+	var origin := LaneDefendersConfig.GRID_ORIGIN
+	var total_w := LaneDefendersConfig.COLS * LaneDefendersConfig.CELL_WIDTH
+	var total_h := LaneDefendersConfig.LANES * LaneDefendersConfig.CELL_HEIGHT
+
+	# Umrandung des gesamten Rasenfelds
+	_board_draw.draw_rect(Rect2(origin.x - 3, origin.y - 3, total_w + 6, total_h + 6), Color(0.18, 0.45, 0.22, 0.65), false, 4.0)
+
+	# Schachbrettartiges Rasen-Muster über alle 9 Spalten
 	for l in range(LaneDefendersConfig.LANES):
 		for c in range(LaneDefendersConfig.COLS):
 			var r := model.grid.get_cell_rect(l, c)
-			var cell_col := Color(1, 1, 1, 0.035) if (l + c) % 2 == 0 else Color(0, 0, 0, 0.04)
+			var cell_col := Color(0.12, 0.42, 0.18, 0.12) if (l + c) % 2 == 0 else Color(0.04, 0.22, 0.08, 0.18)
 			_board_draw.draw_rect(r, cell_col)
-			_board_draw.draw_rect(r, Color(1, 1, 1, 0.12), false, 1.0)
+			_board_draw.draw_rect(r, Color(0.18, 0.5, 0.22, 0.28), false, 1.0)
 
-	# Hover- oder Cursor-Hervorhebung
+	# Wenn eine Einheit gewählt ist: Alle leeren Felder sanft hervorheben
+	if selected_unit_data != null:
+		for l in range(LaneDefendersConfig.LANES):
+			for c in range(LaneDefendersConfig.COLS):
+				if model.grid.is_cell_empty(l, c):
+					var r := model.grid.get_cell_rect(l, c)
+					_board_draw.draw_rect(r, Color(0.25, 0.9, 0.35, 0.08))
+					_board_draw.draw_rect(r, Color(0.3, 0.95, 0.4, 0.24), false, 1.5)
+
+	# Wenn die Schaufel aktiv ist: Alle belegten Felder markieren
+	elif hud.is_shovel_active:
+		for l in range(LaneDefendersConfig.LANES):
+			for c in range(LaneDefendersConfig.COLS):
+				if not model.grid.is_cell_empty(l, c):
+					var r := model.grid.get_cell_rect(l, c)
+					_board_draw.draw_rect(r, Color(1.0, 0.4, 0.1, 0.12))
+					_board_draw.draw_rect(r, Color(1.0, 0.4, 0.1, 0.4), false, 2.0)
+
+	# Spezifische Hover- oder Cursor-Hervorhebung
 	var hl_lane := _cursor_lane if _using_gamepad_cursor else _hover_lane
 	var hl_col := _cursor_col if _using_gamepad_cursor else _hover_col
 	if hl_lane >= 0 and hl_col >= 0 and hl_lane < LaneDefendersConfig.LANES and hl_col < LaneDefendersConfig.COLS:
 		var r := model.grid.get_cell_rect(hl_lane, hl_col)
 		if selected_unit_data != null:
 			if model.grid.is_cell_empty(hl_lane, hl_col):
-				_board_draw.draw_rect(r, Color(0.2, 0.9, 0.3, 0.35))
-				_board_draw.draw_rect(r, Color(0.3, 1.0, 0.4, 0.9), false, 3.5)
+				_board_draw.draw_rect(r, Color(0.2, 0.95, 0.3, 0.4))
+				_board_draw.draw_rect(r, Color(0.3, 1.0, 0.4, 0.95), false, 4.0)
 			else:
-				_board_draw.draw_rect(r, Color(0.9, 0.2, 0.2, 0.35))
-				_board_draw.draw_rect(r, Color(1.0, 0.3, 0.3, 0.9), false, 3.5)
+				_board_draw.draw_rect(r, Color(0.95, 0.2, 0.2, 0.4))
+				_board_draw.draw_rect(r, Color(1.0, 0.3, 0.3, 0.95), false, 4.0)
 		elif hud.is_shovel_active:
 			if not model.grid.is_cell_empty(hl_lane, hl_col):
-				_board_draw.draw_rect(r, Color(1.0, 0.3, 0.1, 0.4))
-				_board_draw.draw_rect(r, Color(1.0, 0.4, 0.1, 0.95), false, 3.5)
+				_board_draw.draw_rect(r, Color(1.0, 0.3, 0.1, 0.45))
+				_board_draw.draw_rect(r, Color(1.0, 0.4, 0.1, 1.0), false, 4.0)
 		else:
 			_board_draw.draw_rect(r, Color(1.0, 1.0, 1.0, 0.15))
-			_board_draw.draw_rect(r, Color(1.0, 1.0, 0.8, 0.45), false, 2.0)
+			_board_draw.draw_rect(r, Color(1.0, 1.0, 0.8, 0.5), false, 2.5)
 
 
 func _run_autoplay_tick() -> void:

@@ -73,6 +73,7 @@ var on_projectile_spawned: Callable
 var on_projectile_hit: Callable
 var on_energy_dropped: Callable
 var on_energy_collected: Callable
+var on_energy_expired: Callable
 var on_final_wave: Callable
 var on_state_changed: Callable
 
@@ -145,6 +146,10 @@ func try_place_unit(lane: int, col: int, data: UnitData) -> bool:
 	if placed == null:
 		return false
 
+	# Sofort angriffsbereit machen, falls Gegner bereits in der Lane sind
+	if data.attack_damage > 0:
+		placed.attack_timer = data.attack_interval
+
 	energy -= data.cost
 	cooldowns[data.id] = data.cooldown
 	if on_unit_placed.is_valid():
@@ -156,6 +161,8 @@ func try_remove_unit(lane: int, col: int) -> bool:
 	var u := grid.get_unit(lane, col)
 	if u == null:
 		return false
+	var refund := int(float(u.unit_data.cost) * 0.5)
+	energy += refund
 	grid.remove_unit(lane, col)
 	if on_unit_removed.is_valid():
 		on_unit_removed.call(lane, col)
@@ -223,6 +230,8 @@ func step(delta: float) -> void:
 			collect_energy(d.id)
 		elif d.lifetime <= 0.0:
 			energy_drops.remove_at(drop_idx)
+			if on_energy_expired.is_valid():
+				on_energy_expired.call(d)
 		drop_idx -= 1
 
 	# 4. Wellen-Director updaten
