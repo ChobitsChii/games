@@ -649,7 +649,7 @@ cat << 'EOF' > "$TARGET_DIR/index.html"
 					<div class="title-wrap">
 						<h2>Asteroid Drift</h2>
 						<div class="tags-row">
-							<span class="tag tag-ver">v1.0.1</span>
+							<span class="tag tag-ver">v1.0.2</span>
 							<span class="tag tag-ready">Vollversion</span>
 							<span class="tag tag-genre">Arcade Shooter</span>
 						</div>
