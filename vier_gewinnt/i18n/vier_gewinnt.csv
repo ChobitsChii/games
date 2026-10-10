@@ -32,9 +32,10 @@ GAME_RESTART,Neues Spiel,New Game
 GAME_COLUMN_FULL,Spalte ist bereits voll!,Column is already full!
 HUD_SCORE_PLAYER1,Rot: %d,Red: %d
 HUD_SCORE_PLAYER2,Gelb: %d,Yellow: %d
-HUD_STATS_EASY,Leicht: %d S / %d N / %d U,Easy: %d W / %d L / %d D
-HUD_STATS_MEDIUM,Mittel: %d S / %d N / %d U,Medium: %d W / %d L / %d D
-HUD_STATS_HARD,Schwer: %d S / %d N / %d U,Hard: %d W / %d L / %d D
-HUD_STATS_HOTSEAT,Lokal: %d Rot / %d Gelb / %d U,Local: %d Red / %d Yellow / %d D
+HUD_STATS_EASY,Leicht: %d Siege / %d Niederlagen / %d Unentschieden,Easy: %d Wins / %d Losses / %d Draws
+HUD_STATS_MEDIUM,Mittel: %d Siege / %d Niederlagen / %d Unentschieden,Medium: %d Wins / %d Losses / %d Draws
+HUD_STATS_HARD,Schwer: %d Siege / %d Niederlagen / %d Unentschieden,Hard: %d Wins / %d Losses / %d Draws
+HUD_STATS_HOTSEAT,Lokal: %d Rot / %d Gelb / %d Unentschieden,Local: %d Red / %d Yellow / %d Draws
 HUD_STATS_RESET,Statistik zurückgesetzt,Statistics reset
+MENU_STATS_LEGEND,Erklärung: Siege (S) / Niederlagen (N) / Unentschieden (U),Legend: Wins (W) / Losses (L) / Draws (D)
 CONTROLS_HINT,Mausklick / Pfeiltasten / Leertaste,Mouse click / Arrow keys / Space

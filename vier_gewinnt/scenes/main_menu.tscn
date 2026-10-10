@@ -1,6 +1,7 @@
 [gd_scene format=3]
 
 [ext_resource type="Script" path="res://scripts/ui/main_menu.gd" id="1_main_menu"]
+[ext_resource type="Texture2D" path="res://assets/menu_bg.png" id="2_menu_bg"]
 
 [node name="MainMenu" type="Control"]
 layout_mode = 3
@@ -11,14 +12,16 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_main_menu")
 
-[node name="Background" type="ColorRect" parent="."]
+[node name="Background" type="TextureRect" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0.0431373, 0.054902, 0.0901961, 1)
+texture = ExtResource("2_menu_bg")
+expand_mode = 1
+stretch_mode = 6
 
 [node name="CenterContainer" type="CenterContainer" parent="."]
 layout_mode = 1
@@ -201,6 +204,13 @@ unique_name_in_owner = true
 layout_mode = 2
 theme_override_font_sizes/font_size = 24
 text = "HUD_STATS_HOTSEAT"
+
+[node name="StatsLegend" type="Label" parent="StatsModal/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.72, 0.78, 0.9, 0.85)
+theme_override_font_sizes/font_size = 18
+text = "MENU_STATS_LEGEND"
+horizontal_alignment = 1
 
 [node name="BtnResetStats" type="Button" parent="StatsModal/MarginContainer/VBoxContainer"]
 unique_name_in_owner = true

@@ -46,22 +46,42 @@ func _ready() -> void:
 	controller.start_game(mode, diff, starter)
 
 
-func _unhandled_input(event: InputEvent) -> void:
+func _input(event: InputEvent) -> void:
 	if autoplay or controller == null:
 		return
 
+	# Menü-Fokus Navigation: Pfeiltaste nach oben springt ins Menü, Pfeiltaste nach unten zurück aufs Brett
+	if event.is_action_pressed("ui_up") or (event is InputEventKey and event.pressed and event.keycode == KEY_UP):
+		if hud != null and not hud.is_top_bar_focused():
+			hud.focus_top_bar()
+			get_viewport().set_input_as_handled()
+			return
+	elif event.is_action_pressed("ui_down") or (event is InputEventKey and event.pressed and event.keycode == KEY_DOWN):
+		if hud != null and hud.is_top_bar_focused():
+			hud.release_menu_focus()
+			get_viewport().set_input_as_handled()
+			return
+
+	# Wenn die TopBar fokussiert ist, navigieren Links/Rechts/Enter durch die Buttons
+	if hud != null and hud.is_top_bar_focused():
+		return
+
+	# Spielsteinbewegung auf dem Brett:
 	if event.is_action_pressed("move_left"):
 		controller.move_column_left()
 		if sound_effects != null:
 			sound_effects.play_hover()
 		board_view.queue_redraw()
+		get_viewport().set_input_as_handled()
 	elif event.is_action_pressed("move_right"):
 		controller.move_column_right()
 		if sound_effects != null:
 			sound_effects.play_hover()
 		board_view.queue_redraw()
+		get_viewport().set_input_as_handled()
 	elif event.is_action_pressed("drop"):
 		controller.request_drop()
+		get_viewport().set_input_as_handled()
 
 
 func _on_column_clicked(col: int) -> void:

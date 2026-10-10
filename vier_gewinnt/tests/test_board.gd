@@ -227,3 +227,31 @@ func test_hud_hint_lifecycle() -> void:
 	if tree != null and tree.root != null:
 		tree.root.remove_child(hud)
 	hud.free()
+
+
+func test_winner_turn_indicator_color() -> void:
+	var hud: HUD = load("res://scenes/hud.tscn").instantiate()
+	var tree := Engine.get_main_loop() as SceneTree
+	if tree != null and tree.root != null:
+		tree.root.add_child(hud)
+		hud._ready()
+
+	var controller := GameController.new()
+	controller.start_game(GameController.GameMode.HOTSEAT, ConnectFourAI.Difficulty.EASY, GameController.Starter.PLAYER_1)
+	hud.setup(controller)
+
+	# Spieler 1 (Rot) baut 4 in einer Reihe (horizontal)
+	# Spalten: P1:0, P2:0, P1:1, P2:1, P1:2, P2:2, P1:3 (Sieg P1!)
+	var moves := [0, 0, 1, 1, 2, 2, 3]
+	for col in moves:
+		controller.request_drop(col)
+		controller.on_drop_animation_finished()
+
+	assert_true(controller.board.has_won(), "Spieler 1 hat gewonnen")
+	assert_eq(controller.board.last_player(), Board.CELL_PLAYER_1, "Letzter Spieler war Spieler 1 (Rot)")
+	assert_true(hud.turn_indicator.visible, "TurnIndicator bei Sieg sichtbar")
+
+	if tree != null and tree.root != null:
+		tree.root.remove_child(hud)
+	hud.free()
+

@@ -47,6 +47,38 @@ func _ready() -> void:
 	btn_modal_menu.pressed.connect(_on_modal_menu_pressed)
 	btn_fullscreen.pressed.connect(_on_fullscreen_pressed)
 
+	# Fokus-Verhalten für TopBar-Aktionen:
+	# Wenn kein Button fokussiert ist, bewegen Pfeiltasten direkt den Spielstein.
+	# Pfeil nach oben springt in das Menü, Pfeil nach unten verlässt das Menü.
+	_setup_focus_navigation()
+
+
+func _setup_focus_navigation() -> void:
+	var top_buttons := [btn_hint, btn_undo, btn_restart, btn_fullscreen, btn_pause]
+	for btn: Button in top_buttons:
+		btn.focus_mode = Control.FOCUS_ALL
+
+
+func focus_top_bar() -> void:
+	if not pause_modal.visible:
+		if not btn_hint.disabled:
+			btn_hint.grab_focus()
+		elif not btn_undo.disabled:
+			btn_undo.grab_focus()
+		else:
+			btn_restart.grab_focus()
+
+
+func is_top_bar_focused() -> bool:
+	var focused := get_viewport().gui_get_focus_owner()
+	return focused in [btn_hint, btn_undo, btn_restart, btn_fullscreen, btn_pause]
+
+
+func release_menu_focus() -> void:
+	var focused := get_viewport().gui_get_focus_owner()
+	if focused != null and is_top_bar_focused():
+		focused.release_focus()
+
 
 func _process(delta: float) -> void:
 	if _hint_hide_timer > 0.0:
@@ -94,6 +126,8 @@ func _update_ui() -> void:
 	if controller.state == GameController.State.GAME_OVER:
 		return
 
+	turn_indicator.visible = true
+
 	if controller.mode == GameController.GameMode.AI:
 		if controller.state == GameController.State.AI_THINKING:
 			status_label.text = "GAME_TURN_CPU"
@@ -119,12 +153,15 @@ func _on_game_ended(winner: int, _winning: Array[Vector2i]) -> void:
 
 	if winner == Board.CELL_EMPTY:
 		status_label.text = "GAME_DRAW"
+		turn_indicator.visible = false
 	elif controller.mode == GameController.GameMode.AI:
+		turn_indicator.visible = true
 		if winner == controller.human_player:
 			status_label.text = "GAME_WIN_PLAYER1"
 		else:
 			status_label.text = "GAME_WIN_CPU"
 	else:
+		turn_indicator.visible = true
 		if winner == Board.CELL_PLAYER_1:
 			status_label.text = "GAME_WIN_PLAYER1"
 		else:

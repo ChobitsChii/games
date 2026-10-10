@@ -16,7 +16,10 @@ func _draw() -> void:
 	var p := Board.CELL_PLAYER_1
 
 	if hud != null and hud.controller != null:
-		p = hud.controller.board.current_player()
+		if hud.controller.state == GameController.State.GAME_OVER and hud.controller.board.has_won():
+			p = hud.controller.board.last_player()
+		else:
+			p = hud.controller.board.current_player()
 		if p == Board.CELL_PLAYER_2:
 			col = GameConfig.PALETTE["player2"]
 
