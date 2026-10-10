@@ -300,3 +300,30 @@ func test_hud_buttons_remain_active_after_game_over() -> void:
 		tree.root.remove_child(hud)
 	hud.free()
 
+
+func test_keyboard_focus_indicator() -> void:
+	var board_view: BoardView = load("res://scenes/board_view.tscn").instantiate()
+	var controller := GameController.new()
+	controller.start_game(GameController.GameMode.HOTSEAT, ConnectFourAI.Difficulty.EASY, GameController.Starter.PLAYER_1)
+	board_view.setup(controller)
+
+	# Initial: Kein Tastatur-Fokus
+	assert_false(board_view.is_keyboard_focused, "Initial kein Tastatur-Fokus")
+
+	# Bei Tastatur-Aktivierung
+	board_view.set_keyboard_focused(true)
+	assert_true(board_view.is_keyboard_focused, "Tastatur-Fokus aktiv")
+
+	# Bei Mausbewegung muss der Tastatur-Fokus zurückgesetzt werden
+	var motion := InputEventMouseMotion.new()
+	motion.position = Vector2(200, 200)
+	board_view._gui_input(motion)
+	assert_false(board_view.is_keyboard_focused, "Mausbewegung deaktiviert Tastatur-Fokus")
+
+	# reset_view setzt Fokus ebenfalls zurück
+	board_view.set_keyboard_focused(true)
+	board_view.reset_view()
+	assert_false(board_view.is_keyboard_focused, "reset_view deaktiviert Tastatur-Fokus")
+
+	board_view.free()
+

@@ -53,17 +53,20 @@ func _unhandled_input(event: InputEvent) -> void:
 	# Menü-Fokus Navigation: Pfeiltaste nach oben springt ins Menü, Pfeiltaste nach unten zurück aufs Brett
 	if event.is_action_pressed("ui_up") or (event is InputEventKey and event.pressed and event.keycode == KEY_UP):
 		if hud != null and not hud.is_top_bar_focused():
+			board_view.set_keyboard_focused(false)
 			hud.focus_top_bar()
 			get_viewport().set_input_as_handled()
 			return
 	elif event.is_action_pressed("ui_down") or (event is InputEventKey and event.pressed and event.keycode == KEY_DOWN):
 		if hud != null and hud.is_top_bar_focused():
 			hud.release_menu_focus()
+			board_view.set_keyboard_focused(true)
 			get_viewport().set_input_as_handled()
 			return
 
 	# Wenn die TopBar fokussiert ist, navigieren Links/Rechts/Enter durch die Buttons
 	if hud != null and hud.is_top_bar_focused():
+		board_view.set_keyboard_focused(false)
 		return
 
 	# Spielsteinbewegung auf dem Brett nur, wenn ein Spieler am Zug ist:
@@ -71,18 +74,21 @@ func _unhandled_input(event: InputEvent) -> void:
 		return
 
 	if event.is_action_pressed("move_left"):
+		board_view.set_keyboard_focused(true)
 		controller.move_column_left()
 		if sound_effects != null:
 			sound_effects.play_hover()
 		board_view.queue_redraw()
 		get_viewport().set_input_as_handled()
 	elif event.is_action_pressed("move_right"):
+		board_view.set_keyboard_focused(true)
 		controller.move_column_right()
 		if sound_effects != null:
 			sound_effects.play_hover()
 		board_view.queue_redraw()
 		get_viewport().set_input_as_handled()
 	elif event.is_action_pressed("drop") and not (event is InputEventMouseButton):
+		board_view.set_keyboard_focused(false)
 		controller.request_drop()
 		get_viewport().set_input_as_handled()
 

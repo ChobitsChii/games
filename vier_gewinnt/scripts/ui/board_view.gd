@@ -20,6 +20,13 @@ var _win_pulse_time: float = 0.0
 var _hover_arrow_time: float = 0.0
 var _hint_col: int = -1
 var _hint_timer: float = 0.0
+var is_keyboard_focused: bool = false
+
+
+func set_keyboard_focused(focused: bool) -> void:
+	if is_keyboard_focused != focused:
+		is_keyboard_focused = focused
+		queue_redraw()
 
 
 func _ready() -> void:
@@ -91,6 +98,9 @@ func _gui_input(event: InputEvent) -> void:
 		return
 
 	if event is InputEventMouseMotion:
+		if is_keyboard_focused:
+			is_keyboard_focused = false
+			queue_redraw()
 		var col := _x_to_column(event.position.x)
 		if col != -1 and col != controller.selected_col:
 			controller.set_selected_column(col)
@@ -147,6 +157,7 @@ func reset_view() -> void:
 	_win_pulse_time = 0.0
 	_hint_col = -1
 	_hint_timer = 0.0
+	is_keyboard_focused = false
 	queue_redraw()
 
 
@@ -224,6 +235,12 @@ func _draw() -> void:
 			var hover_center := Vector2(top_cell.x, hover_y)
 			var turn_player := controller.board.current_player()
 			_draw_disc(hover_center, disc_radius * 0.9, turn_player, false, 0.8)
+
+			# Tastatur-Fokus-Umrandung (wie in der Topbar mit accent_alt/win_gold):
+			if is_keyboard_focused:
+				var focus_col: Color = GameConfig.PALETTE["win_gold"]
+				draw_arc(hover_center, disc_radius * 0.9 + 5.0, 0.0, TAU, 36, focus_col, 2.5)
+				draw_arc(hover_center, disc_radius * 0.9 + 8.0, 0.0, TAU, 36, Color(focus_col.r, focus_col.g, focus_col.b, 0.35), 1.5)
 
 			# Dezent leuchtender Einwurf-Pfeil
 			var arrow_tip := hover_center + Vector2(0, disc_radius * 0.95 + 8)
