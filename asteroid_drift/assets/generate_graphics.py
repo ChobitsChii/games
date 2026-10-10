@@ -68,24 +68,9 @@ def create_nebula(width, height):
 def generate_menu_bg():
     width, height = 1920, 1080
     bg = create_nebula(width, height)
-    draw = ImageDraw.Draw(bg)
-    
-    # Distant subtle asteroid silhouettes in the background
-    random.seed(1337)
-    for _ in range(6):
-        ax = random.randint(100, width - 100)
-        ay = random.randint(100, height - 100)
-        ar = random.randint(40, 90)
-        points = []
-        num_pts = random.randint(10, 14)
-        for i in range(num_pts):
-            angle = i * (2 * math.pi / num_pts)
-            dist = ar * random.uniform(0.75, 1.15)
-            points.append((ax + math.cos(angle) * dist, ay + math.sin(angle) * dist))
-        draw.polygon(points, fill=(15, 23, 42, 140), outline=(56, 189, 248, 60))
-        
     bg.save("asteroid_drift/assets/graphics/menu_bg.png", "PNG")
     print("menu_bg.png generated")
+
 
 def generate_splash():
     width, height = 1920, 1080

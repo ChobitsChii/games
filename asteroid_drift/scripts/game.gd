@@ -129,7 +129,7 @@ func _physics_process(delta: float) -> void:
 	if _wave_in_progress:
 		var has_asteroids_or_enemies := false
 		for c in enemies_container.get_children():
-			if (c is Asteroid or c is UFO or c is Mine) and is_instance_valid(c):
+			if (c is Asteroid or c is UFO or c is Mine) and is_instance_valid(c) and not c.is_queued_for_deletion():
 				has_asteroids_or_enemies = true
 				break
 

@@ -271,13 +271,20 @@ func _compute_autopilot_controls() -> Dictionary:
 	var nearest_target: Node2D = null
 	var min_dist := 999999.0
 	var parent := get_parent()
+	var candidates: Array[Node] = []
 	if parent:
-		for child in parent.get_children():
-			if (child is Asteroid or child is UFO or child is Mine) and is_instance_valid(child):
-				var d := global_position.distance_to(child.global_position)
-				if d < min_dist:
-					min_dist = d
-					nearest_target = child
+		var enemies_node := parent.get_node_or_null("Enemies")
+		if enemies_node:
+			candidates.append_array(enemies_node.get_children())
+		candidates.append_array(parent.get_children())
+
+	for child in candidates:
+		if (child is Asteroid or child is UFO or child is Mine) and is_instance_valid(child) and not child.is_queued_for_deletion():
+			var d := global_position.distance_to(child.global_position)
+			if d < min_dist:
+				min_dist = d
+				nearest_target = child as Node2D
+
 
 	if nearest_target:
 		var target_dir := (nearest_target.global_position - global_position).normalized()

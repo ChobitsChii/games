@@ -16,10 +16,24 @@ var magnet_radius := 0.0
 
 func _ready() -> void:
 	collision_layer = 1 << 5 # layer 6: pickups
-	collision_mask = 1 << 0 # layer 1: player
+	collision_mask = (1 << 0) # layer 1: player
+
+	body_entered.connect(_on_body_entered)
+	area_entered.connect(_on_area_entered)
+
 	var tween := create_tween().set_loops()
 	tween.tween_property(poly, "scale", Vector2(1.2, 1.2), 0.5)
 	tween.tween_property(poly, "scale", Vector2(0.9, 0.9), 0.5)
+
+
+func _on_body_entered(body: Node2D) -> void:
+	if body is Ship:
+		collect()
+
+
+func _on_area_entered(area: Area2D) -> void:
+	if area.get_parent() is Ship:
+		collect()
 
 
 func _physics_process(delta: float) -> void:
