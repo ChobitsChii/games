@@ -35,6 +35,7 @@ case "$GAME" in
 	"lane_defenders") DISPLAY_NAME="Lane Defenders" ;;
 	"vier_gewinnt")  DISPLAY_NAME="Connect Four Deluxe" ;;
 	"neon_breakout") DISPLAY_NAME="Neon Breakout" ;;
+	"asteroid_drift") DISPLAY_NAME="Asteroid Drift" ;;
 	*)               DISPLAY_NAME="$GAME" ;;
 esac
 

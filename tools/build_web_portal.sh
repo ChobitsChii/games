@@ -49,6 +49,7 @@ for project in "$ROOT"/*/project.godot; do
 			"lane_defenders") disp="Lane Defenders" ;;
 			"vier_gewinnt")  disp="Connect Four Deluxe" ;;
 			"neon_breakout") disp="Neon Breakout" ;;
+			"asteroid_drift") disp="Asteroid Drift" ;;
 			*)               disp="$name" ;;
 		esac
 		# Version primär aus README.md lesen, Fallback auf Git-Tags
@@ -634,6 +635,39 @@ cat << 'EOF' > "$TARGET_DIR/index.html"
 						▶ Jetzt spielen
 					</a>
 					<a href="https://github.com/ChobitsChii/games/releases/tag/neon_breakout-latest" class="btn btn-secondary" title="Downloads & Releases">
+						📦
+					</a>
+				</div>
+			</article>
+
+			<!-- Asteroid Drift -->
+			<article class="game-card" data-color="cyan">
+				<div class="card-header">
+					<div class="icon-wrapper">
+						<img src="asteroid_drift/icon.svg" alt="Asteroid Drift Icon">
+					</div>
+					<div class="title-wrap">
+						<h2>Asteroid Drift</h2>
+						<div class="tags-row">
+							<span class="tag tag-ver">v1.0.0</span>
+							<span class="tag tag-ready">Vollversion</span>
+							<span class="tag tag-genre">Arcade Shooter</span>
+						</div>
+					</div>
+				</div>
+				<div class="card-body">
+					<p class="card-desc">Trägheitsphysik-Weltraum-Shooter mit prozeduralen Asteroiden, Upgrade-Karten nach jeder 3. Welle, UFO-Gegnern und Annäherungsminen.</p>
+					<ul class="features-list">
+						<li>Flüssige Trägheitsphysik & Hyperspace-Sprung</li>
+						<li>Feindliche UFOs, zielsuchende Minen & Drops</li>
+						<li>Deckbau-Upgrade-Karten & Highscore-System</li>
+					</ul>
+				</div>
+				<div class="card-footer">
+					<a href="asteroid_drift/" class="btn btn-primary" title="Asteroid Drift im Browser spielen">
+						▶ Jetzt spielen
+					</a>
+					<a href="https://github.com/ChobitsChii/games/releases/tag/asteroid_drift-latest" class="btn btn-secondary" title="Downloads & Releases">
 						📦
 					</a>
 				</div>

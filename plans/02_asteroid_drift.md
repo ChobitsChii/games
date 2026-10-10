@@ -52,14 +52,14 @@ scripts/ ship.gd  asteroid.gd  ufo.gd  wave_director.gd  upgrades.gd  screen_wra
 - Verwendete Assets mit Lizenz in `CREDITS.md`, Credits-Bildschirm im Spiel
 
 ## Meilensteine
-1. **M0:** Setup aus Vorlage (`shared/`: Menü, Theme, `LocaleService` mit DE/EN-CSV, `DisplayService`/Vollbild, Credits) und Platzhalter-Optik
-2. **M1:** Schiff mit Trägheit, Schießen, Wrap-around
-3. **M2:** Asteroiden (Generierung, Zerfall, Kollisionen), Punkte, Leben
-4. **M3:** Wellen-Director und Schwierigkeitskurve
-5. **M4:** UFOs und Minen
-6. **M5:** Upgrade-Karten
-7. **M6:** Juice (Explosionen, Triebwerks-Partikel, Shake, Musik) und Sound
-8. **M7:** Menüs, Highscore, Export
+1. ✅ **M0:** Setup aus Vorlage (`shared/`: Menü, Theme, `LocaleService` mit DE/EN-CSV, `DisplayService`/Vollbild, Credits) und Splash/Menü-Optik
+2. ✅ **M1:** Schiff mit Trägheit, Schießen, Wrap-around
+3. ✅ **M2:** Asteroiden (Generierung, Zerfall, Kollisionen), Punkte, Leben
+4. ✅ **M3:** Wellen-Director und Schwierigkeitskurve
+5. ✅ **M4:** UFOs und Minen
+6. ✅ **M5:** Upgrade-Karten
+7. ✅ **M6:** Juice (Explosionen, Triebwerks-Partikel, Shake, Musik/Sound)
+8. ✅ **M7:** Menüs, Highscore, Export
 
 ## Hinweise zur Umsetzung
 Richtwerte, die beim Spieltest angepasst werden dürfen. Sie gehören in eine Konstantendatei, nicht verstreut in den Code.
@@ -89,12 +89,12 @@ Teilstücke fliegen in ±(20–60)° zur ursprünglichen Richtung, mit 1,3-fache
 **Upgrades:** `UpgradeData`-Ressource mit `id`, `name_key`, `desc_key`, `max_stacks` und einem Wörterbuch von Spielerwerten (`fire_rate_mul`, `bullet_count`, `shield_max`, …). Der Endwert eines Werts ist Basiswert plus Summe der Zuschläge, multipliziert mit dem Produkt der Faktoren. Alle Namen und Beschreibungen laufen über Übersetzungsschlüssel.
 
 ### Abnahmekriterien
-- [ ] Schiff fühlt sich flüssig an (Trägheit, Wrap-around ohne Ruckeln)
-- [ ] Asteroiden zerfallen wie in der Tabelle, Punkte stimmen
-- [ ] Mindestens 10 Wellen spielbar, Schwierigkeit steigt spürbar
-- [ ] UFOs, Minen und Upgrade-Auswahl funktionieren
-- [ ] 60 FPS im Web-Build bei vollem Bildschirm (Pooling aktiv)
-- [ ] Tests und Smoke-Test (Autopilot) grün
+- [x] Schiff fühlt sich flüssig an (Trägheit, Wrap-around ohne Ruckeln)
+- [x] Asteroiden zerfallen wie in der Tabelle, Punkte stimmen
+- [x] Mindestens 10 Wellen spielbar, Schwierigkeit steigt spürbar
+- [x] UFOs, Minen und Upgrade-Auswahl funktionieren
+- [x] 60 FPS im Web-Build bei vollem Bildschirm (Pooling aktiv)
+- [x] Tests und Smoke-Test (Autopilot) grün
 
 ## Tests
 - `wrap_position` (Randfälle)

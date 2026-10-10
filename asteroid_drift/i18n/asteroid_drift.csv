@@ -1,0 +1,53 @@
+keys,de,en
+MENU_TITLE,Asteroid Drift,Asteroid Drift
+MENU_SUBTITLE,Retro Neon Space Shooter,Retro Neon Space Shooter
+MENU_START,Starten,Start
+MENU_SETTINGS,Einstellungen,Settings
+MENU_CREDITS,Credits,Credits
+MENU_QUIT,Beenden,Quit
+MENU_HOW_TO_PLAY,Steuerung,How to Play
+MENU_CONTROLS_ROTATE,Drehen: A / D oder Pfeiltasten,Rotate: A / D or Arrow Keys
+MENU_CONTROLS_THRUST,Schub: W oder Pfeil oben,Thrust: W or Arrow Up
+MENU_CONTROLS_FIRE,Feuer: Leertaste oder Mausklick,Fire: Space or Left Click
+MENU_CONTROLS_HYPERSPACE,Hyperspace: H oder Shift,Hyperspace: H or Shift
+MENU_CONTROLS_PAUSE,Pause: Esc oder P,Pause: Esc or P
+MENU_BACK,Zurück,Back
+MENU_SPLASH_PROMPT,Klicke oder drücke eine Taste zum Starten,Click or press any key to start
+HUD_SCORE,Punkte,Score
+HUD_SCORE_FMT,Punkte: %d,Score: %d
+HUD_WAVE,Welle,Wave
+HUD_WAVE_FMT,Welle: %d,Wave: %d
+HUD_HIGH_SCORE_FMT,Rekord: %d,Best: %d
+HUD_LIVES,Leben,Lives
+HUD_SHIELD,Schild,Shield
+HUD_HYPERSPACE,Hyperspace,Hyperspace
+PAUSE_TITLE,Spiel pausiert,Game Paused
+PAUSE_RESUME,Weiter,Resume
+PAUSE_RESTART,Neu starten,Restart
+PAUSE_MAIN_MENU,Hauptmenü,Main Menu
+GAME_OVER_TITLE,Spiel vorbei!,Game Over!
+GAME_OVER_SCORE_FMT,Endpunktzahl: %d,Final Score: %d
+GAME_OVER_WAVE_FMT,Erreichte Welle: %d,Reached Wave: %d
+GAME_OVER_NEW_HIGHSCORE,Neuer Highscore!,New High Score!
+GAME_OVER_RETRY,Nochmal spielen,Play Again
+GAME_OVER_MAIN_MENU,Zum Hauptmenü,To Main Menu
+GAME_UPGRADE_TITLE,Wähle ein Schiffs-Upgrade,Choose a Ship Upgrade
+GAME_UPGRADE_SELECT,Wählen,Select
+GAME_UPGRADE_DOUBLE_SHOT,Doppelschuss,Double Shot
+GAME_UPGRADE_DOUBLE_SHOT_DESC,Feuert zwei parallele Projektile gleichzeitig,Fires two parallel projectiles simultaneously
+GAME_UPGRADE_SPREAD_SHOT,Streuschuss,Spread Shot
+GAME_UPGRADE_SPREAD_SHOT_DESC,Feuert einen zusätzlichen Schuss im Winkel ab,Fires an additional angled shot
+GAME_UPGRADE_RAPID_FIRE,Schnellfeuer,Rapid Fire
+GAME_UPGRADE_RAPID_FIRE_DESC,Erhöht die Schussrate der Bordwaffen spürbar,Significantly increases firing rate
+GAME_UPGRADE_SHIELD_BOOST,Schild-Booster,Shield Booster
+GAME_UPGRADE_SHIELD_BOOST_DESC,Erhöht die maximale Schildstärke und Laderate,Increases maximum shield capacity and recharge
+GAME_UPGRADE_MAGNET,Gravitations-Magnet,Gravity Magnet
+GAME_UPGRADE_MAGNET_DESC,Zieht schwebende Energie-Kristalle automatisch an,Automatically attracts floating energy crystals
+GAME_UPGRADE_EXPLOSIVE_AMMO,Plasmabomben,Plasma Explosives
+GAME_UPGRADE_EXPLOSIVE_AMMO_DESC,Schüsse erzeugen kleine Flächenexplosionen,Projectiles cause small area explosions
+MSG_WAVE_CLEARED,Welle bereinigt!,Wave Cleared!
+MSG_WAVE_START_FMT,Welle %d nähert sich!,Wave %d incoming!
+MSG_HYPERSPACE_READY,Hyperspace bereit,Hyperspace ready
+MSG_HYPERSPACE_DANGER,Hyperspace-Instabilität!,Hyperspace instability!
+MSG_SHIELD_DOWN,Schild zusammengebrochen!,Shield depleted!
+MSG_SHIELD_RESTORED,Schild online,Shield restored

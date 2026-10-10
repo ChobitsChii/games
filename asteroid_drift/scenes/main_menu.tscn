@@ -1,0 +1,202 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://scripts/main_menu.gd" id="1_menu"]
+[ext_resource type="Texture2D" path="res://assets/graphics/menu_bg.png" id="2_bg"]
+
+[node name="MainMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_menu")
+
+[node name="BackgroundRect" type="TextureRect" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -30.0
+offset_top = -30.0
+offset_right = 30.0
+offset_bottom = 30.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_bg")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="Margin" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 80
+theme_override_constants/margin_top = 80
+theme_override_constants/margin_right = 80
+theme_override_constants/margin_bottom = 80
+
+[node name="VBox" type="VBoxContainer" parent="Margin"]
+layout_mode = 2
+theme_override_constants/separation = 40
+alignment = 1
+
+[node name="TitleBox" type="VBoxContainer" parent="Margin/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="TitleLabel" type="Label" parent="Margin/VBox/TitleBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0.9, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0.6, 1, 0.6)
+theme_override_constants/shadow_offset_x = 0
+theme_override_constants/shadow_offset_y = 4
+theme_override_constants/shadow_outline_size = 16
+theme_override_font_sizes/font_size = 84
+text = "MENU_TITLE"
+horizontal_alignment = 1
+
+[node name="SubtitleLabel" type="Label" parent="Margin/VBox/TitleBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.6, 0.2, 1)
+theme_override_font_sizes/font_size = 30
+text = "MENU_SUBTITLE"
+horizontal_alignment = 1
+
+[node name="HighscoreLabel" type="Label" parent="Margin/VBox/TitleBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.8, 0.9, 1, 0.9)
+theme_override_font_sizes/font_size = 32
+text = "HUD_SCORE"
+horizontal_alignment = 1
+
+[node name="ButtonsBox" type="VBoxContainer" parent="Margin/VBox"]
+custom_minimum_size = Vector2(460, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_constants/separation = 16
+
+[node name="StartButton" type="Button" parent="Margin/VBox/ButtonsBox"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "MENU_START"
+
+[node name="ControlsButton" type="Button" parent="Margin/VBox/ButtonsBox"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "MENU_HOW_TO_PLAY"
+
+[node name="LanguageButton" type="Button" parent="Margin/VBox/ButtonsBox"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "COMMON_LANGUAGE"
+
+[node name="FullscreenButton" type="Button" parent="Margin/VBox/ButtonsBox"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "COMMON_DISPLAY_MODE"
+
+[node name="CreditsButton" type="Button" parent="Margin/VBox/ButtonsBox"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "MENU_CREDITS"
+
+[node name="QuitButton" type="Button" parent="Margin/VBox/ButtonsBox"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "COMMON_QUIT"
+
+[node name="ControlsPanel" type="PanelContainer" parent="."]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -380.0
+offset_top = -280.0
+offset_right = 380.0
+offset_bottom = 280.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBox" type="VBoxContainer" parent="ControlsPanel"]
+layout_mode = 2
+theme_override_constants/separation = 18
+
+[node name="Title" type="Label" parent="ControlsPanel/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0.9, 1, 1)
+theme_override_font_sizes/font_size = 40
+text = "MENU_HOW_TO_PLAY"
+horizontal_alignment = 1
+
+[node name="L1" type="Label" parent="ControlsPanel/VBox"]
+layout_mode = 2
+text = "MENU_CONTROLS_ROTATE"
+
+[node name="L2" type="Label" parent="ControlsPanel/VBox"]
+layout_mode = 2
+text = "MENU_CONTROLS_THRUST"
+
+[node name="L3" type="Label" parent="ControlsPanel/VBox"]
+layout_mode = 2
+text = "MENU_CONTROLS_FIRE"
+
+[node name="L4" type="Label" parent="ControlsPanel/VBox"]
+layout_mode = 2
+text = "MENU_CONTROLS_HYPERSPACE"
+
+[node name="L5" type="Label" parent="ControlsPanel/VBox"]
+layout_mode = 2
+text = "MENU_CONTROLS_PAUSE"
+
+[node name="CloseControlsButton" type="Button" parent="ControlsPanel/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "MENU_BACK"
+
+[node name="CreditsPanel" type="PanelContainer" parent="."]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -400.0
+offset_top = -240.0
+offset_right = 400.0
+offset_bottom = 240.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBox" type="VBoxContainer" parent="CreditsPanel"]
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="Title" type="Label" parent="CreditsPanel/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0.9, 1, 1)
+theme_override_font_sizes/font_size = 40
+text = "MENU_CREDITS"
+horizontal_alignment = 1
+
+[node name="InfoLabel" type="Label" parent="CreditsPanel/VBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 28
+text = "MENU_SUBTITLE"
+horizontal_alignment = 1
+
+[node name="CloseCreditsButton" type="Button" parent="CreditsPanel/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "MENU_BACK"

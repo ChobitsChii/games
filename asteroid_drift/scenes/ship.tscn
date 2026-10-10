@@ -1,0 +1,54 @@
+[gd_scene load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://scripts/ship.gd" id="1_ship"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ship"]
+radius = 18.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_hitbox"]
+radius = 22.0
+
+[node name="Ship" type="CharacterBody2D"]
+collision_mask = 10
+script = ExtResource("1_ship")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_ship")
+
+[node name="Visuals" type="Node2D" parent="."]
+
+[node name="ThrusterFlame" type="Polygon2D" parent="Visuals"]
+visible = false
+color = Color(1, 0.5, 0.1, 0.95)
+polygon = PackedVector2Array(-8, 16, 0, 34, 8, 16, 0, 20)
+
+[node name="WingLeft" type="Polygon2D" parent="Visuals"]
+color = Color(0.04, 0.35, 0.55, 0.95)
+polygon = PackedVector2Array(-10, 8, -26, 20, -12, 18)
+
+[node name="WingRight" type="Polygon2D" parent="Visuals"]
+color = Color(0.04, 0.35, 0.55, 0.95)
+polygon = PackedVector2Array(10, 8, 26, 20, 12, 18)
+
+[node name="ShipPoly" type="Polygon2D" parent="Visuals"]
+color = Color(0.08, 0.5, 0.75, 1)
+polygon = PackedVector2Array(0, -28, 16, 18, 0, 12, -16, 18)
+
+[node name="Line2D" type="Line2D" parent="Visuals"]
+points = PackedVector2Array(0, -28, 16, 18, 0, 12, -16, 18, 0, -28)
+width = 3.0
+default_color = Color(0, 0.9, 1, 1)
+joint_mode = 2
+
+[node name="ShieldBubble" type="Line2D" parent="."]
+visible = false
+points = PackedVector2Array(0, -36, 25, -25, 36, 0, 25, 25, 0, 36, -25, 25, -36, 0, -25, -25, 0, -36)
+width = 3.0
+default_color = Color(0.2, 0.9, 1, 0.7)
+joint_mode = 2
+
+[node name="Hitbox" type="Area2D" parent="."]
+collision_mask = 10
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
+shape = SubResource("CircleShape2D_hitbox")
