@@ -15,7 +15,7 @@ Pläne und Entscheidungen: [plans/](plans/00_README_Engine_und_Uebersicht.md)
 |---|---|---|---|---|
 | [Block Stack](block_stack/README.md) | `v1.0.0` | Vollständig spielbar (Marathon, Sprint, Ultra, CPU-Duell), M0–M7 fertig | [▶ Spielen](https://chobitschii.github.io/games/block_stack/) | [Release & Downloads](../../releases/tag/block_stack-latest) |
 | [Lane Defenders](lane_defenders/README.md) | `v1.5.4` | Vollständig spielbar (10 Level, 2 Welten, Bosskampf), M0–M7 fertig | [▶ Spielen](https://chobitschii.github.io/games/lane_defenders/) | [Release & Downloads](../../releases/tag/lane_defenders-latest) |
-| [Connect Four Deluxe](vier_gewinnt/README.md) | `v1.1.4` | Vollständig spielbar (vs. KI Leicht/Mittel/Schwer, Hotseat, Bitboard-Engine), M0–M6 fertig | [▶ Spielen](https://chobitschii.github.io/games/vier_gewinnt/) | [Release & Downloads](../../releases/tag/vier_gewinnt-latest) |
+| [Connect Four Deluxe](vier_gewinnt/README.md) | `v1.1.5` | Vollständig spielbar (vs. KI Leicht/Mittel/Schwer, Hotseat, Bitboard-Engine), M0–M6 fertig | [▶ Spielen](https://chobitschii.github.io/games/vier_gewinnt/) | [Release & Downloads](../../releases/tag/vier_gewinnt-latest) |
 | [Neon Breakout](neon_breakout/README.md) | `v0.1.0` | Prototyp: M0 (Setup) und M1 (Spielkern) fertig, Optik noch Platzhalter | [▶ Spielen](https://chobitschii.github.io/games/neon_breakout/) | [Release & Downloads](../../releases/tag/neon_breakout-latest) |
 
 ## Werkzeuge
