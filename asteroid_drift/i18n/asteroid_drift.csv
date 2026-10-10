@@ -6,11 +6,11 @@ MENU_SETTINGS,Einstellungen,Settings
 MENU_CREDITS,Credits,Credits
 MENU_QUIT,Beenden,Quit
 MENU_HOW_TO_PLAY,Steuerung,How to Play
-MENU_CONTROLS_ROTATE,Drehen: A / D oder Pfeiltasten,Rotate: A / D or Arrow Keys
-MENU_CONTROLS_THRUST,Schub: W oder Pfeil oben,Thrust: W or Arrow Up
-MENU_CONTROLS_FIRE,Feuer: Leertaste oder Mausklick,Fire: Space or Left Click
-MENU_CONTROLS_HYPERSPACE,Hyperspace: H oder Shift,Hyperspace: H or Shift
-MENU_CONTROLS_PAUSE,Pause: Esc oder P,Pause: Esc or P
+MENU_CONTROLS_ROTATE,"Drehen: Mausbewegung, A / D oder Pfeiltasten","Rotate: Mouse Aim, A / D or Arrow Keys"
+MENU_CONTROLS_THRUST,"Schub: Rechte Maustaste, W oder Pfeil oben","Thrust: Right Click, W or Arrow Up"
+MENU_CONTROLS_FIRE,"Feuer: Linke Maustaste oder Leertaste","Fire: Left Click or Space"
+MENU_CONTROLS_HYPERSPACE,"Hyperspace: H oder Shift","Hyperspace: H or Shift"
+MENU_CONTROLS_PAUSE,"Pause: Esc oder P","Pause: Esc or P"
 MENU_BACK,Zurück,Back
 MENU_SPLASH_PROMPT,Klicke oder drücke eine Taste zum Starten,Click or press any key to start
 HUD_SCORE,Punkte,Score

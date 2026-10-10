@@ -5,8 +5,8 @@ Modernes Sci-Fi Arcade-Shooter-Spiel (Asteroids-Like) mit Trägheitsphysik, proz
 ## Steuerung
 | Aktion | Tastatur | Gamepad / Maus |
 |---|---|---|
-| Drehen links / rechts | `←` / `→` oder `A` / `D` | D-Pad Links / Rechts, Stick |
-| Schub | `↑` oder `W` | D-Pad Oben, Stick Hoch |
+| Drehen links / rechts | `←` / `→` oder `A` / `D` | Mauszeiger / Mausbewegung, D-Pad, Stick |
+| Schub | `↑` oder `W` | Rechte Maustaste, D-Pad Oben, Stick Hoch |
 | Feuern | Leertaste oder `J` | Linke Maustaste, `A`, `RB` |
 | Hyperspace-Sprung | `H` oder `Umschalt` | `B`, `Y` |
 | Pause | `Esc` oder `P` | `Start` |

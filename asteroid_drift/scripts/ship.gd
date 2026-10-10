@@ -70,6 +70,16 @@ func apply_upgrades(acquired_counts: Dictionary) -> void:
 	_update_shield_visual()
 
 
+var _using_mouse_aim := false
+
+
+func _unhandled_input(event: InputEvent) -> void:
+	if autoplay:
+		return
+	if event is InputEventMouseMotion:
+		_using_mouse_aim = true
+
+
 func _physics_process(delta: float) -> void:
 	var turn_input := 0.0
 	var is_thrusting := false
@@ -85,17 +95,26 @@ func _physics_process(delta: float) -> void:
 	else:
 		if Input.is_action_pressed("rotate_left"):
 			turn_input -= 1.0
+			_using_mouse_aim = false
 		if Input.is_action_pressed("rotate_right"):
 			turn_input += 1.0
-		if Input.is_action_pressed("thrust"):
+			_using_mouse_aim = false
+		if Input.is_action_pressed("thrust") or Input.is_mouse_button_pressed(MOUSE_BUTTON_RIGHT):
 			is_thrusting = true
 		if Input.is_action_pressed("fire"):
 			wants_fire = true
 		if Input.is_action_just_pressed("hyperspace"):
 			trigger_hyperspace()
 
-	# Drehung
-	rotation += turn_input * turn_speed * delta
+		if _using_mouse_aim:
+			var mouse_pos := get_global_mouse_position()
+			if global_position.distance_to(mouse_pos) > 10.0:
+				var target_angle := (mouse_pos - global_position).angle() + (PI / 2.0)
+				rotation = rotate_toward(rotation, target_angle, turn_speed * 2.5 * delta)
+
+	# Drehung per Tastatur / Gamepad
+	if not _using_mouse_aim:
+		rotation += turn_input * turn_speed * delta
 
 	# Schub & Dämpfung
 	if is_thrusting:

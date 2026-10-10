@@ -53,7 +53,13 @@ var _audio_mgr: AudioManager
 
 
 func _ready() -> void:
-	process_mode = Node.PROCESS_MODE_PAUSABLE
+	process_mode = Node.PROCESS_MODE_ALWAYS
+
+	var app_theme: Theme = ThemeFactory.build(Constants.PALETTE)
+	hud.theme = app_theme
+	pause_menu.theme = app_theme
+	game_over_menu.theme = app_theme
+	upgrade_picker.theme = app_theme
 
 	_audio_mgr = AudioManager.new()
 	add_child(_audio_mgr)
@@ -95,12 +101,14 @@ func _get_seed_from_cmdline() -> int:
 	return 0
 
 
-func _unhandled_input(event: InputEvent) -> void:
-	if event.is_action_just_pressed("pause"):
+func _input(event: InputEvent) -> void:
+	if event.is_action_pressed("pause"):
 		if state == State.PLAYING:
 			_pause_game()
+			get_viewport().set_input_as_handled()
 		elif state == State.PAUSED:
 			_resume_game()
+			get_viewport().set_input_as_handled()
 
 
 func _physics_process(delta: float) -> void:
@@ -231,6 +239,7 @@ func _on_wave_cleared() -> void:
 		if not options.is_empty():
 			state = State.UPGRADE
 			upgrade_picker.display_options(options)
+			get_tree().paused = true
 			return
 
 	_start_wave(wave + 1)
@@ -240,6 +249,7 @@ func _on_upgrade_chosen(upgrade_id: String) -> void:
 	var current: int = int(_acquired_upgrades.get(upgrade_id, 0))
 	_acquired_upgrades[upgrade_id] = current + 1
 	ship.apply_upgrades(_acquired_upgrades)
+	get_tree().paused = false
 	state = State.PLAYING
 	_start_wave(wave + 1)
 
@@ -365,6 +375,7 @@ func _update_hud() -> void:
 func _pause_game() -> void:
 	state = State.PAUSED
 	pause_menu.visible = true
+	%ResumeButton.grab_focus()
 	get_tree().paused = true
 
 

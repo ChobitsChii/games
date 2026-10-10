@@ -26,7 +26,15 @@ func _pulse_prompt() -> void:
 	pulse.tween_property(prompt_label, "modulate:a", 1.0, 0.8)
 
 
+func _gui_input(event: InputEvent) -> void:
+	_check_input(event)
+
+
 func _unhandled_input(event: InputEvent) -> void:
+	_check_input(event)
+
+
+func _check_input(event: InputEvent) -> void:
 	if not _can_continue:
 		return
 	if event is InputEventKey and event.pressed:
