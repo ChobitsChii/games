@@ -46,7 +46,7 @@ func _ready() -> void:
 	controller.start_game(mode, diff, starter)
 
 
-func _input(event: InputEvent) -> void:
+func _unhandled_input(event: InputEvent) -> void:
 	if autoplay or controller == null:
 		return
 
@@ -66,7 +66,10 @@ func _input(event: InputEvent) -> void:
 	if hud != null and hud.is_top_bar_focused():
 		return
 
-	# Spielsteinbewegung auf dem Brett:
+	# Spielsteinbewegung auf dem Brett nur, wenn ein Spieler am Zug ist:
+	if controller.state != GameController.State.PLAYER_TURN:
+		return
+
 	if event.is_action_pressed("move_left"):
 		controller.move_column_left()
 		if sound_effects != null:
@@ -79,7 +82,7 @@ func _input(event: InputEvent) -> void:
 			sound_effects.play_hover()
 		board_view.queue_redraw()
 		get_viewport().set_input_as_handled()
-	elif event.is_action_pressed("drop"):
+	elif event.is_action_pressed("drop") and not (event is InputEventMouseButton):
 		controller.request_drop()
 		get_viewport().set_input_as_handled()
 

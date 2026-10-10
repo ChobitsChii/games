@@ -60,13 +60,14 @@ func _setup_focus_navigation() -> void:
 
 
 func focus_top_bar() -> void:
-	if not pause_modal.visible:
-		if not btn_hint.disabled:
-			btn_hint.grab_focus()
-		elif not btn_undo.disabled:
-			btn_undo.grab_focus()
-		else:
-			btn_restart.grab_focus()
+	if not is_inside_tree() or pause_modal.visible:
+		return
+	if not btn_hint.disabled and btn_hint.is_inside_tree():
+		btn_hint.grab_focus()
+	elif not btn_undo.disabled and btn_undo.is_inside_tree():
+		btn_undo.grab_focus()
+	elif btn_restart.is_inside_tree():
+		btn_restart.grab_focus()
 
 
 func is_top_bar_focused() -> bool:
@@ -76,7 +77,7 @@ func is_top_bar_focused() -> bool:
 
 func release_menu_focus() -> void:
 	var focused := get_viewport().gui_get_focus_owner()
-	if focused != null and is_top_bar_focused():
+	if focused != null:
 		focused.release_focus()
 
 
@@ -217,10 +218,16 @@ func _toggle_pause() -> void:
 	var sfx := SoundEffects.get_instance()
 	if sfx != null:
 		sfx.play_button()
+	if pause_modal.visible:
+		if is_inside_tree() and btn_resume.is_inside_tree():
+			btn_resume.grab_focus()
+	else:
+		release_menu_focus()
 
 
 func _on_resume_pressed() -> void:
 	pause_modal.visible = false
+	release_menu_focus()
 	var sfx := SoundEffects.get_instance()
 	if sfx != null:
 		sfx.play_button()

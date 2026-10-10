@@ -255,3 +255,48 @@ func test_winner_turn_indicator_color() -> void:
 		tree.root.remove_child(hud)
 	hud.free()
 
+
+func test_hud_buttons_remain_active_after_game_over() -> void:
+	var hud: HUD = load("res://scenes/hud.tscn").instantiate()
+	var tree := Engine.get_main_loop() as SceneTree
+	if tree != null and tree.root != null:
+		tree.root.add_child(hud)
+		hud._ready()
+
+	var controller := GameController.new()
+	controller.start_game(GameController.GameMode.HOTSEAT, ConnectFourAI.Difficulty.EASY, GameController.Starter.PLAYER_1)
+	hud.setup(controller)
+
+	# 4 in einer Reihe für Spieler 1
+	var moves := [0, 0, 1, 1, 2, 2, 3]
+	for col in moves:
+		controller.request_drop(col)
+		controller.on_drop_animation_finished()
+
+	assert_true(controller.board.has_won(), "Spiel beendet")
+	assert_eq(controller.state, GameController.State.GAME_OVER, "Status ist GAME_OVER")
+
+	# Nach Spielende: BtnRestart und BtnPause MÜSSEN aktiv (nicht disabled) bleiben!
+	assert_false(hud.btn_restart.disabled, "BtnRestart bleibt nach Spielende klickbar")
+	assert_false(hud.btn_pause.disabled, "BtnPause bleibt nach Spielende klickbar")
+	assert_false(hud.btn_fullscreen.disabled, "BtnFullscreen bleibt nach Spielende klickbar")
+	assert_true(hud.btn_hint.disabled, "BtnHint ist nach Spielende deaktiviert")
+	assert_true(hud.btn_undo.disabled, "BtnUndo ist nach Spielende deaktiviert")
+
+	# Klick auf Neustart über Signal
+	var restarted := [false]
+	hud.restart_pressed.connect(func() -> void: restarted[0] = true)
+	hud._on_restart_pressed()
+	assert_true(restarted[0], "Restart-Signal wurde ausgelöst")
+
+	# Pause-Menü öffnen und Modal-Buttons prüfen
+	hud._on_pause_pressed()
+	assert_true(hud.pause_modal.visible, "PauseModal öffnet sich nach Klick auf Pause")
+	assert_false(hud.btn_resume.disabled, "BtnResume im PauseModal klickbar")
+	assert_false(hud.btn_modal_restart.disabled, "BtnModalRestart im PauseModal klickbar")
+	assert_false(hud.btn_modal_menu.disabled, "BtnModalMenu im PauseModal klickbar")
+
+	if tree != null and tree.root != null:
+		tree.root.remove_child(hud)
+	hud.free()
+
