@@ -109,11 +109,15 @@ func _start_floor(floor_num: int) -> void:
 	_update_hud()
 
 
+var _room_transition_cooldown: float = 0.0
+
+
 func _load_room(coords: Vector2i, enter_from: String) -> void:
 	if current_room_instance != null:
 		current_room_instance.queue_free()
 
 	current_room_coords = coords
+	_room_transition_cooldown = 0.4
 	if _minimap != null:
 		_minimap.set_current_room(coords)
 
@@ -123,23 +127,26 @@ func _load_room(coords: Vector2i, enter_from: String) -> void:
 	current_room_instance.door_entered.connect(_on_door_entered)
 	_world_node.add_child(current_room_instance)
 
-	# Spieler an der passenden Tür platzieren
+	# Spieler mit sicherem Abstand zur Tür platzieren (außerhalb des Tür-Triggers)
 	var w := CryptDashConfig.ROOM_PIXEL_WIDTH
 	var h := CryptDashConfig.ROOM_PIXEL_HEIGHT
 	match enter_from:
 		"north":
-			player.global_position = Vector2(w / 2.0, 110.0)
+			player.global_position = Vector2(w / 2.0, 140.0)
 		"south":
-			player.global_position = Vector2(w / 2.0, h - 110.0)
+			player.global_position = Vector2(w / 2.0, h - 140.0)
 		"west":
-			player.global_position = Vector2(110.0, h / 2.0)
+			player.global_position = Vector2(140.0, h / 2.0)
 		"east":
-			player.global_position = Vector2(w - 110.0, h / 2.0)
+			player.global_position = Vector2(w - 140.0, h / 2.0)
 		"center":
 			player.global_position = Vector2(w / 2.0, h / 2.0)
 
 
 func _on_door_entered(dir: String) -> void:
+	if _room_transition_cooldown > 0.0:
+		return
+
 	var next_coords := current_room_coords
 	var enter_from := "center"
 	match dir:
@@ -203,6 +210,9 @@ func _on_screen_shake(intensity: float, duration: float) -> void:
 
 
 func _process(delta: float) -> void:
+	if _room_transition_cooldown > 0.0:
+		_room_transition_cooldown -= delta
+
 	if _shake_timer > 0.0:
 		_shake_timer -= delta
 		camera.offset = Vector2(randf_range(-1, 1), randf_range(-1, 1)) * _shake_intensity
