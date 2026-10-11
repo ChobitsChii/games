@@ -327,3 +327,37 @@ func test_keyboard_focus_indicator() -> void:
 
 	board_view.free()
 
+
+func test_main_menu_mode_toggle_and_difficulty_state() -> void:
+	var menu: MainMenu = load("res://scenes/main_menu.tscn").instantiate()
+	var tree := Engine.get_main_loop() as SceneTree
+	if tree != null and tree.root != null:
+		tree.root.add_child(menu)
+		menu._ready()
+
+	assert_true(menu.btn_play != null, "BtnPlay existiert")
+	assert_true(menu.btn_mode != null, "BtnMode existiert")
+	assert_true(menu.btn_difficulty != null, "BtnDifficulty existiert")
+
+	# Standardmäßig Modus AI: Difficulty aktiv
+	menu._mode = GameController.GameMode.AI
+	menu._update_button_texts()
+	assert_false(menu.btn_difficulty.disabled, "Difficulty bei AI aktiv")
+	assert_eq(menu.btn_mode.text, tr("MENU_PLAY_AI"), "Modus-Button zeigt Gegen Computer")
+
+	# Umschalten auf 2 Spieler (Hotseat)
+	menu._on_toggle_mode()
+	assert_eq(menu._mode, GameController.GameMode.HOTSEAT, "Modus ist nun Hotseat")
+	assert_true(menu.btn_difficulty.disabled, "Difficulty bei Hotseat deaktiviert")
+	assert_eq(menu.btn_mode.text, tr("MENU_PLAY_HOTSEAT"), "Modus-Button zeigt 2 Spieler (Lokal)")
+	assert_eq(menu.btn_difficulty.text, tr("MENU_DIFF_NA"), "Difficulty-Text zeigt entfällt")
+
+	# Zurückschalten auf AI
+	menu._on_toggle_mode()
+	assert_eq(menu._mode, GameController.GameMode.AI, "Modus wieder AI")
+	assert_false(menu.btn_difficulty.disabled, "Difficulty wieder aktiv")
+
+	if tree != null and tree.root != null:
+		tree.root.remove_child(menu)
+	menu.free()
+

@@ -10,6 +10,10 @@ func _initialize() -> void:
 	paths.sort()
 	for path in paths:
 		var script: GDScript = load(path)
+		if script == null:
+			print("  FAIL  %s::load_failed" % path.get_file())
+			failed += 1
+			continue
 		var instance: TestCase = script.new()
 		for info in script.get_script_method_list():
 			var test_name: String = info["name"]

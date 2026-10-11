@@ -2,8 +2,9 @@ class_name MainMenu
 extends Control
 ## Hauptmenü von Connect Four Deluxe: Spielstart, KI-Wahl, Einstellungen, Statistik, Credits.
 
-@onready var btn_play_ai: Button = %BtnPlayAI
-@onready var btn_play_hotseat: Button = %BtnPlayHotseat
+@onready var btn_play: Button = %BtnPlay
+@onready var btn_mode: Button = %BtnMode
+@onready var label_diff: Label = %LabelDiff
 @onready var btn_difficulty: Button = %BtnDifficulty
 @onready var btn_starter: Button = %BtnStarter
 @onready var btn_colorblind: Button = %BtnColorblind
@@ -25,6 +26,7 @@ extends Control
 @onready var credits_content: Label = %CreditsContent
 @onready var btn_close_credits: Button = %BtnCloseCredits
 
+var _mode := GameController.GameMode.AI
 var _difficulty := ConnectFourAI.Difficulty.MEDIUM
 var _starter := GameController.Starter.PLAYER_1
 var _colorblind := false
@@ -40,6 +42,7 @@ func _ready() -> void:
 		"text_dim": GameConfig.PALETTE["text_dim"],
 	})
 
+	_setup_play_button_style()
 	_load_saved_settings()
 	_update_button_texts()
 
@@ -49,13 +52,13 @@ func _ready() -> void:
 
 	var ds := _get_display_service()
 	if ds != null and ds.has_signal("mode_changed"):
-		ds.mode_changed.connect(func(_mode: int) -> void: _update_button_texts())
+		ds.mode_changed.connect(func(_mode_val: int) -> void: _update_button_texts())
 
 	stats_modal.visible = false
 	credits_modal.visible = false
 
-	btn_play_ai.pressed.connect(_on_play_ai)
-	btn_play_hotseat.pressed.connect(_on_play_hotseat)
+	btn_play.pressed.connect(_on_play)
+	btn_mode.pressed.connect(_on_toggle_mode)
 	btn_difficulty.pressed.connect(_on_toggle_difficulty)
 	btn_starter.pressed.connect(_on_toggle_starter)
 	btn_colorblind.pressed.connect(_on_toggle_colorblind)
@@ -73,10 +76,65 @@ func _ready() -> void:
 	if OS.has_feature("web"):
 		btn_quit.visible = false
 
+	btn_play.call_deferred("grab_focus")
+
+
+func _setup_play_button_style() -> void:
+	var normal_box := StyleBoxFlat.new()
+	normal_box.bg_color = Color(0.12, 0.38, 0.78, 0.95)
+	normal_box.border_color = GameConfig.PALETTE["accent"]
+	normal_box.set_border_width_all(2)
+	normal_box.set_corner_radius_all(14)
+	normal_box.shadow_color = Color(GameConfig.PALETTE["accent"], 0.4)
+	normal_box.shadow_size = 10
+	normal_box.content_margin_top = 12
+	normal_box.content_margin_bottom = 12
+	normal_box.content_margin_left = 28
+	normal_box.content_margin_right = 28
+	btn_play.add_theme_stylebox_override("normal", normal_box)
+
+	var hover_box := StyleBoxFlat.new()
+	hover_box.bg_color = Color(0.16, 0.48, 0.92, 1.0)
+	hover_box.border_color = GameConfig.PALETTE["win_gold"]
+	hover_box.set_border_width_all(3)
+	hover_box.set_corner_radius_all(14)
+	hover_box.shadow_color = Color(GameConfig.PALETTE["win_gold"], 0.5)
+	hover_box.shadow_size = 16
+	hover_box.content_margin_top = 12
+	hover_box.content_margin_bottom = 12
+	hover_box.content_margin_left = 28
+	hover_box.content_margin_right = 28
+	btn_play.add_theme_stylebox_override("hover", hover_box)
+
+	var pressed_box := StyleBoxFlat.new()
+	pressed_box.bg_color = Color(0.10, 0.32, 0.68, 1.0)
+	pressed_box.border_color = GameConfig.PALETTE["win_gold"]
+	pressed_box.set_border_width_all(2)
+	pressed_box.set_corner_radius_all(14)
+	pressed_box.shadow_color = Color(0, 0, 0, 0.5)
+	pressed_box.shadow_size = 6
+	pressed_box.content_margin_top = 12
+	pressed_box.content_margin_bottom = 12
+	pressed_box.content_margin_left = 28
+	pressed_box.content_margin_right = 28
+	btn_play.add_theme_stylebox_override("pressed", pressed_box)
+
+	var focus_box := StyleBoxFlat.new()
+	focus_box.draw_center = false
+	focus_box.border_color = GameConfig.PALETTE["win_gold"]
+	focus_box.set_border_width_all(3)
+	focus_box.set_corner_radius_all(14)
+	focus_box.content_margin_top = 12
+	focus_box.content_margin_bottom = 12
+	focus_box.content_margin_left = 28
+	focus_box.content_margin_right = 28
+	btn_play.add_theme_stylebox_override("focus", focus_box)
+
 
 func _load_saved_settings() -> void:
 	var save_service := _get_save_service()
 	if save_service != null:
+		_mode = save_service.get_value("connect_four", "mode", GameController.GameMode.AI)
 		_difficulty = save_service.get_value("connect_four", "difficulty", ConnectFourAI.Difficulty.MEDIUM)
 		_starter = save_service.get_value("connect_four", "starter", GameController.Starter.PLAYER_1)
 		_colorblind = save_service.get_value("connect_four", "colorblind", false)
@@ -85,6 +143,7 @@ func _load_saved_settings() -> void:
 func _save_settings() -> void:
 	var save_service := _get_save_service()
 	if save_service != null:
+		save_service.set_value("connect_four", "mode", _mode)
 		save_service.set_value("connect_four", "difficulty", _difficulty)
 		save_service.set_value("connect_four", "starter", _starter)
 		save_service.set_value("connect_four", "colorblind", _colorblind)
@@ -92,23 +151,37 @@ func _save_settings() -> void:
 
 
 func _update_button_texts() -> void:
-	match _difficulty:
-		ConnectFourAI.Difficulty.EASY:
-			btn_difficulty.text = "MENU_DIFF_EASY"
-		ConnectFourAI.Difficulty.MEDIUM:
-			btn_difficulty.text = "MENU_DIFF_MEDIUM"
-		ConnectFourAI.Difficulty.HARD:
-			btn_difficulty.text = "MENU_DIFF_HARD"
+	btn_play.text = tr("MENU_START_GAME")
+
+	match _mode:
+		GameController.GameMode.AI:
+			btn_mode.text = tr("MENU_PLAY_AI")
+			btn_difficulty.disabled = false
+			label_diff.modulate = Color(1, 1, 1, 1)
+			btn_difficulty.modulate = Color(1, 1, 1, 1)
+			match _difficulty:
+				ConnectFourAI.Difficulty.EASY:
+					btn_difficulty.text = tr("MENU_DIFF_EASY")
+				ConnectFourAI.Difficulty.MEDIUM:
+					btn_difficulty.text = tr("MENU_DIFF_MEDIUM")
+				ConnectFourAI.Difficulty.HARD:
+					btn_difficulty.text = tr("MENU_DIFF_HARD")
+		GameController.GameMode.HOTSEAT:
+			btn_mode.text = tr("MENU_PLAY_HOTSEAT")
+			btn_difficulty.disabled = true
+			label_diff.modulate = Color(1, 1, 1, 0.45)
+			btn_difficulty.modulate = Color(1, 1, 1, 0.5)
+			btn_difficulty.text = tr("MENU_DIFF_NA")
 
 	match _starter:
 		GameController.Starter.PLAYER_1:
-			btn_starter.text = "MENU_STARTER_PLAYER1"
+			btn_starter.text = tr("MENU_STARTER_PLAYER1")
 		GameController.Starter.PLAYER_2_OR_AI:
-			btn_starter.text = "MENU_STARTER_PLAYER2"
+			btn_starter.text = tr("MENU_STARTER_PLAYER2")
 		GameController.Starter.RANDOM:
-			btn_starter.text = "MENU_STARTER_RANDOM"
+			btn_starter.text = tr("MENU_STARTER_RANDOM")
 
-	btn_colorblind.text = "MENU_COLORBLIND_ON" if _colorblind else "MENU_COLORBLIND_OFF"
+	btn_colorblind.text = tr("MENU_COLORBLIND_ON") if _colorblind else tr("MENU_COLORBLIND_OFF")
 
 	var ls := _get_locale_service()
 	var lang_name: String = ls.get_language_name() if (ls != null and ls.has_method("get_language_name")) else "Deutsch"
@@ -119,20 +192,21 @@ func _update_button_texts() -> void:
 	btn_display.text = "%s: %s" % [tr("COMMON_DISPLAY_MODE"), tr(mode_key)]
 
 
-func _on_play_ai() -> void:
+func _on_play() -> void:
 	_save_settings()
 	var ss := _get_save_service()
 	if ss != null:
-		ss.set_value("session", "mode", GameController.GameMode.AI)
+		ss.set_value("session", "mode", _mode)
 	get_tree().change_scene_to_file("res://scenes/game.tscn")
 
 
-func _on_play_hotseat() -> void:
+func _on_toggle_mode() -> void:
+	if _mode == GameController.GameMode.AI:
+		_mode = GameController.GameMode.HOTSEAT
+	else:
+		_mode = GameController.GameMode.AI
+	_update_button_texts()
 	_save_settings()
-	var ss := _get_save_service()
-	if ss != null:
-		ss.set_value("session", "mode", GameController.GameMode.HOTSEAT)
-	get_tree().change_scene_to_file("res://scenes/game.tscn")
 
 
 func _on_toggle_difficulty() -> void:

@@ -1,11 +1,14 @@
 keys,de,en
 MENU_TITLE,Vier gewinnt Deluxe,Connect Four Deluxe
+MENU_START_GAME,Spiel starten,Start Game
+MENU_MODE,Modus,Mode
 MENU_PLAY_AI,Gegen Computer,vs Computer
 MENU_PLAY_HOTSEAT,2 Spieler (Lokal),2 Players (Local)
 MENU_DIFFICULTY,Schwierigkeit,Difficulty
 MENU_DIFF_EASY,Leicht,Easy
 MENU_DIFF_MEDIUM,Mittel,Medium
 MENU_DIFF_HARD,Schwer,Hard
+MENU_DIFF_NA,- (Entfällt),- (N/A)
 MENU_STARTER,Startspieler,First Player
 MENU_STARTER_PLAYER1,Spieler 1 (Rot),Player 1 (Red)
 MENU_STARTER_PLAYER2,Spieler 2 / KI (Gelb),Player 2 / AI (Yellow)
