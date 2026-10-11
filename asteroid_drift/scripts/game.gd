@@ -156,6 +156,10 @@ func _start_wave(wave_num: int) -> void:
 	level = wave_num
 	_wave_in_progress = true
 
+	var best_wave: int = int(SaveService.get_value("highscore", "best_wave", 1))
+	if wave > best_wave:
+		SaveService.set_value("highscore", "best_wave", wave)
+
 	_show_banner(tr("MSG_WAVE_START_FMT") % wave)
 	_audio_mgr.play("wave_start")
 
@@ -404,11 +408,18 @@ func _to_main_menu() -> void:
 
 func _game_over() -> void:
 	state = State.GAME_OVER
+	get_tree().paused = true
 	game_over_menu.visible = true
 	final_score_label.text = tr("GAME_OVER_SCORE_FMT") % score
 	final_wave_label.text = tr("GAME_OVER_WAVE_FMT") % wave
+
+	var best_wave: int = int(SaveService.get_value("highscore", "best_wave", 1))
+	if wave > best_wave:
+		SaveService.set_value("highscore", "best_wave", wave)
 
 	if score >= highscore and score > 0:
 		new_high_score_label.visible = true
 	else:
 		new_high_score_label.visible = false
+
+	%RetryButton.grab_focus()

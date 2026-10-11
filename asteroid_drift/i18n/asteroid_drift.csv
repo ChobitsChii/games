@@ -18,6 +18,7 @@ HUD_SCORE_FMT,Punkte: %d,Score: %d
 HUD_WAVE,Welle,Wave
 HUD_WAVE_FMT,Welle: %d,Wave: %d
 HUD_HIGH_SCORE_FMT,Rekord: %d,Best: %d
+HUD_HIGH_SCORE_WITH_WAVE_FMT,"Rekord: %d (Welle %d)","Best: %d (Wave %d)"
 HUD_LIVES,Leben,Lives
 HUD_SHIELD,Schild,Shield
 HUD_HYPERSPACE,Hyperspace,Hyperspace

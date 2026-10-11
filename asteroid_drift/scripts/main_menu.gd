@@ -53,7 +53,11 @@ func _ready() -> void:
 
 func _update_highscore_display() -> void:
 	var highscore: int = int(SaveService.get_value("highscore", "best", 0))
-	highscore_label.text = tr("HUD_HIGH_SCORE_FMT") % highscore
+	var best_wave: int = int(SaveService.get_value("highscore", "best_wave", 1))
+	if highscore > 0:
+		highscore_label.text = tr("HUD_HIGH_SCORE_WITH_WAVE_FMT") % [highscore, best_wave]
+	else:
+		highscore_label.text = tr("HUD_HIGH_SCORE_FMT") % 0
 
 
 func _update_language_button_text() -> void:

@@ -204,7 +204,7 @@ func trigger_hyperspace() -> void:
 
 
 func take_damage() -> void:
-	if is_invulnerable:
+	if is_invulnerable or lives <= 0:
 		return
 
 	if shield_current >= 1.0:
@@ -214,13 +214,16 @@ func take_damage() -> void:
 		took_damage.emit(lives, shield_current)
 		return
 
-	lives -= 1
+	lives = maxi(0, lives - 1)
 	took_damage.emit(lives, shield_current)
 
 	if lives <= 0:
 		destroyed.emit()
 		visible = false
 		set_physics_process(false)
+		if hitbox:
+			hitbox.set_deferred("monitoring", false)
+			hitbox.set_deferred("monitorable", false)
 	else:
 		respawn()
 
@@ -232,6 +235,10 @@ func respawn() -> void:
 	is_invulnerable = true
 	_invulnerable_timer = Constants.SHIP_INVULNERABILITY_TIME
 	visible = true
+	set_physics_process(true)
+	if hitbox:
+		hitbox.set_deferred("monitoring", true)
+		hitbox.set_deferred("monitorable", true)
 
 
 func repair_shield(amount: float) -> void:
