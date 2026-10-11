@@ -5,10 +5,10 @@ Modernes Puzzle-Spiel im Tetris-Guideline-Stil (SRS, 7-Bag, Hold, Ghost Piece) m
 ## Steuerung
 | Aktion | Tastatur | Gamepad |
 |---|---|---|
-| Links / Rechts | `←` / `→` oder `A` / `D` | D-Pad Links / Rechts, Stick |
-| Soft Drop | `↓` oder `S` | D-Pad Unten, Stick Runter |
+| Links / Rechts | Pfeil Links / Rechts oder `A` / `D` | D-Pad Links / Rechts, Stick |
+| Soft Drop | Pfeil Unten oder `S` | D-Pad Unten, Stick Runter |
 | Hard Drop | Leertaste | D-Pad Oben, `Y` |
-| Drehen im Uhrzeigersinn | `↑` oder `X` | `A`, `B` |
+| Drehen im Uhrzeigersinn | Pfeil Oben oder `X` | `A`, `B` |
 | Drehen gegen Uhrzeigersinn | `Z` oder `Strg` | `X` |
 | Hold (Tauschen) | `C` oder `Umschalt` | `LB`, `RB` |
 | Pause | `Esc` oder `P` | `Start` |
