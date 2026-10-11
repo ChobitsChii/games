@@ -15,6 +15,97 @@ var _door_colliders: Dictionary = {}
 var _door_triggers: Dictionary = {}
 
 
+class FloorExitNode extends Area2D:
+	var _time: float = 0.0
+	var label: Label
+
+	func _init() -> void:
+		z_index = 1
+		collision_layer = 0
+		collision_mask = 2 # Spieler
+
+		var shape := CollisionShape2D.new()
+		var circle := CircleShape2D.new()
+		circle.radius = 48.0
+		shape.shape = circle
+		add_child(shape)
+
+		label = Label.new()
+		label.text = "ROOM_FLOOR_EXIT"
+		label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		label.add_theme_font_size_override("font_size", 18)
+		label.add_theme_color_override("font_color", Color("38bdf8"))
+		label.position = Vector2(-120, -75)
+		label.custom_minimum_size = Vector2(240, 24)
+		add_child(label)
+
+	func _process(delta: float) -> void:
+		_time += delta
+		queue_redraw()
+
+	func _draw() -> void:
+		var pulse: float = sin(_time * 4.0) * 0.15 + 0.85
+		# Äußerer Runenkreis / Glow
+		draw_circle(Vector2.ZERO, 54.0 * pulse, Color(0.06, 0.71, 0.83, 0.25))
+		# Steiniger Schacht-Rahmen
+		draw_circle(Vector2.ZERO, 46.0, Color("0f172a"))
+		draw_arc(Vector2.ZERO, 46.0, 0, TAU, 32, Color("38bdf8"), 3.5)
+		# Dunkles Loch nach unten
+		draw_circle(Vector2.ZERO, 38.0, Color("020617"))
+		# Magischer Strudel / Spirale nach unten
+		for i in range(4):
+			var ang: float = _time * 2.5 + i * (PI / 2.0)
+			var p1 := Vector2(cos(ang), sin(ang)) * 10.0
+			var p2 := Vector2(cos(ang + 0.8), sin(ang + 0.8)) * 34.0
+			draw_line(p1, p2, Color("06b6d4"), 2.5)
+		# Leuchtendes Zentrum
+		draw_circle(Vector2.ZERO, 8.0 * pulse, Color("67e8f9"))
+
+
+class PedestalNode extends Area2D:
+	var _time: float = 0.0
+	var label: Label
+
+	func _init() -> void:
+		z_index = 1
+		collision_layer = 0
+		collision_mask = 2 # Spieler
+
+		var shape := CollisionShape2D.new()
+		var circle := CircleShape2D.new()
+		circle.radius = 48.0
+		shape.shape = circle
+		add_child(shape)
+
+		label = Label.new()
+		label.text = "ROOM_ALTAR_PEDESTAL"
+		label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		label.add_theme_font_size_override("font_size", 18)
+		label.add_theme_color_override("font_color", Color("facc15"))
+		label.position = Vector2(-120, -75)
+		label.custom_minimum_size = Vector2(240, 24)
+		add_child(label)
+
+	func _process(delta: float) -> void:
+		_time += delta
+		queue_redraw()
+
+	func _draw() -> void:
+		var bob: float = sin(_time * 3.0) * 4.0
+		# Altar-Sockel aus Stein
+		draw_rect(Rect2(-32, 10, 64, 20), Color("1e293b"))
+		draw_rect(Rect2(-28, -8, 56, 18), Color("334155"))
+		# Goldene Runenverzierung
+		draw_line(Vector2(-28, 10), Vector2(28, 10), Color("eab308"), 2.0)
+		# Schwebende Schatzkiste / Relikt
+		var chest_pos := Vector2(0, -22 + bob)
+		draw_circle(chest_pos, 22.0, Color(0.9, 0.7, 0.1, 0.3))
+		draw_rect(Rect2(chest_pos.x - 16, chest_pos.y - 12, 32, 24), Color("b45309"))
+		draw_rect(Rect2(chest_pos.x - 14, chest_pos.y - 10, 28, 10), Color("d97706"))
+		# Goldenes Schloss
+		draw_circle(Vector2(chest_pos.x, chest_pos.y + 2), 4.0, Color("fef08a"))
+
+
 func _ready() -> void:
 	child_entered_tree.connect(_on_child_entered)
 
@@ -29,7 +120,14 @@ func setup_room(p_room: DungeonGenerator.DungeonRoom) -> void:
 	room_data = p_room
 	is_cleared = p_room.cleared
 	_build_room_geometry()
-	if not is_cleared:
+
+	if is_cleared:
+		_unlock_doors()
+		if room_data.type == DungeonGenerator.RoomType.BOSS:
+			_spawn_floor_exit()
+		elif room_data.type == DungeonGenerator.RoomType.TREASURE and not room_data.chest_opened:
+			_spawn_pedestal()
+	else:
 		_spawn_room_contents()
 
 
@@ -64,26 +162,26 @@ func _build_room_geometry() -> void:
 	_add_wall_box(static_body, Vector2(w - wall_thick / 2.0, (h - door_width) / 4.0), Vector2(wall_thick, (h - door_width) / 2.0))
 	_add_wall_box(static_body, Vector2(w - wall_thick / 2.0, h - (h - door_width) / 4.0), Vector2(wall_thick, (h - door_width) / 2.0))
 
-	# Tür-Blocker falls keine Tür in diese Richtung führt
+	# Türen (oder solide Wände falls keine Tür in diese Richtung führt)
 	if not room_data.doors["north"]:
 		_add_wall_box(static_body, Vector2(w / 2.0, wall_thick / 2.0), Vector2(door_width, wall_thick))
 	else:
-		_add_door_trigger("north", Vector2(w / 2.0, wall_thick / 2.0), Vector2(door_width, wall_thick))
+		_add_door(static_body, "north", Vector2(w / 2.0, wall_thick / 2.0), Vector2(door_width, wall_thick))
 
 	if not room_data.doors["south"]:
 		_add_wall_box(static_body, Vector2(w / 2.0, h - wall_thick / 2.0), Vector2(door_width, wall_thick))
 	else:
-		_add_door_trigger("south", Vector2(w / 2.0, h - wall_thick / 2.0), Vector2(door_width, wall_thick))
+		_add_door(static_body, "south", Vector2(w / 2.0, h - wall_thick / 2.0), Vector2(door_width, wall_thick))
 
 	if not room_data.doors["west"]:
 		_add_wall_box(static_body, Vector2(wall_thick / 2.0, h / 2.0), Vector2(wall_thick, door_width))
 	else:
-		_add_door_trigger("west", Vector2(wall_thick / 2.0, h / 2.0), Vector2(wall_thick, door_width))
+		_add_door(static_body, "west", Vector2(wall_thick / 2.0, h / 2.0), Vector2(wall_thick, door_width))
 
 	if not room_data.doors["east"]:
 		_add_wall_box(static_body, Vector2(w - wall_thick / 2.0, h / 2.0), Vector2(wall_thick, door_width))
 	else:
-		_add_door_trigger("east", Vector2(w - wall_thick / 2.0, h / 2.0), Vector2(wall_thick, door_width))
+		_add_door(static_body, "east", Vector2(w - wall_thick / 2.0, h / 2.0), Vector2(wall_thick, door_width))
 
 
 func _add_wall_box(parent: Node2D, pos: Vector2, size: Vector2) -> void:
@@ -95,15 +193,26 @@ func _add_wall_box(parent: Node2D, pos: Vector2, size: Vector2) -> void:
 	parent.add_child(shape)
 
 
-func _add_door_trigger(dir: String, pos: Vector2, size: Vector2) -> void:
+func _add_door(static_body: StaticBody2D, dir: String, pos: Vector2, size: Vector2) -> void:
+	# Physischer Sperr-Riegel, solange der Raum nicht gesäubert ist
+	var barrier := CollisionShape2D.new()
+	var barrier_rect := RectangleShape2D.new()
+	barrier_rect.size = size
+	barrier.shape = barrier_rect
+	barrier.position = pos
+	barrier.disabled = is_cleared
+	static_body.add_child(barrier)
+	_door_colliders[dir] = barrier
+
+	# Trigger zum Betreten des nächsten Raumes
 	var area := Area2D.new()
 	area.collision_layer = 0
 	area.collision_mask = 2 # Spieler
-	var shape := CollisionShape2D.new()
-	var rect := RectangleShape2D.new()
-	rect.size = size
-	shape.shape = rect
-	area.add_child(shape)
+	var trigger_shape := CollisionShape2D.new()
+	var trigger_rect := RectangleShape2D.new()
+	trigger_rect.size = size
+	trigger_shape.shape = trigger_rect
+	area.add_child(trigger_shape)
 	area.position = pos
 	area.body_entered.connect(func(body: Node2D) -> void:
 		if is_cleared and body is Player:
@@ -113,24 +222,44 @@ func _add_door_trigger(dir: String, pos: Vector2, size: Vector2) -> void:
 	_door_triggers[dir] = area
 
 
+func _unlock_doors() -> void:
+	for dir in _door_colliders:
+		var col: CollisionShape2D = _door_colliders[dir]
+		if is_instance_valid(col):
+			col.disabled = true
+	queue_redraw()
+
+
+func _mark_room_cleared() -> void:
+	if is_cleared:
+		return
+	is_cleared = true
+	room_data.cleared = true
+	_unlock_doors()
+	room_cleared.emit()
+	EventBus.room_cleared.emit(room_data.coords)
+	queue_redraw()
+
+	if room_data.type == DungeonGenerator.RoomType.BOSS:
+		_spawn_floor_exit()
+
+
 func _spawn_room_contents() -> void:
 	if room_data.type == DungeonGenerator.RoomType.START:
-		is_cleared = true
+		_mark_room_cleared()
 		return
 
 	if room_data.type == DungeonGenerator.RoomType.TREASURE:
-		is_cleared = true
-		# Schatzkiste / Altar
-		_spawn_pedestal()
+		_mark_room_cleared()
+		if not room_data.chest_opened:
+			_spawn_pedestal()
 		return
 
 	if room_data.type == DungeonGenerator.RoomType.BOSS:
 		var boss := BaseBoss.new()
 		boss.global_position = Vector2(CryptDashConfig.ROOM_PIXEL_WIDTH / 2.0, CryptDashConfig.ROOM_PIXEL_HEIGHT / 2.0)
 		boss.boss_died.connect(func(_name: String) -> void:
-			is_cleared = true
-			room_cleared.emit()
-			_spawn_floor_exit()
+			_mark_room_cleared()
 		)
 		add_child(boss)
 		spawned_enemies.append(boss)
@@ -173,50 +302,31 @@ func _physics_process(_delta: float) -> void:
 				all_dead = false
 				break
 		if all_dead and not spawned_enemies.is_empty():
-			is_cleared = true
-			room_data.cleared = true
-			room_cleared.emit()
-			EventBus.room_cleared.emit(room_data.coords)
-			queue_redraw()
+			_mark_room_cleared()
 
 
 func _spawn_pedestal() -> void:
-	# Item-Wahl auf Sockel
 	var center := Vector2(CryptDashConfig.ROOM_PIXEL_WIDTH / 2.0, CryptDashConfig.ROOM_PIXEL_HEIGHT / 2.0)
-	var area := Area2D.new()
-	area.collision_layer = 0
-	area.collision_mask = 2
-	var shape := CollisionShape2D.new()
-	var circle := CircleShape2D.new()
-	circle.radius = 48.0
-	shape.shape = circle
-	area.add_child(shape)
-	area.position = center
-	area.body_entered.connect(func(body: Node2D) -> void:
+	var pedestal := PedestalNode.new()
+	pedestal.position = center
+	pedestal.body_entered.connect(func(body: Node2D) -> void:
 		if body is Player:
+			room_data.chest_opened = true
 			EventBus.item_collected.emit("treasure_opened")
-			area.queue_free()
+			pedestal.queue_free()
 	)
-	add_child(area)
+	add_child(pedestal)
 
 
 func _spawn_floor_exit() -> void:
-	# Ausgang zur nächsten Etage
 	var center := Vector2(CryptDashConfig.ROOM_PIXEL_WIDTH / 2.0, CryptDashConfig.ROOM_PIXEL_HEIGHT / 2.0)
-	var area := Area2D.new()
-	area.collision_layer = 0
-	area.collision_mask = 2
-	var shape := CollisionShape2D.new()
-	var circle := CircleShape2D.new()
-	circle.radius = 50.0
-	shape.shape = circle
-	area.add_child(shape)
-	area.position = center
-	area.body_entered.connect(func(body: Node2D) -> void:
+	var exit_node := FloorExitNode.new()
+	exit_node.position = center
+	exit_node.body_entered.connect(func(body: Node2D) -> void:
 		if body is Player:
 			EventBus.floor_completed.emit(1)
 	)
-	add_child(area)
+	add_child(exit_node)
 
 
 func _draw() -> void:
@@ -247,13 +357,21 @@ func _draw() -> void:
 	draw_rect(Rect2(0, 0, wall_thick, h), wall_color)
 	draw_rect(Rect2(w - wall_thick, 0, wall_thick, h), wall_color)
 
-	# Türen hervorheben
+	# Türen hervorheben: Türkis wenn offen, Rot mit Gittern wenn verschlossen
 	var door_col := Color("22d3ee") if is_cleared else Color("ef4444")
 	if room_data.doors["north"]:
 		draw_rect(Rect2(w / 2.0 - 64, 0, 128, wall_thick), door_col)
+		if not is_cleared:
+			draw_line(Vector2(w / 2.0 - 64, wall_thick / 2.0), Vector2(w / 2.0 + 64, wall_thick / 2.0), Color("7f1d1d"), 6.0)
 	if room_data.doors["south"]:
 		draw_rect(Rect2(w / 2.0 - 64, h - wall_thick, 128, wall_thick), door_col)
+		if not is_cleared:
+			draw_line(Vector2(w / 2.0 - 64, h - wall_thick / 2.0), Vector2(w / 2.0 + 64, h - wall_thick / 2.0), Color("7f1d1d"), 6.0)
 	if room_data.doors["west"]:
 		draw_rect(Rect2(0, h / 2.0 - 64, wall_thick, 128), door_col)
+		if not is_cleared:
+			draw_line(Vector2(wall_thick / 2.0, h / 2.0 - 64), Vector2(wall_thick / 2.0, h / 2.0 + 64), Color("7f1d1d"), 6.0)
 	if room_data.doors["east"]:
 		draw_rect(Rect2(w - wall_thick, h / 2.0 - 64, wall_thick, 128), door_col)
+		if not is_cleared:
+			draw_line(Vector2(w - wall_thick / 2.0, h / 2.0 - 64), Vector2(w - wall_thick / 2.0, h / 2.0 + 64), Color("7f1d1d"), 6.0)

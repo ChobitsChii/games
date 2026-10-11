@@ -29,6 +29,7 @@ class DungeonRoom extends RefCounted:
 	var distance_from_start: int = 0
 	var template_index: int = 0
 	var cleared: bool = false
+	var chest_opened: bool = false
 
 
 class DungeonFloor extends RefCounted:

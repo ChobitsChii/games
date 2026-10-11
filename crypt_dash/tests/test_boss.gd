@@ -40,3 +40,48 @@ func test_boss_phases_transition_and_patterns() -> void:
 	dead = runner.take_damage(50)
 	assert_true(dead, "Boss besiegt")
 	assert_eq(runner.state, BossPatternRunner.BossState.DEFEATED, "Status DEFEATED")
+
+
+func test_boss_room_cleared_and_persistence() -> void:
+	var r_data := DungeonGenerator.DungeonRoom.new()
+	r_data.type = DungeonGenerator.RoomType.BOSS
+	r_data.doors = {"north": true, "south": false, "east": false, "west": false}
+	r_data.coords = Vector2i(5, 5)
+	r_data.cleared = false
+
+	var room := RoomTemplate.new()
+	room.setup_room(r_data)
+	assert_false(room.is_cleared, "Bossraum anfangs nicht gesäubert")
+	assert_false(r_data.cleared, "Raum-Daten anfangs nicht gesäubert")
+	assert_true(room._door_colliders.has("north"), "Nordtür hat Barriere")
+	assert_false(room._door_colliders["north"].disabled, "Tür ist verschlossen")
+
+	# Boss besiegen
+	room._mark_room_cleared()
+	assert_true(room.is_cleared, "Raum ist nun gesäubert")
+	assert_true(r_data.cleared, "Raum-Daten als gesäubert markiert")
+	assert_true(room._door_colliders["north"].disabled, "Tür-Barriere ist entriegelt")
+
+	# Exit-Node muss existieren
+	var has_exit := false
+	for child in room.get_children():
+		if child is RoomTemplate.FloorExitNode:
+			has_exit = true
+			break
+	assert_true(has_exit, "Treppe/Ausgang wurde gespawnt")
+	room.queue_free()
+
+	# Raum erneut betreten: Boss darf nicht respawnen, Ausgang muss da sein
+	var room_reentered := RoomTemplate.new()
+	room_reentered.setup_room(r_data)
+	assert_true(room_reentered.is_cleared, "Wiederbetretener Raum bleibt gesäubert")
+	var has_boss := false
+	var reentered_has_exit := false
+	for child in room_reentered.get_children():
+		if child is BaseBoss:
+			has_boss = true
+		elif child is RoomTemplate.FloorExitNode:
+			reentered_has_exit = true
+	assert_false(has_boss, "Boss spawnt nicht erneut")
+	assert_true(reentered_has_exit, "Treppe/Ausgang bleibt vorhanden")
+	room_reentered.queue_free()
