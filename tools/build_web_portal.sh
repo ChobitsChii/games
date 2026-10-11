@@ -671,6 +671,9 @@ cat << 'EOF' > "$TARGET_DIR/index.html"
 					<a href="https://github.com/ChobitsChii/games/releases/tag/asteroid_drift-latest" class="btn btn-secondary" title="Downloads & Releases">
 						📦
 					</a>
+				</div>
+			</article>
+
 			<!-- Crypt Dash -->
 			<article class="game-card" data-color="pink">
 				<div class="card-header">
