@@ -33,4 +33,5 @@ func _on_area_entered(area: Area2D) -> void:
 			knock_dir = (global_position - hitbox.global_position).normalized()
 
 		var knockback: Vector2 = knock_dir * hitbox.knockback_force
+		hitbox.hit_landed.emit(self)
 		hit_received.emit(hitbox.damage, knockback, hitbox.is_player)

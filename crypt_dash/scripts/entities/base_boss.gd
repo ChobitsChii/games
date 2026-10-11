@@ -31,9 +31,9 @@ func _ready() -> void:
 	_hurtbox.is_player = false
 	_hurtbox.hit_received.connect(_on_hit_received)
 	var h_shape := CollisionShape2D.new()
-	var circle := CircleShape2D.new()
-	circle.radius = 36.0
-	h_shape.shape = circle
+	var h_circle := CircleShape2D.new()
+	h_circle.radius = 36.0
+	h_shape.shape = h_circle
 	_hurtbox.add_child(h_shape)
 	add_child(_hurtbox)
 
@@ -42,12 +42,16 @@ func _ready() -> void:
 	_hitbox.damage = 2
 	_hitbox.source_node = self
 	var hit_shape := CollisionShape2D.new()
-	hit_shape.shape = circle
+	var hit_circle := CircleShape2D.new()
+	hit_circle.radius = 36.0
+	hit_shape.shape = hit_circle
 	_hitbox.add_child(hit_shape)
 	add_child(_hitbox)
 
 	var body_col := CollisionShape2D.new()
-	body_col.shape = circle
+	var body_circle := CircleShape2D.new()
+	body_circle.radius = 36.0
+	body_col.shape = body_circle
 	add_child(body_col)
 
 
@@ -129,10 +133,20 @@ func _fire_spiral() -> void:
 
 
 func _on_hit_received(dmg: int, _knockback: Vector2, _from_player: bool) -> void:
+	if runner.state == BossPatternRunner.BossState.DEFEATED:
+		return
 	var dead := runner.take_damage(dmg)
 	current_health = runner.hp
 	EventBus.enemy_damaged.emit(self, dmg)
 	if dead:
+		set_deferred("collision_layer", 0)
+		set_deferred("collision_mask", 0)
+		if _hurtbox != null and is_instance_valid(_hurtbox):
+			_hurtbox.set_deferred("monitoring", false)
+			_hurtbox.set_deferred("monitorable", false)
+		if _hitbox != null and is_instance_valid(_hitbox):
+			_hitbox.set_deferred("monitoring", false)
+			_hitbox.set_deferred("monitorable", false)
 		EventBus.enemy_died.emit(self, 15)
 		boss_died.emit(tr(boss_display_name_key))
 		queue_free()

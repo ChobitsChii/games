@@ -121,6 +121,11 @@ func _load_room(coords: Vector2i, enter_from: String) -> void:
 	if _minimap != null:
 		_minimap.set_current_room(coords)
 
+	# Alte Projektile aufräumen
+	for child in _world_node.get_children():
+		if child is Projectile:
+			child.queue_free()
+
 	var r_data: DungeonGenerator.DungeonRoom = dungeon.get_room(coords)
 	current_room_instance = RoomTemplate.new()
 	current_room_instance.setup_room(r_data)

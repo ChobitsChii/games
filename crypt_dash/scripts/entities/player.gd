@@ -52,14 +52,16 @@ func _ready() -> void:
 	_hurtbox.is_player = true
 	_hurtbox.hit_received.connect(_on_hit_received)
 	var h_shape := CollisionShape2D.new()
-	var circle := CircleShape2D.new()
-	circle.radius = 20.0
-	h_shape.shape = circle
+	var h_circle := CircleShape2D.new()
+	h_circle.radius = 20.0
+	h_shape.shape = h_circle
 	_hurtbox.add_child(h_shape)
 	add_child(_hurtbox)
 
 	var body_col := CollisionShape2D.new()
-	body_col.shape = circle
+	var body_circle := CircleShape2D.new()
+	body_circle.radius = 20.0
+	body_col.shape = body_circle
 	add_child(body_col)
 
 	recalculate_stats()

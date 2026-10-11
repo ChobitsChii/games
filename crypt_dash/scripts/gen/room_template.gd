@@ -15,6 +15,15 @@ var _door_colliders: Dictionary = {}
 var _door_triggers: Dictionary = {}
 
 
+func _ready() -> void:
+	child_entered_tree.connect(_on_child_entered)
+
+
+func _on_child_entered(node: Node) -> void:
+	if (node is BaseEnemy or node is BaseBoss) and not spawned_enemies.has(node):
+		spawned_enemies.append(node)
+
+
 func setup_room(p_room: DungeonGenerator.DungeonRoom) -> void:
 	z_index = -10
 	room_data = p_room
@@ -151,15 +160,19 @@ func _spawn_room_contents() -> void:
 		spawned_enemies.append(en)
 
 
-func _process(_delta: float) -> void:
+func _physics_process(_delta: float) -> void:
 	if not is_cleared:
 		# Prüfen ob alle Gegner besiegt sind
 		var all_dead := true
 		for en in spawned_enemies:
-			if is_instance_valid(en):
+			if is_instance_valid(en) and not en.is_queued_for_deletion():
+				if en is BaseEnemy and (en as BaseEnemy).state == BaseEnemy.State.DEAD:
+					continue
+				if en is BaseBoss and (en as BaseBoss).runner.state == BossPatternRunner.BossState.DEFEATED:
+					continue
 				all_dead = false
 				break
-		if all_dead:
+		if all_dead and not spawned_enemies.is_empty():
 			is_cleared = true
 			room_data.cleared = true
 			room_cleared.emit()

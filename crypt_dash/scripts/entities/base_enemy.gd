@@ -42,9 +42,9 @@ func _ready() -> void:
 	_hurtbox.is_player = false
 	_hurtbox.hit_received.connect(_on_hit_received)
 	var h_shape := CollisionShape2D.new()
-	var circle := CircleShape2D.new()
-	circle.radius = 18.0
-	h_shape.shape = circle
+	var h_circle := CircleShape2D.new()
+	h_circle.radius = 18.0
+	h_shape.shape = h_circle
 	_hurtbox.add_child(h_shape)
 	add_child(_hurtbox)
 
@@ -60,7 +60,9 @@ func _ready() -> void:
 	add_child(_hitbox)
 
 	var body_col := CollisionShape2D.new()
-	body_col.shape = circle
+	var body_circle := CircleShape2D.new()
+	body_circle.radius = 18.0
+	body_col.shape = body_circle
 	add_child(body_col)
 
 
@@ -106,9 +108,12 @@ func _update_ai(delta: float) -> void:
 
 
 func _on_hit_received(dmg: int, knockback: Vector2, _from_player: bool) -> void:
+	if state == State.DEAD:
+		return
 	_health.take_damage(dmg)
+	if state == State.DEAD:
+		return
 	velocity += knockback
-	move_and_slide()
 	EventBus.enemy_damaged.emit(self, dmg)
 
 
@@ -117,7 +122,17 @@ func _on_health_changed(c: int, _m: int) -> void:
 
 
 func _on_died() -> void:
+	if state == State.DEAD:
+		return
 	state = State.DEAD
+	set_deferred("collision_layer", 0)
+	set_deferred("collision_mask", 0)
+	if _hurtbox != null and is_instance_valid(_hurtbox):
+		_hurtbox.set_deferred("monitoring", false)
+		_hurtbox.set_deferred("monitorable", false)
+	if _hitbox != null and is_instance_valid(_hitbox):
+		_hitbox.set_deferred("monitoring", false)
+		_hitbox.set_deferred("monitorable", false)
 	EventBus.enemy_died.emit(self, souls_value)
 	queue_free()
 

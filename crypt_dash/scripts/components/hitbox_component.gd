@@ -2,6 +2,8 @@ class_name HitboxComponent
 extends Area2D
 ## Hitbox, die Schaden an Hurtboxes austeilt.
 
+signal hit_landed(target: Node2D)
+
 @export var damage: int = 1
 @export var is_player: bool = false
 @export var knockback_force: float = 250.0

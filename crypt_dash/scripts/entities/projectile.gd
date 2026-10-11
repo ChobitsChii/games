@@ -23,6 +23,10 @@ func _ready() -> void:
 	_hitbox.damage = damage
 	_hitbox.is_player = is_player
 	_hitbox.source_node = self
+	_hitbox.hit_landed.connect(func(_target: Node2D) -> void:
+		if not pierce:
+			queue_free()
+	)
 	var shape := CollisionShape2D.new()
 	var circle := CircleShape2D.new()
 	circle.radius = 8.0
