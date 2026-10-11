@@ -11,7 +11,7 @@ var room_data: DungeonGenerator.DungeonRoom
 var is_cleared: bool = false
 var spawned_enemies: Array[Node2D] = []
 
-var _door_colliders: Dictionary = {}
+var _door_barriers: Dictionary = {}
 var _door_triggers: Dictionary = {}
 
 
@@ -136,7 +136,7 @@ func _build_room_geometry() -> void:
 	var wall_color := Color("0e1626")
 	var floor_color := Color("090d16")
 
-	# Statischer Körper für Wände
+	# Statischer Körper für feste Raumwände
 	var static_body := StaticBody2D.new()
 	static_body.collision_layer = 1
 	add_child(static_body)
@@ -166,22 +166,22 @@ func _build_room_geometry() -> void:
 	if not room_data.doors["north"]:
 		_add_wall_box(static_body, Vector2(w / 2.0, wall_thick / 2.0), Vector2(door_width, wall_thick))
 	else:
-		_add_door(static_body, "north", Vector2(w / 2.0, wall_thick / 2.0), Vector2(door_width, wall_thick))
+		_add_door("north", Vector2(w / 2.0, wall_thick / 2.0), Vector2(door_width, wall_thick))
 
 	if not room_data.doors["south"]:
 		_add_wall_box(static_body, Vector2(w / 2.0, h - wall_thick / 2.0), Vector2(door_width, wall_thick))
 	else:
-		_add_door(static_body, "south", Vector2(w / 2.0, h - wall_thick / 2.0), Vector2(door_width, wall_thick))
+		_add_door("south", Vector2(w / 2.0, h - wall_thick / 2.0), Vector2(door_width, wall_thick))
 
 	if not room_data.doors["west"]:
 		_add_wall_box(static_body, Vector2(wall_thick / 2.0, h / 2.0), Vector2(wall_thick, door_width))
 	else:
-		_add_door(static_body, "west", Vector2(wall_thick / 2.0, h / 2.0), Vector2(wall_thick, door_width))
+		_add_door("west", Vector2(wall_thick / 2.0, h / 2.0), Vector2(wall_thick, door_width))
 
 	if not room_data.doors["east"]:
 		_add_wall_box(static_body, Vector2(w - wall_thick / 2.0, h / 2.0), Vector2(wall_thick, door_width))
 	else:
-		_add_door(static_body, "east", Vector2(w - wall_thick / 2.0, h / 2.0), Vector2(wall_thick, door_width))
+		_add_door("east", Vector2(w - wall_thick / 2.0, h / 2.0), Vector2(wall_thick, door_width))
 
 
 func _add_wall_box(parent: Node2D, pos: Vector2, size: Vector2) -> void:
@@ -193,27 +193,46 @@ func _add_wall_box(parent: Node2D, pos: Vector2, size: Vector2) -> void:
 	parent.add_child(shape)
 
 
-func _add_door(static_body: StaticBody2D, dir: String, pos: Vector2, size: Vector2) -> void:
-	# Physischer Sperr-Riegel, solange der Raum nicht gesäubert ist
-	var barrier := CollisionShape2D.new()
-	var barrier_rect := RectangleShape2D.new()
-	barrier_rect.size = size
-	barrier.shape = barrier_rect
-	barrier.position = pos
-	barrier.disabled = is_cleared
-	static_body.add_child(barrier)
-	_door_colliders[dir] = barrier
+func _add_door(dir: String, pos: Vector2, size: Vector2) -> void:
+	# Physischer Sperr-Riegel als eigener StaticBody, solange der Raum nicht gesäubert ist
+	if not is_cleared:
+		var barrier_body := StaticBody2D.new()
+		barrier_body.collision_layer = 1
+		var barrier_shape := CollisionShape2D.new()
+		var barrier_rect := RectangleShape2D.new()
+		barrier_rect.size = size
+		barrier_shape.shape = barrier_rect
+		barrier_body.add_child(barrier_shape)
+		barrier_body.position = pos
+		add_child(barrier_body)
+		_door_barriers[dir] = barrier_body
 
-	# Trigger zum Betreten des nächsten Raumes
+	# Trigger zum Betreten des nächsten Raumes (leicht in den Raum hinein ragend für flüssigen Übergang)
 	var area := Area2D.new()
 	area.collision_layer = 0
 	area.collision_mask = 2 # Spieler
 	var trigger_shape := CollisionShape2D.new()
 	var trigger_rect := RectangleShape2D.new()
-	trigger_rect.size = size
+	var trigger_size := size
+	var trigger_pos := pos
+	match dir:
+		"north":
+			trigger_size = Vector2(size.x, size.y + 36.0)
+			trigger_pos = Vector2(pos.x, pos.y + 18.0)
+		"south":
+			trigger_size = Vector2(size.x, size.y + 36.0)
+			trigger_pos = Vector2(pos.x, pos.y - 18.0)
+		"west":
+			trigger_size = Vector2(size.x + 36.0, size.y)
+			trigger_pos = Vector2(pos.x + 18.0, pos.y)
+		"east":
+			trigger_size = Vector2(size.x + 36.0, size.y)
+			trigger_pos = Vector2(pos.x - 18.0, pos.y)
+
+	trigger_rect.size = trigger_size
 	trigger_shape.shape = trigger_rect
 	area.add_child(trigger_shape)
-	area.position = pos
+	area.position = trigger_pos
 	area.body_entered.connect(func(body: Node2D) -> void:
 		if is_cleared and body is Player:
 			door_entered.emit.call_deferred(dir)
@@ -223,10 +242,11 @@ func _add_door(static_body: StaticBody2D, dir: String, pos: Vector2, size: Vecto
 
 
 func _unlock_doors() -> void:
-	for dir in _door_colliders:
-		var col: CollisionShape2D = _door_colliders[dir]
-		if is_instance_valid(col):
-			col.disabled = true
+	for dir in _door_barriers:
+		var barrier_body: StaticBody2D = _door_barriers[dir]
+		if is_instance_valid(barrier_body):
+			barrier_body.queue_free()
+	_door_barriers.clear()
 	queue_redraw()
 
 
@@ -303,6 +323,15 @@ func _physics_process(_delta: float) -> void:
 				break
 		if all_dead and not spawned_enemies.is_empty():
 			_mark_room_cleared()
+	else:
+		# Wenn gesäubert: Prüfen ob Spieler auf Tür-Trigger steht
+		for dir: String in _door_triggers:
+			var area: Area2D = _door_triggers[dir]
+			if is_instance_valid(area):
+				for body in area.get_overlapping_bodies():
+					if body is Player:
+						door_entered.emit.call_deferred(dir)
+						return
 
 
 func _spawn_pedestal() -> void:

@@ -53,14 +53,13 @@ func test_boss_room_cleared_and_persistence() -> void:
 	room.setup_room(r_data)
 	assert_false(room.is_cleared, "Bossraum anfangs nicht gesäubert")
 	assert_false(r_data.cleared, "Raum-Daten anfangs nicht gesäubert")
-	assert_true(room._door_colliders.has("north"), "Nordtür hat Barriere")
-	assert_false(room._door_colliders["north"].disabled, "Tür ist verschlossen")
+	assert_true(room._door_barriers.has("north"), "Nordtür hat Barriere")
 
 	# Boss besiegen
 	room._mark_room_cleared()
 	assert_true(room.is_cleared, "Raum ist nun gesäubert")
 	assert_true(r_data.cleared, "Raum-Daten als gesäubert markiert")
-	assert_true(room._door_colliders["north"].disabled, "Tür-Barriere ist entriegelt")
+	assert_false(room._door_barriers.has("north"), "Tür-Barriere ist entriegelt und entfernt")
 
 	# Exit-Node muss existieren
 	var has_exit := false
@@ -75,6 +74,7 @@ func test_boss_room_cleared_and_persistence() -> void:
 	var room_reentered := RoomTemplate.new()
 	room_reentered.setup_room(r_data)
 	assert_true(room_reentered.is_cleared, "Wiederbetretener Raum bleibt gesäubert")
+	assert_false(room_reentered._door_barriers.has("north"), "Keine Barriere bei gecleartem Raum")
 	var has_boss := false
 	var reentered_has_exit := false
 	for child in room_reentered.get_children():
