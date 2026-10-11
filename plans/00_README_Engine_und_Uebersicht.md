@@ -174,6 +174,7 @@ python -m http.server 8080 --directory build/<spiel>/web
 | 4 | **Block Stack** | Puzzle / Tetris-Like | Single Player (+ CPU-Duell) | ⭐⭐ | Glas, Gradients, Glow | [04_block_stack.md](04_block_stack.md) |
 | 5 | **Lane Defenders** | Mini-Tower-Defense | Single Player | ⭐⭐⭐ | Flat-Cartoon, Vektor | [05_lane_defenders.md](05_lane_defenders.md) |
 | 6 | **Crypt Dash** | Top-Down Roguelite | Single Player | ⭐⭐⭐ | Stilisiert, Licht und Schatten | [06_crypt_dash.md](06_crypt_dash.md) |
+| 7 | **Aethelgard** | Action-Adventure / RPG | Single Player | ⭐⭐⭐⭐ | High-Res Top-Down, animierte Sprites | [07_aethelgard.md](07_aethelgard.md) |
 
 ### Empfohlene Reihenfolge
 
@@ -184,6 +185,7 @@ python -m http.server 8080 --directory build/<spiel>/web
 4. **Block Stack:** Zustandsautomaten, Timing, optional KI-Gegner.
 5. **Lane Defenders:** Wellen, Balancing, Daten per Ressourcen.
 6. **Crypt Dash:** prozedurale Level, Gegner-KI, Items.
+7. **Aethelgard:** Action-Adventure mit Dungeons, animierten High-Res-Charakteren, Rätseln, Gadgets und Bosskämpfen.
 
 ## 8. Gemeinsame Bausteine (in `shared/`)
 
