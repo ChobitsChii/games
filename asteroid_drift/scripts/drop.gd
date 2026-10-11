@@ -16,7 +16,7 @@ var magnet_radius := 0.0
 
 func _ready() -> void:
 	collision_layer = 1 << 5 # layer 6: pickups
-	collision_mask = (1 << 0) # layer 1: player
+	collision_mask = 1 << 0 # layer 1: player
 
 	body_entered.connect(_on_body_entered)
 	area_entered.connect(_on_area_entered)

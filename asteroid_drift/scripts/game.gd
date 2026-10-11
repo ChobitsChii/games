@@ -186,9 +186,10 @@ func _start_wave(wave_num: int) -> void:
 func _spawn_asteroid(sz: Constants.AsteroidSize, pos: Vector2, vel: Vector2) -> void:
 	var scene: PackedScene = load("res://scenes/asteroid.tscn")
 	var ast: Asteroid = scene.instantiate() as Asteroid
+	enemies_container.add_child(ast)
 	ast.setup(sz, pos, vel, _rng)
 	ast.destroyed.connect(_on_asteroid_destroyed)
-	enemies_container.add_child(ast)
+
 
 
 func _spawn_ufo(is_small: bool) -> void:

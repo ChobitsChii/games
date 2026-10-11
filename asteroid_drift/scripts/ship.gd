@@ -46,6 +46,8 @@ func _ready() -> void:
 	collision_mask = (1 << 1) | (1 << 3) # asteroids, enemies
 
 	if hitbox:
+		hitbox.collision_layer = 1 << 0 # layer 1: player
+		hitbox.collision_mask = (1 << 1) | (1 << 3) | (1 << 4) | (1 << 5) # asteroids, enemies, enemy_bullets, pickups
 		hitbox.area_entered.connect(_on_hitbox_area_entered)
 
 	shield_current = shield_max
@@ -296,15 +298,20 @@ func _compute_autopilot_controls() -> Dictionary:
 		elif angle_diff < -0.15:
 			turn = -1.0
 
-		# Wenn Feind/Asteroid zu nah ist, Abstand gewinnen oder schießen
-		if min_dist < 180.0:
+		# Wenn Feind/Asteroid zu nah ist, aktiv ausweichen (wegdrehen und beschleunigen)
+		if min_dist < 220.0:
+			# Wenn wir auf Kollisionskurs sind (wir schauen auf das Ziel), drehe schnell weg
+			if absf(angle_diff) < 1.2:
+				turn = -1.0 if angle_diff >= 0.0 else 1.0
 			thrust = true
-		elif absf(angle_diff) < 0.3:
-			thrust = (velocity.length() < 220.0)
+		elif absf(angle_diff) < 0.25:
+			# Ausgerichtetes Zielen und Schießen
+			thrust = (velocity.length() < 180.0)
 	else:
 		# Langsames Drehen zum Erkunden
 		turn = 0.5
-		thrust = (velocity.length() < 150.0)
+		thrust = (velocity.length() < 120.0)
+
 
 	return {
 		"turn": turn,

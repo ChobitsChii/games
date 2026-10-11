@@ -17,12 +17,26 @@ var hp := 1
 @onready var outline: Line2D = $Line2D
 @onready var collision_shape: CollisionShape2D = $CollisionShape2D
 
+var _cached_rng: RandomNumberGenerator = null
+
 
 func _ready() -> void:
 	collision_layer = 1 << 1 # layer 2: asteroids
 	collision_mask = (1 << 0) | (1 << 2) # layer 1: player, layer 3: player_bullets
 
 	area_entered.connect(_on_area_entered)
+	_ensure_node_refs()
+	if _cached_rng != null:
+		_build_visuals(_cached_rng)
+
+
+func _ensure_node_refs() -> void:
+	if not poly:
+		poly = get_node_or_null("Polygon2D")
+	if not outline:
+		outline = get_node_or_null("Line2D")
+	if not collision_shape:
+		collision_shape = get_node_or_null("CollisionShape2D")
 
 
 func setup(
@@ -34,6 +48,7 @@ func setup(
 	global_position = start_pos
 	velocity = start_vel
 	spin_speed = rng.randf_range(-1.5, 1.5)
+	_cached_rng = rng
 
 	var cfg: Dictionary = Constants.ASTEROID_CONFIG.get(size, {})
 	radius = float(cfg.get("radius", 80.0))
@@ -43,30 +58,35 @@ func setup(
 	max_hp = 2 if size == Constants.AsteroidSize.LARGE else 1
 	hp = max_hp
 
-	_build_visuals(rng)
+	_ensure_node_refs()
+	if poly and outline and collision_shape:
+		_build_visuals(rng)
 
 
 func _build_visuals(rng: RandomNumberGenerator) -> void:
+	_ensure_node_refs()
 	var vertex_count: int = rng.randi_range(Constants.ASTEROID_MIN_VERTICES, Constants.ASTEROID_MAX_VERTICES)
 	var pts := AsteroidMath.generate_polygon(radius, vertex_count, rng)
 
 	if poly:
+
 		poly.polygon = pts
 		# Farbnuance je nach Größe
+		# Helle, gut sichtbare Vektor-Farbtöne je nach Größe
 		match size:
 			Constants.AsteroidSize.LARGE:
-				poly.color = Color(0.08, 0.12, 0.22, 0.95)
+				poly.color = Color(0.18, 0.28, 0.45, 0.95)
 			Constants.AsteroidSize.MEDIUM:
-				poly.color = Color(0.07, 0.15, 0.26, 0.95)
+				poly.color = Color(0.20, 0.35, 0.55, 0.95)
 			Constants.AsteroidSize.SMALL:
-				poly.color = Color(0.06, 0.18, 0.30, 0.95)
+				poly.color = Color(0.22, 0.42, 0.65, 0.95)
 
 	if outline:
 		var loop := pts.duplicate()
 		loop.append(pts[0])
 		outline.points = loop
-		outline.width = 3.0 if size == Constants.AsteroidSize.LARGE else 2.0
-		outline.default_color = Color(0.2, 0.75, 1.0, 0.9)
+		outline.width = 4.0 if size == Constants.AsteroidSize.LARGE else 3.0
+		outline.default_color = Color(0.4, 0.9, 1.0, 1.0)
 
 	if collision_shape:
 		var circle := CircleShape2D.new()
