@@ -1,11 +1,11 @@
 keys,de,en
 MENU_TITLE,Crypt Dash,Crypt Dash
-MENU_PLAY,Run starten,Start Run
-MENU_UPGRADES,Altar der Seelen,Soul Altar
-MENU_HOW_TO_PLAY,Anleitung & Steuerung,Guide & Controls
-MENU_ALMANAC,Lexikon & Bestiarium,Almanac & Bestiary
-MENU_ALMANAC_TITLE,Gruft-Lexikon & Relikte,Crypt Almanac & Relics
-MENU_CREDITS,Mitwirkende & Credits,Credits
+MENU_PLAY,▶ Run starten,▶ Start Run
+MENU_UPGRADES,🛒 Altar der Seelen,🛒 Soul Altar
+MENU_HOW_TO_PLAY,📜 Anleitung & Steuerung,📜 Guide & Controls
+MENU_ALMANAC,📖 Lexikon & Bestiarium,📖 Almanac & Bestiary
+MENU_ALMANAC_TITLE,📖 Gruft-Lexikon & Relikte,📖 Crypt Almanac & Relics
+MENU_CREDITS,ℹ Mitwirkende & Credits,ℹ Credits
 COMMON_CLOSE,Schließen,Close
 DISPLAY_BORDERLESS,Randlos,Borderless
 HUD_FLOOR,Etage %d,Floor %d
@@ -73,12 +73,17 @@ ENEMY_SUMMONER,Nekromant,Necromancer
 BOSS_FLOOR_1,Knochenfürst Malok,Bone Lord Malok
 BOSS_FLOOR_2,Schattenweberin Vex,Shadow Weaver Vex
 BOSS_FLOOR_3,Kryptafürst Thanatos,Crypt Lord Thanatos
-HELP_TITLE,Ausführliche Spielanleitung,Comprehensive Game Guide
-HELP_CONTROLS_MOVE,Bewegen: W/A/S/D oder Pfeiltasten / Gamepad Linker Stick,Movement: W/A/S/D or Arrow Keys / Gamepad Left Stick
-HELP_CONTROLS_DASH,Dash (Ausweichen): Leertaste oder Gamepad A (Macht für 0.18s komplett unverwundbar),Dash: Spacebar or Gamepad A (Grants complete invulnerability for 0.18s)
-HELP_CONTROLS_ATTACK,Angriff: Linke Maustaste oder J / Gamepad R-Trigger (Feuert magische Klingen),Attack: Left Mouse Button or J / Gamepad R-Trigger (Fires magic daggers)
-HELP_CONTROLS_AIM,Zielen: Der Schuss richtet sich exakt nach dem Mauszeiger oder der Blickrichtung,Aiming: Attacks aim directly towards your mouse cursor or facing direction
-HELP_RULES,Regeln: Erkunde die Gruft Raum für Raum. Türen verriegeln sich bei Feindkontakt und öffnen sich nach Säuberung des Raums wieder. Die Minimap oben rechts zeigt dir besuchte Räume und Wege. Sammle Seelen gefallener Gegner für dauerhafte Upgrades!,Rules: Explore the crypt room by room. Doors seal when enemies are present and unlock once the chamber is cleared. The minimap at the top right displays explored rooms and paths. Gather souls from fallen foes to buy permanent upgrades!
+HELP_TITLE,📜 Spielanleitung & Steuerung,📜 Game Guide & Controls
+HELP_HEADER_CONTROLS,Steuerung,Controls
+HELP_CONTROLS_MOVE,• Bewegen: [W/A/S/D] oder [Pfeiltasten] (Gamepad: Linker Stick),• Movement: [W/A/S/D] or [Arrow Keys] (Gamepad: Left Stick)
+HELP_CONTROLS_DASH,• Dash (Ausweichen): [Leertaste] (0.18s vollständige Unverwundbarkeit gegen Treffer & Projektile!),• Dash: [Spacebar] (0.18s full invulnerability against hits & projectiles!)
+HELP_CONTROLS_ATTACK,• Angriff: [Linksklick] oder [J] (Feuert zielgenaue magische Speerklingen),• Attack: [Left Mouse] or [J] (Fires accurate magic spear daggers)
+HELP_CONTROLS_PAUSE,• Pausieren: [ESC] oder [P] (Hält die gesamte Spielwelt sicher an),• Pause: [ESC] or [P] (Safely pauses the entire dungeon world)
+HELP_HEADER_RULES,Spielregeln & Mechaniken,Game Rules & Mechanics
+HELP_RULE_PRINCIPLE,• Spielprinzip: Kämpfe dich durch 3 gefährliche Etagen der Krypta. Besiege alle Monster in einem Raum um die Tore zur nächsten Kammer zu entriegeln.,• Game Objective: Fight through 3 perilous crypt floors. Defeat all monsters in a chamber to unlock passages to the next room.
+HELP_RULE_MINIMAP,• Minimap: Oben rechts siehst du die aufgedeckte Karte des Dungeons samt Startpunkt, unentdeckten Pfaden, Schatzräumen und Bosskammern.,• Minimap: The top-right map tracks explored chambers, room connections, treasure vaults, and the floor boss arena.
+HELP_RULE_SOULS,• Altar der Seelen: Gefallene Monster lassen leuchtende Seelen fallen. Investiere sie im Hauptmenü-Shop in permanente Attribute wie Leben, Schaden & Tempo!,• Soul Altar: Vanquished foes drop luminous souls. Spend them at the main menu altar for permanent life, power, and agility perks!
+HELP_RULE_RELICS,• Relikte & Schätze: In Schatztruhen findest du mächtige Artefakte (z.B. Mehrfachschuss, Vampirismus, Schilde oder Kettenblitze) für diesen Run.,• Relics & Vaults: Discovering treasure chests awards powerful run artifacts like spread daggers, vampirism, shields, or chain lightnings.
 ALMANAC_SECTION_ENEMIES,Kreaturen der Dunkelheit & Bosse,Creatures of the Dark & Bosses
 ALMANAC_SECTION_ITEMS,Relikte & Artefakte,Relics & Artifacts
 ALMANAC_MELEE,Nahkämpfer,Melee
@@ -99,4 +104,4 @@ CREDITS_PROJECT,Crypt Dash – Modernes Roguelite mit Godot 4.7,Crypt Dash – M
 CREDITS_ENGINE,Entwickelt mit der freien Godot Engine (MIT Lizenz),Developed with the free Godot Engine (MIT License)
 CREDITS_ART,Grafik & Design: Antigravity AI (Google DeepMind) / Public Domain,Graphics & Design: Antigravity AI (Google DeepMind) / Public Domain
 CREDITS_AUDIO,Sound & Musik: Kenney Game Audio / Freesound CC0,Sound & Music: Kenney Game Audio / Freesound CC0
-CREDITS_DEV,Programmiert & Gestaltet für Jennifer,Programmed & Crafted for Jennifer
+CREDITS_DEV,Open Source für alle Spieler • Initiiert & getestet von Jennifer,Open source for all players • Initiated & tested by Jennifer

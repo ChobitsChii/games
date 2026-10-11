@@ -61,32 +61,37 @@ layout_mode = 2
 
 [node name="PlayButton" type="Button" parent="Center/Box"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 72)
+custom_minimum_size = Vector2(0, 76)
 layout_mode = 2
+theme_override_font_sizes/font_size = 24
 text = "MENU_PLAY"
 
 [node name="UpgradesButton" type="Button" parent="Center/Box"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 72)
+custom_minimum_size = Vector2(0, 76)
 layout_mode = 2
+theme_override_font_sizes/font_size = 24
 text = "MENU_UPGRADES"
 
 [node name="HowToPlayButton" type="Button" parent="Center/Box"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 68)
+custom_minimum_size = Vector2(0, 72)
 layout_mode = 2
+theme_override_font_sizes/font_size = 22
 text = "MENU_HOW_TO_PLAY"
 
 [node name="AlmanacButton" type="Button" parent="Center/Box"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 68)
+custom_minimum_size = Vector2(0, 72)
 layout_mode = 2
+theme_override_font_sizes/font_size = 22
 text = "MENU_ALMANAC"
 
 [node name="CreditsButton" type="Button" parent="Center/Box"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 68)
+custom_minimum_size = Vector2(0, 72)
 layout_mode = 2
+theme_override_font_sizes/font_size = 22
 text = "MENU_CREDITS"
 
 [node name="Spacer2" type="Control" parent="Center/Box"]
@@ -95,20 +100,23 @@ layout_mode = 2
 
 [node name="LanguageButton" type="Button" parent="Center/Box"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 64)
+custom_minimum_size = Vector2(0, 68)
 layout_mode = 2
+theme_override_font_sizes/font_size = 22
 text = "COMMON_LANGUAGE"
 
 [node name="DisplayButton" type="Button" parent="Center/Box"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 64)
+custom_minimum_size = Vector2(0, 68)
 layout_mode = 2
+theme_override_font_sizes/font_size = 22
 text = "COMMON_DISPLAY_MODE"
 
 [node name="QuitButton" type="Button" parent="Center/Box"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 64)
+custom_minimum_size = Vector2(0, 68)
 layout_mode = 2
+theme_override_font_sizes/font_size = 22
 text = "COMMON_QUIT"
 
 [node name="HowToPlayOverlay" type="Control" parent="."]
@@ -128,7 +136,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0.04, 0.05, 0.09, 0.9)
+color = Color(0.04, 0.05, 0.09, 0.92)
 
 [node name="Center" type="CenterContainer" parent="HowToPlayOverlay"]
 layout_mode = 1
@@ -139,19 +147,19 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="Panel" type="PanelContainer" parent="HowToPlayOverlay/Center"]
-custom_minimum_size = Vector2(960, 620)
+custom_minimum_size = Vector2(1100, 780)
 layout_mode = 2
 
 [node name="Margin" type="MarginContainer" parent="HowToPlayOverlay/Center/Panel"]
 layout_mode = 2
 theme_override_constants/margin_left = 36
-theme_override_constants/margin_top = 32
+theme_override_constants/margin_top = 28
 theme_override_constants/margin_right = 36
-theme_override_constants/margin_bottom = 32
+theme_override_constants/margin_bottom = 28
 
 [node name="VBox" type="VBoxContainer" parent="HowToPlayOverlay/Center/Panel/Margin"]
 layout_mode = 2
-theme_override_constants/separation = 18
+theme_override_constants/separation = 16
 
 [node name="Title" type="Label" parent="HowToPlayOverlay/Center/Panel/Margin/VBox"]
 layout_mode = 2
@@ -160,42 +168,110 @@ theme_override_font_sizes/font_size = 40
 text = "HELP_TITLE"
 horizontal_alignment = 1
 
-[node name="Move" type="Label" parent="HowToPlayOverlay/Center/Panel/Margin/VBox"]
+[node name="Scroll" type="ScrollContainer" parent="HowToPlayOverlay/Center/Panel/Margin/VBox"]
+layout_mode = 2
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+
+[node name="ScrollMargin" type="MarginContainer" parent="HowToPlayOverlay/Center/Panel/Margin/VBox/Scroll"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_right = 16
+
+[node name="SectionsVBox" type="VBoxContainer" parent="HowToPlayOverlay/Center/Panel/Margin/VBox/Scroll/ScrollMargin"]
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="ControlsPanel" type="PanelContainer" parent="HowToPlayOverlay/Center/Panel/Margin/VBox/Scroll/ScrollMargin/SectionsVBox"]
+layout_mode = 2
+
+[node name="ControlsMargin" type="MarginContainer" parent="HowToPlayOverlay/Center/Panel/Margin/VBox/Scroll/ScrollMargin/SectionsVBox/ControlsPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 24
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 24
+theme_override_constants/margin_bottom = 20
+
+[node name="ControlsBox" type="VBoxContainer" parent="HowToPlayOverlay/Center/Panel/Margin/VBox/Scroll/ScrollMargin/SectionsVBox/ControlsPanel/ControlsMargin"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="ControlsHeader" type="Label" parent="HowToPlayOverlay/Center/Panel/Margin/VBox/Scroll/ScrollMargin/SectionsVBox/ControlsPanel/ControlsMargin/ControlsBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.13, 0.83, 0.93, 1)
+theme_override_font_sizes/font_size = 26
+text = "HELP_HEADER_CONTROLS"
+
+[node name="Move" type="Label" parent="HowToPlayOverlay/Center/Panel/Margin/VBox/Scroll/ScrollMargin/SectionsVBox/ControlsPanel/ControlsMargin/ControlsBox"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 20
 text = "HELP_CONTROLS_MOVE"
 
-[node name="Dash" type="Label" parent="HowToPlayOverlay/Center/Panel/Margin/VBox"]
+[node name="Dash" type="Label" parent="HowToPlayOverlay/Center/Panel/Margin/VBox/Scroll/ScrollMargin/SectionsVBox/ControlsPanel/ControlsMargin/ControlsBox"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 20
 text = "HELP_CONTROLS_DASH"
 
-[node name="Attack" type="Label" parent="HowToPlayOverlay/Center/Panel/Margin/VBox"]
+[node name="Attack" type="Label" parent="HowToPlayOverlay/Center/Panel/Margin/VBox/Scroll/ScrollMargin/SectionsVBox/ControlsPanel/ControlsMargin/ControlsBox"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 20
 text = "HELP_CONTROLS_ATTACK"
 
-[node name="Aim" type="Label" parent="HowToPlayOverlay/Center/Panel/Margin/VBox"]
+[node name="Pause" type="Label" parent="HowToPlayOverlay/Center/Panel/Margin/VBox/Scroll/ScrollMargin/SectionsVBox/ControlsPanel/ControlsMargin/ControlsBox"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 20
-text = "HELP_CONTROLS_AIM"
+text = "HELP_CONTROLS_PAUSE"
 
-[node name="Rules" type="Label" parent="HowToPlayOverlay/Center/Panel/Margin/VBox"]
+[node name="RulesPanel" type="PanelContainer" parent="HowToPlayOverlay/Center/Panel/Margin/VBox/Scroll/ScrollMargin/SectionsVBox"]
+layout_mode = 2
+
+[node name="RulesMargin" type="MarginContainer" parent="HowToPlayOverlay/Center/Panel/Margin/VBox/Scroll/ScrollMargin/SectionsVBox/RulesPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 24
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 24
+theme_override_constants/margin_bottom = 20
+
+[node name="RulesBox" type="VBoxContainer" parent="HowToPlayOverlay/Center/Panel/Margin/VBox/Scroll/ScrollMargin/SectionsVBox/RulesPanel/RulesMargin"]
+layout_mode = 2
+theme_override_constants/separation = 14
+
+[node name="RulesHeader" type="Label" parent="HowToPlayOverlay/Center/Panel/Margin/VBox/Scroll/ScrollMargin/SectionsVBox/RulesPanel/RulesMargin/RulesBox"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.95, 0.8, 0.4, 1)
+theme_override_font_sizes/font_size = 26
+text = "HELP_HEADER_RULES"
+
+[node name="RulePrinciple" type="Label" parent="HowToPlayOverlay/Center/Panel/Margin/VBox/Scroll/ScrollMargin/SectionsVBox/RulesPanel/RulesMargin/RulesBox"]
+layout_mode = 2
 theme_override_font_sizes/font_size = 20
-text = "HELP_RULES"
+text = "HELP_RULE_PRINCIPLE"
 autowrap_mode = 2
 
-[node name="Spacer" type="Control" parent="HowToPlayOverlay/Center/Panel/Margin/VBox"]
-custom_minimum_size = Vector2(0, 16)
+[node name="RuleMinimap" type="Label" parent="HowToPlayOverlay/Center/Panel/Margin/VBox/Scroll/ScrollMargin/SectionsVBox/RulesPanel/RulesMargin/RulesBox"]
 layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "HELP_RULE_MINIMAP"
+autowrap_mode = 2
+
+[node name="RuleSouls" type="Label" parent="HowToPlayOverlay/Center/Panel/Margin/VBox/Scroll/ScrollMargin/SectionsVBox/RulesPanel/RulesMargin/RulesBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "HELP_RULE_SOULS"
+autowrap_mode = 2
+
+[node name="RuleRelics" type="Label" parent="HowToPlayOverlay/Center/Panel/Margin/VBox/Scroll/ScrollMargin/SectionsVBox/RulesPanel/RulesMargin/RulesBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "HELP_RULE_RELICS"
+autowrap_mode = 2
 
 [node name="CloseHowButton" type="Button" parent="HowToPlayOverlay/Center/Panel/Margin/VBox"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(260, 56)
+custom_minimum_size = Vector2(280, 60)
 layout_mode = 2
 size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 22
 text = "COMMON_CLOSE"
 
 [node name="CreditsOverlay" type="Control" parent="."]
@@ -249,32 +325,32 @@ horizontal_alignment = 1
 
 [node name="Proj" type="Label" parent="CreditsOverlay/Center/Panel/Margin/VBox"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 22
+theme_override_font_sizes/font_size = 24
 text = "CREDITS_PROJECT"
 horizontal_alignment = 1
 
 [node name="Eng" type="Label" parent="CreditsOverlay/Center/Panel/Margin/VBox"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 19
+theme_override_font_sizes/font_size = 22
 text = "CREDITS_ENGINE"
 horizontal_alignment = 1
 
 [node name="Art" type="Label" parent="CreditsOverlay/Center/Panel/Margin/VBox"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 19
+theme_override_font_sizes/font_size = 22
 text = "CREDITS_ART"
 horizontal_alignment = 1
 
 [node name="Aud" type="Label" parent="CreditsOverlay/Center/Panel/Margin/VBox"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 19
+theme_override_font_sizes/font_size = 22
 text = "CREDITS_AUDIO"
 horizontal_alignment = 1
 
 [node name="Dev" type="Label" parent="CreditsOverlay/Center/Panel/Margin/VBox"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.66, 0.33, 0.97, 1)
-theme_override_font_sizes/font_size = 20
+theme_override_font_sizes/font_size = 23
 text = "CREDITS_DEV"
 horizontal_alignment = 1
 
@@ -284,9 +360,10 @@ layout_mode = 2
 
 [node name="CloseCreditsButton" type="Button" parent="CreditsOverlay/Center/Panel/Margin/VBox"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(260, 56)
+custom_minimum_size = Vector2(280, 60)
 layout_mode = 2
 size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 22
 text = "COMMON_CLOSE"
 
 [node name="UpgradesOverlay" type="Control" parent="."]
@@ -317,7 +394,7 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="Panel" type="PanelContainer" parent="UpgradesOverlay/Center"]
-custom_minimum_size = Vector2(800, 550)
+custom_minimum_size = Vector2(880, 600)
 layout_mode = 2
 
 [node name="Margin" type="MarginContainer" parent="UpgradesOverlay/Center/Panel"]
@@ -341,32 +418,36 @@ horizontal_alignment = 1
 [node name="SoulsAvailLabel" type="Label" parent="UpgradesOverlay/Center/Panel/Margin/VBox"]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_font_sizes/font_size = 24
+theme_override_font_sizes/font_size = 26
 text = "ALTAR_SOULS_AVAIL"
 horizontal_alignment = 1
 
 [node name="HpUpgradeBtn" type="Button" parent="UpgradesOverlay/Center/Panel/Margin/VBox"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 56)
+custom_minimum_size = Vector2(0, 64)
 layout_mode = 2
+theme_override_font_sizes/font_size = 22
 text = "UPGRADE_MAX_HP_NAME"
 
 [node name="DmgUpgradeBtn" type="Button" parent="UpgradesOverlay/Center/Panel/Margin/VBox"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 56)
+custom_minimum_size = Vector2(0, 64)
 layout_mode = 2
+theme_override_font_sizes/font_size = 22
 text = "UPGRADE_DAMAGE_NAME"
 
 [node name="SpeedUpgradeBtn" type="Button" parent="UpgradesOverlay/Center/Panel/Margin/VBox"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 56)
+custom_minimum_size = Vector2(0, 64)
 layout_mode = 2
+theme_override_font_sizes/font_size = 22
 text = "UPGRADE_SPEED_NAME"
 
 [node name="DashUpgradeBtn" type="Button" parent="UpgradesOverlay/Center/Panel/Margin/VBox"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 56)
+custom_minimum_size = Vector2(0, 64)
 layout_mode = 2
+theme_override_font_sizes/font_size = 22
 text = "UPGRADE_DASH_CD_NAME"
 
 [node name="Spacer" type="Control" parent="UpgradesOverlay/Center/Panel/Margin/VBox"]
@@ -375,8 +456,9 @@ layout_mode = 2
 
 [node name="CloseUpgradesButton" type="Button" parent="UpgradesOverlay/Center/Panel/Margin/VBox"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 60)
+custom_minimum_size = Vector2(0, 64)
 layout_mode = 2
+theme_override_font_sizes/font_size = 22
 text = "COMMON_CLOSE"
 
 [node name="AlmanacOverlay" parent="." instance=ExtResource("3_almanac")]
