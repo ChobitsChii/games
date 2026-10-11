@@ -172,31 +172,87 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -400.0
-offset_top = -240.0
-offset_right = 400.0
-offset_bottom = 240.0
+offset_left = -450.0
+offset_top = -280.0
+offset_right = 450.0
+offset_bottom = 280.0
 grow_horizontal = 2
 grow_vertical = 2
 
 [node name="VBox" type="VBoxContainer" parent="CreditsPanel"]
 layout_mode = 2
-theme_override_constants/separation = 20
+theme_override_constants/separation = 18
 
 [node name="Title" type="Label" parent="CreditsPanel/VBox"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0, 0.9, 1, 1)
 theme_override_font_sizes/font_size = 40
-text = "MENU_CREDITS"
+text = "MENU_CREDITS_TITLE"
 horizontal_alignment = 1
 
-[node name="InfoLabel" type="Label" parent="CreditsPanel/VBox"]
+[node name="Grid" type="GridContainer" parent="CreditsPanel/VBox"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 28
-text = "MENU_SUBTITLE"
-horizontal_alignment = 1
+theme_override_constants/h_separation = 24
+theme_override_constants/v_separation = 12
+columns = 2
+
+[node name="DevLabel" type="Label" parent="CreditsPanel/VBox/Grid"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0.9, 1, 1)
+theme_override_font_sizes/font_size = 22
+text = "MENU_CREDITS_DEV"
+
+[node name="DevVal" type="Label" parent="CreditsPanel/VBox/Grid"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 22
+text = "MENU_CREDITS_DEV_VAL"
+
+[node name="EngineLabel" type="Label" parent="CreditsPanel/VBox/Grid"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0.9, 1, 1)
+theme_override_font_sizes/font_size = 22
+text = "MENU_CREDITS_ENGINE"
+
+[node name="EngineVal" type="Label" parent="CreditsPanel/VBox/Grid"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 22
+text = "MENU_CREDITS_ENGINE_VAL"
+
+[node name="GraphicsLabel" type="Label" parent="CreditsPanel/VBox/Grid"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0.9, 1, 1)
+theme_override_font_sizes/font_size = 22
+text = "MENU_CREDITS_GRAPHICS"
+
+[node name="GraphicsVal" type="Label" parent="CreditsPanel/VBox/Grid"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 22
+text = "MENU_CREDITS_GRAPHICS_VAL"
+
+[node name="AudioLabel" type="Label" parent="CreditsPanel/VBox/Grid"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0.9, 1, 1)
+theme_override_font_sizes/font_size = 22
+text = "MENU_CREDITS_AUDIO"
+
+[node name="AudioVal" type="Label" parent="CreditsPanel/VBox/Grid"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 22
+text = "MENU_CREDITS_AUDIO_VAL"
+
+[node name="FontLabel" type="Label" parent="CreditsPanel/VBox/Grid"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0.9, 1, 1)
+theme_override_font_sizes/font_size = 22
+text = "MENU_CREDITS_FONT"
+
+[node name="FontVal" type="Label" parent="CreditsPanel/VBox/Grid"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 22
+text = "MENU_CREDITS_FONT_VAL"
 
 [node name="CloseCreditsButton" type="Button" parent="CreditsPanel/VBox"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "MENU_BACK"
+

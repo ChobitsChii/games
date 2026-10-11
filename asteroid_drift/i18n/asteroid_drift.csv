@@ -51,3 +51,14 @@ MSG_HYPERSPACE_READY,Hyperspace bereit,Hyperspace ready
 MSG_HYPERSPACE_DANGER,Hyperspace-Instabilität!,Hyperspace instability!
 MSG_SHIELD_DOWN,Schild zusammengebrochen!,Shield depleted!
 MSG_SHIELD_RESTORED,Schild online,Shield restored
+MENU_CREDITS_TITLE,Credits & Mitwirkende,Credits & Contributors
+MENU_CREDITS_DEV,Entwicklung,Development
+MENU_CREDITS_DEV_VAL,"Jennifer, Antigravity","Jennifer, Antigravity"
+MENU_CREDITS_ENGINE,Engine,Engine
+MENU_CREDITS_ENGINE_VAL,Godot Engine 4.7 (GDScript),Godot Engine 4.7 (GDScript)
+MENU_CREDITS_GRAPHICS,Grafik & Design,Graphics & Design
+MENU_CREDITS_GRAPHICS_VAL,"Vektor-Optik & Shader (CC0)","Vector visuals & shaders (CC0)"
+MENU_CREDITS_AUDIO,Soundeffekte,Audio & SFX
+MENU_CREDITS_AUDIO_VAL,"Kenney (CC0 1.0 Universal)","Kenney (CC0 1.0 Universal)"
+MENU_CREDITS_FONT,Schriftart,Font
+MENU_CREDITS_FONT_VAL,"Open Sans (Apache 2.0)","Open Sans (Apache 2.0)"

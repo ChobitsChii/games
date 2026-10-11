@@ -55,6 +55,12 @@ var _audio_mgr: AudioManager
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
 
+	# Gameplay-Knoten pausieren, wenn get_tree().paused aktiv ist
+	$Bullets.process_mode = Node.PROCESS_MODE_PAUSABLE
+	$Enemies.process_mode = Node.PROCESS_MODE_PAUSABLE
+	$Drops.process_mode = Node.PROCESS_MODE_PAUSABLE
+	$Ship.process_mode = Node.PROCESS_MODE_PAUSABLE
+
 	var app_theme: Theme = ThemeFactory.build(Constants.PALETTE)
 	hud.theme = app_theme
 	pause_menu.theme = app_theme
