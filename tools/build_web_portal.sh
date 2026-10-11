@@ -680,7 +680,7 @@ cat << 'EOF' > "$TARGET_DIR/index.html"
 					<div class="title-wrap">
 						<h2>Crypt Dash</h2>
 						<div class="tags-row">
-							<span class="tag tag-ver">v1.1.3</span>
+							<span class="tag tag-ver">v1.1.4</span>
 							<span class="tag tag-ready">Vollversion</span>
 							<span class="tag tag-genre">Roguelite</span>
 						</div>
