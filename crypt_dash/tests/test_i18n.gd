@@ -7,7 +7,7 @@ const CSV_FILES := [
 	"res://i18n/crypt_dash.csv",
 ]
 const SOURCE_DIRS := ["res://scripts", "res://scenes", "res://addons/shared"]
-const KEY_PREFIXES := "COMMON|DISPLAY|GAME|HUD|MSG|PAUSE|MENU|ITEM|ENEMY|BOSS|HELP|UPGRADE|ALTAR|VICTORY|ROOM|BTN|CHOOSE"
+const KEY_PREFIXES := "COMMON|DISPLAY|GAME|HUD|MSG|PAUSE|MENU|ITEM|ENEMY|BOSS|HELP|UPGRADE|ALTAR|VICTORY|ROOM|BTN|CHOOSE|ALMANAC|CREDITS"
 
 
 ## Liest alle CSV-Dateien. Ergebnis: Schlüssel -> {Sprache -> Text}.

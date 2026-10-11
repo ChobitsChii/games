@@ -18,6 +18,8 @@ var meta_upgrades: Dictionary = {}
 var player: Player
 var camera: Camera2D
 
+var _world_node: Node2D
+var _minimap: Minimap
 var _hud_layer: CanvasLayer
 var _hp_label: Label
 var _dash_bar: ProgressBar
@@ -73,6 +75,11 @@ func _load_meta_progress() -> void:
 
 
 func _setup_camera() -> void:
+	_world_node = Node2D.new()
+	_world_node.name = "World"
+	_world_node.process_mode = Node.PROCESS_MODE_PAUSABLE
+	add_child(_world_node)
+
 	camera = Camera2D.new()
 	camera.position = Vector2(CryptDashConfig.ROOM_PIXEL_WIDTH / 2.0, CryptDashConfig.ROOM_PIXEL_HEIGHT / 2.0)
 	camera.enabled = true
@@ -84,13 +91,16 @@ func _start_floor(floor_num: int) -> void:
 	dungeon = DungeonGenerator.generate_floor(seed_value, current_floor_num)
 	current_room_coords = dungeon.start_room_coords
 
+	if _minimap != null:
+		_minimap.set_dungeon(dungeon)
+
 	if player == null:
 		player = Player.new()
 		player.add_to_group("player")
 		player.autoplay = autoplay
 		player.meta_upgrades = meta_upgrades
 		player.items = collected_items
-		add_child(player)
+		_world_node.add_child(player)
 		player.health_changed.connect(_on_player_health_changed)
 		player.dash_cooldown_progress.connect(_on_dash_progress)
 
@@ -104,11 +114,14 @@ func _load_room(coords: Vector2i, enter_from: String) -> void:
 		current_room_instance.queue_free()
 
 	current_room_coords = coords
+	if _minimap != null:
+		_minimap.set_current_room(coords)
+
 	var r_data: DungeonGenerator.DungeonRoom = dungeon.get_room(coords)
 	current_room_instance = RoomTemplate.new()
 	current_room_instance.setup_room(r_data)
 	current_room_instance.door_entered.connect(_on_door_entered)
-	add_child(current_room_instance)
+	_world_node.add_child(current_room_instance)
 
 	# Spieler an der passenden Tür platzieren
 	var w := CryptDashConfig.ROOM_PIXEL_WIDTH
@@ -236,6 +249,14 @@ func _setup_ui() -> void:
 	h_box.add_child(_seed_label)
 
 	_hud_layer.add_child(hud_panel)
+
+	# Minimap (Oben rechts)
+	_minimap = Minimap.new()
+	_minimap.position = Vector2(1920 - 200, 80)
+	_hud_layer.add_child(_minimap)
+	if dungeon != null:
+		_minimap.set_dungeon(dungeon)
+		_minimap.set_current_room(current_room_coords)
 
 	# Modale Fenster
 	_setup_item_modal()

@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3]
+[gd_scene load_steps=4 format=3]
 
 [ext_resource type="Script" path="res://scripts/main_menu.gd" id="1_menu"]
 [ext_resource type="Texture2D" path="res://assets/main_menu_bg.png" id="2_bg"]
+[ext_resource type="PackedScene" path="res://scenes/almanac_modal.tscn" id="3_almanac"]
 
 [node name="MainMenu" type="Control"]
 layout_mode = 3
@@ -76,6 +77,12 @@ custom_minimum_size = Vector2(0, 68)
 layout_mode = 2
 text = "MENU_HOW_TO_PLAY"
 
+[node name="AlmanacButton" type="Button" parent="Center/Box"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 68)
+layout_mode = 2
+text = "MENU_ALMANAC"
+
 [node name="CreditsButton" type="Button" parent="Center/Box"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 68)
@@ -132,19 +139,19 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="Panel" type="PanelContainer" parent="HowToPlayOverlay/Center"]
-custom_minimum_size = Vector2(800, 500)
+custom_minimum_size = Vector2(960, 620)
 layout_mode = 2
 
 [node name="Margin" type="MarginContainer" parent="HowToPlayOverlay/Center/Panel"]
 layout_mode = 2
-theme_override_constants/margin_left = 32
+theme_override_constants/margin_left = 36
 theme_override_constants/margin_top = 32
-theme_override_constants/margin_right = 32
+theme_override_constants/margin_right = 36
 theme_override_constants/margin_bottom = 32
 
 [node name="VBox" type="VBoxContainer" parent="HowToPlayOverlay/Center/Panel/Margin"]
 layout_mode = 2
-theme_override_constants/separation = 20
+theme_override_constants/separation = 18
 
 [node name="Title" type="Label" parent="HowToPlayOverlay/Center/Panel/Margin/VBox"]
 layout_mode = 2
@@ -175,18 +182,20 @@ text = "HELP_CONTROLS_AIM"
 
 [node name="Rules" type="Label" parent="HowToPlayOverlay/Center/Panel/Margin/VBox"]
 layout_mode = 2
+theme_override_colors/font_color = Color(0.95, 0.8, 0.4, 1)
 theme_override_font_sizes/font_size = 20
 text = "HELP_RULES"
 autowrap_mode = 2
 
 [node name="Spacer" type="Control" parent="HowToPlayOverlay/Center/Panel/Margin/VBox"]
-custom_minimum_size = Vector2(0, 20)
+custom_minimum_size = Vector2(0, 16)
 layout_mode = 2
 
 [node name="CloseHowButton" type="Button" parent="HowToPlayOverlay/Center/Panel/Margin/VBox"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 60)
+custom_minimum_size = Vector2(260, 56)
 layout_mode = 2
+size_flags_horizontal = 4
 text = "COMMON_CLOSE"
 
 [node name="CreditsOverlay" type="Control" parent="."]
@@ -206,7 +215,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0.04, 0.05, 0.09, 0.9)
+color = Color(0.04, 0.05, 0.09, 0.92)
 
 [node name="Center" type="CenterContainer" parent="CreditsOverlay"]
 layout_mode = 1
@@ -217,19 +226,19 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="Panel" type="PanelContainer" parent="CreditsOverlay/Center"]
-custom_minimum_size = Vector2(800, 500)
+custom_minimum_size = Vector2(900, 560)
 layout_mode = 2
 
 [node name="Margin" type="MarginContainer" parent="CreditsOverlay/Center/Panel"]
 layout_mode = 2
-theme_override_constants/margin_left = 32
+theme_override_constants/margin_left = 36
 theme_override_constants/margin_top = 32
-theme_override_constants/margin_right = 32
+theme_override_constants/margin_right = 36
 theme_override_constants/margin_bottom = 32
 
 [node name="VBox" type="VBoxContainer" parent="CreditsOverlay/Center/Panel/Margin"]
 layout_mode = 2
-theme_override_constants/separation = 20
+theme_override_constants/separation = 16
 
 [node name="Title" type="Label" parent="CreditsOverlay/Center/Panel/Margin/VBox"]
 layout_mode = 2
@@ -238,20 +247,46 @@ theme_override_font_sizes/font_size = 40
 text = "MENU_CREDITS"
 horizontal_alignment = 1
 
-[node name="Text" type="Label" parent="CreditsOverlay/Center/Panel/Margin/VBox"]
+[node name="Proj" type="Label" parent="CreditsOverlay/Center/Panel/Margin/VBox"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 22
-text = "MENU_TITLE"
+text = "CREDITS_PROJECT"
+horizontal_alignment = 1
+
+[node name="Eng" type="Label" parent="CreditsOverlay/Center/Panel/Margin/VBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 19
+text = "CREDITS_ENGINE"
+horizontal_alignment = 1
+
+[node name="Art" type="Label" parent="CreditsOverlay/Center/Panel/Margin/VBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 19
+text = "CREDITS_ART"
+horizontal_alignment = 1
+
+[node name="Aud" type="Label" parent="CreditsOverlay/Center/Panel/Margin/VBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 19
+text = "CREDITS_AUDIO"
+horizontal_alignment = 1
+
+[node name="Dev" type="Label" parent="CreditsOverlay/Center/Panel/Margin/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.66, 0.33, 0.97, 1)
+theme_override_font_sizes/font_size = 20
+text = "CREDITS_DEV"
 horizontal_alignment = 1
 
 [node name="Spacer" type="Control" parent="CreditsOverlay/Center/Panel/Margin/VBox"]
-custom_minimum_size = Vector2(0, 40)
+custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 
 [node name="CloseCreditsButton" type="Button" parent="CreditsOverlay/Center/Panel/Margin/VBox"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 60)
+custom_minimum_size = Vector2(260, 56)
 layout_mode = 2
+size_flags_horizontal = 4
 text = "COMMON_CLOSE"
 
 [node name="UpgradesOverlay" type="Control" parent="."]
@@ -343,3 +378,8 @@ unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 60)
 layout_mode = 2
 text = "COMMON_CLOSE"
+
+[node name="AlmanacOverlay" parent="." instance=ExtResource("3_almanac")]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1

@@ -5,6 +5,7 @@ extends Control
 @onready var _play_button: Button = %PlayButton
 @onready var _upgrades_button: Button = %UpgradesButton
 @onready var _how_to_play_button: Button = %HowToPlayButton
+@onready var _almanac_button: Button = %AlmanacButton
 @onready var _credits_button: Button = %CreditsButton
 @onready var _language_button: Button = %LanguageButton
 @onready var _display_button: Button = %DisplayButton
@@ -12,6 +13,7 @@ extends Control
 
 @onready var _how_to_play_overlay: Control = %HowToPlayOverlay
 @onready var _close_how_button: Button = %CloseHowButton
+@onready var _almanac_overlay: CryptAlmanacModal = %AlmanacOverlay
 @onready var _credits_overlay: Control = %CreditsOverlay
 @onready var _close_credits_button: Button = %CloseCreditsButton
 
@@ -27,10 +29,11 @@ extends Control
 func _ready() -> void:
 	_play_button.pressed.connect(_on_play_pressed)
 	_upgrades_button.pressed.connect(_open_upgrades)
-	_close_upgrades_button.pressed.connect(_close_upgrades)
+	_close_upgrades_button.connect("pressed", _close_upgrades)
 
 	_how_to_play_button.pressed.connect(_toggle_how_to_play.bind(true))
 	_close_how_button.pressed.connect(_toggle_how_to_play.bind(false))
+	_almanac_button.pressed.connect(func() -> void: _almanac_overlay.open())
 	_credits_button.pressed.connect(_toggle_credits.bind(true))
 	_close_credits_button.pressed.connect(_toggle_credits.bind(false))
 
