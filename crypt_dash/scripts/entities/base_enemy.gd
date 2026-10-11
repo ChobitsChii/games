@@ -27,6 +27,7 @@ var _attack_timer: float = 0.0
 
 
 func _ready() -> void:
+	z_index = 5
 	collision_layer = 8 # Gegner (Layer 4)
 	collision_mask = 1 | 8 # Wände + andere Gegner
 

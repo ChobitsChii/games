@@ -14,6 +14,7 @@ var _hitbox: HitboxComponent
 
 
 func _ready() -> void:
+	z_index = 12
 	collision_layer = 0
 	collision_mask = 1 # Wände (Layer 1)
 	body_entered.connect(_on_body_entered)

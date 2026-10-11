@@ -48,8 +48,15 @@ func _shoot(dir: Vector2) -> void:
 
 func _draw() -> void:
 	super._draw()
-	# Grüner Schützen-Umhang
-	draw_circle(Vector2.ZERO, 16.0, Color("15803d"))
-	draw_circle(Vector2(0, -2), 11.0, Color("e2e8f0"))
-	draw_circle(Vector2(-3, -2), 2.5, Color("dc2626")) # Rote Scharfschützen-Augen
-	draw_circle(Vector2(3, -2), 2.5, Color("dc2626"))
+	# Scharfe Outline
+	draw_circle(Vector2.ZERO, 19.0, Color("0f172a"))
+	# Smaragdgrüner Umhang
+	draw_circle(Vector2.ZERO, 17.0, Color("16a34a"))
+	draw_circle(Vector2(0, -2), 12.0, Color("f8fafc"))
+	# Zielende Scharfschützen-Augen
+	draw_circle(Vector2(-4, -2), 3.5, Color("f97316"))
+	draw_circle(Vector2(4, -2), 3.5, Color("f97316"))
+	draw_circle(Vector2(-4, -2), 1.5, Color.WHITE)
+	draw_circle(Vector2(4, -2), 1.5, Color.WHITE)
+	# Goldener Bogen
+	draw_arc(Vector2(12, 0), 10.0, -PI/2, PI/2, 12, Color("fbbf24"), 3.0)

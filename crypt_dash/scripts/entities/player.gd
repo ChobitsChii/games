@@ -39,6 +39,7 @@ var _facing: Vector2 = Vector2.RIGHT
 
 
 func _ready() -> void:
+	z_index = 10
 	collision_layer = 2 # Spieler (Layer 2)
 	collision_mask = 1  # Wände (Layer 1)
 
@@ -199,14 +200,28 @@ func _draw() -> void:
 	if is_dashing:
 		body_color = Color("67e8f9")
 		# Dash Nachbild
-		draw_circle(-dash_direction * 20.0, 18.0, Color(0.2, 0.8, 0.9, 0.3))
+		draw_circle(-dash_direction * 22.0, 22.0, Color(0.2, 0.8, 1.0, 0.45))
+		draw_circle(-dash_direction * 11.0, 24.0, Color(0.2, 0.8, 1.0, 0.65))
 
-	# Schatten
-	draw_circle(Vector2(0, 8), 22.0, Color(0, 0, 0, 0.35))
+	# Scharfer Schatten
+	draw_circle(Vector2(0, 10), 24.0, Color(0, 0, 0, 0.5))
+	
+	# Leucht-Aura
+	draw_circle(Vector2.ZERO, 26.0, Color(0.02, 0.71, 0.83, 0.3))
+	# Heller Rand
+	draw_circle(Vector2.ZERO, 23.0, Color.WHITE)
 	# Körper
-	draw_circle(Vector2.ZERO, 20.0, body_color)
+	draw_circle(Vector2.ZERO, 21.0, body_color)
 	draw_circle(Vector2.ZERO, 15.0, Color("0f172a"))
-	# Blickrichtung / Augen
+	
+	# Blickrichtung / Glühende Augen
 	var eye_offset := _facing * 9.0
-	draw_circle(eye_offset + Vector2(-4, -2), 3.5, Color("38bdf8"))
-	draw_circle(eye_offset + Vector2(4, -2), 3.5, Color("38bdf8"))
+	draw_circle(eye_offset + Vector2(-5, -2), 4.5, Color("67e8f9"))
+	draw_circle(eye_offset + Vector2(5, -2), 4.5, Color("67e8f9"))
+	draw_circle(eye_offset + Vector2(-5, -2), 2.0, Color.WHITE)
+	draw_circle(eye_offset + Vector2(5, -2), 2.0, Color.WHITE)
+
+	# Gehaltene Leuchtdolche
+	var weapon_pos := _facing * 22.0
+	draw_circle(weapon_pos, 5.0, Color("22d3ee"))
+	draw_circle(weapon_pos, 2.5, Color.WHITE)

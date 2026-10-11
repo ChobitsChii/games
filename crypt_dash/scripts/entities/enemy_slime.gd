@@ -27,9 +27,16 @@ func _on_died() -> void:
 
 func _draw() -> void:
 	super._draw()
-	var radius := 16.0 if split_level > 0 else 10.0
-	# Giftiges Grün / Säure
+	var radius := 18.0 if split_level > 0 else 12.0
+	# Leucht-Aura
+	draw_circle(Vector2.ZERO, radius + 4.0, Color(0.5, 0.9, 0.1, 0.35))
+	# Scharfe Outline
+	draw_circle(Vector2.ZERO, radius + 1.5, Color("14532d"))
+	# Giftiges Säure-Grün
 	draw_circle(Vector2.ZERO, radius, Color("84cc16"))
-	draw_circle(Vector2(0, -2), radius * 0.7, Color("a3e635"))
-	draw_circle(Vector2(-3, -2), 2.5, Color("0f172a"))
-	draw_circle(Vector2(3, -2), 2.5, Color("0f172a"))
+	draw_circle(Vector2(0, -3), radius * 0.65, Color("bef264"))
+	# Gelbe Augen
+	draw_circle(Vector2(-4, -2), 3.5, Color("fef08a"))
+	draw_circle(Vector2(4, -2), 3.5, Color("fef08a"))
+	draw_circle(Vector2(-4, -2), 1.5, Color("1e293b"))
+	draw_circle(Vector2(4, -2), 1.5, Color("1e293b"))

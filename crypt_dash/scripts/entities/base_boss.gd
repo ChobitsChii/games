@@ -19,6 +19,7 @@ var _attack_timer: float = 0.0
 
 
 func _ready() -> void:
+	z_index = 6
 	collision_layer = 8
 	collision_mask = 1 | 8
 

@@ -11,8 +11,14 @@ func _init() -> void:
 
 func _draw() -> void:
 	super._draw()
-	# Knochen-Weiß / Antik
-	draw_circle(Vector2.ZERO, 16.0, Color("e2e8f0"))
-	draw_circle(Vector2(-5, -3), 3.5, Color("0f172a")) # Dunkle Augenhöhlen
-	draw_circle(Vector2(5, -3), 3.5, Color("0f172a"))
-	draw_line(Vector2(-5, 6), Vector2(5, 6), Color("0f172a"), 2.0) # Zähne
+	# Scharfer Schatten & Outline
+	draw_circle(Vector2.ZERO, 19.0, Color("0f172a"))
+	# Knochen-Weiß
+	draw_circle(Vector2.ZERO, 17.0, Color("f1f5f9"))
+	# Rote glühende Augen
+	draw_circle(Vector2(-5, -2), 4.0, Color("ef4444"))
+	draw_circle(Vector2(5, -2), 4.0, Color("ef4444"))
+	draw_circle(Vector2(-5, -2), 1.5, Color.WHITE)
+	draw_circle(Vector2(5, -2), 1.5, Color.WHITE)
+	# Kiefer / Zähne
+	draw_rect(Rect2(-6, 5, 12, 4), Color("334155"))

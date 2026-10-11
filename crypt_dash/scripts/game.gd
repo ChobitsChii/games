@@ -27,12 +27,14 @@ var _seed_label: Label
 var _item_selection_modal: Control
 var _game_over_modal: Control
 var _victory_modal: Control
+var _pause_modal: Control
 
 var _shake_timer: float = 0.0
 var _shake_intensity: float = 0.0
 
 
 func _ready() -> void:
+	process_mode = Node.PROCESS_MODE_ALWAYS
 	_parse_cmdline_args()
 	_load_meta_progress()
 
@@ -152,6 +154,19 @@ func _on_enemy_died(_enemy: Node2D, souls: int) -> void:
 	_update_hud()
 
 
+func _unhandled_input(event: InputEvent) -> void:
+	if event.is_action_pressed("pause"):
+		if _game_over_modal.visible or _victory_modal.visible or _item_selection_modal.visible:
+			return
+		_toggle_pause()
+
+
+func _toggle_pause() -> void:
+	var is_paused := not get_tree().paused
+	get_tree().paused = is_paused
+	_pause_modal.visible = is_paused
+
+
 func _on_floor_completed(_f_num: int) -> void:
 	if current_floor_num >= 3:
 		_show_victory()
@@ -160,10 +175,12 @@ func _on_floor_completed(_f_num: int) -> void:
 
 
 func _on_game_over() -> void:
+	get_tree().paused = true
 	_game_over_modal.visible = true
 
 
 func _show_victory() -> void:
+	get_tree().paused = true
 	_victory_modal.visible = true
 
 
@@ -224,6 +241,7 @@ func _setup_ui() -> void:
 	_setup_item_modal()
 	_setup_game_over_modal()
 	_setup_victory_modal()
+	_setup_pause_modal()
 
 
 func _setup_item_modal() -> void:
@@ -313,12 +331,18 @@ func _setup_game_over_modal() -> void:
 
 	var retry_btn := Button.new()
 	retry_btn.text = "BTN_RETRY"
-	retry_btn.pressed.connect(func() -> void: get_tree().reload_current_scene())
+	retry_btn.pressed.connect(func() -> void:
+		get_tree().paused = false
+		get_tree().reload_current_scene()
+	)
 	vbox.add_child(retry_btn)
 
 	var menu_btn := Button.new()
 	menu_btn.text = "BTN_MENU"
-	menu_btn.pressed.connect(func() -> void: get_tree().change_scene_to_file("res://scenes/main_menu.tscn"))
+	menu_btn.pressed.connect(func() -> void:
+		get_tree().paused = false
+		get_tree().change_scene_to_file("res://scenes/main_menu.tscn")
+	)
 	vbox.add_child(menu_btn)
 
 	_game_over_modal.add_child(center)
@@ -354,11 +378,55 @@ func _setup_victory_modal() -> void:
 
 	var menu_btn := Button.new()
 	menu_btn.text = "BTN_MENU"
-	menu_btn.pressed.connect(func() -> void: get_tree().change_scene_to_file("res://scenes/main_menu.tscn"))
+	menu_btn.pressed.connect(func() -> void:
+		get_tree().paused = false
+		get_tree().change_scene_to_file("res://scenes/main_menu.tscn")
+	)
 	vbox.add_child(menu_btn)
 
 	_victory_modal.add_child(center)
 	_hud_layer.add_child(_victory_modal)
+
+
+func _setup_pause_modal() -> void:
+	_pause_modal = Control.new()
+	_pause_modal.set_anchors_preset(Control.PRESET_FULL_RECT)
+	_pause_modal.visible = false
+
+	var dim := ColorRect.new()
+	dim.set_anchors_preset(Control.PRESET_FULL_RECT)
+	dim.color = Color(0.02, 0.04, 0.08, 0.8)
+	_pause_modal.add_child(dim)
+
+	var center := CenterContainer.new()
+	center.set_anchors_preset(Control.PRESET_FULL_RECT)
+	var vbox := VBoxContainer.new()
+	vbox.add_theme_constant_override("separation", 20)
+	center.add_child(vbox)
+
+	var title := Label.new()
+	title.text = "COMMON_PAUSED"
+	title.add_theme_font_size_override("font_size", 54)
+	title.add_theme_color_override("font_color", Color("06b6d4"))
+	vbox.add_child(title)
+
+	var resume_btn := Button.new()
+	resume_btn.text = "COMMON_RESUME"
+	resume_btn.custom_minimum_size = Vector2(240, 56)
+	resume_btn.pressed.connect(_toggle_pause)
+	vbox.add_child(resume_btn)
+
+	var menu_btn := Button.new()
+	menu_btn.text = "COMMON_MAIN_MENU"
+	menu_btn.custom_minimum_size = Vector2(240, 56)
+	menu_btn.pressed.connect(func() -> void:
+		get_tree().paused = false
+		get_tree().change_scene_to_file("res://scenes/main_menu.tscn")
+	)
+	vbox.add_child(menu_btn)
+
+	_pause_modal.add_child(center)
+	_hud_layer.add_child(_pause_modal)
 
 
 func _update_hud() -> void:

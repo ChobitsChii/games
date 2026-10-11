@@ -16,6 +16,7 @@ var _door_triggers: Dictionary = {}
 
 
 func setup_room(p_room: DungeonGenerator.DungeonRoom) -> void:
+	z_index = -10
 	room_data = p_room
 	is_cleared = p_room.cleared
 	_build_room_geometry()
