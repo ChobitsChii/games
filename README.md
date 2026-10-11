@@ -13,7 +13,7 @@ Pläne und Entscheidungen: [plans/](plans/00_README_Engine_und_Uebersicht.md)
 ## Spiele
 | Spiel | Version | Stand | Web (Browser) | Downloads / Releases |
 |---|---|---|---|---|
-| [Block Stack](block_stack/README.md) | `v1.1.1` | Vollständig spielbar (Marathon, Sprint, Ultra, CPU-Duell), M0–M7 fertig | [▶ Spielen](https://chobitschii.github.io/games/block_stack/) | [Release & Downloads](../../releases/tag/block_stack-latest) |
+| [Block Stack](block_stack/README.md) | `v1.2.0` | Vollständig spielbar (Marathon, Sprint, Ultra, CPU-Duell), M0–M7 fertig | [▶ Spielen](https://chobitschii.github.io/games/block_stack/) | [Release & Downloads](../../releases/tag/block_stack-latest) |
 | [Lane Defenders](lane_defenders/README.md) | `v1.5.4` | Vollständig spielbar (10 Level, 2 Welten, Bosskampf), M0–M7 fertig | [▶ Spielen](https://chobitschii.github.io/games/lane_defenders/) | [Release & Downloads](../../releases/tag/lane_defenders-latest) |
 | [Connect Four Deluxe](vier_gewinnt/README.md) | `v1.2.1` | Vollständig spielbar (vs. KI Leicht/Mittel/Schwer, Hotseat, Bitboard-Engine), M0–M6 fertig | [▶ Spielen](https://chobitschii.github.io/games/vier_gewinnt/) | [Release & Downloads](../../releases/tag/vier_gewinnt-latest) |
 | [Asteroid Drift](asteroid_drift/README.md) | `v1.0.5` | Vollständig spielbar (10+ Wellen, Trägheitsphysik, Upgrades, UFOs, Minen), M0–M7 fertig | [▶ Spielen](https://chobitschii.github.io/games/asteroid_drift/) | [Release & Downloads](../../releases/tag/asteroid_drift-latest) |
