@@ -6,6 +6,7 @@
 | Icon (`icon.svg`) | selbst erstellt | – | CC0 | Projekt-Icon |
 | Start-Logo / Splash (`assets/splash.png`) | Antigravity (KI-generiert) | – | CC0 | Boot-Splash-Logo |
 | Menü-Hintergrundbild (`assets/menu_bg.png`) | Antigravity (KI-generiert) | – | CC0 | Hauptmenü-Hintergrund |
+| Tasten- & Gamepad-Icons (`assets/icons/*.svg`) | Antigravity (Vektorgrafiken) | – | CC0 | Steuerungspanel / KeyBadges |
 
 Alle Grafiken und Partikeleffekte werden prozedural per Godot CanvasItem / Shader im Spiel gezeichnet.
 

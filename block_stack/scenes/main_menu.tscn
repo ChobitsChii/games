@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3]
+[gd_scene load_steps=4 format=3]
 
 [ext_resource type="Script" path="res://scripts/main_menu.gd" id="1_menu"]
 [ext_resource type="Texture2D" path="res://assets/menu_bg.png" id="2_bg"]
+[ext_resource type="Script" path="res://scripts/ui/controls_view.gd" id="3_controls"]
 
 [node name="MainMenu" type="Control"]
 layout_mode = 3
@@ -148,107 +149,9 @@ horizontal_alignment = 1
 [node name="Grid" type="GridContainer" parent="ControlsOverlay/Center/Box"]
 layout_mode = 2
 theme_override_constants/h_separation = 36
-theme_override_constants/v_separation = 12
+theme_override_constants/v_separation = 14
 columns = 2
-
-[node name="Lbl1" type="Label" parent="ControlsOverlay/Center/Box/Grid"]
-layout_mode = 2
-theme_override_colors/font_color = Color(0, 0.898, 1, 1)
-theme_override_font_sizes/font_size = 26
-text = "CONTROLS_MOVE"
-
-[node name="Key1" type="Label" parent="ControlsOverlay/Center/Box/Grid"]
-layout_mode = 2
-theme_override_font_sizes/font_size = 26
-text = "CONTROLS_KEYS_MOVE"
-
-[node name="Lbl2" type="Label" parent="ControlsOverlay/Center/Box/Grid"]
-layout_mode = 2
-theme_override_colors/font_color = Color(0, 0.898, 1, 1)
-theme_override_font_sizes/font_size = 26
-text = "CONTROLS_SOFT_DROP"
-
-[node name="Key2" type="Label" parent="ControlsOverlay/Center/Box/Grid"]
-layout_mode = 2
-theme_override_font_sizes/font_size = 26
-text = "CONTROLS_KEYS_SOFT_DROP"
-
-[node name="Lbl3" type="Label" parent="ControlsOverlay/Center/Box/Grid"]
-layout_mode = 2
-theme_override_colors/font_color = Color(0, 0.898, 1, 1)
-theme_override_font_sizes/font_size = 26
-text = "CONTROLS_HARD_DROP"
-
-[node name="Key3" type="Label" parent="ControlsOverlay/Center/Box/Grid"]
-layout_mode = 2
-theme_override_font_sizes/font_size = 26
-text = "CONTROLS_KEYS_HARD_DROP"
-
-[node name="Lbl4" type="Label" parent="ControlsOverlay/Center/Box/Grid"]
-layout_mode = 2
-theme_override_colors/font_color = Color(0, 0.898, 1, 1)
-theme_override_font_sizes/font_size = 26
-text = "CONTROLS_ROTATE_CW"
-
-[node name="Key4" type="Label" parent="ControlsOverlay/Center/Box/Grid"]
-layout_mode = 2
-theme_override_font_sizes/font_size = 26
-text = "CONTROLS_KEYS_ROTATE_CW"
-
-[node name="Lbl5" type="Label" parent="ControlsOverlay/Center/Box/Grid"]
-layout_mode = 2
-theme_override_colors/font_color = Color(0, 0.898, 1, 1)
-theme_override_font_sizes/font_size = 26
-text = "CONTROLS_ROTATE_CCW"
-
-[node name="Key5" type="Label" parent="ControlsOverlay/Center/Box/Grid"]
-layout_mode = 2
-theme_override_font_sizes/font_size = 26
-text = "CONTROLS_KEYS_ROTATE_CCW"
-
-[node name="Lbl6" type="Label" parent="ControlsOverlay/Center/Box/Grid"]
-layout_mode = 2
-theme_override_colors/font_color = Color(0, 0.898, 1, 1)
-theme_override_font_sizes/font_size = 26
-text = "CONTROLS_HOLD"
-
-[node name="Key6" type="Label" parent="ControlsOverlay/Center/Box/Grid"]
-layout_mode = 2
-theme_override_font_sizes/font_size = 26
-text = "CONTROLS_KEYS_HOLD"
-
-[node name="Lbl7" type="Label" parent="ControlsOverlay/Center/Box/Grid"]
-layout_mode = 2
-theme_override_colors/font_color = Color(0, 0.898, 1, 1)
-theme_override_font_sizes/font_size = 26
-text = "CONTROLS_PAUSE"
-
-[node name="Key7" type="Label" parent="ControlsOverlay/Center/Box/Grid"]
-layout_mode = 2
-theme_override_font_sizes/font_size = 26
-text = "CONTROLS_KEYS_PAUSE"
-
-[node name="Lbl8" type="Label" parent="ControlsOverlay/Center/Box/Grid"]
-layout_mode = 2
-theme_override_colors/font_color = Color(0, 0.898, 1, 1)
-theme_override_font_sizes/font_size = 26
-text = "CONTROLS_FULLSCREEN"
-
-[node name="Key8" type="Label" parent="ControlsOverlay/Center/Box/Grid"]
-layout_mode = 2
-theme_override_font_sizes/font_size = 26
-text = "CONTROLS_KEYS_FULLSCREEN"
-
-[node name="Lbl9" type="Label" parent="ControlsOverlay/Center/Box/Grid"]
-layout_mode = 2
-theme_override_colors/font_color = Color(0, 0.898, 1, 1)
-theme_override_font_sizes/font_size = 26
-text = "CONTROLS_GAMEPAD"
-
-[node name="Key9" type="Label" parent="ControlsOverlay/Center/Box/Grid"]
-layout_mode = 2
-theme_override_font_sizes/font_size = 26
-text = "CONTROLS_KEYS_GAMEPAD"
+script = ExtResource("3_controls")
 
 [node name="Spacer" type="Control" parent="ControlsOverlay/Center/Box"]
 custom_minimum_size = Vector2(0, 16)
