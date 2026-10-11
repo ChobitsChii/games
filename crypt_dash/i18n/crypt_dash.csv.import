@@ -1,0 +1,19 @@
+[remap]
+
+importer="csv_translation"
+type="Translation"
+uid="uid://cgm81huyxcoxy"
+
+[deps]
+
+files=["res://i18n/crypt_dash.de.translation", "res://i18n/crypt_dash.en.translation"]
+
+source_file="res://i18n/crypt_dash.csv"
+dest_files=["res://i18n/crypt_dash.de.translation", "res://i18n/crypt_dash.en.translation"]
+
+[params]
+
+compress=1
+delimiter=0
+unescape_keys=false
+unescape_translations=true

@@ -11,7 +11,7 @@ for project in "$ROOT"/*/project.godot; do
 	dir="$(dirname "$project")"
 	echo "== $(basename "$dir") =="
 	godot --headless --path "$dir" --import >/dev/null 2>&1 || true
-	godot --headless --path "$dir" -s res://tests/run_tests.gd || status=1
-	godot --headless --fixed-fps 480 --path "$dir" res://tests/smoke.tscn || status=1
+	timeout 60 godot --headless --path "$dir" -s res://tests/run_tests.gd || status=1
+	timeout 60 godot --headless --fixed-fps 480 --path "$dir" res://tests/smoke.tscn || status=1
 done
 exit $status

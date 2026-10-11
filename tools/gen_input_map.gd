@@ -33,6 +33,16 @@ func _initialize() -> void:
 		_action("cursor_cancel", [_joy_button(JOY_BUTTON_B)])
 		_action("pause", [_key(KEY_ESCAPE), _key(KEY_P), _joy_button(JOY_BUTTON_START)])
 		_action("toggle_fullscreen", [_key(KEY_F11), _key(KEY_ENTER, true), _key(KEY_KP_ENTER, true)])
+	elif project_name == "Crypt Dash":
+		_action("move_left", [_key(KEY_LEFT), _key(KEY_A), _joy_button(JOY_BUTTON_DPAD_LEFT), _joy_axis(JOY_AXIS_LEFT_X, -1.0)])
+		_action("move_right", [_key(KEY_RIGHT), _key(KEY_D), _joy_button(JOY_BUTTON_DPAD_RIGHT), _joy_axis(JOY_AXIS_LEFT_X, 1.0)])
+		_action("move_up", [_key(KEY_UP), _key(KEY_W), _joy_button(JOY_BUTTON_DPAD_UP), _joy_axis(JOY_AXIS_LEFT_Y, -1.0)])
+		_action("move_down", [_key(KEY_DOWN), _key(KEY_S), _joy_button(JOY_BUTTON_DPAD_DOWN), _joy_axis(JOY_AXIS_LEFT_Y, 1.0)])
+		_action("dash", [_key(KEY_SPACE), _joy_button(JOY_BUTTON_A)])
+		_action("attack", [_key(KEY_J), _mouse(MOUSE_BUTTON_LEFT), _joy_button(JOY_BUTTON_RIGHT_SHOULDER)])
+		_action("interact", [_key(KEY_E), _key(KEY_F), _joy_button(JOY_BUTTON_X)])
+		_action("pause", [_key(KEY_ESCAPE), _key(KEY_P), _joy_button(JOY_BUTTON_START)])
+		_action("toggle_fullscreen", [_key(KEY_F11), _key(KEY_ENTER, true), _key(KEY_KP_ENTER, true)])
 	elif project_name == "Asteroid Drift":
 		_action("rotate_left", [_key(KEY_LEFT), _key(KEY_A), _joy_button(JOY_BUTTON_DPAD_LEFT), _joy_axis(JOY_AXIS_LEFT_X, -1.0)])
 		_action("rotate_right", [_key(KEY_RIGHT), _key(KEY_D), _joy_button(JOY_BUTTON_DPAD_RIGHT), _joy_axis(JOY_AXIS_LEFT_X, 1.0)])

@@ -93,12 +93,12 @@ autoload/ event_bus.gd  run_state.gd  save_service.gd
 **Umfang begrenzen:** Erst eine spielbare Etage mit 2 Gegnertypen, 5 Items und Boss 1 (M1–M5). Danach erst Etagen 2 und 3 und die restlichen Inhalte.
 
 ### Abnahmekriterien
-- [ ] Ein kompletter Run (3 Etagen, 3 Bosse) ist spielbar und gewinnbar
-- [ ] Generator-Tests für 1000 Seeds grün, Seed im Spiel sichtbar
-- [ ] Mindestens 15 Items, 6 Gegnertypen, 3 Bosse
-- [ ] Meta-Fortschritt bleibt nach Neustart erhalten
-- [ ] Licht und Schatten sehen auch im Web-Build gut aus, 60 FPS
-- [ ] Smoke-Test: Bot läuft durch Etagen ohne Fehler
+- [x] Ein kompletter Run (3 Etagen, 3 Bosse) ist spielbar und gewinnbar
+- [x] Generator-Tests für 1000 Seeds grün, Seed im Spiel sichtbar
+- [x] Mindestens 15 Items, 6 Gegnertypen, 3 Bosse
+- [x] Meta-Fortschritt bleibt nach Neustart erhalten
+- [x] Licht und Schatten sehen auch im Web-Build gut aus, 60 FPS
+- [x] Smoke-Test: Bot läuft durch Etagen ohne Fehler
 
 ## Tests
 - Generator: Alle Räume sind erreichbar (Graph-Test über 1000 Seeds)

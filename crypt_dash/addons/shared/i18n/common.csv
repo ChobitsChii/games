@@ -1,0 +1,12 @@
+keys,de,en
+COMMON_PLAY,Spielen,Play
+COMMON_LANGUAGE,Sprache,Language
+COMMON_DISPLAY_MODE,Anzeige,Display
+COMMON_QUIT,Beenden,Quit
+COMMON_BACK,Zurück,Back
+COMMON_RESUME,Fortsetzen,Resume
+COMMON_MAIN_MENU,Hauptmenü,Main menu
+COMMON_PAUSED,Pause,Paused
+DISPLAY_WINDOWED,Fenster,Windowed
+DISPLAY_FULLSCREEN,Vollbild,Fullscreen
+DISPLAY_EXCLUSIVE,Exklusives Vollbild,Exclusive fullscreen

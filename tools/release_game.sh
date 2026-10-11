@@ -36,6 +36,7 @@ case "$GAME" in
 	"vier_gewinnt")  DISPLAY_NAME="Connect Four Deluxe" ;;
 	"neon_breakout") DISPLAY_NAME="Neon Breakout" ;;
 	"asteroid_drift") DISPLAY_NAME="Asteroid Drift" ;;
+	"crypt_dash")    DISPLAY_NAME="Crypt Dash" ;;
 	*)               DISPLAY_NAME="$GAME" ;;
 esac
 

@@ -50,6 +50,7 @@ for project in "$ROOT"/*/project.godot; do
 			"vier_gewinnt")  disp="Connect Four Deluxe" ;;
 			"neon_breakout") disp="Neon Breakout" ;;
 			"asteroid_drift") disp="Asteroid Drift" ;;
+			"crypt_dash")    disp="Crypt Dash" ;;
 			*)               disp="$name" ;;
 		esac
 		# Version primär aus README.md lesen, Fallback auf Git-Tags
@@ -668,6 +669,36 @@ cat << 'EOF' > "$TARGET_DIR/index.html"
 						▶ Jetzt spielen
 					</a>
 					<a href="https://github.com/ChobitsChii/games/releases/tag/asteroid_drift-latest" class="btn btn-secondary" title="Downloads & Releases">
+						📦
+					</a>
+			<!-- Crypt Dash -->
+			<article class="game-card" data-color="pink">
+				<div class="card-header">
+					<div class="icon-wrapper">
+						<img src="crypt_dash/icon.svg" alt="Crypt Dash Icon">
+					</div>
+					<div class="title-wrap">
+						<h2>Crypt Dash</h2>
+						<div class="tags-row">
+							<span class="tag tag-ver">v1.0.0</span>
+							<span class="tag tag-ready">Vollversion</span>
+							<span class="tag tag-genre">Roguelite</span>
+						</div>
+					</div>
+				</div>
+				<div class="card-body">
+					<p class="card-desc">Atmosphärischer Top-Down-Dungeon-Crawler mit prozeduralen Räumen, Dash-Mechanik, 15 Relikten, 5 Gegnertypen, Multi-Phasen-Bossen und dauerhaftem Seelen-Altar.</p>
+					<ul class="features-list">
+						<li>Prozedurale Gruft-Ebenen & Minimap</li>
+						<li>15 synergetische Items & Altar der Seelen</li>
+						<li>Vollständige Gamepad-, Tastatur- & Maussteuerung</li>
+					</ul>
+				</div>
+				<div class="card-footer">
+					<a href="crypt_dash/" class="btn btn-primary" title="Crypt Dash im Browser spielen">
+						▶ Jetzt spielen
+					</a>
+					<a href="https://github.com/ChobitsChii/games/releases/tag/crypt_dash-latest" class="btn btn-secondary" title="Downloads & Releases">
 						📦
 					</a>
 				</div>

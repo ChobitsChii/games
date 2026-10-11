@@ -32,6 +32,8 @@ for project in "$ROOT"/*/project.godot; do
 				"lane_defenders") disp="Lane Defenders" ;;
 				"vier_gewinnt")  disp="Connect Four Deluxe" ;;
 				"neon_breakout") disp="Neon Breakout" ;;
+				"asteroid_drift") disp="Asteroid Drift" ;;
+				"crypt_dash")    disp="Crypt Dash" ;;
 				*)               disp="$name" ;;
 			esac
 			# Version primär aus README.md lesen, Fallback auf Git-Tags
