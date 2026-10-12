@@ -51,6 +51,7 @@ for project in "$ROOT"/*/project.godot; do
 			"neon_breakout") disp="Neon Breakout" ;;
 			"asteroid_drift") disp="Asteroid Drift" ;;
 			"crypt_dash")    disp="Crypt Dash" ;;
+			"lumaria")       disp="Lumaria: The Prismatic Odyssey" ;;
 			*)               disp="$name" ;;
 		esac
 		# Version primär aus README.md lesen, Fallback auf Git-Tags

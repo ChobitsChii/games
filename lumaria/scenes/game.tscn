@@ -1,0 +1,119 @@
+[gd_scene load_steps=7 format=3]
+
+[ext_resource type="Script" path="res://scripts/game.gd" id="1_game"]
+[ext_resource type="PackedScene" path="res://scenes/entities/player.tscn" id="2_player"]
+[ext_resource type="PackedScene" path="res://scenes/ui/hud.tscn" id="3_hud"]
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_top"]
+normal = Vector2(0, 1)
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_bottom"]
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_left"]
+normal = Vector2(1, 0)
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_right"]
+normal = Vector2(-1, 0)
+
+[node name="Game" type="Node2D"]
+script = ExtResource("1_game")
+
+[node name="Environment" type="Node2D" parent="."]
+
+[node name="Ground" type="ColorRect" parent="Environment"]
+offset_right = 1920.0
+offset_bottom = 1080.0
+color = Color(0.08, 0.16, 0.13, 1)
+
+[node name="Path" type="ColorRect" parent="Environment"]
+offset_left = 860.0
+offset_right = 1060.0
+offset_bottom = 1080.0
+color = Color(0.14, 0.22, 0.18, 1)
+
+[node name="TownSquare" type="ColorRect" parent="Environment"]
+offset_left = 710.0
+offset_top = 340.0
+offset_right = 1210.0
+offset_bottom = 740.0
+color = Color(0.16, 0.25, 0.21, 1)
+
+[node name="Boundaries" type="StaticBody2D" parent="Environment"]
+collision_mask = 0
+
+[node name="Top" type="CollisionShape2D" parent="Environment/Boundaries"]
+position = Vector2(960, 40)
+shape = SubResource("WorldBoundaryShape2D_top")
+
+[node name="Bottom" type="CollisionShape2D" parent="Environment/Boundaries"]
+position = Vector2(960, 1040)
+shape = SubResource("WorldBoundaryShape2D_bottom")
+
+[node name="Left" type="CollisionShape2D" parent="Environment/Boundaries"]
+position = Vector2(40, 540)
+shape = SubResource("WorldBoundaryShape2D_left")
+
+[node name="Right" type="CollisionShape2D" parent="Environment/Boundaries"]
+position = Vector2(1880, 540)
+shape = SubResource("WorldBoundaryShape2D_right")
+
+[node name="Player" parent="." instance=ExtResource("2_player")]
+position = Vector2(960, 540)
+
+[node name="HUD" parent="." instance=ExtResource("3_hud")]
+
+[node name="PauseLayer" type="CanvasLayer" parent="."]
+process_mode = 3
+
+[node name="PauseOverlay" type="Control" parent="PauseLayer"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Dim" type="ColorRect" parent="PauseLayer/PauseOverlay"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.6)
+
+[node name="Center" type="CenterContainer" parent="PauseLayer/PauseOverlay"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Box" type="VBoxContainer" parent="PauseLayer/PauseOverlay/Center"]
+custom_minimum_size = Vector2(400, 0)
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="Title" type="Label" parent="PauseLayer/PauseOverlay/Center/Box"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.22, 0.84, 0.96, 1)
+theme_override_font_sizes/font_size = 48
+text = "GAME_PAUSED"
+horizontal_alignment = 1
+
+[node name="ResumeButton" type="Button" parent="PauseLayer/PauseOverlay/Center/Box"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 56)
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "MENU_RESUME"
+
+[node name="QuitMenuButton" type="Button" parent="PauseLayer/PauseOverlay/Center/Box"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 56)
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "BTN_BACK"

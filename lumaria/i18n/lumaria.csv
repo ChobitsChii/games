@@ -1,0 +1,48 @@
+keys,de,en
+MENU_TITLE,Lumaria,Lumaria
+MENU_SUBTITLE,Die prismatische Odyssee,The Prismatic Odyssey
+MENU_PLAY,Reise beginnen,Start Journey
+MENU_OPTIONS,Optionen,Options
+MENU_CREDITS,Mitwirkende,Credits
+MENU_HOW_TO_PLAY,Steuerung & Hilfe,Controls & Help
+MENU_QUIT,Beenden,Quit
+MENU_NEW_GAME,Neues Abenteuer,New Adventure
+MENU_RESUME,Fortsetzen,Continue
+MENU_SLOT_1,Spielstand 1,Save Slot 1
+MENU_SLOT_2,Spielstand 2,Save Slot 2
+MENU_SLOT_3,Spielstand 3,Save Slot 3
+HUD_LUMEN,Lumen,Lumen
+HUD_KEYS,Schlüssel,Keys
+HUD_SLOT_Q,[Q] Gadget 1,[Q] Gadget 1
+HUD_SLOT_E,[E] Gadget 2,[E] Gadget 2
+GAME_PAUSED,Pause,Game Paused
+GAME_OVER,Gefallen im Schatten,Fallen in Shadow
+VICTORY_TITLE,Das Ewige Prisma erstrahlt!,The Eternal Prism Shines!
+VICTORY_DESC,Du hast Lumaria vor der ewigen Dämmerung gerettet.,You saved Lumaria from eternal twilight.
+BTN_RETRY,Erneut versuchen,Try Again
+BTN_BACK,Zurück,Back
+BTN_CLOSE,Schließen,Close
+BTN_CONTINUE,Weiter,Continue
+HELP_TITLE,Steuerung & Abenteuer,Controls & Adventure
+HELP_MOVE,WASD / Pfeiltasten: Bewegen,WASD / Arrow Keys: Move
+HELP_ATTACK,Leertaste / Linksklick: Schwertschlag (Halten für Wirbelangriff),Space / Left Click: Sword Slash (Hold for Spin Attack)
+HELP_ROLL,Shift / K: Ausweichrolle (i-Frames),Shift / K: Dodge Roll (i-Frames)
+HELP_SHIELD,Rechtsklick / L: Schildblock & Timing-Parry,Right Click / L: Shield Block & Timing Parry
+HELP_INTERACT,E / F: Interagieren / Sprechen / Heben,E / F: Interact / Speak / Lift
+HELP_GADGETS,Q / R: Ausgerüstete Gadgets nutzen,Q / R: Use Equipped Gadgets
+HELP_GOAL,Finde die 4 Spektral-Prismen und erlöse Lumaria aus dem Schatten!,Find the 4 Prismatic Sigils and restore light to Lumaria!
+CREDITS_TITLE,Mitwirkende,Credits
+CREDITS_SUBTITLE,Lumaria: The Prismatic Odyssey,Lumaria: The Prismatic Odyssey
+CREDITS_ROLES,Spielidee & Regie: Jennifer\nEntwicklung: Google Antigravity\nEngine: Godot 4.7 (GL Compatibility)\nGrafik & Design: Modern High-Res 2D (No Pixel-Art),Game Concept & Direction: Jennifer\nDevelopment: Google Antigravity\nEngine: Godot 4.7 (GL Compatibility)\nGraphics & Design: Modern High-Res 2D (No Pixel-Art)
+ITEM_BOOMERANG,Prisma-Bumerang,Prismatic Boomerang
+ITEM_TETHER,Kinetisches Fangseil,Kinetic Tether
+ITEM_BOMBS,Schall-Bomben,Sonic Bombs
+ITEM_BOW,Prisma-Bogen,Prism Bow
+ITEM_FRAGMENT,Sphären-Fragment,Vitality Fragment
+ROOM_OAKHAVEN,Dorf Eichenhafen,Oakhaven Village
+ROOM_SHRINE_ROOTS,Wurzel-Schrein,Shrine of Roots
+MSG_CHEST_OPEN,Du hast %s gefunden!,You found %s!
+MSG_SPHERE_COMPLETE,Maximale Lebenskraft erhöht!,Maximum vitality increased!
+MSG_PARRY_SUCCESS,Perfekter Konter!,Perfect Parry!
+DIALOGUE_ELDER_GREETING,Möge das Ur-Licht deinen Pfad erhellen, junger Sucher.,May the primal light guide your path, young seeker.
+DIALOGUE_BLACKSMITH_GREETING,Bring mir Sternenerz und Lumen, dann schärfe ich deine Klinge.,Bring me star ore and lumen, and I shall hone your blade.
