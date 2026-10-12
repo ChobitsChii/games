@@ -4,7 +4,7 @@ Modernes 2D-Action-Adventure (Top-Down-RPG) mit Godot 4.7 (GDScript) für Linux,
 Vollkommen eigenständige Welt und Lore – modern, hochauflösend und **ohne Pixel-Art** mit lebendigen 4-Wege-Bewegungsanimationen.
 
 ## Status
-* **Version:** `v0.4.0` (M0, M1, M2, M3 & M4 abgeschlossen: Grundgerüst, 4-Wege-Bewegungsanimationen, 3-Treffer-Kombo, aufladbarer Rundumschlag, Waffen-Trail, Schildblock & Timing-Parry, zerstörbare Krüge/Gras, Drops, Screen-Shake, Oakhaven-Kollisionen, 3 Dorf-NPCs & zweisprachiges Dialogsystem, 3 Standard-Gegner mit KI [Moos-Scout, Dornen-Spucker & Knochen-Krieger], Projektil-Reflektion, Prisma-Bumerang-Gadget mit Rückkehrphysik & Betäubung, Ausrüstungs- und Inventarmenü)
+* **Version:** `v0.5.0` (M0, M1, M2, M3, M4 & M5 abgeschlossen: Grundgerüst, 4-Wege-Bewegungsanimationen, 3-Treffer-Kombo, aufladbarer Rundumschlag, Waffen-Trail, Schildblock & Timing-Parry, zerstörbare Krüge/Gras, Drops, Screen-Shake, Oakhaven-Kollisionen, 3 Dorf-NPCs & zweisprachiges Dialogsystem, 3 Standard-Gegner mit KI [Moos-Scout, Dornen-Spucker & Knochen-Krieger], Projektil-Reflektion, Prisma-Bumerang-Gadget mit Rückkehrphysik & Betäubung, Ausrüstungs- und Inventarmenü, Dungeon 1: Wurzel-Schrein mit 8 Räumen, Kristallschalter-Mechaniken, Schlosstüren & Boss-Toren, Truhen-Interaktion, telegrafierten Wurzelstachel-Fallen und Boss 1: Floragorg mit Phasenwechsel, Schwachpunkt-Mechanik & Sonnen-Prisma)
 * **Plan:** [plans/07_lumaria.md](../plans/07_lumaria.md)
 
 ## Steuerung

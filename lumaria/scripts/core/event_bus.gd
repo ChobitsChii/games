@@ -24,4 +24,5 @@ signal room_transition_requested(target_room: String, entrance_marker: String)
 
 signal prism_collected(prism_id: String)
 signal boss_defeated(boss_id: String)
+signal show_toast_requested(message: String)
 signal victory()

@@ -257,7 +257,7 @@ lumaria/
    - 3 Standard-Gegner (Moos-Scout, Dornen-Spucker, Knochen-Krieger) mit vollen 4-Wege-Animationen.
    - Fund des **Prisma-Bumerangs**: Wurfphysik, Rückkehrkurve, Betäubung von Gegnern und Schalteraktivierung.
    - Inventar- und Ausrüstungs-Menü.
-6. **M5 – Dungeon 1: Der Wurzel-Schrein & Boss 1:**
+6. ✅ **M5 – Dungeon 1: Der Wurzel-Schrein & Boss 1:**
    - Vollständiger Dungeon mit 8 Räumen, verschlossenen Türen, Schaltern, Wasser-Schleusen und Kisten-Rätseln.
    - Kleiner Schlüssel und Boss-Schlüssel.
    - Bosskampf gegen **Floragorg, den Urwald-Koloss** (Zwei Phasen, Bodenranken, Schwachpunkt-Mechanik).

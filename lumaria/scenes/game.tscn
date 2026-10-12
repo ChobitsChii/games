@@ -1,4 +1,4 @@
-[gd_scene load_steps=34 format=3]
+[gd_scene load_steps=35 format=3]
 
 [ext_resource type="Script" path="res://scripts/game.gd" id="1_game"]
 [ext_resource type="Texture2D" path="res://assets/environments/oakhaven_village.png" id="2_bg"]
@@ -15,6 +15,7 @@
 [ext_resource type="PackedScene" path="res://scenes/entities/enemies/moss_scout.tscn" id="13_scout"]
 [ext_resource type="PackedScene" path="res://scenes/entities/enemies/thorn_spitter.tscn" id="14_spitter"]
 [ext_resource type="PackedScene" path="res://scenes/entities/enemies/bone_warrior.tscn" id="15_bone"]
+[ext_resource type="PackedScene" path="res://scenes/world/room_transition_trigger.tscn" id="16_portal"]
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_top"]
 normal = Vector2(0, 1)
@@ -266,6 +267,11 @@ position = Vector2(1700, 360)
 
 [node name="BoneWarrior1" parent="Enemies" instance=ExtResource("15_bone")]
 position = Vector2(1640, 720)
+
+[node name="ShrinePortal" parent="." instance=ExtResource("16_portal")]
+position = Vector2(1830, 540)
+target_scene_path = "res://scenes/world/shrine_roots.tscn"
+prompt_key = "PROMPT_ENTER_DUNGEON"
 
 [node name="PauseLayer" type="CanvasLayer" parent="."]
 process_mode = 3

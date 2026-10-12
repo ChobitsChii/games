@@ -77,3 +77,17 @@ INV_EQUIP_SLOT_1,Auf Slot 1 (Q) legen,Assign to Slot 1 (Q)
 INV_EQUIP_SLOT_2,Auf Slot 2 (E) legen,Assign to Slot 2 (E)
 INV_SWORD_TIER,Klingen-Stufe: %d,Blade Tier: %d
 INV_LOCKED,Gesperrt,Locked
+PROMPT_CHEST_OPEN,[E] Truhe öffnen,[E] Open Chest
+PROMPT_ENTER_DUNGEON,[E] Wurzel-Schrein betreten,[E] Enter Shrine of Roots
+PROMPT_EXIT_DUNGEON,[E] Zurück nach Oakhaven,[E] Return to Oakhaven
+ITEM_KEY_SMALL,Kleiner Schlüssel,Small Key
+ITEM_KEY_BOSS,Boss-Schlüssel,Boss Key
+ITEM_SUN_PRISM,Sonnen-Prisma,Sun Prism
+MSG_FOUND_SMALL_KEY,Du hast einen Kleinen Schlüssel gefunden!,You found a Small Key!
+MSG_FOUND_BOSS_KEY,Du hast den Boss-Schlüssel des Schreins gefunden!,You found the Sanctum Boss Key!
+MSG_FOUND_SUN_PRISM,Das Sonnen-Prisma erstrahlt in deinen Händen!,The Sun Prism shines in your hands!
+MSG_DOOR_LOCKED,Die Tür ist verschlossen.,The door is locked.
+MSG_BOSS_DOOR_LOCKED,Das Tor ist versiegelt. Der Boss-Schlüssel wird benötigt!,The gate is sealed. The Boss Key is required!
+BOSS_FLORAGORG_NAME,Floragorg,Floragorg
+BOSS_FLORAGORG_TITLE,Urwald-Koloss,Primal Colossus
+

@@ -18,7 +18,12 @@ func _ready() -> void:
 	add_child(menu)
 	menu.queue_free()
 
-	# 2. Spiel starten mit Autopilot
+	# 2. Dungeon 1 Wurzel-Schrein testen
+	var dungeon: Node2D = (load("res://scenes/world/shrine_roots.tscn") as PackedScene).instantiate()
+	add_child(dungeon)
+	dungeon.queue_free()
+
+	# 3. Spiel starten mit Autopilot
 	_game = (load("res://scenes/game.tscn") as PackedScene).instantiate()
 	_game.autoplay = true
 	add_child(_game)

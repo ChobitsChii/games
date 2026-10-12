@@ -21,6 +21,7 @@ func _ready() -> void:
 	EventBus.player_healed.connect(_on_health_changed)
 	EventBus.lumen_changed.connect(_on_lumen_changed)
 	EventBus.key_count_changed.connect(_on_keys_changed)
+	EventBus.show_toast_requested.connect(show_toast)
 	EventBus.room_transition_requested.connect(func(room: String, _m: String) -> void: show_room_banner(room))
 	_refresh_vitality()
 
