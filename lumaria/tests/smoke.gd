@@ -12,6 +12,7 @@ var _dialogue_tested := false
 
 
 func _ready() -> void:
+	process_mode = Node.PROCESS_MODE_ALWAYS
 	# 1. Menü testen
 	var menu: Control = (load("res://scenes/main_menu.tscn") as PackedScene).instantiate()
 	add_child(menu)
@@ -34,6 +35,10 @@ func _physics_process(_delta: float) -> void:
 	elif _frames == 200 and _game.dialogue_box and _game.dialogue_box.visible:
 		_game.dialogue_box._on_choice_pressed("ready")
 		_dialogue_tested = true
+	elif _frames == 240 and _game.inventory_menu:
+		_game.inventory_menu.open(_game.inventory)
+	elif _frames == 270 and _game.inventory_menu and _game.inventory_menu.visible:
+		_game.inventory_menu.close()
 
 	if _frames >= PHYSICS_FRAMES:
 		if _game.player != null and is_instance_valid(_game.player):

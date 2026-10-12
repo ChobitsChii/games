@@ -1,7 +1,8 @@
 class_name Game
 extends Node2D
 ## Hauptspielszene von Lumaria: The Prismatic Odyssey.
-## Steuert Weltinteraktion, Dialoge, NPCs, Kamera-Shake, HUD-Synchronisation und Pausenmenü.
+## Steuert Weltinteraktion, Dialoge, NPCs, Inventarmenü, Gegner,
+## Kamera-Shake, HUD-Synchronisation und Pausenmenü.
 
 @export var autoplay: bool = false
 
@@ -9,6 +10,7 @@ extends Node2D
 @onready var hud: GameHUD = $HUD
 @onready var camera: Camera2D = $Camera2D
 @onready var dialogue_box: DialogueBox = $DialogueBox
+@onready var inventory_menu: InventoryMenu = $InventoryMenu
 @onready var pause_overlay: Control = %PauseOverlay
 @onready var resume_btn: Button = %ResumeButton
 @onready var quit_btn: Button = %QuitMenuButton
@@ -22,6 +24,10 @@ func _ready() -> void:
 	inventory = InventoryModel.new()
 	quest_manager = QuestManager.new()
 
+	# Erstes Gadget: Prisma-Bumerang freischalten und ausrüsten
+	inventory.unlock_gadget("boomerang")
+	inventory.equip_gadget(1, "boomerang")
+
 	if autoplay:
 		player.autoplay = true
 
@@ -30,6 +36,7 @@ func _ready() -> void:
 
 	resume_btn.pressed.connect(_toggle_pause.bind(false))
 	quit_btn.pressed.connect(_on_quit_to_menu)
+	inventory_menu.closed.connect(func() -> void: hud.update_state(inventory))
 
 	# Inventar-Events
 	inventory.health_changed.connect(func(curr: int, max_hp: int) -> void:
@@ -82,7 +89,12 @@ func add_trauma(amount: float) -> void:
 
 
 func _unhandled_input(event: InputEvent) -> void:
-	if event.is_action_pressed("pause"):
+	if event.is_action_pressed("inventory"):
+		if not inventory_menu.visible and not dialogue_box.is_dialogue_active():
+			inventory_menu.open(inventory)
+		elif inventory_menu.visible:
+			inventory_menu.close()
+	elif event.is_action_pressed("pause"):
 		_toggle_pause(not get_tree().paused)
 
 

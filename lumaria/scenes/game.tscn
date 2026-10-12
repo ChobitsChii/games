@@ -1,4 +1,4 @@
-[gd_scene load_steps=30 format=3]
+[gd_scene load_steps=34 format=3]
 
 [ext_resource type="Script" path="res://scripts/game.gd" id="1_game"]
 [ext_resource type="Texture2D" path="res://assets/environments/oakhaven_village.png" id="2_bg"]
@@ -11,6 +11,10 @@
 [ext_resource type="Texture2D" path="res://assets/characters/npcs/npc_blacksmith.png" id="9_tex_thalon"]
 [ext_resource type="Texture2D" path="res://assets/characters/npcs/npc_alchemist.png" id="10_tex_lyra"]
 [ext_resource type="PackedScene" path="res://scenes/ui/dialogue_box.tscn" id="11_dialogue"]
+[ext_resource type="PackedScene" path="res://scenes/ui/inventory_menu.tscn" id="12_inv"]
+[ext_resource type="PackedScene" path="res://scenes/entities/enemies/moss_scout.tscn" id="13_scout"]
+[ext_resource type="PackedScene" path="res://scenes/entities/enemies/thorn_spitter.tscn" id="14_spitter"]
+[ext_resource type="PackedScene" path="res://scenes/entities/enemies/bone_warrior.tscn" id="15_bone"]
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_top"]
 normal = Vector2(0, 1)
@@ -249,6 +253,19 @@ position_smoothing_speed = 7.0
 [node name="HUD" parent="." instance=ExtResource("4_hud")]
 
 [node name="DialogueBox" parent="." instance=ExtResource("11_dialogue")]
+
+[node name="InventoryMenu" parent="." instance=ExtResource("12_inv")]
+
+[node name="Enemies" type="Node2D" parent="."]
+
+[node name="MossScout1" parent="Enemies" instance=ExtResource("13_scout")]
+position = Vector2(1560, 480)
+
+[node name="ThornSpitter1" parent="Enemies" instance=ExtResource("14_spitter")]
+position = Vector2(1700, 360)
+
+[node name="BoneWarrior1" parent="Enemies" instance=ExtResource("15_bone")]
+position = Vector2(1640, 720)
 
 [node name="PauseLayer" type="CanvasLayer" parent="."]
 process_mode = 3

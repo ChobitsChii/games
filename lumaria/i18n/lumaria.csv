@@ -69,3 +69,11 @@ DIALOGUE_LYRA_CHOICE_FAREWELL,Ich passe gut auf mich auf.,I shall take care.
 DIALOGUE_LYRA_ADVICE_REPLY,"Erkunde jeden Winkel von Oakhaven. Nutze deine Ausweichrolle, um Angriffen flink zu entgehen!","Explore every corner of Oakhaven. Use your dodge roll to swiftly evade incoming attacks!"
 QUEST_MAIN_TITLE,Der Ruf des Ur-Lichts,Call of the Primal Light
 QUEST_MAIN_DESC,Erkunde den Smaragdhain und finde das Sonnen-Prisma im Wurzel-Schrein.,Explore Emerald Grove and find the Sun Prism in the Shrine of Roots.
+MENU_INVENTORY,Inventar & Ausrüstung,Inventory & Equipment
+INV_STATS,Status & Relikte,Status & Relics
+INV_GADGETS,Ausrüstung,Equipment
+INV_QUESTS,Aktuelle Quest,Current Quest
+INV_EQUIP_SLOT_1,Auf Slot 1 (Q) legen,Assign to Slot 1 (Q)
+INV_EQUIP_SLOT_2,Auf Slot 2 (E) legen,Assign to Slot 2 (E)
+INV_SWORD_TIER,Klingen-Stufe: %d,Blade Tier: %d
+INV_LOCKED,Gesperrt,Locked

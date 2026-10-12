@@ -1,0 +1,204 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://scripts/ui/inventory_menu.gd" id="1_inv"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_panel"]
+bg_color = Color(0.08, 0.1, 0.15, 0.94)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.24, 0.72, 0.88, 0.85)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
+shadow_color = Color(0, 0, 0, 0.6)
+shadow_size = 12
+
+[node name="InventoryMenu" type="CanvasLayer"]
+process_mode = 3
+layer = 25
+script = ExtResource("1_inv")
+
+[node name="Dim" type="ColorRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.65)
+
+[node name="Center" type="CenterContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="InventoryPanel" type="PanelContainer" parent="Center"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(1000, 680)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_panel")
+
+[node name="Margin" type="MarginContainer" parent="Center/InventoryPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 32
+theme_override_constants/margin_top = 28
+theme_override_constants/margin_right = 32
+theme_override_constants/margin_bottom = 28
+
+[node name="VBox" type="VBoxContainer" parent="Center/InventoryPanel/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="Header" type="Label" parent="Center/InventoryPanel/Margin/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.3, 0.88, 1, 1)
+theme_override_font_sizes/font_size = 36
+text = "MENU_INVENTORY"
+horizontal_alignment = 1
+
+[node name="Columns" type="HBoxContainer" parent="Center/InventoryPanel/Margin/VBox"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 40
+
+[node name="StatsCol" type="VBoxContainer" parent="Center/InventoryPanel/Margin/VBox/Columns"]
+custom_minimum_size = Vector2(400, 0)
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="StatsTitle" type="Label" parent="Center/InventoryPanel/Margin/VBox/Columns/StatsCol"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.85, 0.7, 0.3, 1)
+theme_override_font_sizes/font_size = 24
+text = "INV_STATS"
+
+[node name="LumenRow" type="HBoxContainer" parent="Center/InventoryPanel/Margin/VBox/Columns/StatsCol"]
+layout_mode = 2
+
+[node name="LumenLabel" type="Label" parent="Center/InventoryPanel/Margin/VBox/Columns/StatsCol/LumenRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 20
+text = "HUD_LUMEN"
+
+[node name="LumenVal" type="Label" parent="Center/InventoryPanel/Margin/VBox/Columns/StatsCol/LumenRow"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.2, 0.85, 0.95, 1)
+theme_override_font_sizes/font_size = 22
+
+[node name="KeysRow" type="HBoxContainer" parent="Center/InventoryPanel/Margin/VBox/Columns/StatsCol"]
+layout_mode = 2
+
+[node name="KeysLabel" type="Label" parent="Center/InventoryPanel/Margin/VBox/Columns/StatsCol/KeysRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 20
+text = "HUD_KEYS"
+
+[node name="KeysVal" type="Label" parent="Center/InventoryPanel/Margin/VBox/Columns/StatsCol/KeysRow"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9, 0.75, 0.25, 1)
+theme_override_font_sizes/font_size = 22
+
+[node name="SwordVal" type="Label" parent="Center/InventoryPanel/Margin/VBox/Columns/StatsCol"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.85, 0.9, 0.95, 1)
+theme_override_font_sizes/font_size = 20
+
+[node name="GadgetsCol" type="VBoxContainer" parent="Center/InventoryPanel/Margin/VBox/Columns"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 14
+
+[node name="GadgetsTitle" type="Label" parent="Center/InventoryPanel/Margin/VBox/Columns/GadgetsCol"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.85, 0.7, 0.3, 1)
+theme_override_font_sizes/font_size = 24
+text = "INV_GADGETS"
+
+[node name="SlotsHBox" type="HBoxContainer" parent="Center/InventoryPanel/Margin/VBox/Columns/GadgetsCol"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Slot1Button" type="Button" parent="Center/InventoryPanel/Margin/VBox/Columns/GadgetsCol/SlotsHBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(220, 50)
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+
+[node name="Slot2Button" type="Button" parent="Center/InventoryPanel/Margin/VBox/Columns/GadgetsCol/SlotsHBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(220, 50)
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+
+[node name="Grid" type="GridContainer" parent="Center/InventoryPanel/Margin/VBox/Columns/GadgetsCol"]
+layout_mode = 2
+theme_override_constants/h_separation = 12
+theme_override_constants/v_separation = 12
+columns = 2
+
+[node name="BoomerangButton" type="Button" parent="Center/InventoryPanel/Margin/VBox/Columns/GadgetsCol/Grid"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(220, 54)
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+
+[node name="TetherButton" type="Button" parent="Center/InventoryPanel/Margin/VBox/Columns/GadgetsCol/Grid"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(220, 54)
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+
+[node name="BombsButton" type="Button" parent="Center/InventoryPanel/Margin/VBox/Columns/GadgetsCol/Grid"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(220, 54)
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+
+[node name="BowButton" type="Button" parent="Center/InventoryPanel/Margin/VBox/Columns/GadgetsCol/Grid"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(220, 54)
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+
+[node name="QuestBox" type="VBoxContainer" parent="Center/InventoryPanel/Margin/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="QuestSection" type="Label" parent="Center/InventoryPanel/Margin/VBox/QuestBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.85, 0.7, 0.3, 1)
+theme_override_font_sizes/font_size = 20
+text = "INV_QUESTS"
+
+[node name="QuestTitle" type="Label" parent="Center/InventoryPanel/Margin/VBox/QuestBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.24, 0.85, 1, 1)
+theme_override_font_sizes/font_size = 18
+
+[node name="QuestDesc" type="Label" parent="Center/InventoryPanel/Margin/VBox/QuestBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.85, 0.88, 0.92, 1)
+theme_override_font_sizes/font_size = 16
+autowrap_mode = 3
+
+[node name="Footer" type="HBoxContainer" parent="Center/InventoryPanel/Margin/VBox"]
+layout_mode = 2
+alignment = 2
+
+[node name="CloseButton" type="Button" parent="Center/InventoryPanel/Margin/VBox/Footer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(160, 48)
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "BTN_CLOSE"

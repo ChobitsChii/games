@@ -1,0 +1,19 @@
+[gd_scene load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://scripts/objects/thorn_projectile.gd" id="1_proj"]
+[ext_resource type="Texture2D" path="res://assets/projectiles/thorn_projectile.png" id="2_tex"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_col"]
+radius = 16.0
+
+[node name="ThornProjectile" type="Area2D"]
+collision_layer = 8
+collision_mask = 23
+script = ExtResource("1_proj")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.24, 0.24)
+texture = ExtResource("2_tex")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_col")

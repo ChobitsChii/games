@@ -4,7 +4,7 @@ Modernes 2D-Action-Adventure (Top-Down-RPG) mit Godot 4.7 (GDScript) für Linux,
 Vollkommen eigenständige Welt und Lore – modern, hochauflösend und **ohne Pixel-Art** mit lebendigen 4-Wege-Bewegungsanimationen.
 
 ## Status
-* **Version:** `v0.3.0` (M0, M1, M2 & M3 abgeschlossen: Grundgerüst, 4-Wege-Bewegungsanimationen, 3-Treffer-Kombo, aufladbarer Rundumschlag, Waffen-Trail, Schildblock & Timing-Parry, zerstörbare Krüge/Gras, Drops, Screen-Shake, Oakhaven-Kollisionen, 3 Dorf-NPCs & zweisprachiges Dialogsystem mit High-Res-Porträts)
+* **Version:** `v0.4.0` (M0, M1, M2, M3 & M4 abgeschlossen: Grundgerüst, 4-Wege-Bewegungsanimationen, 3-Treffer-Kombo, aufladbarer Rundumschlag, Waffen-Trail, Schildblock & Timing-Parry, zerstörbare Krüge/Gras, Drops, Screen-Shake, Oakhaven-Kollisionen, 3 Dorf-NPCs & zweisprachiges Dialogsystem, 3 Standard-Gegner mit KI [Moos-Scout, Dornen-Spucker & Knochen-Krieger], Projektil-Reflektion, Prisma-Bumerang-Gadget mit Rückkehrphysik & Betäubung, Ausrüstungs- und Inventarmenü)
 * **Plan:** [plans/07_lumaria.md](../plans/07_lumaria.md)
 
 ## Steuerung
@@ -14,6 +14,7 @@ Vollkommen eigenständige Welt und Lore – modern, hochauflösend und **ohne Pi
 * **Schild heben / Timing-Parry:** Rechtsklick / L / Gamepad linker Schulterknopf
 * **Interagieren / Sprechen:** E oder F / Gamepad Y
 * **Gadgets:** Q / R (Slots 1 & 2)
+* **Inventar & Ausrüstung:** Tab oder I / Gamepad Select
 * **Vollbild:** F11 oder Alt+Enter
 * **Pause:** Escape oder P
 

@@ -118,6 +118,8 @@ func _process_movement(delta: float) -> void:
 			start_attack()
 		elif fmod(_auto_timer, 2.2) < delta:
 			start_roll()
+		elif fmod(_auto_timer, 3.2) < delta:
+			throw_boomerang()
 	else:
 		input_vec = Input.get_vector("move_left", "move_right", "move_up", "move_down")
 
@@ -207,6 +209,38 @@ func _process_combat_inputs(delta: float) -> void:
 		start_roll()
 	elif Input.is_action_pressed("shield"):
 		start_block()
+	elif Input.is_action_just_pressed("gadget_1"):
+		use_gadget(1)
+	elif Input.is_action_just_pressed("gadget_2"):
+		use_gadget(2)
+
+
+const BOOMERANG_SCENE: PackedScene = preload("res://scenes/objects/prismatic_boomerang.tscn")
+var active_boomerang: PrismaticBoomerang = null
+
+
+func use_gadget(slot: int) -> void:
+	var gadget_id: String = ""
+	if get_parent() is Game:
+		var g: Game = get_parent() as Game
+		gadget_id = g.inventory.slot_1_gadget if slot == 1 else g.inventory.slot_2_gadget
+	else:
+		gadget_id = "boomerang"
+
+	if gadget_id == "boomerang":
+		throw_boomerang()
+
+
+func throw_boomerang() -> void:
+	if active_boomerang != null and is_instance_valid(active_boomerang):
+		return
+	active_boomerang = BOOMERANG_SCENE.instantiate()
+	get_parent().add_child(active_boomerang)
+	active_boomerang.launch(self, facing_direction)
+	var lunge := facing_direction * 12.0
+	var tween := create_tween()
+	tween.tween_property(_visuals, "position", Vector2(lunge.x, -52.0 + lunge.y), 0.08)
+	tween.tween_property(_visuals, "position", Vector2(0, -52.0), 0.12)
 
 
 func start_attack() -> void:

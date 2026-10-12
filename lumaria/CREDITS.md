@@ -16,6 +16,8 @@ Dieses Spiel verwendet ausschließlich frei nutzbare Assets unter permissiven Op
 | **Schwert-Schwung-Effekt** (`assets/vfx/sword_slash_arc.png`) | Antigravity AI Image Generation | Eigene Generierung / CC0 | Prisma-Klingen-Schwung-Arc und Licht-VFX |
 | **NPC-Porträts** (`assets/portraits/*.png`) | Antigravity AI Image Generation | Eigene Generierung / CC0 | Charakterporträts (Morwen, Thalon, Lyra) |
 | **NPC-Figuren** (`assets/characters/npcs/*.png`) | Antigravity AI Image Generation | Eigene Generierung / CC0 | Oberwelt-Sprites für Dorfälteste, Schmied & Alchemistin |
+| **Gegner-Figuren** (`assets/characters/enemies/*.png`) | Antigravity Digital Art Studio | Eigene Erstellung / CC0 | Moos-Scout, Dornen-Spucker & Knochen-Krieger |
+| **Prisma-Bumerang & Projektile** (`assets/objects/*.png`, `assets/projectiles/*.png`) | Antigravity Digital Art Studio | Eigene Erstellung / CC0 | Prisma-Bumerang und Säure-Projektile |
 | **Soundeffekte** | Kenney Game Audio (Kenney.nl) | CC0 1.0 Universal | Schwertschlag, Treffer, Schritte, Menü-Klicks, Dialog-Blips |
 
 ## Code & Framework

@@ -253,7 +253,7 @@ lumaria/
    - Raumkamera mit weichen Begrenzungen (`Camera2D`).
    - Dialogbox mit High-Res-NPC-Porträts, Schreibmaschinen-Effekt, Audio-Blips und Auswahlfragen.
    - Zerstörbare Krüge und Gras mit zufälligen Kristall-/Herz-Drops.
-5. **M4 – Gegner-KI & Erstes Gadget:**
+5. ✅ **M4 – Gegner-KI & Erstes Gadget:**
    - 3 Standard-Gegner (Moos-Scout, Dornen-Spucker, Knochen-Krieger) mit vollen 4-Wege-Animationen.
    - Fund des **Prisma-Bumerangs**: Wurfphysik, Rückkehrkurve, Betäubung von Gegnern und Schalteraktivierung.
    - Inventar- und Ausrüstungs-Menü.

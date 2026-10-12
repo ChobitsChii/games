@@ -1,0 +1,40 @@
+[gd_scene load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://scripts/entities/bone_warrior.gd" id="1_warrior"]
+[ext_resource type="Texture2D" path="res://assets/characters/enemies/bone_warrior.png" id="2_tex"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_body"]
+radius = 24.0
+height = 54.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_hurt"]
+radius = 38.0
+
+[node name="BoneWarrior" type="CharacterBody2D"]
+collision_layer = 16
+collision_mask = 19
+script = ExtResource("1_warrior")
+
+[node name="Shadow" type="ColorRect" parent="."]
+offset_left = -26.0
+offset_top = -6.0
+offset_right = 26.0
+offset_bottom = 8.0
+color = Color(0, 0, 0, 0.35)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -10)
+shape = SubResource("CapsuleShape2D_body")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(0, -36)
+scale = Vector2(0.36, 0.36)
+texture = ExtResource("2_tex")
+
+[node name="Hurtbox" type="Area2D" parent="."]
+collision_layer = 8
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox"]
+position = Vector2(0, -14)
+shape = SubResource("CircleShape2D_hurt")
