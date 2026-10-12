@@ -1,6 +1,7 @@
 [gd_scene load_steps=7 format=3]
 
 [ext_resource type="Script" path="res://scripts/game.gd" id="1_game"]
+[ext_resource type="Texture2D" path="res://assets/environments/oakhaven_village.png" id="2_bg"]
 [ext_resource type="PackedScene" path="res://scenes/entities/player.tscn" id="2_player"]
 [ext_resource type="PackedScene" path="res://scenes/ui/hud.tscn" id="3_hud"]
 
@@ -20,23 +21,10 @@ script = ExtResource("1_game")
 
 [node name="Environment" type="Node2D" parent="."]
 
-[node name="Ground" type="ColorRect" parent="Environment"]
-offset_right = 1920.0
-offset_bottom = 1080.0
-color = Color(0.08, 0.16, 0.13, 1)
-
-[node name="Path" type="ColorRect" parent="Environment"]
-offset_left = 860.0
-offset_right = 1060.0
-offset_bottom = 1080.0
-color = Color(0.14, 0.22, 0.18, 1)
-
-[node name="TownSquare" type="ColorRect" parent="Environment"]
-offset_left = 710.0
-offset_top = 340.0
-offset_right = 1210.0
-offset_bottom = 740.0
-color = Color(0.16, 0.25, 0.21, 1)
+[node name="VillageBackground" type="Sprite2D" parent="Environment"]
+position = Vector2(960, 540)
+scale = Vector2(1.4, 1.4)
+texture = ExtResource("2_bg")
 
 [node name="Boundaries" type="StaticBody2D" parent="Environment"]
 collision_mask = 0

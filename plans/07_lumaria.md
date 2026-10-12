@@ -239,7 +239,7 @@ lumaria/
 1. ✅ **M0 – Grundgerüst & Setup:**
    - Projektverzeichnis `lumaria/` mit Vorlagen aus `shared/` (`project.godot`, Autoloads `DisplayService`, `LocaleService`, `SaveService`, Theme, Input-Map, Export-Presets).
    - Test-Runner und Smoke-Test-Grundlage.
-2. **M1 – Spieler-Controller & Bewegungsanimationen:**
+2. ✅ **M1 – Spieler-Controller & Bewegungsanimationen:**
    - 8-Wege-Bewegung mit Analog-Stick und WASD.
    - Hochauflösende Richtungs-Animationen (`idle`, `walk` in 4 Richtungen, `roll/dash`).
    - Schritt-Synchronisation, Neigungs-Tilt und Staubpartikel.
