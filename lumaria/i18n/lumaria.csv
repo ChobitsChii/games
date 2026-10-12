@@ -46,3 +46,26 @@ MSG_SPHERE_COMPLETE,Maximale Lebenskraft erhöht!,Maximum vitality increased!
 MSG_PARRY_SUCCESS,Perfekter Konter!,Perfect Parry!
 DIALOGUE_ELDER_GREETING,Möge das Ur-Licht deinen Pfad erhellen, junger Sucher.,May the primal light guide your path, young seeker.
 DIALOGUE_BLACKSMITH_GREETING,Bring mir Sternenerz und Lumen, dann schärfe ich deine Klinge.,Bring me star ore and lumen, and I shall hone your blade.
+NPC_MORWEN,Dorfälteste Morwen,Elder Morwen
+NPC_THALON,Waffenschmied Thalon,Blacksmith Thalon
+NPC_LYRA,Alchemistin Lyra,Alchemist Lyra
+PROMPT_INTERACT,[E] Sprechen,[E] Talk
+BTN_DIALOGUE_NEXT,Weiter,Next
+BTN_DIALOGUE_CLOSE,Schließen,Close
+DIALOGUE_MORWEN_1,"Willkommen, Kaelen. Die uralten Schutzsiegel von Lumaria schwinden. Der Wurzel-Schrein im Smaragdhain wurde von finsteren Ranken überwuchert.","Welcome, Kaelen. The ancient wards of Lumaria are fading. The Shrine of Roots in Emerald Grove has been overgrown with shadowy vines."
+DIALOGUE_MORWEN_2,"In den Tiefen des Schreins ruht das Sonnen-Prisma. Nimm deine Klinge und deine Aegis – du bist unsere Hoffnung. Finde den Waldpfad im Osten!","Deep within rests the Sun Prism. Take your blade and aegis – you are our hope. Seek the forest path to the east!"
+DIALOGUE_MORWEN_CHOICE_READY,Ich bin bereit für den Schrein!,I am ready for the shrine!
+DIALOGUE_MORWEN_CHOICE_LORE,Erzähle mir von den Prismen.,Tell me about the Prisms.
+DIALOGUE_MORWEN_LORE_REPLY,"Vor Äonen brachen die vier Spektral-Prismen das Ur-Licht in die Farben unserer Welt. Ohne sie versinkt Lumaria in Finsternis.","Eons ago, the four Spectral Prisms refracted primal light into the colors of our realm. Without them, Lumaria fades into darkness."
+DIALOGUE_THALON_1,"Ha, Kaelen! Lass mich deine Klinge sehen... Ein solides Werk, meisterhaft aus Prisma-Stahl gefertigt.","Ha, Kaelen! Let me see your blade... A sturdy craft, masterfully forged from prismatic steel."
+DIALOGUE_THALON_2,"Zerschlage Tonkrüge und mähe das Gras, um Lumen-Kristalle zu sammeln. Sobald du genug hast, kann ich die Klinge für dich schärfen!","Smash clay pots and slice tall grass to gather Lumen crystals. Once you have enough, I can sharpen your edge!"
+DIALOGUE_THALON_CHOICE_TECHNIQUE,Gibt es Tipps für den Kampf?,Any tips for combat?
+DIALOGUE_THALON_CHOICE_THANKS,Danke für deinen Rat!,Thank you for the advice!
+DIALOGUE_THALON_TECHNIQUE_REPLY,"Halte den Schlagknopf gedrückt für den Rundumschlag! Und hebe deinen Schild genau beim Schlag des Gegners für ein perfektes Konter-Parry.","Hold attack to unleash a charged spin attack! And raise your shield right as a foe strikes for a perfect parry counter."
+DIALOGUE_LYRA_1,"Hallo Kaelen! Hast du schon die leuchtenden Vitalitäts-Splitter im hohen Gras entdeckt?","Hello Kaelen! Have you noticed the shimmering vitality shards hidden in the tall grass?"
+DIALOGUE_LYRA_2,"Sie regenerieren deine Lebensenergie sofort. Sei auf der Hut, wenn du das Dorf verlässt – nimm dich vor wilden Kreaturen in Acht!","They restore your vitality immediately. Stay on guard when you leave the village – watch out for wild beasts!"
+DIALOGUE_LYRA_CHOICE_ADVICE,Wie bereite ich mich am besten vor?,How should I best prepare?
+DIALOGUE_LYRA_CHOICE_FAREWELL,Ich passe gut auf mich auf.,I shall take care.
+DIALOGUE_LYRA_ADVICE_REPLY,"Erkunde jeden Winkel von Oakhaven. Nutze deine Ausweichrolle, um Angriffen flink zu entgehen!","Explore every corner of Oakhaven. Use your dodge roll to swiftly evade incoming attacks!"
+QUEST_MAIN_TITLE,Der Ruf des Ur-Lichts,Call of the Primal Light
+QUEST_MAIN_DESC,Erkunde den Smaragdhain und finde das Sonnen-Prisma im Wurzel-Schrein.,Explore Emerald Grove and find the Sun Prism in the Shrine of Roots.

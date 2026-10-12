@@ -1,23 +1,27 @@
 class_name Game
 extends Node2D
 ## Hauptspielszene von Lumaria: The Prismatic Odyssey.
-## Steuert Weltinteraktion, Kamera-Shake, HUD-Synchronisation und Pausenmenü.
+## Steuert Weltinteraktion, Dialoge, NPCs, Kamera-Shake, HUD-Synchronisation und Pausenmenü.
 
 @export var autoplay: bool = false
 
 @onready var player: Player = $Player
 @onready var hud: GameHUD = $HUD
 @onready var camera: Camera2D = $Camera2D
+@onready var dialogue_box: DialogueBox = $DialogueBox
 @onready var pause_overlay: Control = %PauseOverlay
 @onready var resume_btn: Button = %ResumeButton
 @onready var quit_btn: Button = %QuitMenuButton
 
 var inventory: InventoryModel
+var quest_manager: QuestManager
 var _trauma: float = 0.0
 
 
 func _ready() -> void:
 	inventory = InventoryModel.new()
+	quest_manager = QuestManager.new()
+
 	if autoplay:
 		player.autoplay = true
 
@@ -41,6 +45,16 @@ func _ready() -> void:
 	)
 	EventBus.vitality_collected.connect(func(quarters: int) -> void:
 		inventory.heal(quarters)
+	)
+
+	# Dialoge & Interaktion
+	EventBus.interaction_requested.connect(func(target: Node2D) -> void:
+		if target is NPCBase:
+			dialogue_box.start_dialogue(target.npc_id)
+	)
+	dialogue_box.dialogue_finished.connect(func(npc_id: String) -> void:
+		if npc_id == "morwen":
+			hud.show_toast(tr("QUEST_MAIN_TITLE"))
 	)
 
 	# Kamera-Trauma / Screen Shake

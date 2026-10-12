@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=3]
+[gd_scene load_steps=30 format=3]
 
 [ext_resource type="Script" path="res://scripts/game.gd" id="1_game"]
 [ext_resource type="Texture2D" path="res://assets/environments/oakhaven_village.png" id="2_bg"]
@@ -6,6 +6,11 @@
 [ext_resource type="PackedScene" path="res://scenes/ui/hud.tscn" id="4_hud"]
 [ext_resource type="PackedScene" path="res://scenes/objects/destructible_pot.tscn" id="5_pot"]
 [ext_resource type="PackedScene" path="res://scenes/objects/destructible_grass.tscn" id="6_grass"]
+[ext_resource type="PackedScene" path="res://scenes/entities/npcs/npc_base.tscn" id="7_npc"]
+[ext_resource type="Texture2D" path="res://assets/characters/npcs/npc_elder.png" id="8_tex_morwen"]
+[ext_resource type="Texture2D" path="res://assets/characters/npcs/npc_blacksmith.png" id="9_tex_thalon"]
+[ext_resource type="Texture2D" path="res://assets/characters/npcs/npc_alchemist.png" id="10_tex_lyra"]
+[ext_resource type="PackedScene" path="res://scenes/ui/dialogue_box.tscn" id="11_dialogue"]
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_top"]
 normal = Vector2(0, 1)
@@ -209,6 +214,26 @@ position = Vector2(780, 360)
 [node name="Grass11" parent="Objects" instance=ExtResource("6_grass")]
 position = Vector2(840, 350)
 
+[node name="NPCs" type="Node2D" parent="."]
+
+[node name="Morwen" parent="NPCs" instance=ExtResource("7_npc")]
+position = Vector2(860, 500)
+npc_id = "morwen"
+sprite_texture = ExtResource("8_tex_morwen")
+display_name_key = "NPC_MORWEN"
+
+[node name="Thalon" parent="NPCs" instance=ExtResource("7_npc")]
+position = Vector2(1160, 440)
+npc_id = "thalon"
+sprite_texture = ExtResource("9_tex_thalon")
+display_name_key = "NPC_THALON"
+
+[node name="Lyra" parent="NPCs" instance=ExtResource("7_npc")]
+position = Vector2(510, 470)
+npc_id = "lyra"
+sprite_texture = ExtResource("10_tex_lyra")
+display_name_key = "NPC_LYRA"
+
 [node name="Player" parent="." instance=ExtResource("3_player")]
 position = Vector2(960, 680)
 
@@ -222,6 +247,8 @@ position_smoothing_enabled = true
 position_smoothing_speed = 7.0
 
 [node name="HUD" parent="." instance=ExtResource("4_hud")]
+
+[node name="DialogueBox" parent="." instance=ExtResource("11_dialogue")]
 
 [node name="PauseLayer" type="CanvasLayer" parent="."]
 process_mode = 3

@@ -248,7 +248,7 @@ lumaria/
    - Aegis des Lichts: Blocken und Parry-Fenster.
    - Trefferfeedback: Sprite-Flash, Hit-Stop, Screen-Shake, Rückstoß (Knockback).
    - Zerstörbare Krüge und Gras mit zufälligen Kristall-/Herz-Drops.
-4. **M3 – Erste Spielwelt (Oakhaven) & Dialogsystem:**
+4. ✅ **M3 – Erste Spielwelt (Oakhaven) & Dialogsystem:**
    - Dorf Oakhaven mit Wegen, Häusern, Bäumen und dekorativen Objekten.
    - Raumkamera mit weichen Begrenzungen (`Camera2D`).
    - Dialogbox mit High-Res-NPC-Porträts, Schreibmaschinen-Effekt, Audio-Blips und Auswahlfragen.

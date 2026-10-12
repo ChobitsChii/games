@@ -9,6 +9,7 @@ const SOUNDS: Dictionary = {
 	"lumen_collect": preload("res://assets/sounds/lumen_collect.ogg"),
 	"dash": preload("res://assets/sounds/dash.ogg"),
 	"explosion": preload("res://assets/sounds/explosion.ogg"),
+	"dialogue_blip": preload("res://assets/sounds/dialogue_blip.ogg"),
 }
 
 var _pool: Array[AudioStreamPlayer] = []

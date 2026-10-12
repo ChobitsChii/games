@@ -32,6 +32,8 @@ var facing_direction: Vector2 = Vector2.DOWN
 var is_invulnerable: bool = false
 var block_hold_time: float = 0.0
 
+var is_input_locked: bool = false
+
 var combo_step: int = 0
 var combo_timer: float = 0.0
 var sword_tier: int = 1
@@ -65,8 +67,23 @@ func _ready() -> void:
 		_slash_arc.visible = false
 	_update_texture()
 
+	EventBus.dialogue_started.connect(func(_n: String, _t: String, _p: String) -> void:
+		is_input_locked = true
+		velocity = Vector2.ZERO
+		current_state = State.IDLE
+	)
+	EventBus.dialogue_ended.connect(func() -> void:
+		is_input_locked = false
+	)
+
 
 func _physics_process(delta: float) -> void:
+	if is_input_locked:
+		velocity = Vector2.ZERO
+		current_state = State.IDLE
+		move_and_slide()
+		return
+
 	# Combo-Zeitfenster verwalten
 	if combo_step > 0 and current_state != State.ATTACK:
 		combo_timer -= delta
