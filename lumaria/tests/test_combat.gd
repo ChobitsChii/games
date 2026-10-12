@@ -50,3 +50,23 @@ func test_knockback_direction_and_force() -> void:
 	# Mit 50 % Resistenz
 	var kb_res: Vector2 = CombatCalculator.calculate_knockback(attacker, target, 400.0, 0.5)
 	assert_almost(kb_res.x, 200.0, "Halbierte Rückstoßkraft durch Resistenz")
+
+
+func test_critical_hit_damage() -> void:
+	var base_dmg: int = CombatCalculator.calculate_sword_damage(1, false, false)
+	var crit_dmg: int = CombatCalculator.calculate_sword_damage(1, false, true)
+	assert_eq(base_dmg, 20, "Stufe 1 Grundschaden")
+	assert_eq(crit_dmg, 30, "Stufe 1 Kritischer Schaden (1.5x)")
+
+
+func test_spin_attack_high_tier_scaling() -> void:
+	var t2_spin: int = CombatCalculator.calculate_sword_damage(2, true)
+	var t3_spin: int = CombatCalculator.calculate_sword_damage(3, true)
+	assert_eq(t2_spin, int(round(35.0 * 1.8)), "Tier 2 Wirbelschaden")
+	assert_eq(t3_spin, int(round(55.0 * 1.8)), "Tier 3 Wirbelschaden")
+
+
+func test_zero_distance_knockback_fallback() -> void:
+	var same_pos := Vector2(150, 150)
+	var kb: Vector2 = CombatCalculator.calculate_knockback(same_pos, same_pos, 300.0)
+	assert_eq(kb, Vector2(0, 300.0), "Fallback bei gleicher Position weicht nach unten aus")

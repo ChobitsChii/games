@@ -1,14 +1,18 @@
-[gd_scene load_steps=5 format=3]
+[gd_scene load_steps=7 format=3]
 
 [ext_resource type="Script" path="res://scripts/entities/player.gd" id="1_player"]
 [ext_resource type="Texture2D" path="res://assets/characters/player/player_down.png" id="2_sprite"]
+[ext_resource type="Texture2D" path="res://assets/vfx/sword_slash_arc.png" id="3_slash"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_body"]
 radius = 24.0
 height = 64.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_sword"]
-radius = 48.0
+radius = 52.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_spin"]
+radius = 84.0
 
 [node name="Player" type="CharacterBody2D"]
 collision_layer = 2
@@ -34,6 +38,13 @@ unique_name_in_owner = true
 scale = Vector2(0.46, 0.46)
 texture = ExtResource("2_sprite")
 
+[node name="SlashArc" type="Sprite2D" parent="."]
+unique_name_in_owner = true
+visible = false
+position = Vector2(0, -20)
+scale = Vector2(0.18, 0.18)
+texture = ExtResource("3_slash")
+
 [node name="SwordHitbox" type="Area2D" parent="."]
 position = Vector2(0, 36)
 collision_layer = 4
@@ -42,3 +53,12 @@ monitoring = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="SwordHitbox"]
 shape = SubResource("CircleShape2D_sword")
+
+[node name="SpinHitbox" type="Area2D" parent="."]
+position = Vector2(0, -20)
+collision_layer = 4
+collision_mask = 8
+monitoring = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SpinHitbox"]
+shape = SubResource("CircleShape2D_spin")

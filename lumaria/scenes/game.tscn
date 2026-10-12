@@ -1,9 +1,11 @@
-[gd_scene load_steps=7 format=3]
+[gd_scene load_steps=25 format=3]
 
 [ext_resource type="Script" path="res://scripts/game.gd" id="1_game"]
 [ext_resource type="Texture2D" path="res://assets/environments/oakhaven_village.png" id="2_bg"]
-[ext_resource type="PackedScene" path="res://scenes/entities/player.tscn" id="2_player"]
-[ext_resource type="PackedScene" path="res://scenes/ui/hud.tscn" id="3_hud"]
+[ext_resource type="PackedScene" path="res://scenes/entities/player.tscn" id="3_player"]
+[ext_resource type="PackedScene" path="res://scenes/ui/hud.tscn" id="4_hud"]
+[ext_resource type="PackedScene" path="res://scenes/objects/destructible_pot.tscn" id="5_pot"]
+[ext_resource type="PackedScene" path="res://scenes/objects/destructible_grass.tscn" id="6_grass"]
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_top"]
 normal = Vector2(0, 1)
@@ -15,6 +17,42 @@ normal = Vector2(1, 0)
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_right"]
 normal = Vector2(-1, 0)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_oak"]
+size = Vector2(440, 220)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_inn"]
+size = Vector2(360, 200)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_stall_nw"]
+size = Vector2(230, 90)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_blacksmith"]
+size = Vector2(290, 180)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_mayor"]
+size = Vector2(380, 220)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_house_sw"]
+size = Vector2(230, 320)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_roof_sw"]
+size = Vector2(340, 160)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_house_se"]
+size = Vector2(300, 320)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_canopy_s"]
+size = Vector2(240, 160)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_well"]
+radius = 52.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_pillar"]
+size = Vector2(36, 56)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_flowerbed"]
+size = Vector2(120, 50)
 
 [node name="Game" type="Node2D"]
 script = ExtResource("1_game")
@@ -45,10 +83,145 @@ shape = SubResource("WorldBoundaryShape2D_left")
 position = Vector2(1880, 540)
 shape = SubResource("WorldBoundaryShape2D_right")
 
-[node name="Player" parent="." instance=ExtResource("2_player")]
-position = Vector2(960, 540)
+[node name="VillageColliders" type="StaticBody2D" parent="Environment"]
+collision_mask = 0
 
-[node name="HUD" parent="." instance=ExtResource("3_hud")]
+[node name="ColOak" type="CollisionShape2D" parent="Environment/VillageColliders"]
+position = Vector2(960, 110)
+shape = SubResource("RectangleShape2D_oak")
+
+[node name="ColInn" type="CollisionShape2D" parent="Environment/VillageColliders"]
+position = Vector2(300, 390)
+shape = SubResource("RectangleShape2D_inn")
+
+[node name="ColStallNW" type="CollisionShape2D" parent="Environment/VillageColliders"]
+position = Vector2(605, 395)
+shape = SubResource("RectangleShape2D_stall_nw")
+
+[node name="ColBlacksmith" type="CollisionShape2D" parent="Environment/VillageColliders"]
+position = Vector2(1230, 340)
+shape = SubResource("RectangleShape2D_blacksmith")
+
+[node name="ColMayor" type="CollisionShape2D" parent="Environment/VillageColliders"]
+position = Vector2(1610, 410)
+shape = SubResource("RectangleShape2D_mayor")
+
+[node name="ColHouseSW" type="CollisionShape2D" parent="Environment/VillageColliders"]
+position = Vector2(115, 690)
+shape = SubResource("RectangleShape2D_house_sw")
+
+[node name="ColRoofSW" type="CollisionShape2D" parent="Environment/VillageColliders"]
+position = Vector2(430, 970)
+shape = SubResource("RectangleShape2D_roof_sw")
+
+[node name="ColHouseSE" type="CollisionShape2D" parent="Environment/VillageColliders"]
+position = Vector2(1740, 750)
+shape = SubResource("RectangleShape2D_house_se")
+
+[node name="ColCanopyS" type="CollisionShape2D" parent="Environment/VillageColliders"]
+position = Vector2(1290, 970)
+shape = SubResource("RectangleShape2D_canopy_s")
+
+[node name="ColWell" type="CollisionShape2D" parent="Environment/VillageColliders"]
+position = Vector2(960, 560)
+shape = SubResource("CircleShape2D_well")
+
+[node name="ColRuneN" type="CollisionShape2D" parent="Environment/VillageColliders"]
+position = Vector2(960, 430)
+shape = SubResource("RectangleShape2D_pillar")
+
+[node name="ColRuneS" type="CollisionShape2D" parent="Environment/VillageColliders"]
+position = Vector2(1030, 820)
+shape = SubResource("RectangleShape2D_pillar")
+
+[node name="ColRuneW" type="CollisionShape2D" parent="Environment/VillageColliders"]
+position = Vector2(600, 580)
+shape = SubResource("RectangleShape2D_pillar")
+
+[node name="ColRuneE" type="CollisionShape2D" parent="Environment/VillageColliders"]
+position = Vector2(1460, 580)
+shape = SubResource("RectangleShape2D_pillar")
+
+[node name="ColFlowerW" type="CollisionShape2D" parent="Environment/VillageColliders"]
+position = Vector2(680, 670)
+shape = SubResource("RectangleShape2D_flowerbed")
+
+[node name="ColFlowerE" type="CollisionShape2D" parent="Environment/VillageColliders"]
+position = Vector2(1360, 670)
+shape = SubResource("RectangleShape2D_flowerbed")
+
+[node name="Objects" type="Node2D" parent="."]
+
+[node name="Pot1" parent="Objects" instance=ExtResource("5_pot")]
+position = Vector2(540, 465)
+
+[node name="Pot2" parent="Objects" instance=ExtResource("5_pot")]
+position = Vector2(670, 465)
+
+[node name="Pot3" parent="Objects" instance=ExtResource("5_pot")]
+position = Vector2(720, 465)
+
+[node name="Pot4" parent="Objects" instance=ExtResource("5_pot")]
+position = Vector2(1080, 445)
+
+[node name="Pot5" parent="Objects" instance=ExtResource("5_pot")]
+position = Vector2(1130, 445)
+
+[node name="Pot6" parent="Objects" instance=ExtResource("5_pot")]
+position = Vector2(1140, 860)
+
+[node name="Pot7" parent="Objects" instance=ExtResource("5_pot")]
+position = Vector2(1430, 860)
+
+[node name="Pot8" parent="Objects" instance=ExtResource("5_pot")]
+position = Vector2(1560, 680)
+
+[node name="Grass1" parent="Objects" instance=ExtResource("6_grass")]
+position = Vector2(450, 600)
+
+[node name="Grass2" parent="Objects" instance=ExtResource("6_grass")]
+position = Vector2(490, 650)
+
+[node name="Grass3" parent="Objects" instance=ExtResource("6_grass")]
+position = Vector2(530, 700)
+
+[node name="Grass4" parent="Objects" instance=ExtResource("6_grass")]
+position = Vector2(820, 780)
+
+[node name="Grass5" parent="Objects" instance=ExtResource("6_grass")]
+position = Vector2(870, 820)
+
+[node name="Grass6" parent="Objects" instance=ExtResource("6_grass")]
+position = Vector2(920, 850)
+
+[node name="Grass7" parent="Objects" instance=ExtResource("6_grass")]
+position = Vector2(1420, 760)
+
+[node name="Grass8" parent="Objects" instance=ExtResource("6_grass")]
+position = Vector2(1470, 800)
+
+[node name="Grass9" parent="Objects" instance=ExtResource("6_grass")]
+position = Vector2(1520, 840)
+
+[node name="Grass10" parent="Objects" instance=ExtResource("6_grass")]
+position = Vector2(780, 360)
+
+[node name="Grass11" parent="Objects" instance=ExtResource("6_grass")]
+position = Vector2(840, 350)
+
+[node name="Player" parent="." instance=ExtResource("3_player")]
+position = Vector2(960, 680)
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(960, 680)
+limit_left = 0
+limit_top = 0
+limit_right = 1920
+limit_bottom = 1080
+position_smoothing_enabled = true
+position_smoothing_speed = 7.0
+
+[node name="HUD" parent="." instance=ExtResource("4_hud")]
 
 [node name="PauseLayer" type="CanvasLayer" parent="."]
 process_mode = 3
@@ -104,4 +277,4 @@ unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 56)
 layout_mode = 2
 theme_override_font_sizes/font_size = 24
-text = "BTN_BACK"
+text = "MENU_QUIT"

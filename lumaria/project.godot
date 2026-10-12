@@ -23,6 +23,7 @@ SaveService="*res://addons/shared/services/save_service.gd"
 LocaleService="*res://addons/shared/services/locale_service.gd"
 DisplayService="*res://addons/shared/services/display_service.gd"
 EventBus="*res://scripts/core/event_bus.gd"
+AudioManager="*res://scripts/core/audio_manager.gd"
 
 [display]
 

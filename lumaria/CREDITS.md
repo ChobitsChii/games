@@ -11,6 +11,9 @@ Dieses Spiel verwendet ausschließlich frei nutzbare Assets unter permissiven Op
 | **Titelmenü-Hintergrund** (`assets/main_menu_bg.png`) | Antigravity AI Image Generation | Eigene Generierung / CC0 | Hauptmenü-Hintergrundbild mit Kristallspitze |
 | **Dorf-Hintergrund** (`assets/environments/oakhaven_village.png`) | Antigravity AI Image Generation | Eigene Generierung / CC0 | Oberwelt Oakhaven Dorfplatz (1920×1080) |
 | **Held Kaelen Sprites** (`assets/characters/player/*.png`) | Antigravity AI Image Generation | Eigene Generierung / CC0 | 4-Wege-Charaktersprites (Down, Up, Left, Right, Attack) |
+| **Tonkrüge & Kristalle** (`assets/objects/*.png`) | Antigravity AI Image Generation | Eigene Generierung / CC0 | Zerstörbare Krüge und sammelbare Lumen-Kristalle |
+| **Grasbüschel & Vitalitäts-Splitter** (`assets/objects/*.png`) | Antigravity AI Image Generation | Eigene Generierung / CC0 | Zerstörbares Gras und heilende Vitalitäts-Splitter |
+| **Schwert-Schwung-Effekt** (`assets/vfx/sword_slash_arc.png`) | Antigravity AI Image Generation | Eigene Generierung / CC0 | Prisma-Klingen-Schwung-Arc und Licht-VFX |
 | **Soundeffekte** | Kenney Game Audio (Kenney.nl) | CC0 1.0 Universal | Schwertschlag, Treffer, Schritte, Menü-Klicks |
 
 ## Code & Framework

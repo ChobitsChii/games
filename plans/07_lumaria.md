@@ -243,10 +243,11 @@ lumaria/
    - 8-Wege-Bewegung mit Analog-Stick und WASD.
    - Hochauflösende Richtungs-Animationen (`idle`, `walk` in 4 Richtungen, `roll/dash`).
    - Schritt-Synchronisation, Neigungs-Tilt und Staubpartikel.
-3. **M2 – Kampf-Grundlagen & Treffer-Feedback:**
+3. ✅ **M2 – Kampf-Grundlagen & Treffer-Feedback:**
    - Prisma-Klinge: 3er-Schlag-Kombo, aufladbarer Rundumschlag, Waffen-Trail.
    - Aegis des Lichts: Blocken und Parry-Fenster.
-   - Trefferfeedback: Sprite-Flash, Hit-Stop (Micro-Pause), Screen-Shake, Rückstoß (Knockback).
+   - Trefferfeedback: Sprite-Flash, Hit-Stop, Screen-Shake, Rückstoß (Knockback).
+   - Zerstörbare Krüge und Gras mit zufälligen Kristall-/Herz-Drops.
 4. **M3 – Erste Spielwelt (Oakhaven) & Dialogsystem:**
    - Dorf Oakhaven mit Wegen, Häusern, Bäumen und dekorativen Objekten.
    - Raumkamera mit weichen Begrenzungen (`Camera2D`).

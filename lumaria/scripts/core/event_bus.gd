@@ -6,6 +6,8 @@ signal player_damaged(current_quarters: int, max_quarters: int)
 signal player_healed(current_quarters: int, max_quarters: int)
 signal player_died()
 
+signal lumen_collected(amount: int)
+signal vitality_collected(quarters: int)
 signal lumen_changed(total_lumen: int, delta: int)
 signal key_count_changed(keys: int, has_boss_key: bool)
 

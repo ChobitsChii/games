@@ -1,0 +1,39 @@
+[gd_scene load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://scripts/objects/destructible_pot.gd" id="1_pot"]
+[ext_resource type="Texture2D" path="res://assets/objects/pot.png" id="2_tex"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_solid"]
+radius = 20.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_hurt"]
+radius = 28.0
+
+[node name="DestructiblePot" type="StaticBody2D"]
+collision_layer = 1
+collision_mask = 2
+script = ExtResource("1_pot")
+
+[node name="Shadow" type="ColorRect" parent="."]
+offset_left = -20.0
+offset_top = 10.0
+offset_right = 20.0
+offset_bottom = 22.0
+color = Color(0, 0, 0, 0.3)
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(0, -6)
+scale = Vector2(0.55, 0.55)
+texture = ExtResource("2_tex")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 6)
+shape = SubResource("CircleShape2D_solid")
+
+[node name="Hurtbox" type="Area2D" parent="."]
+collision_layer = 8
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox"]
+position = Vector2(0, 4)
+shape = SubResource("CircleShape2D_hurt")
