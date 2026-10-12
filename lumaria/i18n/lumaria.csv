@@ -90,4 +90,14 @@ MSG_DOOR_LOCKED,Die Tür ist verschlossen.,The door is locked.
 MSG_BOSS_DOOR_LOCKED,Das Tor ist versiegelt. Der Boss-Schlüssel wird benötigt!,The gate is sealed. The Boss Key is required!
 BOSS_FLORAGORG_NAME,Floragorg,Floragorg
 BOSS_FLORAGORG_TITLE,Urwald-Koloss,Primal Colossus
+BOSS_CARAPAX_NAME,Carapax,Carapax
+BOSS_CARAPAX_TITLE,Kristall-Panzerkrabbler,Crystal Crustacean Colossus
+ROOM_SHALLOWS,Flüsternde Untiefen,Sunken Shallows
+ROOM_CRYPT_BLADE,Klingen-Krypta,Blade Crypt
+PROMPT_ENTER_SHALLOWS,[E] Flüsternde Untiefen betreten,[E] Enter Sunken Shallows
+PROMPT_ENTER_CRYPT,[E] Klingen-Krypta betreten,[E] Enter Blade Crypt
+PROMPT_EXIT_TO_SHALLOWS,[E] Zurück zu den Untiefen,[E] Return to Sunken Shallows
+ITEM_TIDE_PRISM,Gezeiten-Prisma,Tidal Prism
+MSG_FOUND_TIDE_PRISM,Das Gezeiten-Prisma strömt mit uralter Meereskraft!,The Tidal Prism flows with ancient ocean power!
+MSG_FOUND_TETHER,Kinetisches Fangseil erhalten! Ziehe dich an Pfähle heran und entreiße Schilde!,Kinetic Tether acquired! Pull yourself to posts and rip away enemy shields!
 

@@ -11,7 +11,7 @@ signal rolled()
 signal defended(is_parry: bool)
 signal camera_shake_requested(trauma: float)
 
-enum State { IDLE, WALK, ATTACK, SPIN_ATTACK, ROLL, BLOCK }
+enum State { IDLE, WALK, ATTACK, SPIN_ATTACK, ROLL, BLOCK, PULL_TETHER }
 
 const SPEED := 240.0
 const ROLL_SPEED := 520.0
@@ -102,6 +102,8 @@ func _physics_process(delta: float) -> void:
 			_process_spin_attack(delta)
 		State.BLOCK:
 			_process_block(delta)
+		State.PULL_TETHER:
+			_process_tether_pull(delta)
 
 
 func _process_movement(delta: float) -> void:
@@ -120,6 +122,8 @@ func _process_movement(delta: float) -> void:
 			start_roll()
 		elif fmod(_auto_timer, 3.2) < delta:
 			throw_boomerang()
+		elif fmod(_auto_timer, 4.4) < delta:
+			fire_tether()
 	else:
 		input_vec = Input.get_vector("move_left", "move_right", "move_up", "move_down")
 
@@ -216,7 +220,10 @@ func _process_combat_inputs(delta: float) -> void:
 
 
 const BOOMERANG_SCENE: PackedScene = preload("res://scenes/objects/prismatic_boomerang.tscn")
+const TETHER_SCENE: PackedScene = preload("res://scenes/objects/kinetic_tether.tscn")
 var active_boomerang: PrismaticBoomerang = null
+var active_tether: KineticTether = null
+var _tether_target_pos: Vector2 = Vector2.ZERO
 
 
 func use_gadget(slot: int) -> void:
@@ -224,11 +231,15 @@ func use_gadget(slot: int) -> void:
 	if get_parent() is Game:
 		var g: Game = get_parent() as Game
 		gadget_id = g.inventory.slot_1_gadget if slot == 1 else g.inventory.slot_2_gadget
+	elif get_parent().has_node("HUD"):
+		gadget_id = "tether" if slot == 2 else "boomerang"
 	else:
-		gadget_id = "boomerang"
+		gadget_id = "tether" if slot == 2 else "boomerang"
 
 	if gadget_id == "boomerang":
 		throw_boomerang()
+	elif gadget_id == "tether":
+		fire_tether()
 
 
 func throw_boomerang() -> void:
@@ -241,6 +252,40 @@ func throw_boomerang() -> void:
 	var tween := create_tween()
 	tween.tween_property(_visuals, "position", Vector2(lunge.x, -52.0 + lunge.y), 0.08)
 	tween.tween_property(_visuals, "position", Vector2(0, -52.0), 0.12)
+
+
+func fire_tether() -> void:
+	if active_tether != null and is_instance_valid(active_tether):
+		return
+	active_tether = TETHER_SCENE.instantiate()
+	get_parent().add_child(active_tether)
+	active_tether.launch(self, facing_direction)
+	var lunge := facing_direction * 10.0
+	var tween := create_tween()
+	tween.tween_property(_visuals, "position", Vector2(lunge.x, -52.0 + lunge.y), 0.08)
+	tween.tween_property(_visuals, "position", Vector2(0, -52.0), 0.12)
+
+
+func pull_to_target(target_pos: Vector2, tether: KineticTether) -> void:
+	_tether_target_pos = target_pos
+	active_tether = tether
+	current_state = State.PULL_TETHER
+	is_invulnerable = true
+	var t := create_tween()
+	t.tween_property(self, "is_invulnerable", false, 0.4)
+
+
+func _process_tether_pull(delta: float) -> void:
+	var to_target := _tether_target_pos - global_position
+	var dist := to_target.length()
+	var step := 700.0 * delta
+	if dist <= 48.0 or step >= dist:
+		global_position = _tether_target_pos - to_target.normalized() * 36.0
+		current_state = State.IDLE
+		if active_tether and is_instance_valid(active_tether):
+			active_tether.on_player_pull_finished()
+	else:
+		global_position += to_target.normalized() * step
 
 
 func start_attack() -> void:

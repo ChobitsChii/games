@@ -273,6 +273,11 @@ position = Vector2(1830, 540)
 target_scene_path = "res://scenes/world/shrine_roots.tscn"
 prompt_key = "PROMPT_ENTER_DUNGEON"
 
+[node name="ShallowsPortal" parent="." instance=ExtResource("16_portal")]
+position = Vector2(960, 1010)
+target_scene_path = "res://scenes/world/shallows.tscn"
+prompt_key = "PROMPT_ENTER_SHALLOWS"
+
 [node name="PauseLayer" type="CanvasLayer" parent="."]
 process_mode = 3
 

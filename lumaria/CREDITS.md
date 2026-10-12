@@ -22,6 +22,10 @@ Dieses Spiel verwendet ausschließlich frei nutzbare Assets unter permissiven Op
 | **Dungeon-Objekte & Truhen** (`assets/objects/*.png`) | Antigravity Digital Art Studio | Eigene Erstellung / CC0 | Kristallschalter, Eisentore, Boss-Tore, Schatzkisten (offen/zu) & Schlüssel |
 | **Boss Floragorg & Wurzel-Spikes** (`assets/characters/enemies/boss_*.png`, `assets/objects/root_spike.png`) | Antigravity Digital Art Studio | Eigene Erstellung / CC0 | Urwald-Koloss Floragorg (512×512) & bodenbrechende Ranken-Spikes |
 | **Sonnen-Prisma** (`assets/objects/sun_prism.png`) | Antigravity Digital Art Studio | Eigene Erstellung / CC0 | Erstes Spektral-Prisma (Sonnen-Prisma) als Dungeon-Trophäe |
+| **Flüsternde Untiefen & Klingen-Krypta** (`assets/environments/shallows_bg.png`, `assets/environments/crypt_blade_bg.png`) | Antigravity Digital Art Studio | Eigene Erstellung / CC0 | Küstenlagune & versunkene Klingen-Festung (1920×1080) |
+| **Fangseil-Posten & Greifhaken** (`assets/objects/tether_post.png`, `assets/objects/tether_hook.png`) | Antigravity Digital Art Studio | Eigene Erstellung / CC0 | Ankerpfahl & kinetischer Greifhaken-Kopf |
+| **Stachelfallen & Gezeiten-Prisma** (`assets/objects/spike_trap.png`, `assets/objects/tide_prism.png`) | Antigravity Digital Art Studio | Eigene Erstellung / CC0 | Bodengleiche Klingenstachel-Fallen & 2. Spektral-Prisma |
+| **Boss Carapax** (`assets/characters/enemies/boss_carapax.png`) | Antigravity Digital Art Studio | Eigene Erstellung / CC0 | Kristall-Panzerkrabbler Carapax (512×512) |
 | **Soundeffekte** | Kenney Game Audio (Kenney.nl) | CC0 1.0 Universal | Schwertschlag, Treffer, Schritte, Menü-Klicks, Dialog-Blips |
 
 ## Code & Framework

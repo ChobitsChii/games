@@ -19,11 +19,20 @@ func _ready() -> void:
 	menu.queue_free()
 
 	# 2. Dungeon 1 Wurzel-Schrein testen
-	var dungeon: Node2D = (load("res://scenes/world/shrine_roots.tscn") as PackedScene).instantiate()
-	add_child(dungeon)
-	dungeon.queue_free()
+	var dungeon1: Node2D = (load("res://scenes/world/shrine_roots.tscn") as PackedScene).instantiate()
+	add_child(dungeon1)
+	dungeon1.queue_free()
 
-	# 3. Spiel starten mit Autopilot
+	# 3. Flüsternde Untiefen & Dungeon 2 Klingen-Krypta testen
+	var shallows: Node2D = (load("res://scenes/world/shallows.tscn") as PackedScene).instantiate()
+	add_child(shallows)
+	shallows.queue_free()
+
+	var dungeon2: Node2D = (load("res://scenes/world/crypt_blade.tscn") as PackedScene).instantiate()
+	add_child(dungeon2)
+	dungeon2.queue_free()
+
+	# 4. Spiel starten mit Autopilot
 	_game = (load("res://scenes/game.tscn") as PackedScene).instantiate()
 	_game.autoplay = true
 	add_child(_game)

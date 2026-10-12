@@ -262,7 +262,7 @@ lumaria/
    - Kleiner Schlüssel und Boss-Schlüssel.
    - Bosskampf gegen **Floragorg, den Urwald-Koloss** (Zwei Phasen, Bodenranken, Schwachpunkt-Mechanik).
    - Belohnung: Erstes Spektral-Prisma (Sonnen-Prisma) & Vitalitäts-Sphäre.
-7. **M6 – Gadget 2 (Fangseil) & Dungeon 2 (Klingen-Krypta):**
+7. ✅ **M6 – Gadget 2 (Fangseil) & Dungeon 2 (Klingen-Krypta):**
    - Erweiterung der Oberwelt um die *Flüsternden Untiefen*.
    - Fund des **Fangseils**: Überqueren von Abgründen, Heranziehen von Schildfeinden.
    - Dungeon 2 mit Stachelfallen und Pfahl-Klettereien.

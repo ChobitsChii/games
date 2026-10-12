@@ -1,0 +1,32 @@
+[gd_scene load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://scripts/objects/tether_post.gd" id="1_post"]
+[ext_resource type="Texture2D" path="res://assets/objects/tether_post.png" id="2_tex"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_body"]
+radius = 24.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_anchor"]
+radius = 36.0
+
+[node name="TetherPost" type="StaticBody2D" groups=["tether_posts"]]
+collision_layer = 1
+collision_mask = 0
+script = ExtResource("1_post")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(0, -16)
+scale = Vector2(0.8, 0.8)
+texture = ExtResource("2_tex")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -4)
+shape = SubResource("CircleShape2D_body")
+
+[node name="AnchorArea" type="Area2D" parent="." groups=["tether_anchors"]]
+position = Vector2(0, -16)
+collision_layer = 8
+collision_mask = 0
+
+[node name="AnchorCollision" type="CollisionShape2D" parent="AnchorArea"]
+shape = SubResource("CircleShape2D_anchor")

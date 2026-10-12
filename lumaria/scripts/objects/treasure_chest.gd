@@ -15,6 +15,8 @@ const TEX_OPEN: Texture2D = preload("res://assets/objects/chest_open.png")
 const TEX_SMALL_KEY: Texture2D = preload("res://assets/objects/dungeon_small_key.png")
 const TEX_BOSS_KEY: Texture2D = preload("res://assets/objects/dungeon_boss_key.png")
 const TEX_SUN_PRISM: Texture2D = preload("res://assets/objects/sun_prism.png")
+const TEX_TIDE_PRISM: Texture2D = preload("res://assets/objects/tide_prism.png")
+const TEX_TETHER: Texture2D = preload("res://assets/objects/tether_hook.png")
 const TEX_VITALITY: Texture2D = preload("res://assets/objects/vitality_shard.png")
 const TEX_LUMEN: Texture2D = preload("res://assets/objects/lumen_crystal.png")
 
@@ -104,6 +106,16 @@ func _grant_rewards() -> void:
 		"sun_prism":
 			EventBus.show_toast_requested.emit(tr("MSG_FOUND_SUN_PRISM"))
 			EventBus.prism_collected.emit("sun_prism")
+		"tide_prism":
+			EventBus.show_toast_requested.emit(tr("MSG_FOUND_TIDE_PRISM"))
+			EventBus.prism_collected.emit("tide_prism")
+		"tether":
+			EventBus.show_toast_requested.emit(tr("MSG_FOUND_TETHER"))
+			# Gadget freischalten
+			if is_inside_tree():
+				var players := get_tree().get_nodes_in_group("player")
+				if players.size() > 0 and players[0].get_parent() != null and players[0].get_parent().get("inventory") != null:
+					players[0].get_parent().inventory.unlock_gadget("tether")
 		"vitality_shard":
 			EventBus.vitality_collected.emit(4)
 		"lumen_50":
@@ -124,6 +136,12 @@ func _spawn_floating_reward() -> void:
 		"sun_prism":
 			item_sprite.texture = TEX_SUN_PRISM
 			item_sprite.scale = Vector2(0.45, 0.45)
+		"tide_prism":
+			item_sprite.texture = TEX_TIDE_PRISM
+			item_sprite.scale = Vector2(0.45, 0.45)
+		"tether":
+			item_sprite.texture = TEX_TETHER
+			item_sprite.scale = Vector2(0.5, 0.5)
 		"vitality_shard":
 			item_sprite.texture = TEX_VITALITY
 			item_sprite.scale = Vector2(0.3, 0.3)

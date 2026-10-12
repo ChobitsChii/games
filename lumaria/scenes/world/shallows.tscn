@@ -1,0 +1,139 @@
+[gd_scene load_steps=20 format=3]
+
+[ext_resource type="Script" path="res://scripts/world/shallows.gd" id="1_shallows"]
+[ext_resource type="Texture2D" path="res://assets/environments/shallows_bg.png" id="2_bg"]
+[ext_resource type="PackedScene" path="res://scenes/entities/player.tscn" id="3_player"]
+[ext_resource type="PackedScene" path="res://scenes/ui/hud.tscn" id="4_hud"]
+[ext_resource type="PackedScene" path="res://scenes/ui/inventory_menu.tscn" id="5_inv"]
+[ext_resource type="PackedScene" path="res://scenes/ui/dialogue_box.tscn" id="6_diag"]
+[ext_resource type="PackedScene" path="res://scenes/objects/destructible_pot.tscn" id="7_pot"]
+[ext_resource type="PackedScene" path="res://scenes/objects/destructible_grass.tscn" id="8_grass"]
+[ext_resource type="PackedScene" path="res://scenes/objects/tether_post.tscn" id="9_post"]
+[ext_resource type="PackedScene" path="res://scenes/objects/treasure_chest.tscn" id="10_chest"]
+[ext_resource type="PackedScene" path="res://scenes/entities/enemies/moss_scout.tscn" id="11_scout"]
+[ext_resource type="PackedScene" path="res://scenes/entities/enemies/thorn_spitter.tscn" id="12_spitter"]
+[ext_resource type="PackedScene" path="res://scenes/world/room_transition_trigger.tscn" id="13_portal"]
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_top"]
+normal = Vector2(0, 1)
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_bottom"]
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_left"]
+normal = Vector2(1, 0)
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_right"]
+normal = Vector2(-1, 0)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_water_chasm"]
+size = Vector2(180, 520)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_sea_stack"]
+radius = 65.0
+
+[node name="SunkenShallows" type="Node2D"]
+script = ExtResource("1_shallows")
+
+[node name="Environment" type="Node2D" parent="."]
+
+[node name="Background" type="Sprite2D" parent="Environment"]
+position = Vector2(960, 540)
+texture = ExtResource("2_bg")
+
+[node name="Boundaries" type="StaticBody2D" parent="Environment"]
+collision_mask = 0
+
+[node name="Top" type="CollisionShape2D" parent="Environment/Boundaries"]
+position = Vector2(960, 70)
+shape = SubResource("WorldBoundaryShape2D_top")
+
+[node name="Bottom" type="CollisionShape2D" parent="Environment/Boundaries"]
+position = Vector2(960, 1030)
+shape = SubResource("WorldBoundaryShape2D_bottom")
+
+[node name="Left" type="CollisionShape2D" parent="Environment/Boundaries"]
+position = Vector2(70, 540)
+shape = SubResource("WorldBoundaryShape2D_left")
+
+[node name="Right" type="CollisionShape2D" parent="Environment/Boundaries"]
+position = Vector2(1850, 540)
+shape = SubResource("WorldBoundaryShape2D_right")
+
+[node name="Obstacles" type="StaticBody2D" parent="Environment"]
+collision_mask = 0
+
+[node name="WaterChasm" type="CollisionShape2D" parent="Environment/Obstacles"]
+position = Vector2(960, 560)
+shape = SubResource("RectangleShape2D_water_chasm")
+
+[node name="SeaStackRock" type="CollisionShape2D" parent="Environment/Obstacles"]
+position = Vector2(960, 220)
+shape = SubResource("CircleShape2D_sea_stack")
+
+[node name="Props" type="Node2D" parent="."]
+
+[node name="Pot1" parent="Props" instance=ExtResource("7_pot")]
+position = Vector2(380, 420)
+
+[node name="Pot2" parent="Props" instance=ExtResource("7_pot")]
+position = Vector2(430, 420)
+
+[node name="Grass1" parent="Props" instance=ExtResource("8_grass")]
+position = Vector2(310, 460)
+
+[node name="Grass2" parent="Props" instance=ExtResource("8_grass")]
+position = Vector2(1380, 540)
+
+[node name="Grass3" parent="Props" instance=ExtResource("8_grass")]
+position = Vector2(1440, 560)
+
+[node name="Interactables" type="Node2D" parent="."]
+
+[node name="TetherPostWest" parent="Interactables" instance=ExtResource("9_post")]
+position = Vector2(810, 560)
+post_id = "post_shallows_w"
+
+[node name="TetherPostEast" parent="Interactables" instance=ExtResource("9_post")]
+position = Vector2(1110, 560)
+post_id = "post_shallows_e"
+
+[node name="TetherChest" parent="Interactables" instance=ExtResource("10_chest")]
+position = Vector2(1440, 420)
+chest_id = "chest_tether"
+item_type = "tether"
+
+[node name="ExitToOakhaven" parent="Interactables" instance=ExtResource("13_portal")]
+position = Vector2(960, 110)
+target_scene_path = "res://scenes/game.tscn"
+prompt_key = "PROMPT_EXIT_DUNGEON"
+
+[node name="EnterBladeCrypt" parent="Interactables" instance=ExtResource("13_portal")]
+position = Vector2(1500, 780)
+target_scene_path = "res://scenes/world/crypt_blade.tscn"
+prompt_key = "PROMPT_ENTER_CRYPT"
+
+[node name="Enemies" type="Node2D" parent="."]
+
+[node name="Scout1" parent="Enemies" instance=ExtResource("11_scout")]
+position = Vector2(520, 620)
+
+[node name="Spitter1" parent="Enemies" instance=ExtResource("12_spitter")]
+position = Vector2(1560, 500)
+
+[node name="Player" parent="." instance=ExtResource("3_player")]
+position = Vector2(960, 240)
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(960, 240)
+limit_left = 0
+limit_top = 0
+limit_right = 1920
+limit_bottom = 1080
+position_smoothing_enabled = true
+position_smoothing_speed = 7.0
+
+[node name="HUD" parent="." instance=ExtResource("4_hud")]
+
+[node name="DialogueBox" parent="." instance=ExtResource("6_diag")]
+
+[node name="InventoryMenu" parent="." instance=ExtResource("5_inv")]
