@@ -15,6 +15,8 @@ extends Node2D
 @onready var resume_btn: Button = %ResumeButton
 @onready var quit_btn: Button = %QuitMenuButton
 
+static var spawn_entry_point: String = "start"
+
 var inventory: InventoryModel
 var quest_manager: QuestManager
 var _trauma: float = 0.0
@@ -23,6 +25,26 @@ var _trauma: float = 0.0
 func _ready() -> void:
 	inventory = InventoryModel.new()
 	quest_manager = QuestManager.new()
+
+	# Spielerposition gemäß Eintrittspunkt setzen
+	match spawn_entry_point:
+		"east":
+			player.position = Vector2(1690, 550)
+			player.set_facing(Vector2.LEFT)
+		"south":
+			player.position = Vector2(960, 890)
+			player.set_facing(Vector2.UP)
+		"north":
+			player.position = Vector2(960, 360)
+			player.set_facing(Vector2.DOWN)
+		"start", _:
+			player.position = Vector2(960, 680)
+			player.set_facing(Vector2.DOWN)
+	spawn_entry_point = "start"
+
+	if camera and player:
+		camera.position = player.position
+		camera.reset_smoothing()
 
 	# Erstes Gadget: Prisma-Bumerang freischalten und ausrüsten
 	inventory.unlock_gadget("boomerang")

@@ -95,6 +95,8 @@ item_type = "bombs"
 position = Vector2(960, 1000)
 target_scene_path = "res://scenes/game.tscn"
 prompt_key = "PROMPT_EXIT_DUNGEON"
+entry_point_id = "north"
+trigger_size = Vector2(260, 100)
 
 [node name="EnterBastion" parent="Interactables" instance=ExtResource("12_portal")]
 position = Vector2(1740, 540)

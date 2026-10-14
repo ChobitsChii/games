@@ -125,4 +125,7 @@ VICTORY_STAT_PRISMS,Spektral-Prismen: %d/4,Spectral Sigils: %d/4
 VICTORY_STAT_LUMEN,Gesammelte Lumen: %d,Gathered Lumen: %d
 BTN_CONTINUE_EXPLORING,Weiter erkunden,Continue Exploring
 BTN_RETURN_MAIN_MENU,Zum Hauptmenü,Return to Title
+PROMPT_SIGN_EAST,Wegweiser: Smaragdhain & Wurzel-Schrein →,Signpost: Emerald Grove & Shrine of Roots →
+PROMPT_SIGN_SOUTH,Wegweiser: Flüsternde Untiefen ↓,Signpost: Sunken Shallows ↓
+PROMPT_SIGN_NORTH,Wegweiser: Donnerplateau ↑,Signpost: Echoing Crags ↑
 

@@ -153,6 +153,10 @@ func _process_movement(delta: float) -> void:
 	move_and_slide()
 
 
+func set_facing(dir: Vector2) -> void:
+	_update_facing(dir)
+
+
 func _update_facing(dir: Vector2) -> void:
 	if absf(dir.x) > absf(dir.y):
 		facing_direction = Vector2.RIGHT if dir.x > 0 else Vector2.LEFT

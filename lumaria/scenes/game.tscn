@@ -1,4 +1,4 @@
-[gd_scene load_steps=35 format=3]
+[gd_scene load_steps=36 format=3]
 
 [ext_resource type="Script" path="res://scripts/game.gd" id="1_game"]
 [ext_resource type="Texture2D" path="res://assets/environments/oakhaven_village.png" id="2_bg"]
@@ -16,6 +16,7 @@
 [ext_resource type="PackedScene" path="res://scenes/entities/enemies/thorn_spitter.tscn" id="14_spitter"]
 [ext_resource type="PackedScene" path="res://scenes/entities/enemies/bone_warrior.tscn" id="15_bone"]
 [ext_resource type="PackedScene" path="res://scenes/world/room_transition_trigger.tscn" id="16_portal"]
+[ext_resource type="Texture2D" path="res://assets/objects/signpost.png" id="17_sign"]
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_top"]
 normal = Vector2(0, 1)
@@ -29,7 +30,7 @@ normal = Vector2(1, 0)
 normal = Vector2(-1, 0)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_oak"]
-size = Vector2(440, 220)
+size = Vector2(360, 160)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_inn"]
 size = Vector2(360, 200)
@@ -41,7 +42,7 @@ size = Vector2(230, 90)
 size = Vector2(290, 180)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_mayor"]
-size = Vector2(380, 220)
+size = Vector2(280, 160)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_house_sw"]
 size = Vector2(230, 320)
@@ -50,7 +51,7 @@ size = Vector2(230, 320)
 size = Vector2(340, 160)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_house_se"]
-size = Vector2(300, 320)
+size = Vector2(240, 200)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_canopy_s"]
 size = Vector2(240, 160)
@@ -59,10 +60,10 @@ size = Vector2(240, 160)
 radius = 52.0
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_pillar"]
-size = Vector2(36, 56)
+size = Vector2(28, 28)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_flowerbed"]
-size = Vector2(120, 50)
+size = Vector2(120, 40)
 
 [node name="Game" type="Node2D"]
 script = ExtResource("1_game")
@@ -82,7 +83,7 @@ position = Vector2(960, 40)
 shape = SubResource("WorldBoundaryShape2D_top")
 
 [node name="Bottom" type="CollisionShape2D" parent="Environment/Boundaries"]
-position = Vector2(960, 1040)
+position = Vector2(960, 1080)
 shape = SubResource("WorldBoundaryShape2D_bottom")
 
 [node name="Left" type="CollisionShape2D" parent="Environment/Boundaries"]
@@ -90,14 +91,14 @@ position = Vector2(40, 540)
 shape = SubResource("WorldBoundaryShape2D_left")
 
 [node name="Right" type="CollisionShape2D" parent="Environment/Boundaries"]
-position = Vector2(1880, 540)
+position = Vector2(1920, 540)
 shape = SubResource("WorldBoundaryShape2D_right")
 
 [node name="VillageColliders" type="StaticBody2D" parent="Environment"]
 collision_mask = 0
 
 [node name="ColOak" type="CollisionShape2D" parent="Environment/VillageColliders"]
-position = Vector2(960, 110)
+position = Vector2(960, 90)
 shape = SubResource("RectangleShape2D_oak")
 
 [node name="ColInn" type="CollisionShape2D" parent="Environment/VillageColliders"]
@@ -113,7 +114,7 @@ position = Vector2(1230, 340)
 shape = SubResource("RectangleShape2D_blacksmith")
 
 [node name="ColMayor" type="CollisionShape2D" parent="Environment/VillageColliders"]
-position = Vector2(1610, 410)
+position = Vector2(1610, 350)
 shape = SubResource("RectangleShape2D_mayor")
 
 [node name="ColHouseSW" type="CollisionShape2D" parent="Environment/VillageColliders"]
@@ -125,7 +126,7 @@ position = Vector2(430, 970)
 shape = SubResource("RectangleShape2D_roof_sw")
 
 [node name="ColHouseSE" type="CollisionShape2D" parent="Environment/VillageColliders"]
-position = Vector2(1740, 750)
+position = Vector2(1740, 780)
 shape = SubResource("RectangleShape2D_house_se")
 
 [node name="ColCanopyS" type="CollisionShape2D" parent="Environment/VillageColliders"]
@@ -141,7 +142,7 @@ position = Vector2(960, 430)
 shape = SubResource("RectangleShape2D_pillar")
 
 [node name="ColRuneS" type="CollisionShape2D" parent="Environment/VillageColliders"]
-position = Vector2(1030, 820)
+position = Vector2(1100, 840)
 shape = SubResource("RectangleShape2D_pillar")
 
 [node name="ColRuneW" type="CollisionShape2D" parent="Environment/VillageColliders"]
@@ -149,7 +150,7 @@ position = Vector2(600, 580)
 shape = SubResource("RectangleShape2D_pillar")
 
 [node name="ColRuneE" type="CollisionShape2D" parent="Environment/VillageColliders"]
-position = Vector2(1460, 580)
+position = Vector2(1440, 470)
 shape = SubResource("RectangleShape2D_pillar")
 
 [node name="ColFlowerW" type="CollisionShape2D" parent="Environment/VillageColliders"]
@@ -157,7 +158,7 @@ position = Vector2(680, 670)
 shape = SubResource("RectangleShape2D_flowerbed")
 
 [node name="ColFlowerE" type="CollisionShape2D" parent="Environment/VillageColliders"]
-position = Vector2(1360, 670)
+position = Vector2(1360, 690)
 shape = SubResource("RectangleShape2D_flowerbed")
 
 [node name="Objects" type="Node2D" parent="."]
@@ -269,19 +270,72 @@ position = Vector2(1700, 360)
 position = Vector2(1640, 720)
 
 [node name="ShrinePortal" parent="." instance=ExtResource("16_portal")]
-position = Vector2(1830, 540)
+position = Vector2(1820, 550)
 target_scene_path = "res://scenes/world/shrine_roots.tscn"
 prompt_key = "PROMPT_ENTER_DUNGEON"
+requires_interaction = false
+trigger_size = Vector2(200, 260)
 
 [node name="ShallowsPortal" parent="." instance=ExtResource("16_portal")]
-position = Vector2(960, 1010)
+position = Vector2(960, 1020)
 target_scene_path = "res://scenes/world/shallows.tscn"
 prompt_key = "PROMPT_ENTER_SHALLOWS"
+requires_interaction = false
+trigger_size = Vector2(380, 140)
 
 [node name="PlateauPortal" parent="." instance=ExtResource("16_portal")]
-position = Vector2(960, 230)
+position = Vector2(960, 240)
 target_scene_path = "res://scenes/world/plateau.tscn"
 prompt_key = "PROMPT_ENTER_PLATEAU"
+requires_interaction = false
+trigger_size = Vector2(260, 120)
+
+[node name="Signposts" type="Node2D" parent="."]
+
+[node name="SignpostEast" type="Sprite2D" parent="Signposts"]
+position = Vector2(1660, 460)
+scale = Vector2(0.65, 0.65)
+texture = ExtResource("17_sign")
+
+[node name="LabelEast" type="Label" parent="Signposts/SignpostEast"]
+offset_left = -160.0
+offset_top = -68.0
+offset_right = 160.0
+offset_bottom = -40.0
+theme_override_colors/font_color = Color(0.95, 0.95, 0.8, 1)
+theme_override_font_sizes/font_size = 18
+text = "PROMPT_SIGN_EAST"
+horizontal_alignment = 1
+
+[node name="SignpostSouth" type="Sprite2D" parent="Signposts"]
+position = Vector2(1060, 930)
+scale = Vector2(0.65, 0.65)
+texture = ExtResource("17_sign")
+
+[node name="LabelSouth" type="Label" parent="Signposts/SignpostSouth"]
+offset_left = -140.0
+offset_top = -68.0
+offset_right = 140.0
+offset_bottom = -40.0
+theme_override_colors/font_color = Color(0.95, 0.95, 0.8, 1)
+theme_override_font_sizes/font_size = 18
+text = "PROMPT_SIGN_SOUTH"
+horizontal_alignment = 1
+
+[node name="SignpostNorth" type="Sprite2D" parent="Signposts"]
+position = Vector2(860, 310)
+scale = Vector2(0.65, 0.65)
+texture = ExtResource("17_sign")
+
+[node name="LabelNorth" type="Label" parent="Signposts/SignpostNorth"]
+offset_left = -140.0
+offset_top = -68.0
+offset_right = 140.0
+offset_bottom = -40.0
+theme_override_colors/font_color = Color(0.95, 0.95, 0.8, 1)
+theme_override_font_sizes/font_size = 18
+text = "PROMPT_SIGN_NORTH"
+horizontal_alignment = 1
 
 [node name="PauseLayer" type="CanvasLayer" parent="."]
 process_mode = 3

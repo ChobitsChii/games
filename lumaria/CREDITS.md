@@ -30,6 +30,7 @@ Dieses Spiel verwendet ausschließlich frei nutzbare Assets unter permissiven Op
 | **Schall-Bomben, Rissige Wände & Winddüsen** (`assets/objects/*.png`) | Antigravity Digital Art Studio | Eigene Erstellung / CC0 | Akustische Resonanzbombe, brüchiges Mauerwerk & Turbinen-Winddüsen |
 | **Sturm-Prisma & Ewiges Prisma** (`assets/objects/*_prism.png`) | Antigravity Digital Art Studio | Eigene Erstellung / CC0 | 3. Spektral-Prisma (Smaragd-Tempest) & 4. vollendetes Regenbogen-Urprisma |
 | **Boss Zephyros & Endboss Malakor** (`assets/characters/enemies/boss_*.png`) | Antigravity Digital Art Studio | Eigene Erstellung / CC0 | Himmels-Raubvogel Zephyros (512×512) & dimensionaler Rissfürst Malakor (512×512) |
+| **Wegweiser & Holzschilder** (`assets/objects/signpost.png`) | Antigravity Digital Art Studio | Eigene Erstellung / CC0 | Richtungs-Wegweiser an den Toren von Oakhaven |
 | **Soundeffekte** | Kenney Game Audio (Kenney.nl) | CC0 1.0 Universal | Schwertschlag, Treffer, Schritte, Menü-Klicks, Dialog-Blips |
 
 ## Code & Framework

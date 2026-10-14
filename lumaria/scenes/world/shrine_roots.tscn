@@ -128,6 +128,8 @@ item_type = "boss_key"
 position = Vector2(960, 990)
 target_scene_path = "res://scenes/game.tscn"
 prompt_key = "PROMPT_EXIT_DUNGEON"
+entry_point_id = "east"
+trigger_size = Vector2(260, 100)
 
 [node name="Enemies" type="Node2D" parent="."]
 
