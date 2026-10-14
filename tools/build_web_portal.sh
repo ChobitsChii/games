@@ -715,7 +715,7 @@ cat << 'EOF' > "$TARGET_DIR/index.html"
 						<img src="lumaria/icon.svg" alt="Lumaria Icon">
 					</div>
 					<div class="title-wrap">
-						<h2>Lumaria</h2>
+						<h2>Lumaria: The Prismatic Odyssey</h2>
 						<div class="tags-row">
 							<span class="tag tag-ver">v1.0.0</span>
 							<span class="tag tag-ready">Vollversion</span>
