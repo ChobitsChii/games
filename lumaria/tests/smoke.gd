@@ -32,7 +32,24 @@ func _ready() -> void:
 	add_child(dungeon2)
 	dungeon2.queue_free()
 
-	# 4. Spiel starten mit Autopilot
+	# 4. Donnerplateau, Dungeon 3 Sturm-Bastion & Turm des Ewigen Prismas testen
+	var plateau: Node2D = (load("res://scenes/world/plateau.tscn") as PackedScene).instantiate()
+	add_child(plateau)
+	plateau.queue_free()
+
+	var bastion: Node2D = (load("res://scenes/world/bastion_wind.tscn") as PackedScene).instantiate()
+	add_child(bastion)
+	bastion.queue_free()
+
+	var tower: Node2D = (load("res://scenes/world/tower_eternal.tscn") as PackedScene).instantiate()
+	add_child(tower)
+	tower.queue_free()
+
+	var victory: Control = (load("res://scenes/ui/victory_screen.tscn") as PackedScene).instantiate()
+	add_child(victory)
+	victory.queue_free()
+
+	# 5. Spiel starten mit Autopilot
 	_game = (load("res://scenes/game.tscn") as PackedScene).instantiate()
 	_game.autoplay = true
 	add_child(_game)

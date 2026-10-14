@@ -267,7 +267,7 @@ lumaria/
    - Fund des **Fangseils**: Überqueren von Abgründen, Heranziehen von Schildfeinden.
    - Dungeon 2 mit Stachelfallen und Pfahl-Klettereien.
    - Bosskampf gegen **Carapax, den Kristall-Panzerkrabbler**.
-8. **M7 – Gadget 3 (Bomben), Dungeon 3 & Das Finale:**
+8. ✅ **M7 – Gadget 3 (Bomben), Dungeon 3 & Das Finale:**
    - Fund der **Schall-Bomben**, Freisprengung geheimer Höhlen auf der Oberwelt.
    - Dungeon 3 (Sturm-Bastion) mit Windrätseln und Boss **Zephyros**.
    - Der finale **Turm des Ewigen Prismas** mit Multitool-Prüfungen.

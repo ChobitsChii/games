@@ -1,0 +1,39 @@
+[gd_scene load_steps=6 format=3]
+
+[ext_resource type="Script" path="res://scripts/entities/boss_malakor.gd" id="1_malakor"]
+[ext_resource type="Texture2D" path="res://assets/characters/enemies/boss_malakor.png" id="2_tex"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_body"]
+radius = 70.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_hurt"]
+radius = 85.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_hit"]
+radius = 75.0
+
+[node name="BossMalakor" type="CharacterBody2D" groups=["bosses", "enemies"]]
+collision_layer = 4
+collision_mask = 3
+script = ExtResource("1_malakor")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.55, 0.55)
+texture = ExtResource("2_tex")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_body")
+
+[node name="Hurtbox" type="Area2D" parent="."]
+collision_layer = 4
+collision_mask = 0
+
+[node name="HurtCollision" type="CollisionShape2D" parent="Hurtbox"]
+shape = SubResource("CircleShape2D_hurt")
+
+[node name="Hitbox" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 2
+
+[node name="HitCollision" type="CollisionShape2D" parent="Hitbox"]
+shape = SubResource("CircleShape2D_hit")

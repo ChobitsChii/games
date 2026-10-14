@@ -1,0 +1,133 @@
+[gd_scene load_steps=19 format=3]
+
+[ext_resource type="Script" path="res://scripts/world/plateau.gd" id="1_plateau"]
+[ext_resource type="Texture2D" path="res://assets/environments/plateau_bg.png" id="2_bg"]
+[ext_resource type="PackedScene" path="res://scenes/entities/player.tscn" id="3_player"]
+[ext_resource type="PackedScene" path="res://scenes/ui/hud.tscn" id="4_hud"]
+[ext_resource type="PackedScene" path="res://scenes/ui/inventory_menu.tscn" id="5_inv"]
+[ext_resource type="PackedScene" path="res://scenes/ui/dialogue_box.tscn" id="6_diag"]
+[ext_resource type="PackedScene" path="res://scenes/objects/destructible_pot.tscn" id="7_pot"]
+[ext_resource type="PackedScene" path="res://scenes/objects/cracked_wall.tscn" id="8_cracked"]
+[ext_resource type="PackedScene" path="res://scenes/objects/treasure_chest.tscn" id="9_chest"]
+[ext_resource type="PackedScene" path="res://scenes/entities/enemies/moss_scout.tscn" id="10_scout"]
+[ext_resource type="PackedScene" path="res://scenes/entities/enemies/bone_warrior.tscn" id="11_bone"]
+[ext_resource type="PackedScene" path="res://scenes/world/room_transition_trigger.tscn" id="12_portal"]
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_top"]
+normal = Vector2(0, 1)
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_bottom"]
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_left"]
+normal = Vector2(1, 0)
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_right"]
+normal = Vector2(-1, 0)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_chasm_top"]
+size = Vector2(400, 360)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_chasm_bottom"]
+size = Vector2(400, 360)
+
+[node name="EchoingPlateau" type="Node2D"]
+script = ExtResource("1_plateau")
+
+[node name="Environment" type="Node2D" parent="."]
+
+[node name="Background" type="Sprite2D" parent="Environment"]
+position = Vector2(960, 540)
+texture = ExtResource("2_bg")
+
+[node name="Boundaries" type="StaticBody2D" parent="Environment"]
+collision_mask = 0
+
+[node name="Top" type="CollisionShape2D" parent="Environment/Boundaries"]
+position = Vector2(960, 80)
+shape = SubResource("WorldBoundaryShape2D_top")
+
+[node name="Bottom" type="CollisionShape2D" parent="Environment/Boundaries"]
+position = Vector2(960, 1020)
+shape = SubResource("WorldBoundaryShape2D_bottom")
+
+[node name="Left" type="CollisionShape2D" parent="Environment/Boundaries"]
+position = Vector2(80, 540)
+shape = SubResource("WorldBoundaryShape2D_left")
+
+[node name="Right" type="CollisionShape2D" parent="Environment/Boundaries"]
+position = Vector2(1840, 540)
+shape = SubResource("WorldBoundaryShape2D_right")
+
+[node name="MountainChasms" type="StaticBody2D" parent="Environment"]
+collision_mask = 0
+
+[node name="ChasmTop" type="CollisionShape2D" parent="Environment/MountainChasms"]
+position = Vector2(960, 320)
+shape = SubResource("RectangleShape2D_chasm_top")
+
+[node name="ChasmBottom" type="CollisionShape2D" parent="Environment/MountainChasms"]
+position = Vector2(960, 780)
+shape = SubResource("RectangleShape2D_chasm_bottom")
+
+[node name="Props" type="Node2D" parent="."]
+
+[node name="Pot1" parent="Props" instance=ExtResource("7_pot")]
+position = Vector2(320, 680)
+
+[node name="Pot2" parent="Props" instance=ExtResource("7_pot")]
+position = Vector2(370, 680)
+
+[node name="Pot3" parent="Props" instance=ExtResource("7_pot")]
+position = Vector2(1620, 680)
+
+[node name="Interactables" type="Node2D" parent="."]
+
+[node name="CrackedWallCave" parent="Interactables" instance=ExtResource("8_cracked")]
+position = Vector2(360, 240)
+wall_id = "wall_plateau_bomb_cave"
+
+[node name="ChestBombs" parent="Interactables" instance=ExtResource("9_chest")]
+position = Vector2(240, 240)
+chest_id = "chest_bombs"
+item_type = "bombs"
+
+[node name="ExitToOakhaven" parent="Interactables" instance=ExtResource("12_portal")]
+position = Vector2(960, 1000)
+target_scene_path = "res://scenes/game.tscn"
+prompt_key = "PROMPT_EXIT_DUNGEON"
+
+[node name="EnterBastion" parent="Interactables" instance=ExtResource("12_portal")]
+position = Vector2(1740, 540)
+target_scene_path = "res://scenes/world/bastion_wind.tscn"
+prompt_key = "PROMPT_ENTER_BASTION"
+
+[node name="EnterTower" parent="Interactables" instance=ExtResource("12_portal")]
+position = Vector2(960, 110)
+target_scene_path = "res://scenes/world/tower_eternal.tscn"
+prompt_key = "PROMPT_ENTER_TOWER"
+
+[node name="Enemies" type="Node2D" parent="."]
+
+[node name="Scout1" parent="Enemies" instance=ExtResource("10_scout")]
+position = Vector2(560, 540)
+
+[node name="BoneWarrior1" parent="Enemies" instance=ExtResource("11_bone")]
+position = Vector2(1440, 540)
+
+[node name="Player" parent="." instance=ExtResource("3_player")]
+position = Vector2(960, 880)
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(960, 880)
+limit_left = 0
+limit_top = 0
+limit_right = 1920
+limit_bottom = 1080
+position_smoothing_enabled = true
+position_smoothing_speed = 7.0
+
+[node name="HUD" parent="." instance=ExtResource("4_hud")]
+
+[node name="DialogueBox" parent="." instance=ExtResource("6_diag")]
+
+[node name="InventoryMenu" parent="." instance=ExtResource("5_inv")]

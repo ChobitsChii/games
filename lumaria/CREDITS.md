@@ -26,6 +26,10 @@ Dieses Spiel verwendet ausschließlich frei nutzbare Assets unter permissiven Op
 | **Fangseil-Posten & Greifhaken** (`assets/objects/tether_post.png`, `assets/objects/tether_hook.png`) | Antigravity Digital Art Studio | Eigene Erstellung / CC0 | Ankerpfahl & kinetischer Greifhaken-Kopf |
 | **Stachelfallen & Gezeiten-Prisma** (`assets/objects/spike_trap.png`, `assets/objects/tide_prism.png`) | Antigravity Digital Art Studio | Eigene Erstellung / CC0 | Bodengleiche Klingenstachel-Fallen & 2. Spektral-Prisma |
 | **Boss Carapax** (`assets/characters/enemies/boss_carapax.png`) | Antigravity Digital Art Studio | Eigene Erstellung / CC0 | Kristall-Panzerkrabbler Carapax (512×512) |
+| **Donnerplateau, Sturm-Bastion & Turm des Ewigen Prismas** (`assets/environments/*_bg.png`) | Antigravity Digital Art Studio | Eigene Erstellung / CC0 | Hochgebirge, Himmelsfestung & Obsidiandom-Kathedrale (1920×1080) |
+| **Schall-Bomben, Rissige Wände & Winddüsen** (`assets/objects/*.png`) | Antigravity Digital Art Studio | Eigene Erstellung / CC0 | Akustische Resonanzbombe, brüchiges Mauerwerk & Turbinen-Winddüsen |
+| **Sturm-Prisma & Ewiges Prisma** (`assets/objects/*_prism.png`) | Antigravity Digital Art Studio | Eigene Erstellung / CC0 | 3. Spektral-Prisma (Smaragd-Tempest) & 4. vollendetes Regenbogen-Urprisma |
+| **Boss Zephyros & Endboss Malakor** (`assets/characters/enemies/boss_*.png`) | Antigravity Digital Art Studio | Eigene Erstellung / CC0 | Himmels-Raubvogel Zephyros (512×512) & dimensionaler Rissfürst Malakor (512×512) |
 | **Soundeffekte** | Kenney Game Audio (Kenney.nl) | CC0 1.0 Universal | Schwertschlag, Treffer, Schritte, Menü-Klicks, Dialog-Blips |
 
 ## Code & Framework

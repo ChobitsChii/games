@@ -278,6 +278,11 @@ position = Vector2(960, 1010)
 target_scene_path = "res://scenes/world/shallows.tscn"
 prompt_key = "PROMPT_ENTER_SHALLOWS"
 
+[node name="PlateauPortal" parent="." instance=ExtResource("16_portal")]
+position = Vector2(960, 230)
+target_scene_path = "res://scenes/world/plateau.tscn"
+prompt_key = "PROMPT_ENTER_PLATEAU"
+
 [node name="PauseLayer" type="CanvasLayer" parent="."]
 process_mode = 3
 

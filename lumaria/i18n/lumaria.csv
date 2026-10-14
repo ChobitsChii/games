@@ -100,4 +100,29 @@ PROMPT_EXIT_TO_SHALLOWS,[E] Zurück zu den Untiefen,[E] Return to Sunken Shallow
 ITEM_TIDE_PRISM,Gezeiten-Prisma,Tidal Prism
 MSG_FOUND_TIDE_PRISM,Das Gezeiten-Prisma strömt mit uralter Meereskraft!,The Tidal Prism flows with ancient ocean power!
 MSG_FOUND_TETHER,Kinetisches Fangseil erhalten! Ziehe dich an Pfähle heran und entreiße Schilde!,Kinetic Tether acquired! Pull yourself to posts and rip away enemy shields!
+ROOM_PLATEAU,Donnerplateau,Echoing Crags
+ROOM_BASTION_WIND,Sturm-Bastion,Storm Bastion
+ROOM_TOWER_ETERNAL,Turm des Ewigen Prismas,Tower of the Eternal Prism
+PROMPT_ENTER_PLATEAU,[E] Donnerplateau betreten,[E] Enter Echoing Crags
+PROMPT_ENTER_BASTION,[E] Sturm-Bastion betreten,[E] Enter Storm Bastion
+PROMPT_ENTER_TOWER,[E] Turm des Ewigen Prismas betreten,[E] Enter Tower of the Eternal Prism
+PROMPT_EXIT_TO_PLATEAU,[E] Zurück zum Plateau,[E] Return to Crags
+PROMPT_EXIT_TO_OVERWORLD,[E] Zurück nach Lumaria,[E] Return to Lumaria
+ITEM_STORM_PRISM,Sturm-Prisma,Storm Prism
+ITEM_ETERNAL_PRISM,Ewiges Prisma,Eternal Prism
+MSG_FOUND_STORM_PRISM,Das Sturm-Prisma entfesselt heulende Windwogen!,The Storm Prism unleashes howling tempest currents!
+MSG_FOUND_ETERNAL_PRISM,Das Ewige Prisma ist vollendet! Das Ur-Licht kehrt nach Lumaria zurück!,The Eternal Prism is restored! Primal light returns to Lumaria!
+MSG_FOUND_BOMBS,Schall-Bomben erhalten! Sprenge brüchige Wände und breche Windschilde!,Sonic Bombs acquired! Blast cracked walls and disrupt wind barriers!
+BOSS_ZEPHYROS_NAME,Zephyros,Zephyros
+BOSS_ZEPHYROS_TITLE,Die Sturmkrone,The Storm Crown
+BOSS_MALAKOR_NAME,Malakor,Malakor
+BOSS_MALAKOR_TITLE,Der Rissfürst,The Rift Sovereign
+VICTORY_EPILOGUE_TITLE,Lumarias Erlösung,Lumaria's Salvation
+VICTORY_EPILOGUE_TEXT,"Mit der Wiederherstellung des Ewigen Prismas schließen sich die dimensionalen Risse. Das Ur-Licht strahlt wieder über Oakhaven, den Smaragdhain und die Küsten.","With the restoration of the Eternal Prism, the dimensional rifts collapse. Primal light shines once more across Oakhaven, the Emerald Grove, and the shores."
+VICTORY_STATS,Deine Heldenreise,Your Heroic Odyssey
+VICTORY_STAT_TIME,Spielzeit: %s,Play Time: %s
+VICTORY_STAT_PRISMS,Spektral-Prismen: %d/4,Spectral Sigils: %d/4
+VICTORY_STAT_LUMEN,Gesammelte Lumen: %d,Gathered Lumen: %d
+BTN_CONTINUE_EXPLORING,Weiter erkunden,Continue Exploring
+BTN_RETURN_MAIN_MENU,Zum Hauptmenü,Return to Title
 

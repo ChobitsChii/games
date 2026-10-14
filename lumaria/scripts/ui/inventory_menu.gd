@@ -32,6 +32,7 @@ func _ready() -> void:
 	_slot_2_btn.pressed.connect(_assign_selected_to_slot.bind(2))
 	_boomerang_btn.pressed.connect(func() -> void: _select_gadget("boomerang"))
 	_tether_btn.pressed.connect(func() -> void: _select_gadget("tether"))
+	_bombs_btn.pressed.connect(func() -> void: _select_gadget("bombs"))
 
 
 func open(inv: InventoryModel) -> void:
@@ -85,8 +86,9 @@ func _refresh_display() -> void:
 	var has_tether := _inventory.unlocked_gadgets.has("tether")
 	_tether_btn.disabled = not has_tether
 	_tether_btn.text = tr("ITEM_TETHER") if has_tether else (tr("ITEM_TETHER") + " (" + tr("INV_LOCKED") + ")")
-	_bombs_btn.disabled = true
-	_bombs_btn.text = tr("ITEM_BOMBS") + " (" + tr("INV_LOCKED") + ")"
+	var has_bombs := _inventory.unlocked_gadgets.has("bombs")
+	_bombs_btn.disabled = not has_bombs
+	_bombs_btn.text = tr("ITEM_BOMBS") if has_bombs else (tr("ITEM_BOMBS") + " (" + tr("INV_LOCKED") + ")")
 	_bow_btn.disabled = true
 	_bow_btn.text = tr("ITEM_BOW") + " (" + tr("INV_LOCKED") + ")"
 

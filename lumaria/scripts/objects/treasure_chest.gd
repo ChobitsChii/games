@@ -16,7 +16,10 @@ const TEX_SMALL_KEY: Texture2D = preload("res://assets/objects/dungeon_small_key
 const TEX_BOSS_KEY: Texture2D = preload("res://assets/objects/dungeon_boss_key.png")
 const TEX_SUN_PRISM: Texture2D = preload("res://assets/objects/sun_prism.png")
 const TEX_TIDE_PRISM: Texture2D = preload("res://assets/objects/tide_prism.png")
+const TEX_STORM_PRISM: Texture2D = preload("res://assets/objects/storm_prism.png")
+const TEX_ETERNAL_PRISM: Texture2D = preload("res://assets/objects/eternal_prism.png")
 const TEX_TETHER: Texture2D = preload("res://assets/objects/tether_hook.png")
+const TEX_BOMB: Texture2D = preload("res://assets/objects/sonic_bomb.png")
 const TEX_VITALITY: Texture2D = preload("res://assets/objects/vitality_shard.png")
 const TEX_LUMEN: Texture2D = preload("res://assets/objects/lumen_crystal.png")
 
@@ -109,6 +112,12 @@ func _grant_rewards() -> void:
 		"tide_prism":
 			EventBus.show_toast_requested.emit(tr("MSG_FOUND_TIDE_PRISM"))
 			EventBus.prism_collected.emit("tide_prism")
+		"storm_prism":
+			EventBus.show_toast_requested.emit(tr("MSG_FOUND_STORM_PRISM"))
+			EventBus.prism_collected.emit("storm_prism")
+		"eternal_prism":
+			EventBus.show_toast_requested.emit(tr("MSG_FOUND_ETERNAL_PRISM"))
+			EventBus.prism_collected.emit("eternal_prism")
 		"tether":
 			EventBus.show_toast_requested.emit(tr("MSG_FOUND_TETHER"))
 			# Gadget freischalten
@@ -116,6 +125,13 @@ func _grant_rewards() -> void:
 				var players := get_tree().get_nodes_in_group("player")
 				if players.size() > 0 and players[0].get_parent() != null and players[0].get_parent().get("inventory") != null:
 					players[0].get_parent().inventory.unlock_gadget("tether")
+		"bombs":
+			EventBus.show_toast_requested.emit(tr("MSG_FOUND_BOMBS"))
+			# Gadget freischalten
+			if is_inside_tree():
+				var players := get_tree().get_nodes_in_group("player")
+				if players.size() > 0 and players[0].get_parent() != null and players[0].get_parent().get("inventory") != null:
+					players[0].get_parent().inventory.unlock_gadget("bombs")
 		"vitality_shard":
 			EventBus.vitality_collected.emit(4)
 		"lumen_50":
@@ -139,8 +155,17 @@ func _spawn_floating_reward() -> void:
 		"tide_prism":
 			item_sprite.texture = TEX_TIDE_PRISM
 			item_sprite.scale = Vector2(0.45, 0.45)
+		"storm_prism":
+			item_sprite.texture = TEX_STORM_PRISM
+			item_sprite.scale = Vector2(0.45, 0.45)
+		"eternal_prism":
+			item_sprite.texture = TEX_ETERNAL_PRISM
+			item_sprite.scale = Vector2(0.5, 0.5)
 		"tether":
 			item_sprite.texture = TEX_TETHER
+			item_sprite.scale = Vector2(0.5, 0.5)
+		"bombs":
+			item_sprite.texture = TEX_BOMB
 			item_sprite.scale = Vector2(0.5, 0.5)
 		"vitality_shard":
 			item_sprite.texture = TEX_VITALITY

@@ -1,0 +1,159 @@
+[gd_scene load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://scripts/ui/victory_screen.gd" id="1_vic"]
+[ext_resource type="Texture2D" path="res://assets/environments/tower_eternal_bg.png" id="2_bg"]
+[ext_resource type="Texture2D" path="res://assets/objects/eternal_prism.png" id="3_prism"]
+
+[node name="VictoryScreen" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_vic")
+
+[node name="Background" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_bg")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="DimOverlay" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.04, 0.05, 0.1, 0.78)
+
+[node name="Center" type="CenterContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ContentBox" type="VBoxContainer" parent="Center"]
+custom_minimum_size = Vector2(900, 0)
+layout_mode = 2
+theme_override_constants/separation = 24
+alignment = 1
+
+[node name="PrismContainer" type="Control" parent="Center/ContentBox"]
+custom_minimum_size = Vector2(0, 160)
+layout_mode = 2
+
+[node name="PrismIcon" type="TextureRect" parent="Center/ContentBox/PrismContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(140, 140)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -70.0
+offset_top = -70.0
+offset_right = 70.0
+offset_bottom = 70.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(70, 70)
+texture = ExtResource("3_prism")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="TitleLabel" type="Label" parent="Center/ContentBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.35, 0.95, 0.98, 1)
+theme_override_colors/font_shadow_color = Color(0.1, 0.3, 0.7, 0.8)
+theme_override_constants/shadow_offset_x = 0
+theme_override_constants/shadow_offset_y = 3
+theme_override_font_sizes/font_size = 46
+text = "VICTORY_TITLE"
+horizontal_alignment = 1
+
+[node name="EpilogueTitle" type="Label" parent="Center/ContentBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.95, 0.85, 0.45, 1)
+theme_override_font_sizes/font_size = 26
+text = "VICTORY_EPILOGUE_TITLE"
+horizontal_alignment = 1
+
+[node name="EpilogueText" type="Label" parent="Center/ContentBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(800, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_colors/font_color = Color(0.9, 0.92, 0.98, 1)
+theme_override_font_sizes/font_size = 20
+text = "VICTORY_EPILOGUE_TEXT"
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="StatsBox" type="PanelContainer" parent="Center/ContentBox"]
+custom_minimum_size = Vector2(500, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="StatsInner" type="VBoxContainer" parent="Center/ContentBox/StatsBox"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="StatsHeader" type="Label" parent="Center/ContentBox/StatsBox/StatsInner"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.4, 0.85, 0.95, 1)
+theme_override_font_sizes/font_size = 22
+text = "VICTORY_STATS"
+horizontal_alignment = 1
+
+[node name="StatTime" type="Label" parent="Center/ContentBox/StatsBox/StatsInner"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+text = "VICTORY_STAT_TIME"
+horizontal_alignment = 1
+
+[node name="StatPrisms" type="Label" parent="Center/ContentBox/StatsBox/StatsInner"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+text = "VICTORY_STAT_PRISMS"
+horizontal_alignment = 1
+
+[node name="StatLumen" type="Label" parent="Center/ContentBox/StatsBox/StatsInner"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+text = "VICTORY_STAT_LUMEN"
+horizontal_alignment = 1
+
+[node name="ButtonBox" type="HBoxContainer" parent="Center/ContentBox"]
+layout_mode = 2
+theme_override_constants/separation = 32
+alignment = 1
+
+[node name="ContinueButton" type="Button" parent="Center/ContentBox/ButtonBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(280, 54)
+layout_mode = 2
+theme_override_font_sizes/font_size = 22
+text = "BTN_CONTINUE_EXPLORING"
+
+[node name="MainMenuButton" type="Button" parent="Center/ContentBox/ButtonBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(280, 54)
+layout_mode = 2
+theme_override_font_sizes/font_size = 22
+text = "BTN_RETURN_MAIN_MENU"

@@ -1,0 +1,154 @@
+[gd_scene load_steps=22 format=3]
+
+[ext_resource type="Script" path="res://scripts/world/tower_eternal.gd" id="1_tower"]
+[ext_resource type="Texture2D" path="res://assets/environments/tower_eternal_bg.png" id="2_bg"]
+[ext_resource type="PackedScene" path="res://scenes/entities/player.tscn" id="3_player"]
+[ext_resource type="PackedScene" path="res://scenes/ui/hud.tscn" id="4_hud"]
+[ext_resource type="PackedScene" path="res://scenes/ui/inventory_menu.tscn" id="5_inv"]
+[ext_resource type="PackedScene" path="res://scenes/ui/dialogue_box.tscn" id="6_diag"]
+[ext_resource type="PackedScene" path="res://scenes/objects/destructible_pot.tscn" id="7_pot"]
+[ext_resource type="PackedScene" path="res://scenes/objects/wind_vent.tscn" id="8_vent"]
+[ext_resource type="PackedScene" path="res://scenes/objects/cracked_wall.tscn" id="9_cracked"]
+[ext_resource type="PackedScene" path="res://scenes/objects/switch_crystal.tscn" id="10_switch"]
+[ext_resource type="PackedScene" path="res://scenes/objects/dungeon_door.tscn" id="11_door"]
+[ext_resource type="PackedScene" path="res://scenes/objects/tether_post.tscn" id="12_post"]
+[ext_resource type="PackedScene" path="res://scenes/entities/bosses/boss_malakor.tscn" id="13_malakor"]
+[ext_resource type="PackedScene" path="res://scenes/world/room_transition_trigger.tscn" id="14_portal"]
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_top"]
+normal = Vector2(0, 1)
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_bottom"]
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_left"]
+normal = Vector2(1, 0)
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_right"]
+normal = Vector2(-1, 0)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_void_west"]
+size = Vector2(240, 360)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_void_east"]
+size = Vector2(240, 360)
+
+[node name="TowerEternal" type="Node2D"]
+script = ExtResource("1_tower")
+
+[node name="Environment" type="Node2D" parent="."]
+
+[node name="Background" type="Sprite2D" parent="Environment"]
+position = Vector2(960, 540)
+texture = ExtResource("2_bg")
+
+[node name="Boundaries" type="StaticBody2D" parent="Environment"]
+collision_mask = 0
+
+[node name="Top" type="CollisionShape2D" parent="Environment/Boundaries"]
+position = Vector2(960, 80)
+shape = SubResource("WorldBoundaryShape2D_top")
+
+[node name="Bottom" type="CollisionShape2D" parent="Environment/Boundaries"]
+position = Vector2(960, 1020)
+shape = SubResource("WorldBoundaryShape2D_bottom")
+
+[node name="Left" type="CollisionShape2D" parent="Environment/Boundaries"]
+position = Vector2(80, 540)
+shape = SubResource("WorldBoundaryShape2D_left")
+
+[node name="Right" type="CollisionShape2D" parent="Environment/Boundaries"]
+position = Vector2(1840, 540)
+shape = SubResource("WorldBoundaryShape2D_right")
+
+[node name="VoidWest" type="CollisionShape2D" parent="Environment/Boundaries"]
+position = Vector2(480, 720)
+shape = SubResource("RectangleShape2D_void_west")
+
+[node name="VoidEast" type="CollisionShape2D" parent="Environment/Boundaries"]
+position = Vector2(1440, 720)
+shape = SubResource("RectangleShape2D_void_east")
+
+[node name="Props" type="Node2D" parent="."]
+
+[node name="Pot1" parent="Props" instance=ExtResource("7_pot")]
+position = Vector2(240, 880)
+
+[node name="Pot2" parent="Props" instance=ExtResource("7_pot")]
+position = Vector2(1680, 880)
+
+[node name="Vents" type="Node2D" parent="."]
+
+[node name="WindVentCenter" parent="Vents" instance=ExtResource("8_vent")]
+position = Vector2(960, 760)
+blow_direction = Vector2(0, -1)
+
+[node name="Trials" type="Node2D" parent="."]
+
+[node name="SwitchRoots" parent="Trials" instance=ExtResource("10_switch")]
+unique_name_in_owner = true
+position = Vector2(240, 720)
+switch_id = "switch_trial_roots"
+
+[node name="TetherPostDepths" parent="Trials" instance=ExtResource("12_post")]
+position = Vector2(1640, 720)
+post_id = "post_trial_depths"
+
+[node name="SwitchDepths" parent="Trials" instance=ExtResource("10_switch")]
+unique_name_in_owner = true
+position = Vector2(1740, 720)
+switch_id = "switch_trial_depths"
+
+[node name="CrackedWallWinds" parent="Trials" instance=ExtResource("9_cracked")]
+unique_name_in_owner = true
+position = Vector2(960, 640)
+wall_id = "wall_trial_winds"
+
+[node name="ApexDoor" parent="Trials" instance=ExtResource("11_door")]
+unique_name_in_owner = true
+position = Vector2(960, 440)
+door_id = "apex_gate"
+requires_switch = true
+
+[node name="BossSanctuary" type="Node2D" parent="."]
+
+[node name="OrbNature" parent="BossSanctuary" instance=ExtResource("10_switch")]
+unique_name_in_owner = true
+position = Vector2(720, 260)
+switch_id = "orb_nature"
+
+[node name="OrbTide" parent="BossSanctuary" instance=ExtResource("10_switch")]
+unique_name_in_owner = true
+position = Vector2(1200, 260)
+switch_id = "orb_tide"
+
+[node name="OrbStorm" parent="BossSanctuary" instance=ExtResource("9_cracked")]
+unique_name_in_owner = true
+position = Vector2(960, 140)
+wall_id = "orb_storm"
+
+[node name="BossMalakor" parent="BossSanctuary" instance=ExtResource("13_malakor")]
+unique_name_in_owner = true
+position = Vector2(960, 220)
+
+[node name="ExitPortal" parent="." instance=ExtResource("14_portal")]
+position = Vector2(960, 990)
+target_scene_path = "res://scenes/world/plateau.tscn"
+prompt_key = "PROMPT_EXIT_TO_PLATEAU"
+
+[node name="Player" parent="." instance=ExtResource("3_player")]
+position = Vector2(960, 880)
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(960, 880)
+limit_left = 0
+limit_top = 0
+limit_right = 1920
+limit_bottom = 1080
+position_smoothing_enabled = true
+position_smoothing_speed = 7.0
+
+[node name="HUD" parent="." instance=ExtResource("4_hud")]
+
+[node name="DialogueBox" parent="." instance=ExtResource("6_diag")]
+
+[node name="InventoryMenu" parent="." instance=ExtResource("5_inv")]

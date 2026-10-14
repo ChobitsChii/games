@@ -124,6 +124,8 @@ func _process_movement(delta: float) -> void:
 			throw_boomerang()
 		elif fmod(_auto_timer, 4.4) < delta:
 			fire_tether()
+		elif fmod(_auto_timer, 5.6) < delta:
+			place_bomb()
 	else:
 		input_vec = Input.get_vector("move_left", "move_right", "move_up", "move_down")
 
@@ -221,6 +223,7 @@ func _process_combat_inputs(delta: float) -> void:
 
 const BOOMERANG_SCENE: PackedScene = preload("res://scenes/objects/prismatic_boomerang.tscn")
 const TETHER_SCENE: PackedScene = preload("res://scenes/objects/kinetic_tether.tscn")
+const BOMB_SCENE: PackedScene = preload("res://scenes/objects/sonic_bomb.tscn")
 var active_boomerang: PrismaticBoomerang = null
 var active_tether: KineticTether = null
 var _tether_target_pos: Vector2 = Vector2.ZERO
@@ -240,6 +243,15 @@ func use_gadget(slot: int) -> void:
 		throw_boomerang()
 	elif gadget_id == "tether":
 		fire_tether()
+	elif gadget_id == "bombs":
+		place_bomb()
+
+
+func place_bomb() -> void:
+	var bomb = BOMB_SCENE.instantiate()
+	get_parent().add_child(bomb)
+	bomb.global_position = global_position + facing_direction * 45.0
+	AudioManager.play_sfx("dash", 1.4)
 
 
 func throw_boomerang() -> void:
