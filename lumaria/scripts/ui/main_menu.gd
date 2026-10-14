@@ -16,6 +16,7 @@ extends Control
 
 
 func _ready() -> void:
+	AudioManager.play_music("village")
 	_play_button.pressed.connect(_on_play_pressed)
 	_how_to_play_button.pressed.connect(_toggle_how_to_play.bind(true))
 	_close_how_button.pressed.connect(_toggle_how_to_play.bind(false))

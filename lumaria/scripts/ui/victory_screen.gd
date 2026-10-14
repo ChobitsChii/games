@@ -21,6 +21,7 @@ var _pulse_time: float = 0.0
 
 func _ready() -> void:
 	AudioManager.play_sfx("parry", 1.2)
+	AudioManager.play_music("victory")
 
 	title_label.text = tr("VICTORY_TITLE")
 	epilogue_title.text = tr("VICTORY_EPILOGUE_TITLE")

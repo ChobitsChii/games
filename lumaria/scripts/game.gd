@@ -32,6 +32,7 @@ func _ready() -> void:
 		player.autoplay = true
 
 	hud.update_state(inventory)
+	AudioManager.play_music("village")
 	EventBus.room_transition_requested.emit("ROOM_OAKHAVEN", "start")
 
 	resume_btn.pressed.connect(_toggle_pause.bind(false))

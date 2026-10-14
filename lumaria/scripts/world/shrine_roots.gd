@@ -36,7 +36,7 @@ func _ready() -> void:
 	inv.unlock_gadget("boomerang")
 	inv.equip_gadget(1, "boomerang")
 	hud.update_state(inv)
-
+	AudioManager.play_music("dungeon")
 	EventBus.room_transition_requested.emit("ROOM_SHRINE_ROOTS", "entrance")
 
 	# Schalter-Verbindung für Raum 2 (Bumerang über die Schlucht)

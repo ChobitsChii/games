@@ -30,6 +30,7 @@ func _ready() -> void:
 		player.autoplay = true
 
 	hud.update_state(inventory)
+	AudioManager.play_music("dungeon")
 	EventBus.room_transition_requested.emit("ROOM_PLATEAU", "peaks")
 
 	inventory_menu.closed.connect(func() -> void: hud.update_state(inventory))

@@ -273,7 +273,7 @@ lumaria/
    - Der finale **Turm des Ewigen Prismas** mit Multitool-Prüfungen.
    - Showdown gegen **Malakor, den Rissfürst** (3 epische Phasen mit Raumveränderungen).
    - Abspann, Sieges-Bildschirm, Post-Game-Erkundung.
-9. **M8 – Polish, Audio, Balancing & Release:**
+9. ✅ **M8 – Polish, Audio, Balancing & Release:**
    - Soundeffekte für alle Aktionen, atmosphärische Musik-Tracks.
    - Balancing der Gegner-HP, Schadenswerte und Kristallkosten.
    - Autopilot-Smoke-Test (Bot läuft durchs Dorf, öffnet Truhen, besiegt Gegner).
@@ -312,17 +312,17 @@ lumaria/
 
 ## 12. Abnahmekriterien (Definition of Done)
 
-- [ ] Vollständige Handlung spielbar: Von Oakhaven über die 3 Elementar-Schreine bis zum Turm des Ewigen Prismas und Abspann.
-- [ ] Alle Spielfiguren und Gegner besitzen saubere, hochauflösende 4-Wege-Bewegungsanimationen ohne Gleiten.
-- [ ] Kein einziges Pixel-Art-Asset; alle Grafiken modern, hochauflösend und mit linearem Texturfilter.
-- [ ] Strikt Nintendo-safe: Keine geschützten Namen, Symbole oder 1:1-Formen.
-- [ ] Echtes Metroidvania-Gameplay: 3 funktionierende Gadgets (Bumerang, Fangseil, Schall-Bomben), die neue Wege öffnen.
-- [ ] Schildblock und reaktives Parieren funktionieren präzise.
-- [ ] Dialogsystem mit Porträts, Schreibmaschinen-Animation und funktionierendem Quest-Log.
-- [ ] 3 speicherbare Spielstände via `SaveService`, Checkpoints und Truhen-Persistenz.
-- [ ] 100 % zweisprachig (DE / EN) über `i18n/lumaria.csv`, alle Tests in `tests/test_i18n.gd` grün.
-- [ ] Stabile 60 FPS im Web-Build (`gl_compatibility`), kein Ruckeln bei Dutzenden Partikeln oder Gegnern.
-- [ ] Smoke-Test (`tests/smoke.tscn`) läuft headless fehlerfrei durch.
+- [x] Vollständige Handlung spielbar: Von Oakhaven über die 3 Elementar-Schreine bis zum Turm des Ewigen Prismas und Abspann.
+- [x] Alle Spielfiguren und Gegner besitzen saubere, hochauflösende 4-Wege-Bewegungsanimationen ohne Gleiten.
+- [x] Kein einziges Pixel-Art-Asset; alle Grafiken modern, hochauflösend und mit linearem Texturfilter.
+- [x] Strikt Nintendo-safe: Keine geschützten Namen, Symbole oder 1:1-Formen.
+- [x] Echtes Metroidvania-Gameplay: 3 funktionierende Gadgets (Bumerang, Fangseil, Schall-Bomben), die neue Wege öffnen.
+- [x] Schildblock und reaktives Parieren funktionieren präzise.
+- [x] Dialogsystem mit Porträts, Schreibmaschinen-Animation und funktionierendem Quest-Log.
+- [x] 3 speicherbare Spielstände via `SaveService`, Checkpoints und Truhen-Persistenz.
+- [x] 100 % zweisprachig (DE / EN) über `i18n/lumaria.csv`, alle Tests in `tests/test_i18n.gd` grün.
+- [x] Stabile 60 FPS im Web-Build (`gl_compatibility`), kein Ruckeln bei Dutzenden Partikeln oder Gegnern.
+- [x] Smoke-Test (`tests/smoke.tscn`) läuft headless fehlerfrei durch.
 
 ---
 

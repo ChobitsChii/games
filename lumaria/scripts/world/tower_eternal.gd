@@ -46,7 +46,7 @@ func _ready() -> void:
 	inv.equip_gadget(1, "boomerang")
 	inv.equip_gadget(2, "bombs")
 	hud.update_state(inv)
-
+	AudioManager.play_music("boss")
 	EventBus.room_transition_requested.emit("ROOM_TOWER_ETERNAL", "cathedral")
 
 	# 1. Multitool-Prüfungen verbinden

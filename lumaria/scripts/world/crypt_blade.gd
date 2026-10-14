@@ -38,7 +38,7 @@ func _ready() -> void:
 	inv.equip_gadget(1, "boomerang")
 	inv.equip_gadget(2, "tether")
 	hud.update_state(inv)
-
+	AudioManager.play_music("dungeon")
 	EventBus.room_transition_requested.emit("ROOM_CRYPT_BLADE", "entrance")
 
 	# Schalterrätsel über der Schlucht

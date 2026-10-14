@@ -708,6 +708,39 @@ cat << 'EOF' > "$TARGET_DIR/index.html"
 				</div>
 			</article>
 
+			<!-- Lumaria: The Prismatic Odyssey -->
+			<article class="game-card" data-color="cyan">
+				<div class="card-header">
+					<div class="icon-wrapper">
+						<img src="lumaria/icon.svg" alt="Lumaria Icon">
+					</div>
+					<div class="title-wrap">
+						<h2>Lumaria</h2>
+						<div class="tags-row">
+							<span class="tag tag-ver">v1.0.0</span>
+							<span class="tag tag-ready">Vollversion</span>
+							<span class="tag tag-genre">Action-RPG</span>
+						</div>
+					</div>
+				</div>
+				<div class="card-body">
+					<p class="card-desc">Modernes Zelda-artiges Top-Down-Action-Adventure in nativer HD-Auflösung ohne Pixel-Art. Erkunde Lumaria, meistere 3 Gadgets und besiege den Rissfürsten Malakor.</p>
+					<ul class="features-list">
+						<li>3 thematische Dungeons & 4 epische Multi-Phasen-Bosse</li>
+						<li>3 Gadgets: Bumerang, Kinetisches Fangseil & Schall-Bomben</li>
+						<li>Schwertkombos, 360°-Wirbelattacke, Schild-Block & Timing-Parry</li>
+					</ul>
+				</div>
+				<div class="card-footer">
+					<a href="lumaria/" class="btn btn-primary" title="Lumaria im Browser spielen">
+						▶ Jetzt spielen
+					</a>
+					<a href="https://github.com/ChobitsChii/games/releases/tag/lumaria-latest" class="btn btn-secondary" title="Downloads & Releases">
+						📦
+					</a>
+				</div>
+			</article>
+
 		</div>
 	</main>
 

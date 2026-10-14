@@ -37,6 +37,7 @@ case "$GAME" in
 	"neon_breakout") DISPLAY_NAME="Neon Breakout" ;;
 	"asteroid_drift") DISPLAY_NAME="Asteroid Drift" ;;
 	"crypt_dash")    DISPLAY_NAME="Crypt Dash" ;;
+	"lumaria")       DISPLAY_NAME="Lumaria: The Prismatic Odyssey" ;;
 	*)               DISPLAY_NAME="$GAME" ;;
 esac
 

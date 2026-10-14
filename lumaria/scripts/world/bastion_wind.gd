@@ -39,7 +39,7 @@ func _ready() -> void:
 	inv.equip_gadget(1, "boomerang")
 	inv.equip_gadget(2, "bombs")
 	hud.update_state(inv)
-
+	AudioManager.play_music("dungeon")
 	EventBus.room_transition_requested.emit("ROOM_BASTION_WIND", "entrance")
 
 	if chasm_switch and chasm_door:
