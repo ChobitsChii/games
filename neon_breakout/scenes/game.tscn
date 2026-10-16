@@ -4,9 +4,29 @@
 [ext_resource type="PackedScene" path="res://scenes/paddle.tscn" id="2_paddle"]
 [ext_resource type="PackedScene" path="res://scenes/ball.tscn" id="3_ball"]
 [ext_resource type="PackedScene" path="res://scenes/hud.tscn" id="4_hud"]
+[ext_resource type="Material" path="res://scenes/background_material.tres" id="5_bgmat"]
+[ext_resource type="Script" path="res://scripts/fx/glow_environment.gd" id="6_glow"]
 
 [node name="Game" type="Node2D"]
 script = ExtResource("1_game")
+
+[node name="GlowEnvironment" type="WorldEnvironment" parent="."]
+script = ExtResource("6_glow")
+
+[node name="BackgroundLayer" type="CanvasLayer" parent="."]
+layer = -10
+
+[node name="Background" type="ColorRect" parent="BackgroundLayer"]
+material = ExtResource("5_bgmat")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Camera" type="Camera2D" parent="."]
+position = Vector2(960, 540)
 
 [node name="Walls" type="StaticBody2D" parent="."]
 collision_layer = 1

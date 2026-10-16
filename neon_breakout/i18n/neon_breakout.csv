@@ -10,3 +10,9 @@ MSG_GAME_OVER,Game Over,Game Over
 MSG_GAME_OVER_HINT,"Leertaste, Klick oder A-Taste für einen neuen Versuch","Press Space, click or A to try again"
 MSG_LEVEL_CLEAR,Level geschafft!,Level cleared!
 MSG_LEVEL_CLEAR_HINT,"Leertaste, Klick oder A-Taste für das nächste Level","Press Space, click or A for the next level"
+FX_QUALITY,Effekte,Effects
+FX_HIGH,Hoch,High
+FX_LOW,Niedrig,Low
+FX_SHAKE,Bildschirmwackeln,Screen shake
+FX_ON,An,On
+FX_OFF,Aus,Off

@@ -32,10 +32,14 @@ func _physics_process(_delta: float) -> void:
 
 
 func _finish(error: String) -> void:
+	set_physics_process(false)
+	# Klänge stoppen und der Audio-Engine kurz Zeit geben, damit beim Beenden nichts übrig bleibt.
+	Sfx.stop_all()
+	await get_tree().process_frame
+	OS.delay_msec(300)
 	if error == "":
 		print("Smoke-Test ok: Punkte=%d, Level=%d, Leben=%d" % [_game.score, _game.level, _game.lives])
 		get_tree().quit(0)
 	else:
 		printerr(error)
 		get_tree().quit(1)
-	set_physics_process(false)

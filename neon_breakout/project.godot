@@ -20,6 +20,8 @@ config/icon="res://icon.svg"
 SaveService="*res://addons/shared/services/save_service.gd"
 LocaleService="*res://addons/shared/services/locale_service.gd"
 DisplayService="*res://addons/shared/services/display_service.gd"
+FxSettings="*res://scripts/fx/fx_settings.gd"
+Sfx="*res://scripts/fx/sfx.gd"
 
 [display]
 
@@ -84,4 +86,5 @@ locale/translations=PackedStringArray("res://addons/shared/i18n/common.de.transl
 
 renderer/rendering_method="gl_compatibility"
 renderer/rendering_method.mobile="gl_compatibility"
+viewport/hdr_2d=true
 environment/defaults/default_clear_color=Color(0.039, 0.043, 0.102, 1)

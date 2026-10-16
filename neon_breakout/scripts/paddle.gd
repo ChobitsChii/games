@@ -13,22 +13,36 @@ var _auto_time := 0.0
 var _min_x := 0.0
 var _max_x := 0.0
 var _use_mouse := false
+## Aufprall-Impuls (1 → 0): Schläger wird kurz flacher, breiter und heller.
+var _pulse := 0.0
 var _style := StyleBoxFlat.new()
 
 
 func _ready() -> void:
 	var accent: Color = BreakoutConfig.PALETTE["accent"]
-	_style.bg_color = accent
-	_style.border_color = accent.lightened(0.5)
 	_style.set_border_width_all(2)
 	_style.set_corner_radius_all(12)
-	_style.shadow_color = Color(accent, 0.55)
-	_style.shadow_size = 16
+	_style.shadow_size = 18
+	_apply_colors(accent)
+	set_process(false)
 
 
 func set_bounds(left: float, right: float) -> void:
 	_min_x = left + SIZE.x * 0.5
 	_max_x = right - SIZE.x * 0.5
+
+
+## Kurzer optischer Impuls beim Ballkontakt (ändert nicht die Kollisionsform).
+func pulse() -> void:
+	_pulse = 1.0
+	set_process(true)
+
+
+func _process(delta: float) -> void:
+	_pulse = maxf(_pulse - delta * 7.0, 0.0)
+	if _pulse == 0.0:
+		set_process(false)
+	queue_redraw()
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -53,4 +67,14 @@ func _physics_process(delta: float) -> void:
 
 
 func _draw() -> void:
-	draw_style_box(_style, Rect2(-SIZE * 0.5, SIZE))
+	var accent: Color = BreakoutConfig.PALETTE["accent"]
+	_apply_colors(accent.lerp(Color.WHITE, _pulse * 0.6))
+	var size := Vector2(SIZE.x * (1.0 + 0.08 * _pulse), SIZE.y * (1.0 - 0.3 * _pulse))
+	draw_style_box(_style, Rect2(-size * 0.5 + Vector2(0.0, (SIZE.y - size.y) * 0.5), size))
+
+
+func _apply_colors(color: Color) -> void:
+	# Leicht über 1: der Schläger leuchtet im Glow-Effekt.
+	_style.bg_color = Color(color.r * 1.25, color.g * 1.25, color.b * 1.25, 1.0)
+	_style.border_color = color.lightened(0.5)
+	_style.shadow_color = Color(color, 0.55)

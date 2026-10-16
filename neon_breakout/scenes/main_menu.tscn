@@ -1,6 +1,8 @@
 [gd_scene format=3]
 
 [ext_resource type="Script" path="res://scripts/main_menu.gd" id="1_menu"]
+[ext_resource type="Material" path="res://scenes/background_material.tres" id="2_bgmat"]
+[ext_resource type="Script" path="res://scripts/fx/glow_environment.gd" id="3_glow"]
 
 [node name="MainMenu" type="Control"]
 layout_mode = 3
@@ -11,7 +13,11 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_menu")
 
+[node name="GlowEnvironment" type="WorldEnvironment" parent="."]
+script = ExtResource("3_glow")
+
 [node name="Background" type="ColorRect" parent="."]
+material = ExtResource("2_bgmat")
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -19,7 +25,6 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
-color = Color(0.039, 0.043, 0.102, 1)
 
 [node name="Center" type="CenterContainer" parent="."]
 layout_mode = 1
@@ -30,39 +35,50 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="Box" type="VBoxContainer" parent="Center"]
-custom_minimum_size = Vector2(560, 0)
+custom_minimum_size = Vector2(620, 0)
 layout_mode = 2
-theme_override_constants/separation = 22
+theme_override_constants/separation = 18
 
 [node name="Title" type="Label" parent="Center/Box"]
+unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(0, 0.898, 1, 1)
-theme_override_font_sizes/font_size = 120
+theme_override_font_sizes/font_size = 150
 text = "GAME_TITLE"
 horizontal_alignment = 1
 
 [node name="Spacer" type="Control" parent="Center/Box"]
-custom_minimum_size = Vector2(0, 48)
+custom_minimum_size = Vector2(0, 36)
 layout_mode = 2
 
 [node name="PlayButton" type="Button" parent="Center/Box"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 80)
+custom_minimum_size = Vector2(0, 84)
 layout_mode = 2
 text = "COMMON_PLAY"
 
 [node name="LanguageButton" type="Button" parent="Center/Box"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 80)
+custom_minimum_size = Vector2(0, 72)
 layout_mode = 2
 
 [node name="DisplayButton" type="Button" parent="Center/Box"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 80)
+custom_minimum_size = Vector2(0, 72)
+layout_mode = 2
+
+[node name="EffectsButton" type="Button" parent="Center/Box"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 72)
+layout_mode = 2
+
+[node name="ShakeButton" type="Button" parent="Center/Box"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 72)
 layout_mode = 2
 
 [node name="QuitButton" type="Button" parent="Center/Box"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 80)
+custom_minimum_size = Vector2(0, 72)
 layout_mode = 2
 text = "COMMON_QUIT"
