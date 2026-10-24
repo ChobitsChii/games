@@ -18,6 +18,8 @@ var paddle: Paddle
 ## Fällt der Ball unter diese y-Koordinate, ist er verloren.
 var bottom_y := 1200.0
 
+## Horizontaler Abstand zur Schlägermitte, solange der Ball klebt.
+var _stick_offset := 0.0
 var _trail: Line2D
 
 
@@ -25,9 +27,11 @@ func _ready() -> void:
 	_build_trail()
 
 
-func stick_to_paddle() -> void:
+## Lässt den Ball am Schläger kleben (`offset_x` = Abstand zur Schlägermitte).
+func stick_to_paddle(offset_x: float = 0.0) -> void:
 	mode = Mode.STUCK
 	velocity = Vector2.ZERO
+	_stick_offset = offset_x
 	_follow_paddle()
 
 
@@ -36,9 +40,23 @@ func launch(direction: Vector2) -> void:
 	mode = Mode.FLYING
 
 
+## Startrichtung eines klebenden Balls: wie ein Abprall an dieser Stelle des Schlägers.
+func release_direction() -> Vector2:
+	if paddle == null:
+		return Vector2.UP
+	return BreakoutMath.paddle_bounce(global_position.x, paddle.global_position.x, paddle.width, 1.0)
+
+
 func stop() -> void:
 	mode = Mode.IDLE
 	velocity = Vector2.ZERO
+
+
+## Ändert das Tempo sofort, auch während des Flugs (Richtung bleibt).
+func set_speed(new_speed: float) -> void:
+	speed = new_speed
+	if mode == Mode.FLYING and velocity != Vector2.ZERO:
+		velocity = velocity.normalized() * speed
 
 
 func _physics_process(delta: float) -> void:
@@ -66,7 +84,7 @@ func _process(_delta: float) -> void:
 
 func _follow_paddle() -> void:
 	if paddle != null:
-		global_position = paddle.global_position + Vector2(0.0, -(Paddle.SIZE.y * 0.5 + RADIUS + 1.0))
+		global_position = paddle.global_position + Vector2(_stick_offset, -(Paddle.SIZE.y * 0.5 + RADIUS + 1.0))
 
 
 func _on_collision(collision: KinematicCollision2D) -> void:
@@ -75,7 +93,8 @@ func _on_collision(collision: KinematicCollision2D) -> void:
 	var kind := &"wall"
 	if collider is Paddle and normal.y < -0.5:
 		# Nur die Oberseite lenkt gezielt ab, Seitentreffer prallen normal ab.
-		velocity = BreakoutMath.paddle_bounce(global_position.x, (collider as Paddle).global_position.x, Paddle.SIZE.x, speed)
+		var hit_paddle := collider as Paddle
+		velocity = BreakoutMath.paddle_bounce(global_position.x, hit_paddle.global_position.x, hit_paddle.width, speed)
 		kind = &"paddle"
 	else:
 		velocity = velocity.bounce(normal)

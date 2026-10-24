@@ -54,7 +54,7 @@ data/levels/level_01.txt ...   # ASCII-Level: Zeichen = Blocktyp
 1. ✅ **M1 Spielkern:** Schläger, Ball, Wände, Blöcke, Leben, Punkte (mit Platzhalter-Optik)
 2. ✅ **M2 Optik-Vertical-Slice** (von Jennifer freigegeben, Release v0.2.0): Ein Level in **finaler Optik** (Glow, Partikel, Ball-Schweif, Hintergrund-Shader, eigenes UI-Theme, Shake, Sound). Dient als Optik-Check mit Jennifer, bevor wir weiterbauen.
 3. ✅ **M3 Level:** ASCII-Level-Loader, 10 Level, Fortschritt zwischen Leveln
-4. **M4 Power-Ups** und Combo-System
+4. ✅ **M4 Power-Ups** und Combo-System
 5. **M5 Juice:** Feinschliff von Effekten, Sound und Musik
 6. **M6 Menüs:** Hauptmenü, Pause, Highscore (`user://`), Optionen (Sprache, Anzeigemodus, Lautstärke, Effektqualität), Credits-Bildschirm
 7. **M7 Politur & Export:** Balancing, Tests (inkl. Lokalisierung), Builds für alle 3 Plattformen, README

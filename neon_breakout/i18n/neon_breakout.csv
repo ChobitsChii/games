@@ -16,3 +16,10 @@ FX_LOW,Niedrig,Low
 FX_SHAKE,Bildschirmwackeln,Screen shake
 FX_ON,An,On
 FX_OFF,Aus,Off
+HUD_COMBO_FMT,Combo ×%s,Combo ×%s
+PU_WIDE,Breiter Schläger,Wide paddle
+PU_MULTI,Multiball,Multiball
+PU_LASER,Laser,Laser
+PU_STICKY,Klebrig,Sticky
+PU_SLOW,Langsam,Slow
+PU_LIFE,Extraleben,Extra life

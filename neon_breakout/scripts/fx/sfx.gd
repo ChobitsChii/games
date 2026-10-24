@@ -65,6 +65,13 @@ func _build_sounds() -> void:
 			SfxSynth.tone(W.NOISE, 0.0, 0.0, 0.25, 0.28, 0.001, 2.0)))
 	_add(&"level_clear", SfxSynth.sequence([523.25, 659.25, 783.99, 1046.5], 0.11, W.SINE, 0.5, 0.4))
 	_add(&"game_over", SfxSynth.sequence([392.0, 329.63, 261.63, 196.0], 0.18, W.TRIANGLE, 0.55, 0.2))
+	_add(&"powerup", SfxSynth.sequence([523.25, 783.99, 1046.5], 0.07, W.SINE, 0.45, 0.4))
+	_add(&"multiball", SfxSynth.sequence([392.0, 523.25, 659.25, 783.99], 0.06, W.TRIANGLE, 0.5, 0.3))
+	_add(&"life_up", SfxSynth.sequence([523.25, 659.25, 783.99, 1046.5, 1318.5], 0.08, W.SINE, 0.5, 0.5))
+	_add(&"laser", SfxSynth.mix(
+			SfxSynth.tone(W.SQUARE, 1500.0, 500.0, 0.10, 0.3, 0.002, 1.8),
+			SfxSynth.tone(W.NOISE, 0.0, 0.0, 0.025, 0.12, 0.001, 3.0)))
+	_add(&"stick", SfxSynth.tone(W.SINE, 260.0, 380.0, 0.07, 0.4, 0.003, 1.6))
 	_add(&"ui_click", SfxSynth.tone(W.SINE, 900.0, 700.0, 0.05, 0.4, 0.002, 1.5))
 
 
