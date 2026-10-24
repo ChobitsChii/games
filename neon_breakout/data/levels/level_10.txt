@@ -1,0 +1,11 @@
+# Level 10: Finale
+# Zeichen: 1-3 = Block mit so vielen Treffern, X = unzerstoerbar, . = leer
+3333333333
+3XXXXXXXX3
+3222222223
+32X1111X23
+322X33X223
+32X1111X23
+3222222223
+3XXXXXXXX3
+3333333333

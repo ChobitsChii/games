@@ -1,0 +1,9 @@
+# Level 6: Tore
+# Zeichen: 1-3 = Block mit so vielen Treffern, X = unzerstoerbar, . = leer
+1111111111
+X.2222222X
+X.2333332X
+X.2......X
+X.2222222X
+X.........
+1111111111

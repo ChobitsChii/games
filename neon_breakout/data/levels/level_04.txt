@@ -1,0 +1,8 @@
+# Level 4: Pyramide
+# Zeichen: 1-3 = Block mit so vielen Treffern, X = unzerstoerbar, . = leer
+....11....
+...1221...
+..123321..
+.12333321.
+1233333321
+1111111111

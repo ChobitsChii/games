@@ -1,0 +1,9 @@
+# Level 5: Säulen
+# Zeichen: 1-3 = Block mit so vielen Treffern, X = unzerstoerbar, . = leer
+1.2.3.3.2.
+1.2.3.3.2.
+1.2.3.3.2.
+1.2.3.3.2.
+1.2.3.3.2.
+1.2.3.3.2.
+1.2.3.3.2.

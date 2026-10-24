@@ -55,9 +55,11 @@ func _unhandled_input(event: InputEvent) -> void:
 func _physics_process(delta: float) -> void:
 	var x := global_position.x
 	if auto_target != null:
-		# Wechselnder Versatz, damit der Autopilot verschiedene Abprallwinkel trifft.
+		# Wechselnder Versatz aus zwei unregelmäßigen Wellen: verschiedene Abprallwinkel,
+		# und der Ball läuft nicht in einer festen Schleife.
 		_auto_time += delta
-		var aim := auto_target.global_position.x + sin(_auto_time * 1.7) * SIZE.x * 0.4
+		var wobble := 0.6 * sin(_auto_time * 1.7) + 0.4 * sin(_auto_time * 0.53 + 1.3)
+		var aim := auto_target.global_position.x + wobble * SIZE.x * 0.42
 		x = move_toward(x, aim, move_speed * delta)
 	elif _use_mouse:
 		x = move_toward(x, get_global_mouse_position().x, move_speed * 3.0 * delta)

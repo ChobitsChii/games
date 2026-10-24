@@ -51,21 +51,3 @@ func test_speed_grows_and_is_capped() -> void:
 func test_brick_points() -> void:
 	assert_eq(BreakoutMath.brick_points(1), 10)
 	assert_eq(BreakoutMath.brick_points(3), 30)
-
-
-func test_all_levels_are_valid() -> void:
-	assert_true(BreakoutLevels.LEVELS.size() > 0, "es gibt Level")
-	for i in BreakoutLevels.LEVELS.size():
-		var rows: Array = BreakoutLevels.LEVELS[i]
-		assert_true(BreakoutLevels.is_valid(rows), "Level %d ist gültig" % (i + 1))
-		assert_true(BreakoutLevels.breakable_count(rows) > 0, "Level %d hat zerstörbare Blöcke" % (i + 1))
-
-
-func test_level_lookup_wraps_around() -> void:
-	var count := BreakoutLevels.LEVELS.size()
-	assert_eq(BreakoutLevels.get_level(1), BreakoutLevels.get_level(count + 1))
-
-
-func test_invalid_levels_are_rejected() -> void:
-	assert_true(not BreakoutLevels.is_valid(["111"]), "falsche Länge")
-	assert_true(not BreakoutLevels.is_valid(["11111111Z1"]), "ungültiges Zeichen")

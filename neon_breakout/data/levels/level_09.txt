@@ -1,0 +1,10 @@
+# Level 9: Festung
+# Zeichen: 1-3 = Block mit so vielen Treffern, X = unzerstoerbar, . = leer
+X1X1XX1X1X
+1222222221
+X23333332X
+1232222321
+X23X..X32X
+1232222321
+X23333332X
+1222222221
