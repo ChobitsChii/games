@@ -30,7 +30,12 @@ Der Seed steht beim Start in der Konsole. Bitte bei Fehlermeldungen angeben.
 - Bildschirmwackeln und Zeitlupe beim letzten Block
 - Synthetisierte Soundeffekte (Töne werden bei Serien höher), keine Audiodateien nötig
 - Schrift Rajdhani (OFL), eigenes UI-Theme
-- Im Hauptmenü einstellbar: **Effekte** (Hoch/Niedrig, Niedrig schaltet Glow aus und reduziert Funken) und **Bildschirmwackeln** (An/Aus)
+- Unter **Optionen** einstellbar: **Effekte** (Hoch/Niedrig, Niedrig schaltet Glow aus und reduziert Funken) und **Bildschirmwackeln** (An/Aus)
+
+## Menüs und Optionen
+- Hauptmenü: Spielen, Optionen, Credits, Beenden (nicht im Web). Der Rekord steht unter dem Titel und bleibt nach dem Neustart erhalten.
+- Optionen: Sprache (DE/EN), Anzeigemodus, Lautstärke (gesamt, Musik, Effekte), Effektqualität, Bildschirmwackeln, Musik. Alles wird gespeichert.
+- Pause (`Esc`/`P`): Fortsetzen oder zurück ins Hauptmenü.
 
 ## Power-Ups und Combo
 Jeder zerstörte Block lässt mit 12 % Wahrscheinlichkeit ein Item fallen. Der Schläger sammelt es ein, am unteren Rand verschwindet es.
@@ -55,8 +60,8 @@ Jeder zerstörte Block lässt mit 12 % Wahrscheinlichkeit ein Item fallen. Der S
 - Punkte, Leben und Rekord bleiben zwischen den Leveln erhalten.
 
 ## Stand
-- M0 (Setup), M1 (Spielkern), M2 (Optik), M3 (Level) und M4 (Power-Ups, Combo) M5 (Juice, Musik) und M6 (Menüs, Optionen, Credits) fertig.
-- Nächster Schritt: M7 (Politur und Export).
+- M0 (Setup), M1 (Spielkern), M2 (Optik), M3 (Level), M4 (Power-Ups, Combo), M5 (Juice, Musik), M6 (Menüs, Optionen, Credits) und M7 (Politur, Export) fertig.
+- Vollständig spielbar, Release ab `v1.0.0`.
 - Musik und Soundeffekte werden im Code synthetisiert.
 
 Siehe [Plan](../plans/01_neon_breakout.md).

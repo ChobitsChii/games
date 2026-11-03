@@ -57,7 +57,7 @@ data/levels/level_01.txt ...   # ASCII-Level: Zeichen = Blocktyp
 4. ✅ **M4 Power-Ups** und Combo-System
 5. ✅ **M5 Juice:** Feinschliff von Effekten, Sound und Musik
 6. ✅ **M6 Menüs:** Hauptmenü, Pause, Highscore (`user://`), Optionen (Sprache, Anzeigemodus, Lautstärke, Effektqualität), Credits-Bildschirm
-7. **M7 Politur & Export:** Balancing, Tests (inkl. Lokalisierung), Builds für alle 3 Plattformen, README
+7. ✅ **M7 Politur & Export:** Balancing, Tests (inkl. Lokalisierung), Builds für alle 3 Plattformen, README
 
 ## Hinweise zur Umsetzung (M2–M7)
 - **Stand:** M0 und M1 sind fertig (Ball, Schläger, Blöcke, HUD, Menü). Der Abprall wird in `BreakoutMath` berechnet und ist getestet.
@@ -70,12 +70,12 @@ data/levels/level_01.txt ...   # ASCII-Level: Zeichen = Blocktyp
 - **Sound:** Töne ggf. per Code synthetisieren (`AudioStreamWAV` mit berechneten Samples), wenn keine passenden CC0-Dateien gefunden werden. Dann steht "selbst erzeugt" in den Credits.
 
 ### Abnahmekriterien
-- [ ] Alle Meilensteine M2–M7 abgeschlossen, 10 Level spielbar
-- [ ] Optik-Vertical-Slice (M2) von Jennifer freigegeben, bevor M3 beginnt
-- [ ] Alle Power-Ups funktionieren, Multiball verliert Leben erst beim letzten Ball
-- [ ] Rekord bleibt nach Neustart erhalten
-- [ ] Alles zweisprachig, Vollbild-Umschaltung in Menü und per `F11`
-- [ ] `tools/run_tests.sh` grün, Linux-, Windows- und Web-Build laufen
+- [x] Alle Meilensteine M2–M7 abgeschlossen, 10 Level spielbar
+- [x] Optik-Vertical-Slice (M2) von Jennifer freigegeben, bevor M3 beginnt
+- [x] Alle Power-Ups funktionieren, Multiball verliert Leben erst beim letzten Ball
+- [x] Rekord bleibt nach Neustart erhalten
+- [x] Alles zweisprachig, Vollbild-Umschaltung in Menü und per `F11`
+- [x] `tools/run_tests.sh` grün, Linux-, Windows- und Web-Build laufen
 
 ## Tests
 - Abprallwinkel-Funktion (Unit-Test)
