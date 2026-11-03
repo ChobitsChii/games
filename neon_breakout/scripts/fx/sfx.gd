@@ -72,6 +72,7 @@ func _build_sounds() -> void:
 			SfxSynth.tone(W.SQUARE, 1500.0, 500.0, 0.10, 0.3, 0.002, 1.8),
 			SfxSynth.tone(W.NOISE, 0.0, 0.0, 0.025, 0.12, 0.001, 3.0)))
 	_add(&"stick", SfxSynth.tone(W.SINE, 260.0, 380.0, 0.07, 0.4, 0.003, 1.6))
+	_add(&"combo", SfxSynth.sequence([880.0, 1108.7, 1318.5, 1760.0], 0.05, W.SINE, 0.45, 0.5))
 	_add(&"ui_click", SfxSynth.tone(W.SINE, 900.0, 700.0, 0.05, 0.4, 0.002, 1.5))
 
 

@@ -22,6 +22,7 @@ LocaleService="*res://addons/shared/services/locale_service.gd"
 DisplayService="*res://addons/shared/services/display_service.gd"
 FxSettings="*res://scripts/fx/fx_settings.gd"
 Sfx="*res://scripts/fx/sfx.gd"
+Music="*res://scripts/fx/music.gd"
 
 [display]
 

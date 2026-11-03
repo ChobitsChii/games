@@ -7,6 +7,7 @@ extends Control
 @onready var _display_button: Button = %DisplayButton
 @onready var _effects_button: Button = %EffectsButton
 @onready var _shake_button: Button = %ShakeButton
+@onready var _music_button: Button = %MusicButton
 @onready var _quit_button: Button = %QuitButton
 
 var _time := 0.0
@@ -20,12 +21,15 @@ func _ready() -> void:
 	_display_button.pressed.connect(_click.bind(DisplayService.cycle_mode))
 	_effects_button.pressed.connect(_click.bind(FxSettings.cycle_quality))
 	_shake_button.pressed.connect(_click.bind(FxSettings.toggle_shake))
+	_music_button.pressed.connect(_click.bind(Music.toggle))
 	_quit_button.pressed.connect(get_tree().quit)
 	# Im Browser gibt es nichts zu beenden.
 	_quit_button.visible = not OS.has_feature("web")
 	LocaleService.language_changed.connect(func(_code: String) -> void: _refresh())
 	DisplayService.mode_changed.connect(func(_mode: int) -> void: _refresh())
 	FxSettings.changed.connect(_refresh)
+	Music.enabled_changed.connect(func(_enabled: bool) -> void: _refresh())
+	Transition.fade_in(self)
 	_refresh()
 	_play_button.grab_focus()
 
@@ -42,6 +46,7 @@ func _refresh() -> void:
 	_display_button.text = "%s: %s" % [tr("COMMON_DISPLAY_MODE"), tr(DisplayService.get_mode_key())]
 	_effects_button.text = "%s: %s" % [tr("FX_QUALITY"), tr(FxSettings.QUALITY_KEYS[FxSettings.quality])]
 	_shake_button.text = "%s: %s" % [tr("FX_SHAKE"), tr("FX_ON" if FxSettings.shake_enabled else "FX_OFF")]
+	_music_button.text = "%s: %s" % [tr("FX_MUSIC"), tr("FX_ON" if Music.enabled else "FX_OFF")]
 
 
 func _click(action: Callable) -> void:
@@ -51,4 +56,4 @@ func _click(action: Callable) -> void:
 
 func _on_play_pressed() -> void:
 	Sfx.play(&"ui_click")
-	get_tree().change_scene_to_file("res://scenes/game.tscn")
+	Transition.change_scene(get_tree(), "res://scenes/game.tscn")

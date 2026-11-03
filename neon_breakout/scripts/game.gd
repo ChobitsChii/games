@@ -16,6 +16,8 @@ const FIRST_ROW_Y := 220.0
 ## Kurze Sperre nach Zustandswechseln, damit Dauerklicken nichts überspringt.
 const INPUT_LOCK_SECONDS := 0.6
 const LASER_COOLDOWN := 0.22
+## Alle so viele Treffer in Folge gibt es einen kleinen Jubel-Effekt.
+const COMBO_MILESTONE := 5
 
 ## Automatischer Spieler für Tests (Schläger folgt dem Ball, Start ohne Eingabe).
 @export var autoplay := false
@@ -63,6 +65,8 @@ func _ready() -> void:
 	_hud.set_score(score)
 	_hud.set_best(best)
 	_hud.set_lives(lives)
+	Music.set_muffled(false)
+	Transition.fade_in(self)
 	_start_level()
 
 
@@ -99,6 +103,7 @@ func _process(delta: float) -> void:
 
 func _exit_tree() -> void:
 	Engine.time_scale = 1.0
+	Music.set_muffled(false)
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -221,6 +226,7 @@ func _start_level() -> void:
 				_bricks_remaining += 1
 				brick.destroyed.connect(_on_brick_destroyed)
 	_hud.set_level(level)
+	Music.set_level(level)
 	_prepare_launch()
 
 
@@ -388,7 +394,9 @@ func _set_streak(value: int) -> void:
 
 func _on_brick_destroyed(brick: Brick) -> void:
 	var multiplier := PowerUps.combo_multiplier(_streak)
-	score += int(round(BreakoutMath.brick_points(brick.max_hp) * multiplier))
+	var points := int(round(BreakoutMath.brick_points(brick.max_hp) * multiplier))
+	score += points
+	ScorePopup.spawn(self, brick.position, points, multiplier)
 	_bricks_destroyed += 1
 	_bricks_remaining -= 1
 	_update_ball_speeds()
@@ -407,6 +415,7 @@ func _on_brick_destroyed(brick: Brick) -> void:
 	_hud.show_message("MSG_LEVEL_CLEAR", "MSG_LEVEL_CLEAR_HINT")
 	Sfx.play(&"level_clear")
 	add_shake(9.0)
+	_celebrate()
 	if not autoplay:
 		Engine.time_scale = 0.3
 		_slowmo_until_msec = Time.get_ticks_msec() + 450
@@ -435,6 +444,7 @@ func _on_ball_lost(ball: Ball) -> void:
 	_set_state(State.GAME_OVER)
 	_hud.show_message("MSG_GAME_OVER", "MSG_GAME_OVER_HINT")
 	Sfx.play(&"game_over")
+	Music.set_muffled(true)
 
 
 ## Jeder Treffer: Ton (höher bei Serien), Funken, kleines Wackeln.
@@ -444,6 +454,8 @@ func _on_brick_hit(brick: Brick, will_break: bool) -> void:
 		Burst.spawn(self, brick.position, brick.get_color(), FxSettings.scaled(5), 220.0, 0.3, Vector2.ZERO, 180.0, 0.7)
 		return
 	_set_streak(_streak + 1)
+	if _streak % COMBO_MILESTONE == 0:
+		_combo_milestone()
 	var pitch := 1.0 + 0.06 * minf(_streak, 12.0)
 	Sfx.play(&"brick_break" if will_break else &"brick_hit", pitch)
 	if not will_break:
@@ -486,6 +498,24 @@ func _effect_entries() -> Array:
 	return entries
 
 
+## Kleiner Jubel bei einer Combo-Serie: Ton, Blitz, goldene Funken über dem Schläger.
+func _combo_milestone() -> void:
+	Sfx.play(&"combo", 1.0 + 0.04 * minf(_streak / float(COMBO_MILESTONE), 6.0))
+	_hud.flash(BreakoutConfig.PALETTE["warn"], 0.12)
+	Burst.spawn(self, _paddle.global_position + Vector2(0.0, -30.0), BreakoutConfig.PALETTE["warn"], FxSettings.scaled(18), 420.0, 0.6, Vector2.UP, 100.0, 0.9)
+
+
+## Feuerwerk über dem Spielfeld, wenn das Level geschafft ist.
+func _celebrate() -> void:
+	var field := BreakoutConfig.FIELD
+	var colors: Array = BreakoutConfig.BRICK_COLORS.values()
+	for i in 7:
+		var pos := Vector2(field.position.x + field.size.x * (0.1 + 0.13 * i), field.position.y + field.size.y * _fx_rng.randf_range(0.45, 0.7))
+		var color: Color = colors[_fx_rng.randi() % colors.size()]
+		Burst.spawn(self, pos, color, FxSettings.scaled(34), _fx_rng.randf_range(520.0, 760.0), 1.1, Vector2.UP, 75.0, 1.1)
+	_hud.flash(BreakoutConfig.PALETTE["accent"], 0.22)
+
+
 ## Bildschirmwackeln (Stärke in Pixeln), abschaltbar in den Optionen.
 func add_shake(amount: float) -> void:
 	_shake = maxf(_shake, amount * FxSettings.shake_scale())
@@ -494,9 +524,11 @@ func add_shake(amount: float) -> void:
 func _set_paused(value: bool) -> void:
 	_paused = value
 	get_tree().paused = value
+	Music.set_muffled(value)
 	_hud.show_pause(value)
 
 
 func _to_menu() -> void:
 	get_tree().paused = false
-	get_tree().change_scene_to_file("res://scenes/main_menu.tscn")
+	Music.set_muffled(false)
+	Transition.change_scene(get_tree(), "res://scenes/main_menu.tscn")

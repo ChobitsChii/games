@@ -5,6 +5,7 @@
 | Rajdhani (SemiBold, Bold) | Indian Type Foundry | https://fonts.google.com/specimen/Rajdhani | SIL Open Font License 1.1 (Text: `assets/fonts/OFL.txt`) | Alle Texte, Titel |
 | Icon (`icon.svg`) | selbst erstellt | – | – | Projekt-Icon |
 | Soundeffekte | selbst erzeugt (Code-Synthese, `scripts/fx/sfx_synth.gd`) | – | – | Alle Klänge |
+| Musik | selbst erzeugt (Code-Synthese, `scripts/fx/music_synth.gd`, `music_renderer.gd`) | – | – | Menü- und Spielmusik |
 | Hintergrund | selbst erstellt (Shader `shaders/background.gdshader`) | – | – | Menü und Spiel |
 
 Alle anderen Grafiken und Effekte (Blöcke, Ball, Schläger, Funken, Glow) werden im Spiel per Code gezeichnet.
