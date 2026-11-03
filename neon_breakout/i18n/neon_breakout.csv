@@ -24,3 +24,14 @@ PU_STICKY,Klebrig,Sticky
 PU_SLOW,Langsam,Slow
 PU_LIFE,Extraleben,Extra life
 FX_MUSIC,Musik,Music
+MENU_OPTIONS,Optionen,Options
+MENU_CREDITS,Credits,Credits
+OPT_VOLUME_MASTER,Gesamtlautstärke,Master volume
+OPT_VOLUME_MUSIC,Musiklautstärke,Music volume
+OPT_VOLUME_SFX,Effektlautstärke,Effects volume
+CREDITS_FONT,Schrift Rajdhani,Rajdhani font
+CREDITS_SFX,Soundeffekte,Sound effects
+CREDITS_MUSIC,Musik,Music
+CREDITS_GRAPHICS,"Grafik, Hintergrund und Effekte","Graphics, background and effects"
+CREDITS_ENGINE,Godot Engine,Godot Engine
+CREDITS_SELF,selbst erstellt,self-made

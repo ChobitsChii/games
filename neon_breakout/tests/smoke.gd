@@ -26,6 +26,10 @@ func _ready() -> void:
 	var menu: Control = (load("res://scenes/main_menu.tscn") as PackedScene).instantiate()
 	add_child(menu)
 	menu.queue_free()
+	for path in ["res://scenes/options.tscn", "res://scenes/credits.tscn"]:
+		var screen: Control = (load(path) as PackedScene).instantiate()
+		add_child(screen)
+		screen.queue_free()
 
 	_game = (load("res://scenes/game.tscn") as PackedScene).instantiate()
 	_game.autoplay = true

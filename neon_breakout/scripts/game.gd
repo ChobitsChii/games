@@ -436,10 +436,7 @@ func _on_ball_lost(ball: Ball) -> void:
 	if lives > 0:
 		_prepare_launch()
 		return
-	if score > best:
-		best = score
-		SaveService.set_value("highscore", "best", best)
-		_hud.set_best(best)
+	_save_best()
 	_reset_effects()
 	_set_state(State.GAME_OVER)
 	_hud.show_message("MSG_GAME_OVER", "MSG_GAME_OVER_HINT")
@@ -528,7 +525,16 @@ func _set_paused(value: bool) -> void:
 	_hud.show_pause(value)
 
 
+## Speichert den Rekord, falls er übertroffen wurde (auch beim Verlassen mitten im Spiel).
+func _save_best() -> void:
+	if score > best:
+		best = score
+		SaveService.set_value("highscore", "best", best)
+		_hud.set_best(best)
+
+
 func _to_menu() -> void:
+	_save_best()
 	get_tree().paused = false
 	Music.set_muffled(false)
 	Transition.change_scene(get_tree(), "res://scenes/main_menu.tscn")

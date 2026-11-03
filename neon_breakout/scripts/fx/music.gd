@@ -35,6 +35,7 @@ func _ready() -> void:
 		return
 	enabled = SaveService.get_value("settings", "music", true)
 	_setup_bus()
+	AudioSettings.apply()
 	_player = AudioStreamPlayer.new()
 	_player.bus = BUS_NAME
 	_player.volume_db = SILENT_DB

@@ -55,8 +55,8 @@ Jeder zerstörte Block lässt mit 12 % Wahrscheinlichkeit ein Item fallen. Der S
 - Punkte, Leben und Rekord bleiben zwischen den Leveln erhalten.
 
 ## Stand
-- M0 (Setup), M1 (Spielkern), M2 (Optik), M3 (Level) und M4 (Power-Ups, Combo) und M5 (Juice, Musik) fertig.
-- Nächster Schritt: M6 (Menüs, Pause, Highscore, Optionen).
+- M0 (Setup), M1 (Spielkern), M2 (Optik), M3 (Level) und M4 (Power-Ups, Combo) M5 (Juice, Musik) und M6 (Menüs, Optionen, Credits) fertig.
+- Nächster Schritt: M7 (Politur und Export).
 - Musik und Soundeffekte werden im Code synthetisiert.
 
 Siehe [Plan](../plans/01_neon_breakout.md).
