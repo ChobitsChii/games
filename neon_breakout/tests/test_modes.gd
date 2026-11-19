@@ -218,3 +218,13 @@ func test_coach_aim_leads_ball_toward_target() -> void:
 	assert_true(DemoCoach.aim_ratio(1000.0, 500.0) < 0.0, "Ziel links: nach links")
 	assert_true(absf(DemoCoach.aim_ratio(500.0, 1500.0)) > absf(DemoCoach.aim_ratio(500.0, 560.0)), "weiter weg = weiter außen")
 	assert_true(absf(DemoCoach.aim_ratio(0.0, 5000.0)) <= 0.85, "nie über den Rand hinaus")
+
+
+func test_coach_detour_only_when_enough_time() -> void:
+	# Ball steigt noch, Item nah: Umweg möglich.
+	assert_true(DemoCoach.can_detour(600.0, -800.0, 120.0, 1010.0, 300.0, 300.0, 1200.0), "steigender Ball, genug Zeit")
+	# Ball fällt und ist fast unten: kein Umweg.
+	assert_true(not DemoCoach.can_detour(950.0, 800.0, 120.0, 1010.0, 300.0, 300.0, 1200.0), "Ball fast unten")
+	# Ball fällt, noch weit oben, Item weit weg: zu knapp.
+	assert_true(not DemoCoach.can_detour(700.0, 900.0, 120.0, 1010.0, 900.0, 900.0, 1200.0), "zu weit weg")
+	assert_true(DemoCoach.can_detour(300.0, 600.0, 120.0, 1010.0, 100.0, 100.0, 1200.0), "fallender Ball weit oben, Item nah")

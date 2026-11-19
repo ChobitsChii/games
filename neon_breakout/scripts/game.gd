@@ -45,6 +45,8 @@ var rng := RandomNumberGenerator.new()
 ## Wahrscheinlichkeit für einen Item-Drop (Tests dürfen sie ändern).
 var drop_chance := PowerUps.DROP_CHANCE
 var effects := EffectTracker.new()
+## Anzahl eingesammelter Power-Ups (für Tests und Statistik).
+var items_collected := 0
 ## Spielmodus (siehe GameMode). Wird beim Start aus `GameMode.selected` übernommen.
 var mode: int = GameMode.Id.CLASSIC
 
@@ -107,6 +109,11 @@ func _physics_process(delta: float) -> void:
 		_paddle.auto_target = _lowest_ball()
 		if GameMode.is_demo(mode):
 			_paddle.auto_hit_ratio = DemoCoach.aim_ratio(_paddle.auto_target.global_position.x, _bricks_center_x())
+			# Ist genug Zeit, sammelt der Demo-Autopilot fallende Power-Ups ein.
+			var item := _demo_item_to_chase()
+			if item != null:
+				_paddle.auto_target = item
+				_paddle.auto_hit_ratio = 0.0
 		if state in [State.READY, State.LEVEL_CLEAR] and _input_unlocked():
 			_confirm()
 	if GameMode.is_demo(mode) and state == State.GAME_OVER and _state_time >= DEMO_RESTART_SECONDS:
@@ -597,6 +604,7 @@ func _on_ball_bounced(kind: StringName, hit_position: Vector2, ball: Ball) -> vo
 func _on_item_collected(kind: PowerUps.Kind) -> void:
 	if state != State.PLAYING:
 		return
+	items_collected += 1
 	var color: Color = PowerUps.COLORS[kind]
 	Burst.spawn(self, _paddle.global_position + Vector2(0.0, -20.0), color, FxSettings.scaled(16), 340.0, 0.5, Vector2.UP, 90.0, 0.9)
 	apply_powerup(kind)
@@ -715,6 +723,26 @@ func _demo_tip(event: StringName) -> void:
 	var key := _coach.tip_for(event)
 	if key != "":
 		_hud.show_tip(key)
+
+
+## Das tiefste Power-Up, das der Schläger erreichen kann, ohne den Ball zu verpassen (sonst null).
+func _demo_item_to_chase() -> PowerUpItem:
+	var ball := _lowest_ball() as Ball
+	if ball == null or ball.mode != Ball.Mode.FLYING:
+		return null
+	var best_item: PowerUpItem = null
+	for node in get_tree().get_nodes_in_group("pu_items"):
+		var item := node as PowerUpItem
+		if item == null or item.is_queued_for_deletion():
+			continue
+		if best_item != null and item.position.y < best_item.position.y:
+			continue
+		var to_item := absf(item.global_position.x - _paddle.global_position.x)
+		var item_to_ball := absf(item.global_position.x - ball.global_position.x)
+		if DemoCoach.can_detour(ball.global_position.y, ball.velocity.y, BreakoutConfig.FIELD.position.y,
+				PADDLE_Y, to_item, item_to_ball, _paddle.move_speed):
+			best_item = item
+	return best_item
 
 
 ## Mittlere x-Position der zerstörbaren Blöcke: Dorthin lenkt der Demo-Autopilot den Ball.

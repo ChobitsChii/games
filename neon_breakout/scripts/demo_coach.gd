@@ -68,3 +68,20 @@ static func aim_ratio(ball_x: float, target_x: float, reach: float = 420.0) -> f
 	var delta := target_x - ball_x
 	var strength := clampf(absf(delta) / reach, 0.0, 1.0)
 	return signf(delta) * lerpf(0.15, 0.85, strength)
+
+
+## Kann der Demo-Autopilot einen Umweg zu einem fallenden Power-Up machen, ohne den Ball zu verpassen?
+## `ball_y`/`ball_vy`: Ballposition und vertikale Geschwindigkeit, `top_y`: Oberkante des Spielfelds,
+## `paddle_y`: Höhe des Schlägers, `to_item`: Weg des Schlägers zum Item (x), `item_to_ball`: Weg vom
+## Item zurück unter den Ball (x), `paddle_speed`: Schlägertempo in Pixeln pro Sekunde.
+static func can_detour(ball_y: float, ball_vy: float, top_y: float, paddle_y: float,
+		to_item: float, item_to_ball: float, paddle_speed: float) -> bool:
+	var vy := maxf(absf(ball_vy), 1.0)
+	var arrival: float
+	if ball_vy < 0.0:
+		# Der Ball steigt erst bis oben und kommt dann zurück.
+		arrival = ((ball_y - top_y) + (paddle_y - top_y)) / vy
+	else:
+		arrival = (paddle_y - ball_y) / vy
+	var needed := (to_item + item_to_ball) / maxf(paddle_speed, 1.0)
+	return arrival > needed * 1.3 + 0.15

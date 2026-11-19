@@ -29,6 +29,7 @@ var _mode_index := -1
 var _mode_frames := 0
 var _saw_chaos := false
 var _saw_shot := false
+var _items_spawned := 0
 
 
 func _ready() -> void:
@@ -117,6 +118,7 @@ func _start_mode(index: int) -> void:
 	_mode_frames = 0
 	_saw_chaos = false
 	_saw_shot = false
+	_items_spawned = 0
 	_game.queue_free()
 	await get_tree().process_frame
 	GameMode.selected = MODES[index]
@@ -139,6 +141,12 @@ func _mode_step() -> void:
 		_saw_chaos = true
 	if mode == GameMode.Id.BOSS and is_instance_valid(_game._boss):
 		_game._boss._attack_timer = minf(_game._boss._attack_timer, 0.05 if _mode_frames == 300 else 99.0)
+	# Demo: Von oben fallen Power-Ups an wechselnden Stellen, der Autopilot soll die meisten fangen.
+	if mode == GameMode.Id.DEMO and _mode_frames % 200 == 0 and _mode_frames <= 1200 and _game.state == _game.State.PLAYING:
+		var field := BreakoutConfig.FIELD
+		var x := field.position.x + field.size.x * (0.15 + 0.7 * fmod(_mode_frames / 200.0 * 0.37, 1.0))
+		_game.spawn_item(Vector2(x, field.position.y + 200.0), PowerUps.Kind.SLOW)
+		_items_spawned += 1
 	if _mode_frames < MODE_FRAMES:
 		return
 	var error := ""
@@ -159,6 +167,8 @@ func _mode_step() -> void:
 		GameMode.Id.DEMO:
 			if _game._coach.times_shown("TIP_START") < 1:
 				error = "FEHLER: Demo-Modus: kein Tipp angezeigt"
+			elif _items_spawned >= 3 and _game.items_collected < _items_spawned - 1:
+				error = "FEHLER: Demo-Modus: nur %d von %d Power-Ups eingesammelt" % [_game.items_collected, _items_spawned]
 		GameMode.Id.ZEN:
 			if _game.lives != _game.START_LIVES:
 				error = "FEHLER: Zen-Modus: Leben haben sich verändert"
