@@ -4,6 +4,7 @@ extends Control
 @onready var _title: Label = %Title
 @onready var _best_label: Label = %BestLabel
 @onready var _play_button: Button = %PlayButton
+@onready var _modes_button: Button = %ModesButton
 @onready var _options_button: Button = %OptionsButton
 @onready var _credits_button: Button = %CreditsButton
 @onready var _quit_button: Button = %QuitButton
@@ -15,7 +16,8 @@ func _ready() -> void:
 	theme = BreakoutStyle.build_theme()
 	_title.add_theme_font_override("font", BreakoutStyle.FONT_BOLD)
 	_best_label.add_theme_color_override("font_color", BreakoutConfig.PALETTE["warn"])
-	_play_button.pressed.connect(_go.bind("res://scenes/game.tscn"))
+	_play_button.pressed.connect(_play_classic)
+	_modes_button.pressed.connect(_go.bind("res://scenes/mode_select.tscn"))
 	_options_button.pressed.connect(_go.bind("res://scenes/options.tscn"))
 	_credits_button.pressed.connect(_go.bind("res://scenes/credits.tscn"))
 	_quit_button.pressed.connect(get_tree().quit)
@@ -43,3 +45,9 @@ func _refresh() -> void:
 func _go(scene_path: String) -> void:
 	Sfx.play(&"ui_click")
 	Transition.change_scene(get_tree(), scene_path)
+
+
+## "Spielen" startet immer den klassischen Modus.
+func _play_classic() -> void:
+	GameMode.selected = GameMode.Id.CLASSIC
+	_go("res://scenes/game.tscn")

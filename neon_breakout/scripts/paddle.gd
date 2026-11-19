@@ -15,6 +15,10 @@ var width := SIZE.x:
 
 ## Wenn gesetzt, folgt der Schläger diesem Node (für automatische Tests).
 var auto_target: Node2D = null
+## Gewünschte Trefferstelle des Autopiloten (-1..1, Mitte = 0). NAN = unregelmäßiger Versatz.
+var auto_hit_ratio := NAN
+## Umgekehrte Steuerung (Chaos-Modus).
+var inverted := false
 
 var _auto_time := 0.0
 var _left := 0.0
@@ -87,11 +91,16 @@ func _physics_process(delta: float) -> void:
 		_auto_time += delta
 		var wobble := 0.6 * sin(_auto_time * 1.7) + 0.4 * sin(_auto_time * 0.53 + 1.3)
 		var aim := auto_target.global_position.x + wobble * width * 0.42
+		if not is_nan(auto_hit_ratio):
+			aim = auto_target.global_position.x - auto_hit_ratio * width * 0.5
 		x = move_toward(x, aim, move_speed * delta)
 	elif _use_mouse:
-		x = move_toward(x, get_global_mouse_position().x, move_speed * 3.0 * delta)
+		var mouse_x := get_global_mouse_position().x
+		if inverted:
+			mouse_x = _left + _right - mouse_x
+		x = move_toward(x, mouse_x, move_speed * 3.0 * delta)
 	else:
-		x += Input.get_axis("move_left", "move_right") * move_speed * delta
+		x += Input.get_axis("move_left", "move_right") * (-1.0 if inverted else 1.0) * move_speed * delta
 	global_position.x = clampf(x, _left + width * 0.5, _right - width * 0.5)
 
 

@@ -4,6 +4,8 @@ extends CanvasLayer
 ## Texte werden aus gespeicherten Werten/Schlüsseln erzeugt und bei einem
 ## Sprachwechsel neu gesetzt.
 
+const TIP_SECONDS := 6.0
+
 signal resume_pressed
 signal menu_pressed
 
@@ -21,6 +23,10 @@ var _combo := 0
 var _multiplier := 1.0
 var _effect_entries: Array = []
 var _effects_text := ""
+var _info_label: Label
+var _tip_label: Label
+var _tip_key := ""
+var _tip_tween: Tween
 
 @onready var _root: Control = %Root
 @onready var _flash: ColorRect = %Flash
@@ -53,6 +59,7 @@ func _ready() -> void:
 	_menu_button.pressed.connect(func() -> void:
 		Sfx.play(&"ui_click")
 		menu_pressed.emit())
+	_build_mode_labels()
 	LocaleService.language_changed.connect(func(_code: String) -> void: _refresh())
 	_refresh()
 
@@ -109,6 +116,32 @@ func set_combo(combo: int, multiplier: float) -> void:
 		_pop(_combo_label)
 
 
+## Modus-Anzeige rechts unter der Combo (z. B. Zeit, Reihen, Boss) – schon fertig formatierter Text.
+func set_info(text: String) -> void:
+	if _info_label != null and _info_label.text != text:
+		_info_label.text = text
+
+
+## Tipp links am Rand (Demo-Modus). Bleibt einige Sekunden stehen und blendet dann aus.
+func show_tip(key: String) -> void:
+	_tip_key = key
+	_tip_label.text = tr(key)
+	if _tip_tween != null:
+		_tip_tween.kill()
+	_tip_label.modulate.a = 0.0
+	_tip_tween = create_tween()
+	_tip_tween.tween_property(_tip_label, "modulate:a", 1.0, 0.3)
+	_tip_tween.tween_property(_tip_label, "modulate:a", 0.0, 0.6).set_delay(TIP_SECONDS)
+
+
+func set_lives_visible(value: bool) -> void:
+	_lives_label.visible = value
+
+
+func set_best_visible(value: bool) -> void:
+	_best_label.visible = value
+
+
 ## Aktive Power-Ups als Liste von {key, value}. Nur bei Änderung wird der Text neu gesetzt.
 func set_effects(entries: Array) -> void:
 	_effect_entries = entries
@@ -117,9 +150,14 @@ func set_effects(entries: Array) -> void:
 
 ## Kurze Meldung in der Spielfeldmitte (z. B. beim Einsammeln eines Power-Ups).
 func show_toast(key: String, color: Color) -> void:
+	show_toast_text(tr(key), color)
+
+
+## Wie `show_toast`, aber mit fertig formatiertem Text (z. B. Zeiten).
+func show_toast_text(text: String, color: Color) -> void:
 	if _toast_tween != null:
 		_toast_tween.kill()
-	_toast_label.text = tr(key)
+	_toast_label.text = text
 	_toast_label.add_theme_color_override("font_color", Color(color.r * 1.3, color.g * 1.3, color.b * 1.3, 1.0))
 	_toast_label.pivot_offset = Vector2(_toast_label.size.x * 0.5, _toast_label.size.y * 0.5)
 	_toast_label.modulate.a = 1.0
@@ -164,6 +202,8 @@ func _pop(label: Label) -> void:
 func _refresh() -> void:
 	if not is_node_ready():
 		return
+	if _tip_key != "":
+		_tip_label.text = tr(_tip_key)
 	_score_label.text = tr("HUD_SCORE_FMT") % _score
 	_best_label.text = tr("HUD_BEST_FMT") % _best
 	_level_label.text = tr("HUD_LEVEL_FMT") % _level
@@ -195,3 +235,24 @@ func _refresh_effects() -> void:
 	if text != _effects_text:
 		_effects_text = text
 		_effects_label.text = text
+
+
+func _build_mode_labels() -> void:
+	_info_label = Label.new()
+	_info_label.position = Vector2(1580.0, 250.0)
+	_info_label.size = Vector2(310.0, 200.0)
+	_info_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_info_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	_info_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	_info_label.add_theme_font_size_override("font_size", 34)
+	_info_label.add_theme_color_override("font_color", BreakoutConfig.PALETTE["text"])
+	_root.add_child(_info_label)
+	_tip_label = Label.new()
+	_tip_label.position = Vector2(30.0, 520.0)
+	_tip_label.size = Vector2(310.0, 480.0)
+	_tip_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_tip_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	_tip_label.add_theme_font_size_override("font_size", 32)
+	_tip_label.add_theme_color_override("font_color", BreakoutConfig.PALETTE["accent"])
+	_tip_label.modulate.a = 0.0
+	_root.add_child(_tip_label)

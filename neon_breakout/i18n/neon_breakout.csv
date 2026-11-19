@@ -35,3 +35,57 @@ CREDITS_MUSIC,Musik,Music
 CREDITS_GRAPHICS,"Grafik, Hintergrund und Effekte","Graphics, background and effects"
 CREDITS_ENGINE,Godot Engine,Godot Engine
 CREDITS_SELF,selbst erstellt,self-made
+MENU_MODES,Spielmodi,Game modes
+MODE_CLASSIC,Klassisch,Classic
+MODE_CLASSIC_DESC,"Das normale Breakout: 10 Level, 3 Leben, Power-Ups und Combos.","The regular Breakout: 10 levels, 3 lives, power-ups and combos."
+MODE_TIME_ATTACK,Zeitangriff,Time attack
+MODE_TIME_ATTACK_DESC,"Schaffe alle 10 Level so schnell wie möglich. Für jede Sekunde unter der Richtzeit gibt es Bonuspunkte, Bestzeiten werden gespeichert.","Clear all 10 levels as fast as you can. Every second under the par time earns bonus points, best times are saved."
+MODE_ENDLESS,Endlos,Endless
+MODE_ENDLESS_DESC,"Von oben rücken ständig neue Blockreihen nach. Erreichen sie den Schläger, ist Schluss. Wie lange hältst du durch?","New rows of bricks keep moving in from above. If they reach the paddle, it's over. How long can you last?"
+MODE_CHAOS,Chaos,Chaos
+MODE_CHAOS_DESC,"Alle paar Sekunden passiert etwas Verrücktes: umgekehrte Steuerung, Geisterblöcke, Turbo-Ball, Mini-Schläger, Power-Up-Regen oder doppelte Punkte.","Every few seconds something wild happens: reversed controls, ghost bricks, turbo ball, mini paddle, power-up rain or double points."
+MODE_BOSS,Bosskampf,Boss fight
+MODE_BOSS_DESC,"Ein riesiger Boss schießt auf dich. Triff ihn mit dem Ball, bis seine Lebensleiste leer ist. Jeder Boss ist zäher und wütender als der letzte.",A giant boss shoots at you. Hit it with the ball until its health bar is empty. Every boss is tougher and angrier than the last.
+MODE_ZEN,Zen,Zen
+MODE_ZEN_DESC,"Entspannt spielen: keine Leben, ein etwas langsamerer Ball und mehr Power-Ups. Nur Punkte und Spaß.","Relaxed play: no lives, a slightly slower ball and more power-ups. Just points and fun."
+MODE_DEMO,Demo,Demo
+MODE_DEMO_DESC,"Der Computer spielt allein, du schaust zu. Dabei erscheinen kleine Tipps, wie man richtig spielt.",The computer plays by itself while you watch. Little tips show how to play well.
+MODE_DEMO_HINT,"Demo
+Taste drücken zum Beenden","Demo
+Press a key to exit"
+MSG_BOSS_DOWN,Boss besiegt!,Boss defeated!
+MSG_RUN_DONE,Geschafft!,Finished!
+MSG_OVERRUN,Überrollt!,Overrun!
+TA_TIME,Zeit,Time
+TA_BEST_LEVEL_FMT,Bestzeit %s,Best %s
+TA_LEVEL_FMT,%s  Bonus +%d,%s  Bonus +%d
+TA_RECORD,Rekord!,Record!
+TA_TOTAL_FMT,Gesamtzeit %s,Total time %s
+ENDLESS_ROWS_FMT,"Reihen
+%d","Rows
+%d"
+ENDLESS_CLEARED,Alles weg! Bonus,All clear! Bonus
+BOSS_FMT,"Boss
+%d","Boss
+%d"
+BOSS_ANGRY,Der Boss wird wütend!,The boss is angry!
+BOSS_RAGE,Raserei!,Rage!
+CH_REVERSE,Steuerung umgekehrt!,Controls reversed!
+CH_GHOST,Geisterblöcke!,Ghost bricks!
+CH_FAST,Turbo-Ball!,Turbo ball!
+CH_SHRINK,Mini-Schläger!,Mini paddle!
+CH_RAIN,Power-Up-Regen!,Power-up rain!
+CH_DOUBLE,Doppelte Punkte!,Double points!
+TIP_START,"Der Computer lenkt den Ball gezielt dorthin, wo die meisten Blöcke sind.",The computer steers the ball to where most bricks are.
+TIP_PLAN,"Tipp: Zuerst eine Lücke schaffen, dann den Ball dahinter fliegen lassen.","Tip: Break a gap first, then let the ball fly behind the bricks."
+TIP_EDGE,"Trifft der Ball den Schläger am Rand, fliegt er flach zur Seite.",Hitting the ball with the paddle's edge sends it off at a flat angle.
+TIP_CENTER,"Trifft der Ball die Schlägermitte, fliegt er fast senkrecht nach oben.",Hitting it with the paddle's center sends it almost straight up.
+TIP_COMBO,Combo! Viele Blöcke ohne Schlägerkontakt geben bis zu vierfache Punkte.,Combo! Many bricks without touching the paddle give up to 4x points.
+TIP_WIDE,Breiter Schläger: Damit fängt man den Ball viel leichter.,Wide paddle: much easier to catch the ball.
+TIP_MULTI,"Multiball: Erst verliert man ein Leben, wenn der letzte Ball unten ist.",Multiball: you only lose a life when the last ball falls.
+TIP_LASER,"Laser: Halte die Starttaste, um Blöcke direkt abzuschießen.",Laser: hold the launch key to shoot bricks directly.
+TIP_STICKY,"Klebrig: Der Ball bleibt kleben, so kannst du genau zielen.",Sticky: the ball sticks so you can aim precisely.
+TIP_SLOW,"Langsam: Mehr Zeit zum Zielen, nutze sie für Randtreffer.","Slow: more time to aim, use it for edge shots."
+TIP_LIFE,Extraleben! Sammle möglichst jedes Power-Up ein.,Extra life! Try to collect every power-up.
+TIP_UNBREAKABLE,Graue Blöcke sind unzerstörbar. Lass sie einfach stehen.,Grey bricks are unbreakable. Just leave them.
+TIP_LIFE_LOST,"Bleibe immer unter dem Ball, das ist die wichtigste Regel.","Always stay under the ball, that's the most important rule."

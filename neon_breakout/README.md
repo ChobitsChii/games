@@ -37,6 +37,19 @@ Der Seed steht beim Start in der Konsole. Bitte bei Fehlermeldungen angeben.
 - Optionen: Sprache (DE/EN), Anzeigemodus, Lautstärke (gesamt, Musik, Effekte), Effektqualität, Bildschirmwackeln, Musik. Alles wird gespeichert.
 - Pause (`Esc`/`P`): Fortsetzen oder zurück ins Hauptmenü.
 
+## Spielmodi
+Im Hauptmenü unter **Spielmodi** wählbar. „Spielen“ startet wie bisher den klassischen Modus. Jeder Modus hat einen eigenen Rekord.
+
+| Modus | Beschreibung |
+|---|---|
+| Klassisch | Das normale Spiel: 10 Level, 3 Leben |
+| Zeitangriff | Alle 10 Level so schnell wie möglich. Bonus für jede Sekunde unter der Richtzeit, Bestzeiten werden gespeichert |
+| Endlos | Alle paar Sekunden rückt eine neue Blockreihe von oben nach (immer schneller). Erreichen die Blöcke den Schläger, ist Schluss. Wird alles geräumt, gibt es einen Bonus |
+| Chaos | Alle 9–15 s ein Ereignis: Steuerung umgekehrt, Geisterblöcke, Turbo-Ball, Mini-Schläger, Power-Up-Regen oder doppelte Punkte. Mehr Power-Up-Drops |
+| Bosskampf | Ein Boss schwingt über das Feld und schießt nach unten (ein Treffer kostet ein Leben). Drei Phasen, jede Stufe zäher und schneller |
+| Zen | Keine Leben, Ball 20 % langsamer, mehr Power-Ups |
+| Demo | Der Computer spielt allein und zielt gezielt auf die Blöcke. Tipps zeigen, wie man richtig spielt. Beliebige Taste beendet die Demo, es wird kein Rekord gespeichert |
+
 ## Power-Ups und Combo
 Jeder zerstörte Block lässt mit 12 % Wahrscheinlichkeit ein Item fallen. Der Schläger sammelt es ein, am unteren Rand verschwindet es.
 
@@ -60,7 +73,7 @@ Jeder zerstörte Block lässt mit 12 % Wahrscheinlichkeit ein Item fallen. Der S
 - Punkte, Leben und Rekord bleiben zwischen den Leveln erhalten.
 
 ## Stand
-- M0 (Setup), M1 (Spielkern), M2 (Optik), M3 (Level), M4 (Power-Ups, Combo), M5 (Juice, Musik), M6 (Menüs, Optionen, Credits) und M7 (Politur, Export) fertig.
+- M0 (Setup), M1 (Spielkern), M2 (Optik), M3 (Level), M4 (Power-Ups, Combo), M5 (Juice, Musik), M6 (Menüs, Optionen, Credits), M7 (Politur, Export) und M8 (Spielmodi) fertig.
 - Vollständig spielbar, Release ab `v1.0.0`.
 - Musik und Soundeffekte werden im Code synthetisiert.
 

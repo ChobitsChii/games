@@ -18,6 +18,20 @@ const INPUT_LOCK_SECONDS := 0.6
 const LASER_COOLDOWN := 0.22
 ## Alle so viele Treffer in Folge gibt es einen kleinen Jubel-Effekt.
 const COMBO_MILESTONE := 5
+## Endlos-Modus: Erreichen Blöcke diese Höhe, ist das Spiel vorbei.
+const ENDLESS_LIMIT_Y := PADDLE_Y - 110.0
+const ENDLESS_PUSH_SECONDS := 0.3
+const BOSS_Y := 330.0
+## Demo-Modus: so lange bleibt "Game Over" stehen, bevor es von vorn losgeht.
+const DEMO_RESTART_SECONDS := 2.5
+const POWERUP_TIP_EVENTS := {
+	PowerUps.Kind.WIDE: &"wide",
+	PowerUps.Kind.MULTI: &"multi",
+	PowerUps.Kind.LASER: &"laser",
+	PowerUps.Kind.STICKY: &"sticky",
+	PowerUps.Kind.SLOW: &"slow",
+	PowerUps.Kind.LIFE: &"life",
+}
 
 ## Automatischer Spieler für Tests (Schläger folgt dem Ball, Start ohne Eingabe).
 @export var autoplay := false
@@ -31,6 +45,8 @@ var rng := RandomNumberGenerator.new()
 ## Wahrscheinlichkeit für einen Item-Drop (Tests dürfen sie ändern).
 var drop_chance := PowerUps.DROP_CHANCE
 var effects := EffectTracker.new()
+## Spielmodus (siehe GameMode). Wird beim Start aus `GameMode.selected` übernommen.
+var mode: int = GameMode.Id.CLASSIC
 
 var _balls: Array[Ball] = []
 var _bricks_destroyed := 0
@@ -46,6 +62,18 @@ var _slowmo_until_msec := 0
 ## Eigener Zufall nur für die Optik, damit er den Spielverlauf (Seed) nicht verändert.
 var _fx_rng := RandomNumberGenerator.new()
 
+# Modus-Zustand
+var _best_key := ""
+var _chaos := ChaosEvents.new()
+var _coach := DemoCoach.new()
+var _run_time := 0.0
+var _level_time := 0.0
+var _level_bricks := 0
+var _rows_spawned := 0
+var _row_timer := 0.0
+var _boss: Boss = null
+var _ghost_tween: Tween
+
 @onready var _paddle: Paddle = $Paddle
 @onready var _bricks: Node2D = $Bricks
 @onready var _walls: StaticBody2D = $Walls
@@ -55,7 +83,7 @@ var _fx_rng := RandomNumberGenerator.new()
 
 func _ready() -> void:
 	_init_seed()
-	best = SaveService.get_value("highscore", "best", 0)
+	_setup_mode()
 	_build_walls()
 	_paddle.set_bounds(BreakoutConfig.FIELD.position.x, BreakoutConfig.FIELD.end.x)
 	_paddle.global_position = Vector2(BreakoutConfig.FIELD.get_center().x, PADDLE_Y)
@@ -65,6 +93,8 @@ func _ready() -> void:
 	_hud.set_score(score)
 	_hud.set_best(best)
 	_hud.set_lives(lives)
+	_hud.set_lives_visible(GameMode.has_lives(mode))
+	_hud.set_best_visible(_best_key != "")
 	Music.set_muffled(false)
 	Transition.fade_in(self)
 	_start_level()
@@ -72,11 +102,19 @@ func _ready() -> void:
 
 func _physics_process(delta: float) -> void:
 	_state_time += delta
+	_coach.advance(delta)
 	if autoplay:
 		_paddle.auto_target = _lowest_ball()
+		if GameMode.is_demo(mode):
+			_paddle.auto_hit_ratio = DemoCoach.aim_ratio(_paddle.auto_target.global_position.x, _bricks_center_x())
 		if state in [State.READY, State.LEVEL_CLEAR] and _input_unlocked():
 			_confirm()
+	if GameMode.is_demo(mode) and state == State.GAME_OVER and _state_time >= DEMO_RESTART_SECONDS:
+		get_tree().reload_current_scene()
+	if is_instance_valid(_boss):
+		_boss.active = state == State.PLAYING
 	if state == State.PLAYING:
+		_tick_mode(delta)
 		_tick_effects(delta)
 		_auto_release_stuck(delta)
 		_laser_cooldown = maxf(_laser_cooldown - delta, 0.0)
@@ -99,6 +137,7 @@ func _process(delta: float) -> void:
 	if Engine.time_scale < 1.0 and Time.get_ticks_msec() >= _slowmo_until_msec:
 		Engine.time_scale = 1.0
 	_hud.set_effects(_effect_entries())
+	_update_info()
 
 
 func _exit_tree() -> void:
@@ -111,7 +150,11 @@ func _unhandled_input(event: InputEvent) -> void:
 		_set_paused(true)
 		get_viewport().set_input_as_handled()
 	elif event.is_action_pressed("launch"):
-		_confirm()
+		# Im Demo-Modus beendet jeder Druck auf die Starttaste das Zuschauen.
+		if GameMode.is_demo(mode):
+			_to_menu()
+		else:
+			_confirm()
 
 
 func _draw() -> void:
@@ -149,6 +192,7 @@ func apply_powerup(kind: PowerUps.Kind) -> void:
 			_hud.set_lives(lives)
 			Sfx.play(&"life_up")
 	_hud.show_toast(PowerUps.NAME_KEYS[kind], PowerUps.COLORS[kind])
+	_demo_tip(POWERUP_TIP_EVENTS[kind])
 
 
 ## Lässt ein Item an `pos` fallen (auch für Tests).
@@ -204,30 +248,53 @@ func _register_ball(ball: Ball) -> void:
 func _start_level() -> void:
 	for brick in _bricks.get_children():
 		brick.queue_free()
+	_boss = null
 	_bricks_destroyed = 0
 	_bricks_remaining = 0
+	_level_time = 0.0
+	match mode:
+		GameMode.Id.ENDLESS:
+			_build_endless()
+		GameMode.Id.BOSS:
+			_build_boss()
+		_:
+			_build_level_bricks()
+	_level_bricks = _bricks_remaining
+	_hud.set_level(level)
+	Music.set_level(level)
+	_prepare_launch()
+	_demo_tip(&"level_start")
+
+
+func _build_level_bricks() -> void:
 	var rows: Array = BreakoutLevels.get_level(level)
-	var center_x := BreakoutConfig.FIELD.get_center().x
 	for row_index in rows.size():
 		var row: String = rows[row_index]
 		for col_index in row.length():
 			var kind := row[col_index]
 			if kind == ".":
 				continue
-			var brick: Brick = BRICK_SCENE.instantiate()
-			brick.position = Vector2(
-					center_x + (col_index - (BreakoutConfig.BRICK_COLUMNS - 1) * 0.5) * BRICK_STEP.x,
-					FIRST_ROW_Y + row_index * BRICK_STEP.y)
-			_bricks.add_child(brick)
-			brick.setup(kind)
-			brick.appear(row_index * 0.05 + col_index * 0.02)
-			brick.hit_taken.connect(_on_brick_hit)
-			if not brick.indestructible:
-				_bricks_remaining += 1
-				brick.destroyed.connect(_on_brick_destroyed)
-	_hud.set_level(level)
-	Music.set_level(level)
-	_prepare_launch()
+			_add_brick(kind, _brick_position(col_index, row_index), row_index * 0.05 + col_index * 0.02)
+
+
+func _brick_position(col_index: int, row_index: int) -> Vector2:
+	var center_x := BreakoutConfig.FIELD.get_center().x
+	return Vector2(
+			center_x + (col_index - (BreakoutConfig.BRICK_COLUMNS - 1) * 0.5) * BRICK_STEP.x,
+			FIRST_ROW_Y + row_index * BRICK_STEP.y)
+
+
+func _add_brick(kind: String, pos: Vector2, delay: float) -> Brick:
+	var brick: Brick = BRICK_SCENE.instantiate()
+	brick.position = pos
+	_bricks.add_child(brick)
+	brick.setup(kind)
+	brick.appear(delay)
+	brick.hit_taken.connect(_on_brick_hit)
+	if not brick.indestructible:
+		_bricks_remaining += 1
+		brick.destroyed.connect(_on_brick_destroyed)
+	return brick
 
 
 ## Bereitet den Start vor (nach Levelbeginn und nach Lebensverlust): Effekte, Items,
@@ -243,8 +310,10 @@ func _prepare_launch() -> void:
 
 func _reset_effects() -> void:
 	effects.clear()
+	_chaos_reset()
 	_paddle.animate_width(Paddle.SIZE.x, 0.15)
-	for node in get_tree().get_nodes_in_group("pu_items") + get_tree().get_nodes_in_group("pu_shots"):
+	for node in get_tree().get_nodes_in_group("pu_items") + get_tree().get_nodes_in_group("pu_shots") \
+			+ get_tree().get_nodes_in_group("boss_shots"):
 		node.queue_free()
 	# Nur der erste Ball bleibt, Zusatzbälle fallen weg.
 	while _balls.size() > 1:
@@ -314,7 +383,9 @@ func _lowest_ball() -> Node2D:
 
 func _ball_speed() -> float:
 	var factor := PowerUps.SLOW_FACTOR if effects.is_active(PowerUps.Kind.SLOW) else 1.0
-	return BreakoutMath.speed_for(level, _bricks_destroyed) * factor
+	if _chaos.is_active(ChaosEvents.Kind.FAST):
+		factor *= ChaosEvents.FAST_FACTOR
+	return BreakoutMath.speed_for(level, _bricks_destroyed) * factor * GameMode.speed_factor(mode)
 
 
 func _update_ball_speeds() -> void:
@@ -395,6 +466,8 @@ func _set_streak(value: int) -> void:
 func _on_brick_destroyed(brick: Brick) -> void:
 	var multiplier := PowerUps.combo_multiplier(_streak)
 	var points := int(round(BreakoutMath.brick_points(brick.max_hp) * multiplier))
+	if _chaos.is_active(ChaosEvents.Kind.DOUBLE):
+		points *= ChaosEvents.DOUBLE_FACTOR
 	score += points
 	ScorePopup.spawn(self, brick.position, points, multiplier)
 	_bricks_destroyed += 1
@@ -403,16 +476,39 @@ func _on_brick_destroyed(brick: Brick) -> void:
 	_hud.set_score(score)
 	Burst.spawn(self, brick.position, brick.get_color(), FxSettings.scaled(22), 380.0, 0.6)
 	add_shake(3.0)
-	if _bricks_remaining > 0:
+	var endless := mode == GameMode.Id.ENDLESS
+	if _bricks_remaining > 0 or endless:
 		if state == State.PLAYING and PowerUps.should_drop(rng, drop_chance):
 			spawn_item(brick.position, PowerUps.pick(rng))
+		if endless and _bricks_remaining <= 0 and state == State.PLAYING:
+			_endless_cleared()
 		return
 	for ball in _balls:
 		ball.stop()
 	for item in get_tree().get_nodes_in_group("pu_items"):
 		item.queue_free()
-	_set_state(State.LEVEL_CLEAR)
-	_hud.show_message("MSG_LEVEL_CLEAR", "MSG_LEVEL_CLEAR_HINT")
+	for shot in get_tree().get_nodes_in_group("boss_shots"):
+		shot.queue_free()
+	_on_level_cleared()
+
+
+## Alle Blöcke weg: Meldung, Jubel und je nach Modus Bonus oder Ende des Laufs.
+func _on_level_cleared() -> void:
+	var title_key := "MSG_LEVEL_CLEAR"
+	var hint_key := "MSG_LEVEL_CLEAR_HINT"
+	var run_done := false
+	match mode:
+		GameMode.Id.BOSS:
+			title_key = "MSG_BOSS_DOWN"
+		GameMode.Id.TIME_ATTACK:
+			run_done = _finish_time_attack_level()
+			if run_done:
+				title_key = "MSG_RUN_DONE"
+				hint_key = "MSG_GAME_OVER_HINT"
+	_set_state(State.GAME_OVER if run_done else State.LEVEL_CLEAR)
+	if run_done:
+		_save_best()
+	_hud.show_message(title_key, hint_key)
 	Sfx.play(&"level_clear")
 	add_shake(9.0)
 	_celebrate()
@@ -427,19 +523,36 @@ func _on_ball_lost(ball: Ball) -> void:
 		_balls.erase(ball)
 		ball.queue_free()
 		return
-	lives -= 1
+	if _damage_player():
+		_prepare_launch()
+
+
+## Ein Leben geht verloren (Zen-Modus: keins). Gibt true zurück, solange das Spiel weitergeht;
+## sonst ist es Game Over.
+func _damage_player() -> bool:
+	if GameMode.has_lives(mode):
+		lives -= 1
 	_hud.set_lives(lives)
 	_set_streak(0)
 	Sfx.play(&"life_lost")
 	add_shake(18.0)
 	_hud.flash(Color(1.0, 0.1, 0.25), 0.35)
+	_demo_tip(&"life_lost")
 	if lives > 0:
-		_prepare_launch()
-		return
+		return true
+	_game_over(&"MSG_GAME_OVER")
+	return false
+
+
+func _game_over(title_key: StringName) -> void:
+	lives = 0
+	_hud.set_lives(lives)
+	for ball in _balls:
+		ball.stop()
 	_save_best()
 	_reset_effects()
 	_set_state(State.GAME_OVER)
-	_hud.show_message("MSG_GAME_OVER", "MSG_GAME_OVER_HINT")
+	_hud.show_message(String(title_key), "MSG_GAME_OVER_HINT")
 	Sfx.play(&"game_over")
 	Music.set_muffled(true)
 
@@ -447,10 +560,13 @@ func _on_ball_lost(ball: Ball) -> void:
 ## Jeder Treffer: Ton (höher bei Serien), Funken, kleines Wackeln.
 func _on_brick_hit(brick: Brick, will_break: bool) -> void:
 	if brick.indestructible:
+		_demo_tip(&"unbreakable")
 		Sfx.play(&"metal")
 		Burst.spawn(self, brick.position, brick.get_color(), FxSettings.scaled(5), 220.0, 0.3, Vector2.ZERO, 180.0, 0.7)
 		return
 	_set_streak(_streak + 1)
+	if brick is Boss:
+		_on_boss_hit(brick)
 	if _streak % COMBO_MILESTONE == 0:
 		_combo_milestone()
 	var pitch := 1.0 + 0.06 * minf(_streak, 12.0)
@@ -466,6 +582,8 @@ func _on_ball_bounced(kind: StringName, hit_position: Vector2, ball: Ball) -> vo
 			_set_streak(0)
 			Sfx.play(&"paddle")
 			_paddle.pulse()
+			if GameMode.is_demo(mode):
+				_demo_tip(DemoCoach.paddle_event(DemoCoach.hit_ratio(ball.global_position.x, _paddle.global_position.x, _paddle.width)))
 			var accent: Color = BreakoutConfig.PALETTE["accent"]
 			Burst.spawn(self, hit_position, accent, FxSettings.scaled(8), 300.0, 0.35, Vector2.UP, 70.0, 0.7)
 			if state == State.PLAYING and ball.mode == Ball.Mode.FLYING and effects.is_active(PowerUps.Kind.STICKY):
@@ -492,6 +610,8 @@ func _effect_entries() -> Array:
 		# Zeitbasierte Effekte zeigen Sekunden, der Laser die übrigen Schüsse.
 		var text := ("%d s" % value) if PowerUps.is_timed(kind) else ("×%d" % value)
 		entries.append({"key": PowerUps.NAME_KEYS[kind], "value": text})
+	for kind in _chaos.active_kinds():
+		entries.append({"key": ChaosEvents.NAME_KEYS[kind], "value": "%d s" % int(ceil(_chaos.remaining(kind)))})
 	return entries
 
 
@@ -499,6 +619,7 @@ func _effect_entries() -> Array:
 func _combo_milestone() -> void:
 	Sfx.play(&"combo", 1.0 + 0.04 * minf(_streak / float(COMBO_MILESTONE), 6.0))
 	_hud.flash(BreakoutConfig.PALETTE["warn"], 0.12)
+	_demo_tip(&"combo")
 	Burst.spawn(self, _paddle.global_position + Vector2(0.0, -30.0), BreakoutConfig.PALETTE["warn"], FxSettings.scaled(18), 420.0, 0.6, Vector2.UP, 100.0, 0.9)
 
 
@@ -526,10 +647,11 @@ func _set_paused(value: bool) -> void:
 
 
 ## Speichert den Rekord, falls er übertroffen wurde (auch beim Verlassen mitten im Spiel).
+## Der Demo-Modus speichert nichts.
 func _save_best() -> void:
-	if score > best:
+	if _best_key != "" and score > best:
 		best = score
-		SaveService.set_value("highscore", "best", best)
+		SaveService.set_value("highscore", _best_key, best)
 		_hud.set_best(best)
 
 
@@ -538,3 +660,261 @@ func _to_menu() -> void:
 	get_tree().paused = false
 	Music.set_muffled(false)
 	Transition.change_scene(get_tree(), "res://scenes/main_menu.tscn")
+
+
+# ---------------------------------------------------------------------------
+# Spielmodi
+# ---------------------------------------------------------------------------
+
+func _setup_mode() -> void:
+	mode = GameMode.selected if GameMode.is_valid(GameMode.selected) else GameMode.Id.CLASSIC
+	if GameMode.is_demo(mode):
+		autoplay = true
+	drop_chance = GameMode.drop_chance(mode)
+	_best_key = GameMode.best_key(mode)
+	best = SaveService.get_value("highscore", _best_key, 0) if _best_key != "" else 0
+
+
+## Pro Spielschritt, nur im Zustand PLAYING.
+func _tick_mode(delta: float) -> void:
+	_run_time += delta
+	_level_time += delta
+	match mode:
+		GameMode.Id.CHAOS:
+			_chaos_update(delta)
+		GameMode.Id.ENDLESS:
+			_row_timer -= delta
+			if _row_timer <= 0.0:
+				_endless_push()
+
+
+## Text für die Modus-Anzeige rechts neben dem Spielfeld.
+func _update_info() -> void:
+	match mode:
+		GameMode.Id.TIME_ATTACK:
+			var lines := PackedStringArray([tr("TA_TIME"), TimeAttack.format_time(_run_time)])
+			var best_level: float = SaveService.get_value("highscore", "besttime_%d" % level, 0.0)
+			if best_level > 0.0:
+				lines.append(tr("TA_BEST_LEVEL_FMT") % TimeAttack.format_time(best_level))
+			_hud.set_info("\n".join(lines))
+		GameMode.Id.ENDLESS:
+			_hud.set_info(tr("ENDLESS_ROWS_FMT") % _rows_spawned)
+		GameMode.Id.BOSS:
+			_hud.set_info(tr("BOSS_FMT") % level)
+		GameMode.Id.DEMO:
+			_hud.set_info(tr("MODE_DEMO_HINT"))
+		GameMode.Id.ZEN:
+			_hud.set_info(tr("MODE_ZEN"))
+		_:
+			_hud.set_info("")
+
+
+func _demo_tip(event: StringName) -> void:
+	if not GameMode.is_demo(mode):
+		return
+	var key := _coach.tip_for(event)
+	if key != "":
+		_hud.show_tip(key)
+
+
+## Mittlere x-Position der zerstörbaren Blöcke: Dorthin lenkt der Demo-Autopilot den Ball.
+func _bricks_center_x() -> float:
+	var total := 0.0
+	var count := 0
+	for node in _bricks.get_children():
+		var brick := node as Brick
+		if brick != null and not brick.indestructible and not brick.is_queued_for_deletion():
+			total += brick.position.x
+			count += 1
+	return total / count if count > 0 else BreakoutConfig.FIELD.get_center().x
+
+
+# --- Chaos ------------------------------------------------------------------
+
+func _chaos_update(delta: float) -> void:
+	var kind := _chaos.advance(delta, rng)
+	if kind >= 0:
+		_chaos_apply(kind)
+	for ended in _chaos.tick(delta):
+		_chaos_end(ended)
+
+
+func _chaos_apply(kind: int) -> void:
+	_hud.show_toast(ChaosEvents.NAME_KEYS[kind], ChaosEvents.color_for(kind))
+	Sfx.play(&"powerup", 0.6 if kind not in ChaosEvents.GOOD else 1.2)
+	_hud.flash(ChaosEvents.color_for(kind), 0.15)
+	match kind:
+		ChaosEvents.Kind.REVERSE:
+			_paddle.inverted = true
+		ChaosEvents.Kind.GHOST:
+			_fade_bricks(0.07)
+		ChaosEvents.Kind.FAST:
+			_update_ball_speeds()
+		ChaosEvents.Kind.SHRINK:
+			_paddle.animate_width(Paddle.SIZE.x * ChaosEvents.SHRINK_FACTOR)
+		ChaosEvents.Kind.RAIN:
+			var field := BreakoutConfig.FIELD
+			for i in ChaosEvents.RAIN_ITEMS:
+				var x := rng.randf_range(field.position.x + 80.0, field.end.x - 80.0)
+				spawn_item(Vector2(x, field.position.y + 30.0 - i * 90.0), PowerUps.pick(rng))
+
+
+func _chaos_end(kind: int) -> void:
+	match kind:
+		ChaosEvents.Kind.REVERSE:
+			_paddle.inverted = false
+		ChaosEvents.Kind.GHOST:
+			_fade_bricks(1.0)
+		ChaosEvents.Kind.FAST:
+			_update_ball_speeds()
+		ChaosEvents.Kind.SHRINK:
+			_paddle.animate_width(Paddle.SIZE.x * (PowerUps.WIDE_FACTOR if effects.is_active(PowerUps.Kind.WIDE) else 1.0))
+
+
+## Beendet alle Chaos-Ereignisse sofort (Lebensverlust, Levelwechsel).
+func _chaos_reset() -> void:
+	_chaos.clear()
+	_paddle.inverted = false
+	_fade_bricks(1.0, 0.0)
+	_update_ball_speeds_if_ready()
+
+
+func _update_ball_speeds_if_ready() -> void:
+	if not _balls.is_empty():
+		_update_ball_speeds()
+
+
+func _fade_bricks(alpha: float, duration: float = 0.4) -> void:
+	if _ghost_tween != null:
+		_ghost_tween.kill()
+	if duration <= 0.0:
+		_bricks.modulate.a = alpha
+		return
+	_ghost_tween = create_tween()
+	_ghost_tween.tween_property(_bricks, "modulate:a", alpha, duration)
+
+
+# --- Zeitangriff ------------------------------------------------------------
+
+## Wertet ein geschafftes Level aus. Gibt true zurück, wenn der letzte Level geschafft ist.
+func _finish_time_attack_level() -> bool:
+	var bonus := TimeAttack.bonus(_level_time, _level_bricks)
+	score += bonus
+	_hud.set_score(score)
+	var key := "besttime_%d" % level
+	var best_level: float = SaveService.get_value("highscore", key, 0.0)
+	var record := TimeAttack.is_record(_level_time, best_level)
+	if record:
+		SaveService.set_value("highscore", key, _level_time)
+	var text := tr("TA_LEVEL_FMT") % [TimeAttack.format_time(_level_time), bonus]
+	if record:
+		text += "  " + tr("TA_RECORD")
+	_hud.show_toast_text(text, BreakoutConfig.PALETTE["warn"])
+	if level < BreakoutLevels.count():
+		return false
+	var best_total: float = SaveService.get_value("highscore", "besttime_total", 0.0)
+	var total_record := TimeAttack.is_record(_run_time, best_total)
+	if total_record:
+		SaveService.set_value("highscore", "besttime_total", _run_time)
+	_hud.show_toast_text(tr("TA_TOTAL_FMT") % TimeAttack.format_time(_run_time) + ("  " + tr("TA_RECORD") if total_record else ""), BreakoutConfig.PALETTE["accent"])
+	return true
+
+
+# --- Endlos -----------------------------------------------------------------
+
+func _build_endless() -> void:
+	_rows_spawned = 0
+	for row_index in EndlessRules.START_ROWS:
+		_add_endless_row(row_index, EndlessRules.generate_row(rng, _rows_spawned))
+		_rows_spawned += 1
+	level = EndlessRules.level_for(_rows_spawned)
+	_row_timer = EndlessRules.interval(_rows_spawned)
+
+
+func _add_endless_row(row_index: int, row: String) -> void:
+	for col_index in row.length():
+		if row[col_index] != ".":
+			_add_brick(row[col_index], _brick_position(col_index, row_index), row_index * 0.05 + col_index * 0.02)
+
+
+## Alle Blöcke rücken eine Reihe nach unten, oben kommt eine neue Reihe dazu.
+func _endless_push() -> void:
+	var lowest := 0.0
+	for node in _bricks.get_children():
+		var brick := node as Brick
+		if brick == null or brick.is_queued_for_deletion():
+			continue
+		var target_y := brick.position.y + BRICK_STEP.y
+		lowest = maxf(lowest, target_y)
+		var tween := brick.create_tween()
+		tween.tween_property(brick, "position:y", target_y, ENDLESS_PUSH_SECONDS).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+	_add_endless_row(0, EndlessRules.generate_row(rng, _rows_spawned))
+	_rows_spawned += 1
+	var new_level := EndlessRules.level_for(_rows_spawned)
+	if new_level != level:
+		level = new_level
+		_hud.set_level(level)
+		Music.set_level(level)
+	_update_ball_speeds()
+	_row_timer = EndlessRules.interval(_rows_spawned)
+	add_shake(4.0)
+	Sfx.play(&"wall", 0.6)
+	if EndlessRules.is_overrun(lowest, ENDLESS_LIMIT_Y):
+		_game_over(&"MSG_OVERRUN")
+
+
+## Alle zerstörbaren Blöcke sind weg: Bonus und sofort eine neue Reihe.
+func _endless_cleared() -> void:
+	score += EndlessRules.CLEAR_BONUS
+	_hud.set_score(score)
+	_hud.show_toast("ENDLESS_CLEARED", BreakoutConfig.PALETTE["warn"])
+	Sfx.play(&"combo")
+	_endless_push()
+
+
+# --- Boss -------------------------------------------------------------------
+
+func _build_boss() -> void:
+	var field := BreakoutConfig.FIELD
+	_boss = Boss.new()
+	_boss.setup_boss(level, field.get_center().x, field.size.x)
+	_boss.position = Vector2(field.get_center().x, BOSS_Y)
+	_bricks.add_child(_boss)
+	_boss.hit_taken.connect(_on_brick_hit)
+	_boss.destroyed.connect(_on_brick_destroyed)
+	_boss.shot_fired.connect(_on_boss_shot)
+	_boss.phase_changed.connect(_on_boss_phase)
+	_bricks_remaining = 1
+
+
+func _on_boss_shot(pos: Vector2, speed: float) -> void:
+	var shot := BossShot.new()
+	shot.speed = speed
+	shot.paddle = _paddle
+	shot.bottom_y = BreakoutConfig.FIELD.end.y + 60.0
+	shot.position = pos
+	shot.add_to_group("boss_shots")
+	shot.hit_paddle.connect(_on_boss_shot_hit)
+	add_child(shot)
+	Sfx.play(&"laser", 0.6, -6.0)
+
+
+func _on_boss_shot_hit() -> void:
+	if state == State.PLAYING:
+		_damage_player()
+
+
+func _on_boss_phase(phase: int) -> void:
+	_hud.show_toast("BOSS_ANGRY" if phase < BossRules.MAX_PHASE else "BOSS_RAGE", Color(1.0, 0.25, 0.3))
+	_hud.flash(Color(1.0, 0.2, 0.2), 0.2)
+	add_shake(12.0)
+	Sfx.play(&"multiball", 0.7)
+
+
+## Jeder Treffer auf den Boss gibt Punkte und lässt manchmal ein Item fallen.
+func _on_boss_hit(boss: Brick) -> void:
+	var points := int(round(BossRules.HIT_SCORE * PowerUps.combo_multiplier(_streak)))
+	score += points
+	_hud.set_score(score)
+	if PowerUps.should_drop(rng, drop_chance):
+		spawn_item(boss.position + Vector2(0.0, 80.0), PowerUps.pick(rng))

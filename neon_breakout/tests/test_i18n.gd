@@ -7,7 +7,7 @@ const CSV_FILES := [
 	"res://i18n/neon_breakout.csv",
 ]
 const SOURCE_DIRS := ["res://scripts", "res://scenes", "res://addons/shared"]
-const KEY_PREFIXES := "COMMON|CREDITS|DISPLAY|FX|GAME|HUD|MSG|OPT|PAUSE|MENU|PU"
+const KEY_PREFIXES := "BOSS|CH|COMMON|CREDITS|DISPLAY|ENDLESS|FX|GAME|HUD|MODE|MSG|OPT|PAUSE|MENU|PU|TA|TIP"
 
 
 ## Liest alle CSV-Dateien. Ergebnis: Schlüssel -> {Sprache -> Text}.

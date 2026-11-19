@@ -58,6 +58,14 @@ data/levels/level_01.txt ...   # ASCII-Level: Zeichen = Blocktyp
 5. ✅ **M5 Juice:** Feinschliff von Effekten, Sound und Musik
 6. ✅ **M6 Menüs:** Hauptmenü, Pause, Highscore (`user://`), Optionen (Sprache, Anzeigemodus, Lautstärke, Effektqualität), Credits-Bildschirm
 7. ✅ **M7 Politur & Export:** Balancing, Tests (inkl. Lokalisierung), Builds für alle 3 Plattformen, README
+8. ✅ **M8 Spielmodi** (optional neben dem Standardmodus, Auswahl unter „Spielmodi“, „Spielen“ startet weiter den klassischen Modus):
+   - **Zeitangriff:** alle 10 Level auf Zeit, Zeitbonus, Bestzeiten je Level und gesamt
+   - **Endlos:** neue Blockreihen rücken von oben nach, Game Over beim Erreichen des Schlägers
+   - **Chaos:** zufällige Ereignisse (umgekehrte Steuerung, Geisterblöcke, Turbo-Ball, Mini-Schläger, Power-Up-Regen, doppelte Punkte)
+   - **Bosskampf:** Boss mit Lebensleiste und drei Phasen, schießt auf den Schläger, jede Stufe zäher
+   - **Zen:** keine Leben, langsamerer Ball, mehr Power-Ups
+   - **Demo:** Autopilot spielt, lenkt den Ball gezielt zu den Blöcken und blendet Tipps ein
+   - Eigene Rekorde je Modus (`best_<modus>`), Klassisch behält `best`. Logik in `game_mode.gd`, `chaos_events.gd`, `endless_rules.gd`, `boss_rules.gd`, `time_attack.gd`, `demo_coach.gd`, getestet in `tests/test_modes.gd`; der Smoke-Test lässt jeden Modus kurz laufen.
 
 ## Hinweise zur Umsetzung (M2–M7)
 - **Stand:** M0 und M1 sind fertig (Ball, Schläger, Blöcke, HUD, Menü). Der Abprall wird in `BreakoutMath` berechnet und ist getestet.
