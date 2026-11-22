@@ -75,6 +75,14 @@ var _rows_spawned := 0
 var _row_timer := 0.0
 var _boss: Boss = null
 var _ghost_tween: Tween
+# Demo-Zielplanung (wird nur neu berechnet, wenn sich Bahn oder Blöcke ändern).
+var _demo_plan_ratio := 0.0
+var _demo_plan_dirty := true
+var _demo_plan_landing_x := NAN
+var _demo_plan_ball: Ball = null
+var _demo_last_ratio := NAN
+var _demo_misses := 0
+var _demo_sticky_x := NAN
 
 @onready var _paddle: Paddle = $Paddle
 @onready var _bricks: Node2D = $Bricks
@@ -106,14 +114,11 @@ func _physics_process(delta: float) -> void:
 	_state_time += delta
 	_coach.advance(delta)
 	if autoplay:
-		_paddle.auto_target = _lowest_ball()
 		if GameMode.is_demo(mode):
-			_paddle.auto_hit_ratio = DemoCoach.aim_ratio(_paddle.auto_target.global_position.x, _bricks_center_x())
-			# Ist genug Zeit, sammelt der Demo-Autopilot fallende Power-Ups ein.
-			var item := _demo_item_to_chase()
-			if item != null:
-				_paddle.auto_target = item
-				_paddle.auto_hit_ratio = 0.0
+			_update_demo_paddle()
+		else:
+			_paddle.auto_target_x = NAN
+			_paddle.auto_target = _most_urgent_ball()
 		if state in [State.READY, State.LEVEL_CLEAR] and _input_unlocked():
 			_confirm()
 	if GameMode.is_demo(mode) and state == State.GAME_OVER and _state_time >= DEMO_RESTART_SECONDS:
@@ -153,15 +158,28 @@ func _exit_tree() -> void:
 
 
 func _unhandled_input(event: InputEvent) -> void:
-	if event.is_action_pressed("pause") and state in [State.READY, State.PLAYING]:
-		_set_paused(true)
-		get_viewport().set_input_as_handled()
-	elif event.is_action_pressed("launch"):
-		# Im Demo-Modus beendet jeder Druck auf die Starttaste das Zuschauen.
-		if GameMode.is_demo(mode):
+	if event.is_action_pressed("pause"):
+		if state in [State.READY, State.PLAYING]:
+			_set_paused(true)
+			get_viewport().set_input_as_handled()
+		elif GameMode.is_demo(mode):
+			get_viewport().set_input_as_handled()
 			_to_menu()
-		else:
-			_confirm()
+		return
+	if GameMode.is_demo(mode):
+		if event.is_action_pressed("toggle_fullscreen"):
+			return
+		var key := event as InputEventKey
+		var exit_key := key != null and key.pressed and not key.echo \
+				and not (key.keycode in [KEY_SHIFT, KEY_CTRL, KEY_ALT, KEY_META])
+		var click := event as InputEventMouseButton
+		var exit_click := click != null and click.pressed
+		if event.is_action_pressed("launch") or exit_key or exit_click:
+			get_viewport().set_input_as_handled()
+			_to_menu()
+		return
+	if event.is_action_pressed("launch"):
+		_confirm()
 
 
 func _draw() -> void:
@@ -180,6 +198,7 @@ func apply_powerup(kind: PowerUps.Kind) -> void:
 		PowerUps.Kind.WIDE:
 			effects.activate(kind, PowerUps.AMOUNTS[kind])
 			_paddle.animate_width(Paddle.SIZE.x * PowerUps.WIDE_FACTOR)
+			_demo_plan_dirty = true
 			Sfx.play(&"powerup")
 		PowerUps.Kind.MULTI:
 			_spawn_multiball()
@@ -308,6 +327,7 @@ func _add_brick(kind: String, pos: Vector2, delay: float) -> Brick:
 ## Laser und Zusatzbälle verschwinden, der Ball klebt wieder in der Schlägermitte.
 func _prepare_launch() -> void:
 	_reset_effects()
+	_reset_demo_plan()
 	_set_streak(0)
 	_update_ball_speeds()
 	_balls[0].stick_to_paddle()
@@ -379,13 +399,19 @@ func _release_stuck_balls() -> void:
 	_laser_cooldown = LASER_COOLDOWN
 
 
-## Der tiefste Ball ist für den Autopiloten am dringendsten.
-func _lowest_ball() -> Node2D:
-	var lowest: Ball = _balls[0]
+## Der dringendste Ball für den Autopiloten: fallende Bälle nach Ankunftszeit am Schläger,
+## erst wenn alle steigen, der am schnellsten zurückkehrende.
+func _most_urgent_ball() -> Ball:
+	var hit_y := PADDLE_Y - Paddle.SIZE.y * 0.5 - Ball.RADIUS
+	var top_y := BreakoutConfig.FIELD.position.y + Ball.RADIUS
+	var best_ball: Ball = _balls[0]
+	var best_time := INF
 	for ball in _balls:
-		if ball.global_position.y > lowest.global_position.y:
-			lowest = ball
-	return lowest
+		var t := DemoCoach.time_to_paddle(ball.global_position, ball.velocity, top_y, hit_y) if ball.mode == Ball.Mode.FLYING else INF
+		if t < best_time:
+			best_time = t
+			best_ball = ball
+	return best_ball
 
 
 func _ball_speed() -> float:
@@ -406,6 +432,7 @@ func _tick_effects(delta: float) -> void:
 		match kind:
 			PowerUps.Kind.WIDE:
 				_paddle.animate_width(Paddle.SIZE.x)
+				_demo_plan_dirty = true
 			PowerUps.Kind.SLOW:
 				_update_ball_speeds()
 			PowerUps.Kind.STICKY:
@@ -413,11 +440,19 @@ func _tick_effects(delta: float) -> void:
 
 
 ## Der Autopilot löst klebende Bälle nach kurzer Zeit (ein Mensch drückt dafür die Starttaste).
+## Im Demo-Modus fährt er erst in Zielposition und schießt dann gezielt ab.
 func _auto_release_stuck(delta: float) -> void:
 	if not autoplay or not any_ball_stuck():
 		_stuck_time = 0.0
 		return
 	_stuck_time += delta
+	if GameMode.is_demo(mode):
+		var aligned := not is_nan(_demo_sticky_x) and absf(_paddle.global_position.x - _demo_sticky_x) < 10.0
+		if (_stuck_time >= 0.18 and aligned) or _stuck_time >= 0.8:
+			_stuck_time = 0.0
+			_demo_sticky_x = NAN
+			_release_stuck_balls()
+		return
 	if _stuck_time >= 0.4:
 		_stuck_time = 0.0
 		_release_stuck_balls()
@@ -479,6 +514,9 @@ func _on_brick_destroyed(brick: Brick) -> void:
 	ScorePopup.spawn(self, brick.position, points, multiplier)
 	_bricks_destroyed += 1
 	_bricks_remaining -= 1
+	_demo_plan_dirty = true
+	_demo_misses = 0
+	_demo_last_ratio = NAN
 	_update_ball_speeds()
 	_hud.set_score(score)
 	Burst.spawn(self, brick.position, brick.get_color(), FxSettings.scaled(22), 380.0, 0.6)
@@ -568,9 +606,13 @@ func _game_over(title_key: StringName) -> void:
 func _on_brick_hit(brick: Brick, will_break: bool) -> void:
 	if brick.indestructible:
 		_demo_tip(&"unbreakable")
+		_demo_plan_dirty = true
 		Sfx.play(&"metal")
 		Burst.spawn(self, brick.position, brick.get_color(), FxSettings.scaled(5), 220.0, 0.3, Vector2.ZERO, 180.0, 0.7)
 		return
+	_demo_misses = 0
+	_demo_last_ratio = NAN
+	_demo_plan_dirty = true
 	_set_streak(_streak + 1)
 	if brick is Boss:
 		_on_boss_hit(brick)
@@ -584,18 +626,23 @@ func _on_brick_hit(brick: Brick, will_break: bool) -> void:
 
 
 func _on_ball_bounced(kind: StringName, hit_position: Vector2, ball: Ball) -> void:
+	_demo_plan_dirty = true
 	match kind:
 		&"paddle":
 			_set_streak(0)
 			Sfx.play(&"paddle")
 			_paddle.pulse()
 			if GameMode.is_demo(mode):
-				_demo_tip(DemoCoach.paddle_event(DemoCoach.hit_ratio(ball.global_position.x, _paddle.global_position.x, _paddle.width)))
+				var ratio := DemoCoach.hit_ratio(ball.global_position.x, _paddle.global_position.x, _paddle.width)
+				_demo_last_ratio = ratio
+				_demo_misses += 1
+				_demo_tip(DemoCoach.paddle_event(ratio))
 			var accent: Color = BreakoutConfig.PALETTE["accent"]
 			Burst.spawn(self, hit_position, accent, FxSettings.scaled(8), 300.0, 0.35, Vector2.UP, 70.0, 0.7)
 			if state == State.PLAYING and ball.mode == Ball.Mode.FLYING and effects.is_active(PowerUps.Kind.STICKY):
 				var limit := _paddle.width * 0.5 - Ball.RADIUS
 				ball.stick_to_paddle(clampf(ball.global_position.x - _paddle.global_position.x, -limit, limit))
+				_demo_sticky_x = NAN
 				Sfx.play(&"stick")
 		&"wall":
 			Sfx.play(&"wall", 1.0, -4.0)
@@ -725,36 +772,106 @@ func _demo_tip(event: StringName) -> void:
 		_hud.show_tip(key)
 
 
+func _reset_demo_plan() -> void:
+	_demo_plan_dirty = true
+	_demo_plan_landing_x = NAN
+	_demo_plan_ball = null
+	_demo_last_ratio = NAN
+	_demo_misses = 0
+	_demo_sticky_x = NAN
+
+
+## Steuert den Schläger im Demo-Modus: sagt den Landepunkt des Balls voraus, berechnet
+## den exakten Abprallwinkel (direkt oder über Wand-/Deckenbande) auf einen freien Block
+## und sammelt Power-Ups ein, wenn genug Zeit bleibt.
+func _update_demo_paddle() -> void:
+	var hit_y := PADDLE_Y - Paddle.SIZE.y * 0.5 - Ball.RADIUS
+	_paddle.auto_target = null
+	if state == State.PLAYING and any_ball_stuck():
+		var stuck := _first_stuck_ball()
+		if stuck != null:
+			if is_nan(_demo_sticky_x):
+				var offset := stuck.global_position.x - _paddle.global_position.x
+				_demo_sticky_x = DemoCoach.plan_sticky_x(offset, stuck.release_direction(),
+						hit_y, BreakoutConfig.FIELD, _brick_snapshots(), _paddle.width, _paddle.global_position.x)
+			_paddle.auto_target_x = _demo_sticky_x
+			return
+	_demo_sticky_x = NAN
+	var ball := _most_urgent_ball()
+	if ball == null or ball.mode != Ball.Mode.FLYING:
+		_paddle.auto_target_x = BreakoutConfig.FIELD.get_center().x
+		return
+	var landing_x := DemoCoach.predict_landing_x(ball.global_position, ball.velocity, BreakoutConfig.FIELD, hit_y)
+	# Ist genug Zeit, sammelt der Demo-Autopilot fallende Power-Ups ein.
+	var item := _demo_item_to_chase(ball, landing_x)
+	if item != null:
+		_paddle.auto_target_x = item.global_position.x
+		return
+	if ball.velocity.y <= 1.0:
+		# Ball steigt: bei aktivem Laser kurz unter einen freien Block fahren, wenn genug Zeit ist.
+		if state == State.PLAYING and effects.is_active(PowerUps.Kind.LASER):
+			var laser_x := DemoCoach.laser_target_x(_paddle.global_position.x, _paddle.width,
+					BreakoutConfig.FIELD, _brick_snapshots())
+			if not is_nan(laser_x) and DemoCoach.can_detour(ball.global_position.y, ball.velocity.y,
+					BreakoutConfig.FIELD.position.y, PADDLE_Y,
+					absf(laser_x - _paddle.global_position.x),
+					absf(laser_x - ball.global_position.x) + _paddle.width * 0.45, _paddle.move_speed):
+				_paddle.auto_target_x = laser_x
+				return
+		_paddle.auto_target_x = ball.global_position.x
+		return
+	# Ball fällt: Schussplan nur neu berechnen, wenn sich Bahn oder Blöcke geändert haben.
+	if _demo_plan_dirty or _demo_plan_ball != ball or is_nan(_demo_plan_landing_x) \
+			or absf(landing_x - _demo_plan_landing_x) > 8.0:
+		var avoid := _demo_last_ratio if _demo_misses >= 2 else NAN
+		_demo_plan_ratio = DemoCoach.plan_shot(landing_x, hit_y, BreakoutConfig.FIELD,
+				_brick_snapshots(), _paddle.width, avoid)
+		_demo_plan_landing_x = landing_x
+		_demo_plan_ball = ball
+		_demo_plan_dirty = false
+	_paddle.auto_target_x = landing_x - _demo_plan_ratio * (_paddle.width * 0.5)
+
+
+func _first_stuck_ball() -> Ball:
+	for ball in _balls:
+		if ball.mode == Ball.Mode.STUCK:
+			return ball
+	return null
+
+
+## Reine Blockdaten (Position, unzerstörbar, Trefferpunkte) für die Zielberechnung.
+func _brick_snapshots() -> Array:
+	var result: Array = []
+	for node in _bricks.get_children():
+		var brick := node as Brick
+		if brick == null or brick.is_queued_for_deletion():
+			continue
+		if not brick.indestructible and brick.hp <= 0:
+			continue
+		result.append({"pos": brick.position, "indestructible": brick.indestructible, "hp": brick.hp})
+	return result
+
+
 ## Das tiefste Power-Up, das der Schläger erreichen kann, ohne den Ball zu verpassen (sonst null).
-func _demo_item_to_chase() -> PowerUpItem:
-	var ball := _lowest_ball() as Ball
+func _demo_item_to_chase(ball: Ball, landing_x: float) -> PowerUpItem:
 	if ball == null or ball.mode != Ball.Mode.FLYING:
 		return null
 	var best_item: PowerUpItem = null
 	for node in get_tree().get_nodes_in_group("pu_items"):
 		var item := node as PowerUpItem
-		if item == null or item.is_queued_for_deletion():
+		if item == null or item.is_queued_for_deletion() or item.global_position.y > PADDLE_Y + 12.0:
 			continue
 		if best_item != null and item.position.y < best_item.position.y:
 			continue
 		var to_item := absf(item.global_position.x - _paddle.global_position.x)
-		var item_to_ball := absf(item.global_position.x - ball.global_position.x)
+		var time_left := maxf(PADDLE_Y - item.global_position.y, 0.0) / PowerUps.FALL_SPEED
+		if to_item / maxf(_paddle.move_speed, 1.0) > time_left + 0.08:
+			continue
+		var item_to_ball := absf(item.global_position.x - landing_x) + _paddle.width * 0.45
 		if DemoCoach.can_detour(ball.global_position.y, ball.velocity.y, BreakoutConfig.FIELD.position.y,
 				PADDLE_Y, to_item, item_to_ball, _paddle.move_speed):
 			best_item = item
 	return best_item
-
-
-## Mittlere x-Position der zerstörbaren Blöcke: Dorthin lenkt der Demo-Autopilot den Ball.
-func _bricks_center_x() -> float:
-	var total := 0.0
-	var count := 0
-	for node in _bricks.get_children():
-		var brick := node as Brick
-		if brick != null and not brick.indestructible and not brick.is_queued_for_deletion():
-			total += brick.position.x
-			count += 1
-	return total / count if count > 0 else BreakoutConfig.FIELD.get_center().x
 
 
 # --- Chaos ------------------------------------------------------------------

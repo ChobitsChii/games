@@ -228,3 +228,91 @@ func test_coach_detour_only_when_enough_time() -> void:
 	# Ball fällt, noch weit oben, Item weit weg: zu knapp.
 	assert_true(not DemoCoach.can_detour(700.0, 900.0, 120.0, 1010.0, 900.0, 900.0, 1200.0), "zu weit weg")
 	assert_true(DemoCoach.can_detour(300.0, 600.0, 120.0, 1010.0, 100.0, 100.0, 1200.0), "fallender Ball weit oben, Item nah")
+
+
+func test_coach_fold_x_and_predict_landing() -> void:
+	var field := BreakoutConfig.FIELD
+	var left_x := field.position.x + Ball.RADIUS
+	var right_x := field.end.x - Ball.RADIUS
+	var hit_y := 986.0
+	assert_almost(DemoCoach.fold_x(800.0, left_x, right_x), 800.0, "ohne Wandkontakt")
+	assert_almost(DemoCoach.fold_x(left_x - 40.0, left_x, right_x), left_x + 40.0, "linker Abprall")
+	assert_almost(DemoCoach.fold_x(right_x + 55.0, left_x, right_x), right_x - 55.0, "rechter Abprall")
+	# Fallender Ball direkt nach unten landet bei gleicher x-Position.
+	assert_almost(DemoCoach.predict_landing_x(Vector2(700.0, 500.0), Vector2(0.0, 600.0), field, hit_y), 700.0, "senkrecht")
+	# Fallender Ball prallt an der linken Wand ab.
+	var predicted := DemoCoach.predict_landing_x(Vector2(left_x + 100.0, hit_y - 300.0), Vector2(-300.0, 600.0), field, hit_y)
+	assert_almost(predicted, left_x + 50.0, "Banden-Vorhersage links")
+	# Steigender Ball gibt aktuelle x-Position zurück.
+	assert_almost(DemoCoach.predict_landing_x(Vector2(900.0, 600.0), Vector2(400.0, -500.0), field, hit_y), 900.0, "steigender Ball")
+
+
+func test_coach_time_to_paddle_prioritizes_falling_ball() -> void:
+	var t_falling := DemoCoach.time_to_paddle(Vector2(900.0, 700.0), Vector2(0.0, 700.0), 132.0, 986.0)
+	var t_rising := DemoCoach.time_to_paddle(Vector2(900.0, 940.0), Vector2(0.0, -700.0), 132.0, 986.0)
+	assert_true(t_falling < t_rising, "fallender Ball ist dringender als tieferer steigender Ball")
+
+
+func test_coach_plan_shot_hits_single_corner_brick() -> void:
+	var field := BreakoutConfig.FIELD
+	var hit_y := 986.0
+	var corner_brick := [{"pos": Vector2(417.0, 220.0), "indestructible": false, "hp": 1}]
+	# Fall 1: direkter Schuss aus der Mitte auf den letzten Eckblock.
+	var ratio_mid := DemoCoach.plan_shot(960.0, hit_y, field, corner_brick, Paddle.SIZE.x)
+	var dir_mid := Vector2(sin(ratio_mid * BreakoutMath.MAX_BOUNCE_ANGLE), -cos(ratio_mid * BreakoutMath.MAX_BOUNCE_ANGLE))
+	var sim_mid := DemoCoach.simulate_shot(Vector2(960.0, hit_y), dir_mid, field, corner_brick)
+	assert_true(sim_mid["hits"] >= 1, "einzelner Eckblock wird von der Mitte getroffen")
+	assert_eq(sim_mid["first_bounces"], 0, "direkter Treffer ohne Umweg")
+	# Fall 2: Ball landet ganz rechts (direkter Winkel am Rand nicht erreichbar -> Bandenschuss über Decke).
+	var ratio_far := DemoCoach.plan_shot(1420.0, hit_y, field, corner_brick, Paddle.SIZE.x)
+	var dir_far := Vector2(sin(ratio_far * BreakoutMath.MAX_BOUNCE_ANGLE), -cos(ratio_far * BreakoutMath.MAX_BOUNCE_ANGLE))
+	var sim_far := DemoCoach.simulate_shot(Vector2(1420.0, hit_y), dir_far, field, corner_brick)
+	assert_true(sim_far["hits"] >= 1, "einzelner Eckblock wird auch per Bande von ganz rechts getroffen")
+
+
+func test_coach_plan_shot_avoids_indestructible_wall() -> void:
+	var field := BreakoutConfig.FIELD
+	var hit_y := 986.0
+	# Ein Zielblock hinter einer Mauer aus unzerstörbaren X-Blöcken (wie in Level 9/10).
+	var bricks := [
+		{"pos": Vector2(960.0, 220.0), "indestructible": false, "hp": 1},
+		{"pos": Vector2(846.0, 308.0), "indestructible": true, "hp": 0},
+		{"pos": Vector2(960.0, 308.0), "indestructible": true, "hp": 0},
+		{"pos": Vector2(1074.0, 308.0), "indestructible": true, "hp": 0},
+	]
+	var ratio := DemoCoach.plan_shot(960.0, hit_y, field, bricks, Paddle.SIZE.x)
+	var dir := Vector2(sin(ratio * BreakoutMath.MAX_BOUNCE_ANGLE), -cos(ratio * BreakoutMath.MAX_BOUNCE_ANGLE))
+	var sim := DemoCoach.simulate_shot(Vector2(960.0, hit_y), dir, field, bricks)
+	assert_true(sim["hits"] >= 1, "trifft geschützten Block über Bande/Umweg statt stumpf gegen X zu prallen")
+
+
+func test_coach_plan_shot_respects_avoid_ratio() -> void:
+	var field := BreakoutConfig.FIELD
+	var hit_y := 986.0
+	var bricks := [
+		{"pos": Vector2(600.0, 260.0), "indestructible": false, "hp": 1},
+		{"pos": Vector2(1300.0, 260.0), "indestructible": false, "hp": 1},
+	]
+	var first := DemoCoach.plan_shot(960.0, hit_y, field, bricks, Paddle.SIZE.x)
+	var second := DemoCoach.plan_shot(960.0, hit_y, field, bricks, Paddle.SIZE.x, first)
+	assert_true(absf(second - first) >= 0.14, "Endlosschleifen-Schutz wählt anderen Winkel")
+
+
+func test_coach_sticky_and_laser_aim() -> void:
+	var field := BreakoutConfig.FIELD
+	var hit_y := 986.0
+	var brick := [{"pos": Vector2(1200.0, 300.0), "indestructible": false, "hp": 1}]
+	var sticky_x := DemoCoach.plan_sticky_x(0.0, Vector2.UP, hit_y, field, brick, Paddle.SIZE.x, 500.0)
+	var sim := DemoCoach.simulate_shot(Vector2(sticky_x, hit_y), Vector2.UP, field, brick)
+	assert_true(sim["hits"] >= 1, "Klebrig richtet den Schläger genau unter dem Block aus")
+
+	var shielded := [
+		{"pos": Vector2(600.0, 220.0), "indestructible": false, "hp": 1},
+		{"pos": Vector2(600.0, 308.0), "indestructible": true, "hp": 0},
+		{"pos": Vector2(1100.0, 220.0), "indestructible": false, "hp": 1},
+	]
+	var laser_x := DemoCoach.laser_target_x(700.0, Paddle.SIZE.x, field, shielded)
+	assert_true(not is_nan(laser_x), "freier Block für Laser gefunden")
+	var muzzle_offset := Paddle.SIZE.x * 0.5 - 14.0
+	var aligned := absf((laser_x + muzzle_offset) - 1100.0) < 1.0 or absf((laser_x - muzzle_offset) - 1100.0) < 1.0
+	assert_true(aligned, "Laser-Mündung steht genau unter dem ungeschützten Block")

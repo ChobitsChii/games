@@ -30,6 +30,8 @@ var _mode_frames := 0
 var _saw_chaos := false
 var _saw_shot := false
 var _items_spawned := 0
+var _snipe_phase := false
+var _snipe_frames := 0
 
 
 func _ready() -> void:
@@ -37,7 +39,7 @@ func _ready() -> void:
 	var menu: Control = (load("res://scenes/main_menu.tscn") as PackedScene).instantiate()
 	add_child(menu)
 	menu.queue_free()
-	for path in ["res://scenes/options.tscn", "res://scenes/credits.tscn"]:
+	for path in ["res://scenes/mode_select.tscn", "res://scenes/options.tscn", "res://scenes/credits.tscn"]:
 		var screen: Control = (load(path) as PackedScene).instantiate()
 		add_child(screen)
 		screen.queue_free()
@@ -51,6 +53,9 @@ func _ready() -> void:
 
 
 func _physics_process(_delta: float) -> void:
+	if _snipe_phase:
+		_snipe_step()
+		return
 	if _mode_index >= 0:
 		_mode_step()
 		return
@@ -101,12 +106,15 @@ func _finish(error: String) -> void:
 	if error == "" and _mode_index < 0:
 		print("Smoke-Test ok: Punkte=%d, Level=%d, Leben=%d, Bälle=%d" % [_game.score, _game.level, _game.lives, _game.ball_count()])
 		_start_mode(0)
-	elif error == "":
+	elif error == "" and not _snipe_phase:
 		print("Modus-Test ok: %s, Punkte=%d" % [GameMode.NAME_KEYS[MODES[_mode_index]], _game.score])
 		if _mode_index + 1 < MODES.size():
 			_start_mode(_mode_index + 1)
 		else:
-			get_tree().quit(0)
+			_start_snipe_test()
+	elif error == "":
+		print("Demo-Zieltest ok: letzter Eckblock in %d Frames getroffen" % _snipe_frames)
+		get_tree().quit(0)
 	else:
 		printerr(error)
 		get_tree().quit(1)
@@ -173,3 +181,46 @@ func _mode_step() -> void:
 			if _game.lives != _game.START_LIVES:
 				error = "FEHLER: Zen-Modus: Leben haben sich verändert"
 	_finish(error)
+
+
+## Prüft, dass der Demo-Autopilot einen einzelnen letzten Eckblock zügig gezielt abräumt.
+func _start_snipe_test() -> void:
+	_snipe_phase = true
+	_snipe_frames = 0
+	_game.queue_free()
+	await get_tree().process_frame
+	GameMode.selected = GameMode.Id.DEMO
+	_game = (load("res://scenes/game.tscn") as PackedScene).instantiate()
+	add_child(_game)
+	# Alle Blöcke bis auf den einzelnen Eckblock links oben entfernen.
+	var bricks_node: Node2D = _game.get_node("Bricks")
+	var kept: Brick = null
+	for child in bricks_node.get_children():
+		var brick := child as Brick
+		if brick == null:
+			continue
+		if kept == null:
+			kept = brick
+		else:
+			bricks_node.remove_child(brick)
+			brick.queue_free()
+	_game._bricks_remaining = 1
+	_game._reset_demo_plan()
+	# Ball von rechts oben schräg nach rechts unten fallen lassen, damit der Autopilot gezielt zurückschießen muss.
+	var ball: Ball = _game._balls[0]
+	ball.global_position = Vector2(1280.0, 520.0)
+	ball.launch(Vector2(0.25, 1.0))
+	_game._set_state(_game.State.PLAYING)
+	set_physics_process(true)
+
+
+func _snipe_step() -> void:
+	_snipe_frames += 1
+	if _game.state == _game.State.LEVEL_CLEAR:
+		_finish("")
+		return
+	if _game.state == _game.State.GAME_OVER:
+		_finish("FEHLER: Demo-Zieltest hat verloren")
+		return
+	if _snipe_frames >= 600:
+		_finish("FEHLER: Demo-Zieltest hat den letzten Eckblock nicht innerhalb von 600 Frames getroffen")

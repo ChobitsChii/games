@@ -15,6 +15,8 @@ var width := SIZE.x:
 
 ## Wenn gesetzt, folgt der Schläger diesem Node (für automatische Tests).
 var auto_target: Node2D = null
+## Direkte Ziel-x-Position des Autopiloten (z. B. Demo-Modus mit vorausberechnetem Landepunkt).
+var auto_target_x := NAN
 ## Gewünschte Trefferstelle des Autopiloten (-1..1, Mitte = 0). NAN = unregelmäßiger Versatz.
 var auto_hit_ratio := NAN
 ## Umgekehrte Steuerung (Chaos-Modus).
@@ -85,7 +87,9 @@ func _unhandled_input(event: InputEvent) -> void:
 
 func _physics_process(delta: float) -> void:
 	var x := global_position.x
-	if auto_target != null:
+	if not is_nan(auto_target_x):
+		x = move_toward(x, auto_target_x, move_speed * delta)
+	elif auto_target != null:
 		# Wechselnder Versatz aus zwei unregelmäßigen Wellen: verschiedene Abprallwinkel,
 		# und der Ball läuft nicht in einer festen Schleife.
 		_auto_time += delta
