@@ -52,7 +52,7 @@ godot --path <spiel> -- --seed=42            # mit festem Seed
 godot --headless --path <spiel> --import     # nach neuen Skripten, class_name, Assets, CSV
 godot --headless --path <spiel> -s ../tools/gen_input_map.gd   # Input Map neu schreiben
 ```
-**Screenshot** (braucht ein echtes Fenster, geht nicht mit `--headless`): temporäre Szene, die nach ein paar Frames `get_viewport().get_texture().get_image().save_png("/tmp/x.png")` ausführt, mit `godot --path <spiel> res://tests/<tmp>.tscn` starten, ansehen, danach die temporären Dateien wieder löschen.
+**Screenshot** (braucht Grafikausgabe, geht nicht mit `--headless` – **immer** unter `xvfb-run` ausführen, damit kein Fenster auf dem Desktop aufgeht): temporäre Szene, die nach ein paar Frames `get_viewport().get_texture().get_image().save_png("/tmp/x.png")` ausführt, mit `xvfb-run -a -s "-screen 0 1920x1080x24" godot --path <spiel> --rendering-driver opengl3 --display-driver x11 res://tests/<tmp>.tscn` starten, ansehen, danach die temporären Dateien wieder löschen.
 
 ## 6. Bekannte Stolperfallen
 - **Nach neuen Skripten mit `class_name`, neuen Autoloads, Assets oder CSV-Änderungen** `--import` ausführen, sonst fehlen Klassen bzw. `.translation`-Dateien. Die Übersetzungsdateien müssen unter `[internationalization]` in `project.godot` eingetragen sein.
