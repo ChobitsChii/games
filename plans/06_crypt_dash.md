@@ -60,15 +60,15 @@ autoload/ event_bus.gd  run_state.gd  save_service.gd
 - Verwendete Assets mit Lizenz in `CREDITS.md`, Credits-Bildschirm im Spiel
 
 ## Meilensteine
-1. **M0:** Setup aus Vorlage (`shared/`: Menü, Theme, `LocaleService` mit DE/EN-CSV, `DisplayService`/Vollbild, Credits) und Platzhalter-Optik
-2. **M1:** Spielerbewegung, Dash, Schießen, ein Testraum
-3. **M2:** Gegner-Grundlage mit 2 Typen, Schaden, Tod, Drops
-4. **M3:** Dungeon-Generator mit Raumverbindungen, Türen und Minimap
-5. **M4:** Item-System (10 Items) und Belohnungsräume
-6. **M5:** Restliche Gegner und Boss 1
-7. **M6:** Etagen 2 und 3, Bosse 2 und 3
-8. **M7:** Meta-Fortschritt (Seelen und Freischaltungen) und Speichern
-9. **M8:** Juice, Sound, Musik, Balancing, Export
+1. ✅ **M0:** Setup aus Vorlage (`shared/`: Menü, Theme, `LocaleService` mit DE/EN-CSV, `DisplayService`/Vollbild, Credits) und Platzhalter-Optik
+2. ✅ **M1:** Spielerbewegung, Dash, Schießen, ein Testraum
+3. ✅ **M2:** Gegner-Grundlage mit 2 Typen, Schaden, Tod, Drops
+4. ✅ **M3:** Dungeon-Generator mit Raumverbindungen, Türen und Minimap
+5. ✅ **M4:** Item-System (10 Items) und Belohnungsräume
+6. ✅ **M5:** Restliche Gegner und Boss 1
+7. ✅ **M6:** Etagen 2 und 3, Bosse 2 und 3
+8. ✅ **M7:** Meta-Fortschritt (Seelen und Freischaltungen) und Speichern
+9. ✅ **M8:** Juice, Sound, Musik, Balancing, Export
 
 ## Hinweise zur Umsetzung
 **Raumgröße:** 20 × 11 Kacheln à 64 px (1280 × 704 px), Türen in der Mitte jeder Seite. Der Spielbereich ist kleiner als der Bildschirm, die Kamera zeigt zusätzlich Dekoration außen.

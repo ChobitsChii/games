@@ -40,7 +40,7 @@
   <polygon points="256,220 500,80 440,40" fill="url(#prismSun)" filter="url(#glow)" opacity="0.6" />
   <polygon points="256,220 480,420 420,480" fill="url(#prismEarth)" filter="url(#glow)" opacity="0.6" />
   <polygon points="256,220 80,460 20,400" fill="url(#prismTide)" filter="url(#glow)" opacity="0.6" />
-  <polygon points="256,220 30,100 90,40" fill="url(#prismGale)" filter="url(#glow)" filter="url(#glow)" opacity="0.6" />
+  <polygon points="256,220 30,100 90,40" fill="url(#prismGale)" filter="url(#glow)" opacity="0.6" />
 
   <!-- Outer Astral Halo -->
   <circle cx="256" cy="246" r="160" fill="none" stroke="#67e8f9" stroke-width="2" stroke-dasharray="8 6" opacity="0.4" />

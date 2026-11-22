@@ -562,8 +562,8 @@ cat << 'EOF' > "$TARGET_DIR/index.html"
 					<p class="card-desc">Actionreiches Mini-Tower-Defense auf 5 Spuren im modernen Flat-Cartoon-Look. Platziere Einheiten taktisch und wehre die Gegnerwellen ab.</p>
 					<ul class="features-list">
 						<li>7 Einheiten & 6 verschiedene Gegnertypen</li>
-						<li>10 abwechslungsreiche Level in 2 Welten</li>
-						<li>Giga-Bosskampf & Sternesystem mit Speicherung</li>
+						<li>20 abwechslungsreiche Level in 4 Welten</li>
+						<li>4 Welt-Bosskämpfe, Lexikon & Sternesystem mit Autosave</li>
 					</ul>
 				</div>
 				<div class="card-footer">
@@ -619,17 +619,17 @@ cat << 'EOF' > "$TARGET_DIR/index.html"
 						<h2>Neon Breakout</h2>
 						<div class="tags-row">
 							<span class="tag tag-ver">v1.1.2</span>
-							<span class="tag tag-proto">Prototyp</span>
+							<span class="tag tag-ready">Vollversion</span>
 							<span class="tag tag-genre">Arcade</span>
 						</div>
 					</div>
 				</div>
 				<div class="card-body">
-					<p class="card-desc">Klassisches Breakout im modernen Neon-Look mit dynamischer Schläger- und Ballphysik. Erste spielbare Version (M0 & M1).</p>
+					<p class="card-desc">Klassisches Breakout im modernen Neon-Synthwave-Look mit Glow, Partikeln, synthetisierter Musik, 6 Power-Ups und 7 Spielmodi (M0–M8).</p>
 					<ul class="features-list">
-						<li>Präzise Kollisionsberechnung</li>
-						<li>Mehrere Levelformationen & Highscores</li>
-						<li>Gamepad-, Maus- & Tastatursteuerung</li>
+						<li>10 Level, 6 Power-Ups & Combo-Multiplikator</li>
+						<li>7 Modi: Klassisch, Zeitangriff, Endlos, Chaos, Boss, Zen & Demo</li>
+						<li>Synthetisierte Musik, Audio-Optionen & Gamepad-Steuerung</li>
 					</ul>
 				</div>
 				<div class="card-footer">
