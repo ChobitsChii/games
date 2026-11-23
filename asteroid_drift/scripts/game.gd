@@ -69,6 +69,7 @@ func _ready() -> void:
 
 	_audio_mgr = AudioManager.new()
 	add_child(_audio_mgr)
+	AudioService.play_music_theme("space")
 
 	_rng.randomize()
 	var seed_arg: int = _get_seed_from_cmdline()

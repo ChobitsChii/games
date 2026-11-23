@@ -45,6 +45,7 @@ func _finish(error: String) -> void:
 		if _game._audio_mgr:
 			_game._audio_mgr.stop_all()
 		_game.queue_free()
+	AudioService.stop_all()
 	await get_tree().process_frame
 	await get_tree().process_frame
 	OS.delay_msec(300)

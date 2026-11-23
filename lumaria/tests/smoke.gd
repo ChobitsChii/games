@@ -93,6 +93,7 @@ func _finish(error: String) -> void:
 			str(_dialogue_tested)
 		]
 	AudioManager.stop_all()
+	AudioService.stop_all()
 	if _game and is_instance_valid(_game):
 		_game.queue_free()
 	await get_tree().process_frame

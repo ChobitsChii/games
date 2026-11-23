@@ -5,6 +5,8 @@ extends Control
 @onready var controls_btn: Button = %ControlsButton
 @onready var language_btn: Button = %LanguageButton
 @onready var fullscreen_btn: Button = %FullscreenButton
+@onready var music_btn: Button = %MusicButton
+@onready var sfx_btn: Button = %SfxButton
 @onready var credits_btn: Button = %CreditsButton
 @onready var quit_btn: Button = %QuitButton
 
@@ -29,6 +31,8 @@ func _ready() -> void:
 	controls_btn.pressed.connect(_on_controls_pressed)
 	language_btn.pressed.connect(_on_language_pressed)
 	fullscreen_btn.pressed.connect(_on_fullscreen_pressed)
+	music_btn.pressed.connect(_on_music_pressed)
+	sfx_btn.pressed.connect(_on_sfx_pressed)
 	credits_btn.pressed.connect(_on_credits_pressed)
 	quit_btn.pressed.connect(_on_quit_pressed)
 
@@ -44,6 +48,9 @@ func _ready() -> void:
 	_update_highscore_display()
 	_update_language_button_text()
 	_update_fullscreen_button_text()
+	_update_audio_button_texts()
+	_update_audio_button_texts()
+	AudioService.play_music_theme("space")
 
 	# Subtile Hintergrund-Schwebung
 	var tween := create_tween().set_loops()
@@ -68,6 +75,23 @@ func _update_fullscreen_button_text() -> void:
 	fullscreen_btn.text = "%s: %s" % [tr("COMMON_DISPLAY_MODE"), tr(DisplayService.get_mode_key())]
 
 
+func _update_audio_button_texts() -> void:
+	music_btn.text = AudioService.format_volume_label("COMMON_VOLUME_MUSIC", "Music")
+	sfx_btn.text = AudioService.format_volume_label("COMMON_VOLUME_SFX", "Sfx")
+
+
+func _on_music_pressed() -> void:
+	_audio_mgr.play("click")
+	AudioService.cycle_volume("Music")
+	_update_audio_button_texts()
+
+
+func _on_sfx_pressed() -> void:
+	AudioService.cycle_volume("Sfx")
+	_audio_mgr.play("click")
+	_update_audio_button_texts()
+
+
 func _on_start_pressed() -> void:
 	_audio_mgr.play("click")
 	var tween := create_tween()
@@ -89,6 +113,7 @@ func _on_language_pressed() -> void:
 	_update_highscore_display()
 	_update_language_button_text()
 	_update_fullscreen_button_text()
+	_update_audio_button_texts()
 
 
 func _on_fullscreen_pressed() -> void:

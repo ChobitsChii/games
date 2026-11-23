@@ -10,3 +10,8 @@ COMMON_PAUSED,Pause,Paused
 DISPLAY_WINDOWED,Fenster,Windowed
 DISPLAY_FULLSCREEN,Vollbild,Fullscreen
 DISPLAY_EXCLUSIVE,Exklusives Vollbild,Exclusive fullscreen
+COMMON_VOLUME_MASTER,Lautstärke,Master volume
+COMMON_VOLUME_MUSIC,Musik,Music
+COMMON_VOLUME_SFX,Effekte,SFX
+COMMON_AUDIO_OFF,Aus,Off
+COMMON_AUDIO_ON,An,On

@@ -9,6 +9,8 @@ extends Control
 @onready var _credits_button: Button = %CreditsButton
 @onready var _language_button: Button = %LanguageButton
 @onready var _display_button: Button = %DisplayButton
+@onready var _music_button: Button = %MusicButton
+@onready var _sfx_button: Button = %SfxButton
 @onready var _quit_button: Button = %QuitButton
 
 @onready var _how_to_play_overlay: Control = %HowToPlayOverlay
@@ -29,11 +31,14 @@ func _ready() -> void:
 	_close_credits_button.pressed.connect(_toggle_credits.bind(false))
 	_language_button.pressed.connect(LocaleService.cycle_language)
 	_display_button.pressed.connect(DisplayService.cycle_mode)
+	_music_button.pressed.connect(_on_music_pressed)
+	_sfx_button.pressed.connect(_on_sfx_pressed)
 	_quit_button.pressed.connect(get_tree().quit)
 	_quit_button.visible = not OS.has_feature("web")
 
 	LocaleService.language_changed.connect(func(_code: String) -> void: _refresh())
 	DisplayService.mode_changed.connect(func(_mode: int) -> void: _refresh())
+	AudioService.play_music_theme("meadow")
 	_refresh()
 	_play_button.grab_focus()
 
@@ -41,6 +46,18 @@ func _ready() -> void:
 func _refresh() -> void:
 	_language_button.text = "%s: %s" % [tr("COMMON_LANGUAGE"), LocaleService.get_language_name()]
 	_display_button.text = "%s: %s" % [tr("COMMON_DISPLAY_MODE"), tr(DisplayService.get_mode_key())]
+	_music_button.text = AudioService.format_volume_label("COMMON_VOLUME_MUSIC", "Music")
+	_sfx_button.text = AudioService.format_volume_label("COMMON_VOLUME_SFX", "Sfx")
+
+
+func _on_music_pressed() -> void:
+	AudioService.cycle_volume("Music")
+	_refresh()
+
+
+func _on_sfx_pressed() -> void:
+	AudioService.cycle_volume("Sfx")
+	_refresh()
 
 
 func _on_play_pressed() -> void:

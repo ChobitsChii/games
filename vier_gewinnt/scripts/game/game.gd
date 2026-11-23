@@ -19,6 +19,10 @@ var is_finished: bool = false
 func _ready() -> void:
 	sound_effects = SoundEffects.new()
 	add_child(sound_effects)
+	if Engine.get_main_loop() != null:
+		var root := (Engine.get_main_loop() as SceneTree).root
+		if root != null and root.has_node("AudioService"):
+			root.get_node("AudioService").play_music_theme("lounge")
 
 	controller = GameController.new()
 	if autoplay:

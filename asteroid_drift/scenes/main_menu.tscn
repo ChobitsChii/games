@@ -101,6 +101,22 @@ unique_name_in_owner = true
 layout_mode = 2
 text = "COMMON_DISPLAY_MODE"
 
+[node name="AudioRow" type="HBoxContainer" parent="Margin/VBox/ButtonsBox"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="MusicButton" type="Button" parent="Margin/VBox/ButtonsBox/AudioRow"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "COMMON_VOLUME_MUSIC"
+
+[node name="SfxButton" type="Button" parent="Margin/VBox/ButtonsBox/AudioRow"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "COMMON_VOLUME_SFX"
+
 [node name="CreditsButton" type="Button" parent="Margin/VBox/ButtonsBox"]
 unique_name_in_owner = true
 layout_mode = 2

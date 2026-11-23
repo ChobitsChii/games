@@ -11,8 +11,10 @@ var _shutting_down: bool = false
 
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
+	var target_bus := "Sfx" if AudioServer.get_bus_index("Sfx") != -1 else "Master"
 	for i in range(MAX_PLAYERS):
 		var p := AudioStreamPlayer.new()
+		p.bus = target_bus
 		add_child(p)
 		_sfx_players.append(p)
 

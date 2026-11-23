@@ -33,6 +33,7 @@ func _ready() -> void:
 	LocaleService.language_changed.connect(func(_code: String) -> void: _refresh())
 	DisplayService.mode_changed.connect(func(_mode: int) -> void: _refresh())
 	_refresh()
+	AudioService.play_music_theme("puzzle")
 	_marathon_button.grab_focus()
 
 

@@ -27,14 +27,16 @@ func _ready() -> void:
 		"explosion": load("res://assets/sounds/explosion.ogg"),
 		"dialogue_blip": load("res://assets/sounds/dialogue_blip.ogg"),
 	}
+	var sfx_bus := "Sfx" if AudioServer.get_bus_index("Sfx") != -1 else "Master"
+	var music_bus := "Music" if AudioServer.get_bus_index("Music") != -1 else "Master"
 	for i in range(POOL_SIZE):
 		var player := AudioStreamPlayer.new()
-		player.bus = "Master"
+		player.bus = sfx_bus
 		add_child(player)
 		_pool.append(player)
 
 	_music_player = AudioStreamPlayer.new()
-	_music_player.bus = "Master"
+	_music_player.bus = music_bus
 	add_child(_music_player)
 
 

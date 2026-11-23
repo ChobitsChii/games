@@ -38,6 +38,7 @@ func _finish(error: String) -> void:
 	var sfx := SoundEffects.get_instance()
 	if sfx:
 		sfx.stop_all()
+	AudioService.stop_all()
 	if _game and is_instance_valid(_game):
 		_game.queue_free()
 	await get_tree().process_frame

@@ -49,6 +49,7 @@ func _finish(error: String) -> void:
 		if _game.sfx:
 			_game.sfx.stop_all()
 		_game.queue_free()
+	AudioService.stop_all()
 	await get_tree().process_frame
 	await get_tree().process_frame
 	OS.delay_msec(300)

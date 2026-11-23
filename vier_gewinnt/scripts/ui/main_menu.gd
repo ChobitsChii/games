@@ -10,6 +10,8 @@ extends Control
 @onready var btn_colorblind: Button = %BtnColorblind
 @onready var btn_language: Button = %BtnLanguage
 @onready var btn_display: Button = %BtnDisplay
+@onready var btn_music: Button = %BtnMusic
+@onready var btn_sfx: Button = %BtnSfx
 @onready var btn_stats: Button = %BtnStats
 @onready var btn_credits: Button = %BtnCredits
 @onready var btn_quit: Button = %BtnQuit
@@ -64,7 +66,13 @@ func _ready() -> void:
 	btn_colorblind.pressed.connect(_on_toggle_colorblind)
 	btn_language.pressed.connect(_on_toggle_language)
 	btn_display.pressed.connect(_on_toggle_display)
+	btn_music.pressed.connect(_on_toggle_music)
+	btn_sfx.pressed.connect(_on_toggle_sfx)
 	btn_stats.pressed.connect(_on_open_stats)
+
+	var aus := _get_audio_service()
+	if aus != null and aus.has_method("play_music_theme"):
+		aus.play_music_theme("lounge")
 	btn_credits.pressed.connect(_on_open_credits)
 	btn_quit.pressed.connect(_on_quit)
 
@@ -191,6 +199,14 @@ func _update_button_texts() -> void:
 	var mode_key: String = ds.get_mode_key() if (ds != null and ds.has_method("get_mode_key")) else "DISPLAY_WINDOWED"
 	btn_display.text = "%s: %s" % [tr("COMMON_DISPLAY_MODE"), tr(mode_key)]
 
+	var aus := _get_audio_service()
+	if aus != null and aus.has_method("format_volume_label"):
+		btn_music.text = aus.format_volume_label("COMMON_VOLUME_MUSIC", "Music")
+		btn_sfx.text = aus.format_volume_label("COMMON_VOLUME_SFX", "Sfx")
+	else:
+		btn_music.text = tr("COMMON_VOLUME_MUSIC")
+		btn_sfx.text = tr("COMMON_VOLUME_SFX")
+
 
 func _on_play() -> void:
 	_save_settings()
@@ -250,6 +266,20 @@ func _on_toggle_display() -> void:
 	var ds := _get_display_service()
 	if ds != null and ds.has_method("cycle_mode"):
 		ds.cycle_mode()
+	_update_button_texts()
+
+
+func _on_toggle_music() -> void:
+	var aus := _get_audio_service()
+	if aus != null and aus.has_method("cycle_volume"):
+		aus.cycle_volume("Music")
+	_update_button_texts()
+
+
+func _on_toggle_sfx() -> void:
+	var aus := _get_audio_service()
+	if aus != null and aus.has_method("cycle_volume"):
+		aus.cycle_volume("Sfx")
 	_update_button_texts()
 
 
@@ -326,4 +356,12 @@ func _get_display_service() -> Node:
 		var root := (Engine.get_main_loop() as SceneTree).root
 		if root != null and root.has_node("DisplayService"):
 			return root.get_node("DisplayService")
+	return null
+
+
+func _get_audio_service() -> Node:
+	if Engine.get_main_loop() != null:
+		var root := (Engine.get_main_loop() as SceneTree).root
+		if root != null and root.has_node("AudioService"):
+			return root.get_node("AudioService")
 	return null

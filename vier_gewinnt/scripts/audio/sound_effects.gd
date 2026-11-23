@@ -20,8 +20,10 @@ static func get_instance() -> SoundEffects:
 
 
 func _ready() -> void:
+	var target_bus := "Sfx" if AudioServer.get_bus_index("Sfx") != -1 else "Master"
 	for i in range(8):
 		var p := AudioStreamPlayer.new()
+		p.bus = target_bus
 		add_child(p)
 		_players.append(p)
 

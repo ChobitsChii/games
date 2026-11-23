@@ -22,6 +22,7 @@ boot_splash/minimum_display_time=1200
 [autoload]
 
 SaveService="*res://addons/shared/services/save_service.gd"
+AudioService="*res://addons/shared/services/audio_service.gd"
 LocaleService="*res://addons/shared/services/locale_service.gd"
 DisplayService="*res://addons/shared/services/display_service.gd"
 EventBus="*res://scripts/autoload/event_bus.gd"

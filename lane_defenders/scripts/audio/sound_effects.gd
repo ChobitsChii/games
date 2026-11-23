@@ -11,9 +11,10 @@ var _shutting_down: bool = false
 
 func _ready() -> void:
 	# Pool von AudioStreamPlayer für überlappende Sounds
+	var target_bus := "Sfx" if AudioServer.get_bus_index("Sfx") != -1 else "Master"
 	for i in range(_pool_size):
 		var p := AudioStreamPlayer.new()
-		p.bus = "Master"
+		p.bus = target_bus
 		add_child(p)
 		_players.append(p)
 

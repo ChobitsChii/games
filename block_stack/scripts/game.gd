@@ -48,6 +48,7 @@ func _ready() -> void:
 
 	_sound = SoundEffects.new()
 	add_child(_sound)
+	AudioService.play_music_theme("puzzle")
 
 	mode = SaveService.get_value("session", "selected_mode", "marathon")
 	is_duel = (mode == "duel")

@@ -50,6 +50,7 @@ func _ready() -> void:
 
 	model = GameModel.new(current_level, seed_val)
 	_setup_model_callbacks()
+	AudioService.play_music_theme("meadow")
 
 	var bg_path := "res://assets/battlefield_world_%d.png" % current_level.world
 	if ResourceLoader.exists(bg_path):
