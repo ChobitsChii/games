@@ -21,6 +21,8 @@ func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	_touch_controls = SharedTouchControls.create_for_lumaria()
 	add_child(_touch_controls)
+	if _touch_controls.is_active():
+		($Margin as MarginContainer).add_theme_constant_override("margin_right", 256)
 	EventBus.player_damaged.connect(_on_health_changed)
 	EventBus.player_healed.connect(_on_health_changed)
 	EventBus.lumen_changed.connect(_on_lumen_changed)

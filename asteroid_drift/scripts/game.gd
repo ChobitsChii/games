@@ -100,6 +100,8 @@ func _ready() -> void:
 
 	_touch_controls = SharedTouchControls.create_for_asteroid_drift()
 	add_child(_touch_controls)
+	if _touch_controls.is_active():
+		($CanvasLayer/HUD/TopMargin as MarginContainer).add_theme_constant_override("margin_right", 140)
 
 	_update_hud()
 	_start_wave(1)

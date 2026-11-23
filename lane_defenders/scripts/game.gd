@@ -67,6 +67,7 @@ func _ready() -> void:
 			avail_units.append(model.unit_catalog[u_id])
 	hud.setup_cards(avail_units)
 	hud.set_level_name(current_level.level_id)
+	hud.update_hud(model, selected_unit_data)
 
 	# HUD Signale verbinden
 	hud.card_selected.connect(_on_card_selected)
