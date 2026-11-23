@@ -1,0 +1,2548 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="color-scheme" content="light dark">
+	<script>
+		try {
+			const savedScheme = localStorage.getItem("games-overview-color-scheme");
+			if (savedScheme === "light" || savedScheme === "dark") {
+				document.querySelector('meta[name="color-scheme"]').content = savedScheme;
+			}
+		} catch (_) {
+			/* localStorage kann bei file:// oder blockierten Websitedaten fehlschlagen */
+		}
+	</script>
+	<title>Projektübersicht &amp; Status | Mini-Games (Godot 4.7)</title>
+	<style>
+		:root {
+			/* Basis-Farbwerte für Hell- und Dunkelmodus (WCAG AA >= 4.5:1 Text, >= 3:1 UI) */
+			--bg-page-light: #f4f6fa;
+			--bg-page-dark: #0b0f19;
+			--bg-surface-light: #ffffff;
+			--bg-surface-dark: #131929;
+			--bg-subtle-light: #edf1f7;
+			--bg-subtle-dark: #1b2338;
+			--bg-elevated-light: #f8fafd;
+			--bg-elevated-dark: #182034;
+
+			--text-primary-light: #0f172a;
+			--text-primary-dark: #f1f5f9;
+			--text-secondary-light: #334155;
+			--text-secondary-dark: #cbd5e1;
+			--text-muted-light: #475569;
+			--text-muted-dark: #94a3b8;
+
+			--border-default-light: #cbd5e1;
+			--border-default-dark: #334155;
+			--border-strong-light: #94a3b8;
+			--border-strong-dark: #475569;
+
+			--accent-light: #1d4ed8;
+			--accent-dark: #60a5fa;
+			--accent-on-light: #ffffff;
+			--accent-on-dark: #071326;
+			--accent-soft-light: #dbeafe;
+			--accent-soft-dark: #172554;
+
+			--ok-text-light: #065f46;
+			--ok-text-dark: #6ee7b7;
+			--ok-bg-light: #d1fae5;
+			--ok-bg-dark: #063729;
+			--ok-border-light: #10b981;
+			--ok-border-dark: #10b981;
+
+			--warn-text-light: #92400e;
+			--warn-text-dark: #fcd34d;
+			--warn-bg-light: #fef3c7;
+			--warn-bg-dark: #3b2506;
+			--warn-border-light: #d97706;
+			--warn-border-dark: #f59e0b;
+
+			--info-text-light: #075985;
+			--info-text-dark: #7dd3fc;
+			--info-bg-light: #e0f2fe;
+			--info-bg-dark: #0c2b44;
+			--info-border-light: #0284c7;
+			--info-border-dark: #38bdf8;
+
+			--next-text-light: #5b21b6;
+			--next-text-dark: #d8b4fe;
+			--next-bg-light: #f3e8ff;
+			--next-bg-dark: #2a1448;
+			--next-border-light: #7c3aed;
+			--next-border-dark: #a855f7;
+
+			--focus-ring-light: #1d4ed8;
+			--focus-ring-dark: #93c5fd;
+
+			--scrollbar-track-light: #e2e8f0;
+			--scrollbar-track-dark: #111827;
+			--scrollbar-thumb-light: #64748b;
+			--scrollbar-thumb-dark: #64748b;
+
+			/* Fallback-Zuweisungen (Hellmodus Standard für ältere Browser ohne light-dark()) */
+			--bg-page: var(--bg-page-light);
+			--bg-surface: var(--bg-surface-light);
+			--bg-subtle: var(--bg-subtle-light);
+			--bg-elevated: var(--bg-elevated-light);
+			--text-primary: var(--text-primary-light);
+			--text-secondary: var(--text-secondary-light);
+			--text-muted: var(--text-muted-light);
+			--border-default: var(--border-default-light);
+			--border-strong: var(--border-strong-light);
+			--accent: var(--accent-light);
+			--accent-on: var(--accent-on-light);
+			--accent-soft: var(--accent-soft-light);
+			--ok-text: var(--ok-text-light);
+			--ok-bg: var(--ok-bg-light);
+			--ok-border: var(--ok-border-light);
+			--warn-text: var(--warn-text-light);
+			--warn-bg: var(--warn-bg-light);
+			--warn-border: var(--warn-border-light);
+			--info-text: var(--info-text-light);
+			--info-bg: var(--info-bg-light);
+			--info-border: var(--info-border-light);
+			--next-text: var(--next-text-light);
+			--next-bg: var(--next-bg-light);
+			--next-border: var(--next-border-light);
+			--focus-ring: var(--focus-ring-light);
+			--scrollbar-track: var(--scrollbar-track-light);
+			--scrollbar-thumb: var(--scrollbar-thumb-light);
+
+			--radius-sm: 8px;
+			--radius-md: 14px;
+			--radius-lg: 20px;
+			--shadow-card: 0 1px 2px rgba(15, 23, 42, 0.06), 0 8px 24px -12px rgba(15, 23, 42, 0.14);
+
+			/* Automatische System-Farbschema-Unterstützung */
+			color-scheme: light dark;
+			scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
+		}
+
+		/* Fallback für Browser ohne light-dark(), wenn System Dunkelmodus bevorzugt */
+		@media (prefers-color-scheme: dark) {
+			:root {
+				--bg-page: var(--bg-page-dark);
+				--bg-surface: var(--bg-surface-dark);
+				--bg-subtle: var(--bg-subtle-dark);
+				--bg-elevated: var(--bg-elevated-dark);
+				--text-primary: var(--text-primary-dark);
+				--text-secondary: var(--text-secondary-dark);
+				--text-muted: var(--text-muted-dark);
+				--border-default: var(--border-default-dark);
+				--border-strong: var(--border-strong-dark);
+				--accent: var(--accent-dark);
+				--accent-on: var(--accent-on-dark);
+				--accent-soft: var(--accent-soft-dark);
+				--ok-text: var(--ok-text-dark);
+				--ok-bg: var(--ok-bg-dark);
+				--ok-border: var(--ok-border-dark);
+				--warn-text: var(--warn-text-dark);
+				--warn-bg: var(--warn-bg-dark);
+				--warn-border: var(--warn-border-dark);
+				--info-text: var(--info-text-dark);
+				--info-bg: var(--info-bg-dark);
+				--info-border: var(--info-border-dark);
+				--next-text: var(--next-text-dark);
+				--next-bg: var(--next-bg-dark);
+				--next-border: var(--next-border-dark);
+				--focus-ring: var(--focus-ring-dark);
+				--scrollbar-track: var(--scrollbar-track-dark);
+				--scrollbar-thumb: var(--scrollbar-thumb-dark);
+				--shadow-card: 0 2px 6px rgba(0, 0, 0, 0.35), 0 14px 32px -14px rgba(0, 0, 0, 0.55);
+			}
+		}
+
+		/* Meta-Override auf :root zurückspiegeln (erforderlich, da Autor-CSS <meta> überschreibt) */
+		:root:has(> head > meta[name="color-scheme"][content="dark"]) {
+			color-scheme: dark;
+			--bg-page: var(--bg-page-dark);
+			--bg-surface: var(--bg-surface-dark);
+			--bg-subtle: var(--bg-subtle-dark);
+			--bg-elevated: var(--bg-elevated-dark);
+			--text-primary: var(--text-primary-dark);
+			--text-secondary: var(--text-secondary-dark);
+			--text-muted: var(--text-muted-dark);
+			--border-default: var(--border-default-dark);
+			--border-strong: var(--border-strong-dark);
+			--accent: var(--accent-dark);
+			--accent-on: var(--accent-on-dark);
+			--accent-soft: var(--accent-soft-dark);
+			--ok-text: var(--ok-text-dark);
+			--ok-bg: var(--ok-bg-dark);
+			--ok-border: var(--ok-border-dark);
+			--warn-text: var(--warn-text-dark);
+			--warn-bg: var(--warn-bg-dark);
+			--warn-border: var(--warn-border-dark);
+			--info-text: var(--info-text-dark);
+			--info-bg: var(--info-bg-dark);
+			--info-border: var(--info-border-dark);
+			--next-text: var(--next-text-dark);
+			--next-bg: var(--next-bg-dark);
+			--next-border: var(--next-border-dark);
+			--focus-ring: var(--focus-ring-dark);
+			--scrollbar-track: var(--scrollbar-track-dark);
+			--scrollbar-thumb: var(--scrollbar-thumb-dark);
+			--shadow-card: 0 2px 6px rgba(0, 0, 0, 0.35), 0 14px 32px -14px rgba(0, 0, 0, 0.55);
+		}
+
+		:root:has(> head > meta[name="color-scheme"][content="light"]) {
+			color-scheme: light;
+			--bg-page: var(--bg-page-light);
+			--bg-surface: var(--bg-surface-light);
+			--bg-subtle: var(--bg-subtle-light);
+			--bg-elevated: var(--bg-elevated-light);
+			--text-primary: var(--text-primary-light);
+			--text-secondary: var(--text-secondary-light);
+			--text-muted: var(--text-muted-light);
+			--border-default: var(--border-default-light);
+			--border-strong: var(--border-strong-light);
+			--accent: var(--accent-light);
+			--accent-on: var(--accent-on-light);
+			--accent-soft: var(--accent-soft-light);
+			--ok-text: var(--ok-text-light);
+			--ok-bg: var(--ok-bg-light);
+			--ok-border: var(--ok-border-light);
+			--warn-text: var(--warn-text-light);
+			--warn-bg: var(--warn-bg-light);
+			--warn-border: var(--warn-border-light);
+			--info-text: var(--info-text-light);
+			--info-bg: var(--info-bg-light);
+			--info-border: var(--info-border-light);
+			--next-text: var(--next-text-light);
+			--next-bg: var(--next-bg-light);
+			--next-border: var(--next-border-light);
+			--focus-ring: var(--focus-ring-light);
+			--scrollbar-track: var(--scrollbar-track-light);
+			--scrollbar-thumb: var(--scrollbar-thumb-light);
+			--shadow-card: 0 1px 2px rgba(15, 23, 42, 0.06), 0 8px 24px -12px rgba(15, 23, 42, 0.14);
+		}
+
+		/* Moderne light-dark()-Tokens, wo unterstützt */
+		@supports (color: light-dark(white, black)) {
+			:root {
+				--bg-page: light-dark(var(--bg-page-light), var(--bg-page-dark));
+				--bg-surface: light-dark(var(--bg-surface-light), var(--bg-surface-dark));
+				--bg-subtle: light-dark(var(--bg-subtle-light), var(--bg-subtle-dark));
+				--bg-elevated: light-dark(var(--bg-elevated-light), var(--bg-elevated-dark));
+				--text-primary: light-dark(var(--text-primary-light), var(--text-primary-dark));
+				--text-secondary: light-dark(var(--text-secondary-light), var(--text-secondary-dark));
+				--text-muted: light-dark(var(--text-muted-light), var(--text-muted-dark));
+				--border-default: light-dark(var(--border-default-light), var(--border-default-dark));
+				--border-strong: light-dark(var(--border-strong-light), var(--border-strong-dark));
+				--accent: light-dark(var(--accent-light), var(--accent-dark));
+				--accent-on: light-dark(var(--accent-on-light), var(--accent-on-dark));
+				--accent-soft: light-dark(var(--accent-soft-light), var(--accent-soft-dark));
+				--ok-text: light-dark(var(--ok-text-light), var(--ok-text-dark));
+				--ok-bg: light-dark(var(--ok-bg-light), var(--ok-bg-dark));
+				--ok-border: light-dark(var(--ok-border-light), var(--ok-border-dark));
+				--warn-text: light-dark(var(--warn-text-light), var(--warn-text-dark));
+				--warn-bg: light-dark(var(--warn-bg-light), var(--warn-bg-dark));
+				--warn-border: light-dark(var(--warn-border-light), var(--warn-border-dark));
+				--info-text: light-dark(var(--info-text-light), var(--info-text-dark));
+				--info-bg: light-dark(var(--info-bg-light), var(--info-bg-dark));
+				--info-border: light-dark(var(--info-border-light), var(--info-border-dark));
+				--next-text: light-dark(var(--next-text-light), var(--next-text-dark));
+				--next-bg: light-dark(var(--next-bg-light), var(--next-bg-dark));
+				--next-border: light-dark(var(--next-border-light), var(--next-border-dark));
+				--focus-ring: light-dark(var(--focus-ring-light), var(--focus-ring-dark));
+				--scrollbar-track: light-dark(var(--scrollbar-track-light), var(--scrollbar-track-dark));
+				--scrollbar-thumb: light-dark(var(--scrollbar-thumb-light), var(--scrollbar-thumb-dark));
+			}
+		}
+
+		html {
+			accent-color: var(--accent);
+			scroll-behavior: smooth;
+		}
+
+		@media (prefers-reduced-motion: reduce) {
+			html {
+				scroll-behavior: auto;
+			}
+		}
+
+		/* Legacy-WebKit Scrollbar-Fallback nur wenn scrollbar-color fehlt */
+		@supports not (scrollbar-color: auto) {
+			:root::-webkit-scrollbar,
+			.table-wrapper::-webkit-scrollbar {
+				width: 12px;
+				height: 12px;
+			}
+			:root::-webkit-scrollbar-track,
+			.table-wrapper::-webkit-scrollbar-track {
+				background: var(--scrollbar-track);
+			}
+			:root::-webkit-scrollbar-thumb,
+			.table-wrapper::-webkit-scrollbar-thumb {
+				background: var(--scrollbar-thumb);
+				border-radius: 6px;
+			}
+		}
+
+		*,
+		*::before,
+		*::after {
+			box-sizing: border-box;
+		}
+
+		body {
+			margin: 0;
+			background-color: var(--bg-page);
+			color: var(--text-primary);
+			font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans", Ubuntu, Cantarell, sans-serif;
+			line-height: 1.6;
+			min-block-size: 100dvh;
+			display: flex;
+			flex-direction: column;
+		}
+
+		/* Visually-hidden Utility nach WCAG / Modern Web Guidance */
+		.visually-hidden:where(:not(:focus-within, :active)) {
+			position: absolute !important;
+			clip-path: inset(50%) !important;
+			overflow: hidden !important;
+			width: 1px !important;
+			height: 1px !important;
+			margin: -1px !important;
+			padding: 0 !important;
+			border: 0 !important;
+			white-space: nowrap !important;
+		}
+
+		.skip-link {
+			position: fixed;
+			inset-block-start: 0.75rem;
+			inset-inline-start: 0.75rem;
+			z-index: 100;
+			padding: 0.65rem 1rem;
+			border-radius: var(--radius-sm);
+			background: var(--accent);
+			color: var(--accent-on);
+			font-weight: 700;
+			text-decoration: none;
+		}
+
+		/* Sichtbare Fokus-Indikatoren mit >= 3:1 Kontrast */
+		:where(a:any-link, button, summary, input, [tabindex="0"]):focus-visible {
+			outline: 3px solid var(--focus-ring);
+			outline-offset: 2px;
+		}
+
+		code {
+			font-family: ui-monospace, "JetBrains Mono", "Cascadia Code", "Fira Code", Menlo, Consolas, monospace;
+			font-size: 0.88em;
+			padding: 0.1em 0.35em;
+			border-radius: 5px;
+			background: var(--bg-subtle);
+			border: 1px solid var(--border-default);
+		}
+
+		/* Header & kompakte Navigation */
+		.site-header {
+			background: var(--bg-surface);
+			border-block-end: 1px solid var(--border-default);
+			position: sticky;
+			inset-block-start: 0;
+			z-index: 20;
+		}
+
+		.header-bar {
+			max-inline-size: 1320px;
+			margin-inline: auto;
+			padding: 0.75rem 1.25rem;
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			gap: 1rem;
+			flex-wrap: wrap;
+		}
+
+		.brand-meta {
+			display: flex;
+			align-items: center;
+			gap: 0.65rem;
+			font-weight: 700;
+			font-size: 0.98rem;
+			color: var(--text-primary);
+		}
+
+		.brand-dot {
+			inline-size: 10px;
+			block-size: 10px;
+			border-radius: 50%;
+			background: var(--ok-border);
+			flex-shrink: 0;
+		}
+
+		.site-nav ul {
+			list-style: none;
+			margin: 0;
+			padding: 0;
+			display: flex;
+			align-items: center;
+			gap: 0.25rem;
+			flex-wrap: wrap;
+		}
+
+		.site-nav a {
+			display: inline-flex;
+			align-items: center;
+			min-block-size: 2.25rem;
+			padding: 0.3rem 0.7rem;
+			border-radius: var(--radius-sm);
+			color: var(--text-secondary);
+			text-decoration: none;
+			font-size: 0.9rem;
+			font-weight: 600;
+		}
+
+		.site-nav a:hover {
+			background: var(--bg-subtle);
+			color: var(--text-primary);
+		}
+
+		/* Zwei-Zustands-Theme-Toggle: beide Optionen im Markup, rein per CSS geschaltet */
+		.theme-toggle {
+			display: inline-flex;
+			align-items: center;
+			gap: 0.45rem;
+			min-block-size: 2.4rem;
+			padding: 0.4rem 0.85rem;
+			border-radius: 999px;
+			border: 1px solid var(--border-strong);
+			background: var(--bg-elevated);
+			color: var(--text-primary);
+			font: inherit;
+			font-size: 0.86rem;
+			font-weight: 600;
+			cursor: pointer;
+		}
+
+		.theme-toggle:hover {
+			background: var(--bg-subtle);
+		}
+
+		.theme-toggle svg {
+			inline-size: 1.05em;
+			block-size: 1.05em;
+			flex-shrink: 0;
+		}
+
+		/* Kritische Verzweigung ohne Container Style Queries (Baseline Widely Available) */
+		.theme-toggle .show-when-light {
+			display: inline-flex;
+			align-items: center;
+			gap: 0.45rem;
+		}
+		.theme-toggle .show-when-dark {
+			display: none;
+		}
+
+		@media (prefers-color-scheme: dark) {
+			:root:not(:has(> head > meta[name="color-scheme"][content="light"])) .theme-toggle .show-when-light {
+				display: none;
+			}
+			:root:not(:has(> head > meta[name="color-scheme"][content="light"])) .theme-toggle .show-when-dark {
+				display: inline-flex;
+				align-items: center;
+				gap: 0.45rem;
+			}
+		}
+
+		:root:has(> head > meta[name="color-scheme"][content="dark"]) .theme-toggle .show-when-light {
+			display: none;
+		}
+		:root:has(> head > meta[name="color-scheme"][content="dark"]) .theme-toggle .show-when-dark {
+			display: inline-flex;
+			align-items: center;
+			gap: 0.45rem;
+		}
+
+		/* Hauptbereich */
+		main {
+			flex: 1;
+			max-inline-size: 1320px;
+			inline-size: 100%;
+			margin-inline: auto;
+			padding: 2rem 1.25rem 4rem;
+			display: flex;
+			flex-direction: column;
+			gap: 3rem;
+		}
+
+		/* Hero-Bereich */
+		.hero {
+			display: flex;
+			flex-direction: column;
+			gap: 1.25rem;
+		}
+
+		.hero-eyebrow {
+			display: inline-flex;
+			align-items: center;
+			gap: 0.5rem;
+			align-self: flex-start;
+			padding: 0.3rem 0.8rem;
+			border-radius: 999px;
+			background: var(--accent-soft);
+			color: var(--accent);
+			border: 1px solid var(--border-default);
+			font-size: 0.84rem;
+			font-weight: 700;
+		}
+
+		h1 {
+			margin: 0;
+			font-size: clamp(1.85rem, 3.6vw, 2.75rem);
+			line-height: 1.15;
+			letter-spacing: -0.025em;
+		}
+
+		h1:focus {
+			outline: none;
+		}
+
+		h2 {
+			margin: 0 0 0.5rem;
+			font-size: clamp(1.35rem, 2.2vw, 1.75rem);
+			line-height: 1.25;
+			letter-spacing: -0.015em;
+		}
+
+		h3 {
+			margin: 0;
+			font-size: 1.22rem;
+			line-height: 1.3;
+		}
+
+		.hero-lead {
+			margin: 0;
+			max-inline-size: 74ch;
+			font-size: 1.05rem;
+			color: var(--text-secondary);
+		}
+
+		/* KPI-Leiste */
+		.kpi-grid {
+			display: grid;
+			grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+			gap: 1rem;
+		}
+
+		.kpi-card {
+			background: var(--bg-surface);
+			border: 1px solid var(--border-default);
+			border-radius: var(--radius-md);
+			padding: 1.15rem 1.25rem;
+			box-shadow: var(--shadow-card);
+			display: flex;
+			flex-direction: column;
+			gap: 0.3rem;
+		}
+
+		.kpi-label {
+			font-size: 0.84rem;
+			font-weight: 600;
+			color: var(--text-muted);
+		}
+
+		.kpi-value {
+			font-size: 1.75rem;
+			font-weight: 800;
+			line-height: 1.15;
+			font-variant-numeric: tabular-nums;
+			color: var(--text-primary);
+		}
+
+		.kpi-note {
+			font-size: 0.85rem;
+			color: var(--text-secondary);
+		}
+
+		/* Kurzfazit */
+		.summary-callout {
+			background: var(--bg-surface);
+			border: 1px solid var(--border-default);
+			border-inline-start: 5px solid var(--ok-border);
+			border-radius: var(--radius-md);
+			padding: 1.15rem 1.35rem;
+			box-shadow: var(--shadow-card);
+		}
+
+		.summary-callout p {
+			margin: 0;
+			color: var(--text-secondary);
+		}
+
+		.summary-callout p + p {
+			margin-block-start: 0.55rem;
+		}
+
+		.section-head {
+			display: flex;
+			align-items: flex-end;
+			justify-content: space-between;
+			gap: 1rem;
+			flex-wrap: wrap;
+			margin-block-end: 1rem;
+		}
+
+		.section-desc {
+			margin: 0;
+			color: var(--text-muted);
+			max-inline-size: 70ch;
+			font-size: 0.95rem;
+		}
+
+		/* Status-Badges (immer Icon + Text, nie nur Farbe!) */
+		.badge {
+			display: inline-flex;
+			align-items: center;
+			gap: 0.35rem;
+			padding: 0.22rem 0.62rem;
+			border-radius: 999px;
+			font-size: 0.78rem;
+			font-weight: 700;
+			line-height: 1.3;
+			border: 1px solid transparent;
+			white-space: nowrap;
+		}
+
+		.badge-ok {
+			background: var(--ok-bg);
+			color: var(--ok-text);
+			border-color: var(--ok-border);
+		}
+
+		.badge-warn {
+			background: var(--warn-bg);
+			color: var(--warn-text);
+			border-color: var(--warn-border);
+		}
+
+		.badge-info {
+			background: var(--info-bg);
+			color: var(--info-text);
+			border-color: var(--info-border);
+		}
+
+		.badge-next {
+			background: var(--next-bg);
+			color: var(--next-text);
+			border-color: var(--next-border);
+		}
+
+		.badge-mono {
+			font-family: ui-monospace, "JetBrains Mono", Menlo, Consolas, monospace;
+			background: var(--bg-subtle);
+			color: var(--text-primary);
+			border-color: var(--border-default);
+		}
+
+		/* Responsive Vergleichstabelle nach Modern Web Guidance */
+		.table-wrapper {
+			overflow: auto;
+			max-inline-size: 100%;
+			max-block-size: min(640px, 82dvh);
+			container-type: inline-size;
+			background: var(--bg-surface);
+			border: 1px solid var(--border-default);
+			border-radius: var(--radius-md);
+			box-shadow: var(--shadow-card);
+		}
+
+		.comparison-table {
+			inline-size: 100%;
+			border-collapse: separate;
+			border-spacing: 0;
+			font-size: 0.9rem;
+			--label-1: "Projekt";
+			--label-2: "Version";
+			--label-3: "Status";
+			--label-4: "Meilensteine";
+			--label-5: "Tests (live)";
+			--label-6: "Letztes Update";
+			--label-7: "Größter offener Punkt";
+			--label-8: "Nächster Schritt";
+		}
+
+		.comparison-table caption {
+			text-align: start;
+			padding: 0.9rem 1.15rem;
+			font-weight: 700;
+			font-size: 0.95rem;
+			color: var(--text-secondary);
+			border-block-end: 1px solid var(--border-default);
+			background: var(--bg-elevated);
+		}
+
+		.comparison-table thead {
+			position: sticky;
+			inset-block-start: 0;
+			z-index: 2;
+		}
+
+		.comparison-table thead th {
+			text-align: start;
+			padding: 0.75rem 0.9rem;
+			background: var(--bg-subtle);
+			color: var(--text-primary);
+			font-size: 0.8rem;
+			text-transform: uppercase;
+			letter-spacing: 0.03em;
+			border-block-end: 2px solid var(--border-default);
+			white-space: nowrap;
+		}
+
+		.comparison-table tbody th,
+		.comparison-table tbody td {
+			padding: 0.85rem 0.9rem;
+			border-block-end: 1px solid var(--border-default);
+			vertical-align: top;
+		}
+
+		.comparison-table tbody tr:last-child th,
+		.comparison-table tbody tr:last-child td {
+			border-block-end: 0;
+		}
+
+		.comparison-table tbody th {
+			position: sticky;
+			inset-inline-start: 0;
+			z-index: 1;
+			background: var(--bg-surface);
+			text-align: start;
+			font-weight: 700;
+			white-space: nowrap;
+			border-inline-end: 1px solid var(--border-default);
+		}
+
+		.comparison-table tbody th a {
+			color: var(--accent);
+			text-decoration: none;
+		}
+
+		.comparison-table tbody th a:hover {
+			text-decoration: underline;
+		}
+
+		.comparison-table tbody tr:hover td,
+		.comparison-table tbody tr:hover th {
+			background: var(--bg-elevated);
+		}
+
+		.num {
+			font-variant-numeric: tabular-nums;
+			white-space: nowrap;
+		}
+
+		@container (width < 780px) {
+			.comparison-table,
+			.comparison-table thead,
+			.comparison-table tbody,
+			.comparison-table tr,
+			.comparison-table th,
+			.comparison-table td {
+				display: block;
+			}
+
+			.comparison-table thead {
+				display: none;
+			}
+
+			.comparison-table tbody {
+				padding: 0.75rem;
+				display: flex;
+				flex-direction: column;
+				gap: 0.9rem;
+			}
+
+			.comparison-table tbody tr {
+				border: 1px solid var(--border-default);
+				border-radius: var(--radius-sm);
+				overflow: hidden;
+				background: var(--bg-surface);
+			}
+
+			.comparison-table tbody th {
+				position: sticky;
+				inset-block-start: 0;
+				z-index: 2;
+				background: var(--bg-subtle);
+				border-inline-end: 0;
+				border-block-end: 1px solid var(--border-default);
+			}
+
+			.comparison-table tbody td {
+				padding: 0.55rem 0.9rem;
+				border-block-end: 1px solid var(--border-default);
+				white-space: normal;
+			}
+
+			.comparison-table tbody td::before {
+				font-weight: 700;
+				color: var(--text-muted);
+				display: inline-block;
+				margin-inline-end: 0.4rem;
+			}
+
+			.comparison-table td:nth-child(2)::before { content: var(--label-2) ": "; }
+			.comparison-table td:nth-child(3)::before { content: var(--label-3) ": "; }
+			.comparison-table td:nth-child(4)::before { content: var(--label-4) ": "; }
+			.comparison-table td:nth-child(5)::before { content: var(--label-5) ": "; }
+			.comparison-table td:nth-child(6)::before { content: var(--label-6) ": "; }
+			.comparison-table td:nth-child(7)::before { content: var(--label-7) ": "; }
+			.comparison-table td:nth-child(8)::before { content: var(--label-8) ": "; }
+		}
+
+		/* Filter- und Suchleiste (<search>) */
+		.filter-toolbar {
+			background: var(--bg-surface);
+			border: 1px solid var(--border-default);
+			border-radius: var(--radius-md);
+			padding: 1rem 1.15rem;
+			margin-block-end: 1.25rem;
+			display: flex;
+			flex-wrap: wrap;
+			align-items: center;
+			gap: 0.85rem 1.25rem;
+			justify-content: space-between;
+		}
+
+		.search-group {
+			display: flex;
+			align-items: center;
+			gap: 0.6rem;
+			flex: 1 1 250px;
+		}
+
+		.search-group label {
+			font-size: 0.88rem;
+			font-weight: 700;
+			color: var(--text-secondary);
+			white-space: nowrap;
+		}
+
+		.search-group input[type="search"] {
+			flex: 1;
+			min-inline-size: 160px;
+			min-block-size: 2.5rem;
+			padding: 0.4rem 0.75rem;
+			border-radius: var(--radius-sm);
+			border: 1px solid var(--border-strong);
+			background: var(--bg-elevated);
+			color: var(--text-primary);
+			font: inherit;
+			font-size: 0.92rem;
+		}
+
+		.filter-pills {
+			display: flex;
+			flex-wrap: wrap;
+			gap: 0.45rem;
+			align-items: center;
+		}
+
+		.btn-filter,
+		.btn-toggle-all {
+			min-block-size: 2.4rem;
+			padding: 0.4rem 0.85rem;
+			border-radius: 999px;
+			border: 1px solid var(--border-strong);
+			background: var(--bg-elevated);
+			color: var(--text-primary);
+			font: inherit;
+			font-size: 0.85rem;
+			font-weight: 600;
+			cursor: pointer;
+			display: inline-flex;
+			align-items: center;
+			gap: 0.4rem;
+		}
+
+		.btn-filter:hover,
+		.btn-toggle-all:hover {
+			background: var(--bg-subtle);
+		}
+
+		.btn-filter[aria-pressed="true"] {
+			background: var(--accent);
+			color: var(--accent-on);
+			border-color: var(--accent);
+		}
+
+		[command="--toggle-all"][aria-expanded="true"] .expand-label,
+		[command="--toggle-all"][aria-expanded="false"] .collapse-label {
+			display: none;
+		}
+
+		.filter-status {
+			inline-size: 100%;
+			font-size: 0.85rem;
+			color: var(--text-muted);
+			margin: 0;
+		}
+
+		/* Projekt-Karten mit Container Queries */
+		.projects-list {
+			display: grid;
+			grid-template-columns: 1fr;
+			gap: 1.5rem;
+		}
+
+		.project-card {
+			container-type: inline-size;
+			background: var(--bg-surface);
+			border: 1px solid var(--border-default);
+			border-radius: var(--radius-lg);
+			box-shadow: var(--shadow-card);
+			padding: 1.4rem;
+			display: flex;
+			flex-direction: column;
+			gap: 1.15rem;
+			scroll-margin-block-start: 5rem;
+		}
+
+		.project-card[hidden] {
+			display: none;
+		}
+
+		.card-top {
+			display: flex;
+			align-items: flex-start;
+			gap: 1rem;
+			flex-wrap: wrap;
+		}
+
+		.game-icon {
+			inline-size: 56px;
+			block-size: 56px;
+			border-radius: 14px;
+			border: 1px solid var(--border-default);
+			background: var(--bg-subtle);
+			padding: 4px;
+			object-fit: contain;
+			flex-shrink: 0;
+		}
+
+		.card-title-block {
+			flex: 1 1 240px;
+			display: flex;
+			flex-direction: column;
+			gap: 0.45rem;
+		}
+
+		.card-title-row {
+			display: flex;
+			align-items: center;
+			gap: 0.6rem;
+			flex-wrap: wrap;
+		}
+
+		.plan-num {
+			font-family: ui-monospace, "JetBrains Mono", Menlo, Consolas, monospace;
+			font-size: 0.78rem;
+			font-weight: 700;
+			color: var(--text-muted);
+			padding: 0.12rem 0.45rem;
+			border-radius: 6px;
+			background: var(--bg-subtle);
+			border: 1px solid var(--border-default);
+		}
+
+		.card-badges {
+			display: flex;
+			flex-wrap: wrap;
+			gap: 0.4rem;
+			align-items: center;
+		}
+
+		.card-summary {
+			margin: 0;
+			color: var(--text-secondary);
+			font-size: 0.96rem;
+		}
+
+		/* Meilenstein-Fortschritt */
+		.progress-row {
+			display: flex;
+			align-items: center;
+			gap: 0.75rem;
+			flex-wrap: wrap;
+			font-size: 0.86rem;
+			color: var(--text-secondary);
+		}
+
+		.progress-row progress {
+			flex: 1 1 180px;
+			block-size: 0.65rem;
+			accent-color: var(--ok-border);
+		}
+
+		/* 3-Spalten-Statusraster (Erreicht / Fehlt noch / Nächste Schritte) */
+		.pillars-grid {
+			display: grid;
+			grid-template-columns: 1fr;
+			gap: 0.9rem;
+		}
+
+		@container (width >= 760px) {
+			.pillars-grid {
+				grid-template-columns: repeat(3, minmax(0, 1fr));
+			}
+		}
+
+		.pillar {
+			border-radius: var(--radius-md);
+			padding: 1rem 1.05rem;
+			border: 1px solid var(--border-default);
+			background: var(--bg-elevated);
+			display: flex;
+			flex-direction: column;
+			gap: 0.5rem;
+		}
+
+		.pillar-done {
+			border-block-start: 4px solid var(--ok-border);
+		}
+
+		.pillar-missing {
+			border-block-start: 4px solid var(--warn-border);
+		}
+
+		.pillar-next {
+			border-block-start: 4px solid var(--next-border);
+		}
+
+		.pillar-title {
+			font-size: 0.88rem;
+			font-weight: 800;
+			letter-spacing: 0.01em;
+			display: flex;
+			align-items: center;
+			gap: 0.4rem;
+		}
+
+		.pillar-done .pillar-title { color: var(--ok-text); }
+		.pillar-missing .pillar-title { color: var(--warn-text); }
+		.pillar-next .pillar-title { color: var(--next-text); }
+
+		.pillar ul {
+			margin: 0;
+			padding-inline-start: 1.15rem;
+			display: flex;
+			flex-direction: column;
+			gap: 0.4rem;
+			font-size: 0.89rem;
+			color: var(--text-secondary);
+		}
+
+		.pillar li strong {
+			color: var(--text-primary);
+		}
+
+		/* Native <details>-Akkordeon nach Modern Web Guidance */
+		details.card-details {
+			border: 1px solid var(--border-default);
+			border-radius: var(--radius-md);
+			background: var(--bg-elevated);
+		}
+
+		details.card-details > summary {
+			list-style: none;
+			display: flex;
+			align-items: center;
+			gap: 0.55ch;
+			min-block-size: 2.75rem;
+			padding: 0.65rem 1rem;
+			font-weight: 700;
+			font-size: 0.9rem;
+			color: var(--text-primary);
+			cursor: pointer;
+			user-select: none;
+		}
+
+		details.card-details > summary::-webkit-details-marker {
+			display: none;
+		}
+
+		details.card-details > summary::before {
+			content: "";
+			inline-size: 1em;
+			block-size: 1em;
+			flex-shrink: 0;
+			background-color: currentColor;
+			mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='none' stroke='black' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round' d='m6 9 6 6 6-6'/%3E%3C/svg%3E") no-repeat center / contain;
+			rotate: -90deg;
+		}
+
+		details.card-details[open] > summary::before {
+			rotate: 0deg;
+		}
+
+		details.card-details > summary:hover {
+			background: var(--bg-subtle);
+			border-radius: calc(var(--radius-md) - 1px);
+		}
+
+		details.card-details::details-content {
+			interpolate-size: allow-keywords;
+			overflow: clip;
+			contain: layout;
+		}
+
+		details.card-details:not([open])::details-content {
+			block-size: 0;
+		}
+
+		@media (prefers-reduced-motion: no-preference) {
+			details.card-details > summary::before {
+				transition: rotate 0.2s ease;
+			}
+			details.card-details::details-content {
+				transition: block-size 0.28s ease-in-out, content-visibility 0.28s ease-in-out, display 0.28s ease-in-out;
+				transition-behavior: allow-discrete;
+			}
+		}
+
+		.details-body {
+			padding: 0.25rem 1rem 1rem;
+			border-block-start: 1px solid var(--border-default);
+			display: grid;
+			grid-template-columns: 1fr;
+			gap: 1rem;
+			font-size: 0.88rem;
+		}
+
+		@container (width >= 680px) {
+			.details-body {
+				grid-template-columns: 1.5fr 1fr;
+			}
+		}
+
+		.milestone-list {
+			list-style: none;
+			margin: 0.45rem 0 0;
+			padding: 0;
+			display: grid;
+			grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+			gap: 0.4rem 0.9rem;
+		}
+
+		.milestone-list li {
+			color: var(--text-secondary);
+			display: flex;
+			gap: 0.4rem;
+			align-items: baseline;
+		}
+
+		.meta-dl {
+			margin: 0.45rem 0 0;
+			display: grid;
+			grid-template-columns: auto 1fr;
+			gap: 0.3rem 0.85rem;
+		}
+
+		.meta-dl dt {
+			font-weight: 700;
+			color: var(--text-muted);
+		}
+
+		.meta-dl dd {
+			margin: 0;
+			color: var(--text-secondary);
+		}
+
+		.details-subheading {
+			margin: 0.65rem 0 0;
+			font-size: 0.84rem;
+			font-weight: 800;
+			text-transform: uppercase;
+			letter-spacing: 0.03em;
+			color: var(--text-muted);
+		}
+
+		/* Karten-Fußzeile mit eindeutigen Links */
+		.card-footer {
+			display: flex;
+			flex-wrap: wrap;
+			gap: 0.6rem;
+			align-items: center;
+			justify-content: space-between;
+			padding-block-start: 0.85rem;
+			border-block-start: 1px solid var(--border-default);
+		}
+
+		.action-links {
+			display: flex;
+			flex-wrap: wrap;
+			gap: 0.5rem;
+		}
+
+		.btn-link {
+			display: inline-flex;
+			align-items: center;
+			gap: 0.4rem;
+			min-block-size: 2.35rem;
+			padding: 0.4rem 0.85rem;
+			border-radius: var(--radius-sm);
+			font-size: 0.86rem;
+			font-weight: 700;
+			text-decoration: none;
+			border: 1px solid var(--border-strong);
+			background: var(--bg-elevated);
+			color: var(--text-primary);
+		}
+
+		.btn-link:hover {
+			background: var(--bg-subtle);
+		}
+
+		.btn-link-primary {
+			background: var(--accent);
+			color: var(--accent-on);
+			border-color: var(--accent);
+		}
+
+		.btn-link-primary:hover {
+			background: color-mix(in oklab, var(--accent) 88%, black);
+		}
+
+		.file-links {
+			display: flex;
+			flex-wrap: wrap;
+			gap: 0.75rem;
+			font-size: 0.84rem;
+		}
+
+		.file-links a {
+			color: var(--accent);
+			text-decoration: underline;
+			text-underline-offset: 2px;
+		}
+
+		/* Übergreifende Repo- & Roadmap-Karten */
+		.two-col-grid {
+			display: grid;
+			grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+			gap: 1.25rem;
+		}
+
+		.panel {
+			background: var(--bg-surface);
+			border: 1px solid var(--border-default);
+			border-radius: var(--radius-md);
+			padding: 1.25rem 1.35rem;
+			box-shadow: var(--shadow-card);
+		}
+
+		.panel h3 {
+			margin-block-end: 0.65rem;
+			font-size: 1.08rem;
+		}
+
+		.panel ul,
+		.panel ol {
+			margin: 0;
+			padding-inline-start: 1.2rem;
+			display: flex;
+			flex-direction: column;
+			gap: 0.5rem;
+			color: var(--text-secondary);
+			font-size: 0.93rem;
+		}
+
+		.panel li strong {
+			color: var(--text-primary);
+		}
+
+		.roadmap-grid {
+			display: grid;
+			grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+			gap: 1.25rem;
+		}
+
+		.roadmap-step {
+			background: var(--bg-surface);
+			border: 1px solid var(--border-default);
+			border-radius: var(--radius-md);
+			padding: 1.25rem;
+			box-shadow: var(--shadow-card);
+			display: flex;
+			flex-direction: column;
+			gap: 0.65rem;
+		}
+
+		.roadmap-step ul {
+			margin: 0;
+			padding-inline-start: 1.2rem;
+			display: flex;
+			flex-direction: column;
+			gap: 0.45rem;
+			font-size: 0.91rem;
+			color: var(--text-secondary);
+		}
+
+		.empty-state {
+			background: var(--bg-surface);
+			border: 1px dashed var(--border-strong);
+			border-radius: var(--radius-md);
+			padding: 2rem;
+			text-align: center;
+			color: var(--text-muted);
+		}
+
+		/* Footer */
+		.site-footer {
+			background: var(--bg-surface);
+			border-block-start: 1px solid var(--border-default);
+			padding: 1.75rem 1.25rem;
+			color: var(--text-muted);
+			font-size: 0.88rem;
+		}
+
+		.footer-inner {
+			max-inline-size: 1320px;
+			margin-inline: auto;
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			gap: 1rem;
+			flex-wrap: wrap;
+		}
+
+		.footer-links {
+			display: flex;
+			gap: 1.15rem;
+			flex-wrap: wrap;
+		}
+
+		.footer-links a {
+			color: var(--accent);
+			text-decoration: underline;
+			text-underline-offset: 2px;
+		}
+
+		/* Touch-Zielgrößen auf groben Zeigern vergrößern */
+		@media (pointer: coarse) {
+			.site-nav a,
+			.btn-filter,
+			.btn-toggle-all,
+			.btn-link,
+			.theme-toggle,
+			details.card-details > summary {
+				min-block-size: 2.75rem;
+			}
+		}
+
+		/* Forced Colors / Windows High Contrast Mode */
+		@media (forced-colors: active) {
+			.kpi-card,
+			.summary-callout,
+			.project-card,
+			.pillar,
+			.panel,
+			.roadmap-step,
+			.badge,
+			.table-wrapper,
+			details.card-details {
+				border: 1px solid CanvasText;
+				box-shadow: none;
+			}
+			.btn-filter[aria-pressed="true"],
+			.btn-link-primary {
+				border: 2px solid Highlight;
+			}
+		}
+
+		/* Druckansicht */
+		@media print {
+			.site-header,
+			.filter-toolbar,
+			.skip-link,
+			.theme-toggle {
+				display: none !important;
+			}
+			body {
+				background: white;
+				color: black;
+			}
+			.project-card,
+			.panel,
+			.roadmap-step {
+				break-inside: avoid;
+				box-shadow: none;
+			}
+		}
+	</style>
+</head>
+<body>
+	<a href="#main-heading" class="skip-link visually-hidden">Zum Hauptinhalt springen</a>
+
+	<header class="site-header">
+		<div class="header-bar">
+			<div class="brand-meta">
+				<span class="brand-dot" aria-hidden="true"></span>
+				<span>Mini-Games · Projektstatus</span>
+			</div>
+
+			<nav class="site-nav" aria-label="Seitenabschnitte">
+				<ul>
+					<li><a href="#vergleich">Vergleich</a></li>
+					<li><a href="#projekte">Projekte (7)</a></li>
+					<li><a href="#repo-status">Repo &amp; Technik</a></li>
+					<li><a href="#naechste-schritte">Nächste Schritte</a></li>
+				</ul>
+			</nav>
+
+			<button type="button" id="theme-toggle" class="theme-toggle">
+				<span class="show-when-light">
+					<svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+						<path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>
+					</svg>
+					<span>Dunkelmodus</span>
+				</span>
+				<span class="show-when-dark">
+					<svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+						<circle cx="12" cy="12" r="4"/>
+						<path d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32 1.41 1.41M2 12h2m16 0h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/>
+					</svg>
+					<span>Hellmodus</span>
+				</span>
+			</button>
+		</div>
+	</header>
+
+	<main>
+		<section class="hero">
+			<div class="hero-eyebrow">Godot 4.7.2 · GDScript · Linux, Windows &amp; Web · Stand: 23.11.2026 (nach Bugfix- &amp; Feinschliff-Sprint)</div>
+			<h1 id="main-heading" tabindex="-1">Projektübersicht: Mini-Games Repository</h1>
+			<p class="hero-lead">
+				Vollständige Bestandsaufnahme aller sieben Godot-Spiele im Repository <code>games/</code> –
+				abgeglichen mit den Plänen (<code>plans/01</code>–<code>07</code>), allen abgeschlossenen Fixes
+				&amp; Finetunings sowie dem frischen Gesamtdurchlauf von <code>tools/run_tests.sh</code> und <code>tools/build_all.sh</code>.
+			</p>
+
+			<div class="kpi-grid">
+				<div class="kpi-card">
+					<span class="kpi-label">Abgeschlossene Spiele</span>
+					<span class="kpi-value">7 / 7</span>
+					<span class="kpi-note">Vollversionen (v1.0.1 – v1.5.4) · alle 7 SVG-Icons XML-valide · 3-Plattform-Builds aktuell</span>
+				</div>
+				<div class="kpi-card">
+					<span class="kpi-label">Umgesetzte Meilensteine</span>
+					<span class="kpi-value">57 / 57</span>
+					<span class="kpi-note">Alle Kern-Meilensteine vollständig abgehakt (inkl. Plan 06 <code>✅</code> &amp; M8)</span>
+				</div>
+				<div class="kpi-card">
+					<span class="kpi-label">Live-Testergebnis</span>
+					<span class="kpi-value">264 / 264</span>
+					<span class="kpi-note">0 Fehler · 0 Warnungen · 0 Exit-Leaks · 7/7 Smoke-Tests grün</span>
+				</div>
+				<div class="kpi-card">
+					<span class="kpi-label">Feinschliff &amp; Fixes</span>
+					<span class="kpi-value">Alle behoben</span>
+					<span class="kpi-note"><code>AudioService</code> + <code>F3</code>, Lumaria-Icon &amp; 3 Save-Slots, Block Stack &amp; Crypt Dash</span>
+				</div>
+			</div>
+
+			<div class="summary-callout">
+				<p>
+					<strong>Kurzfazit:</strong> Alle <strong>7 Spiele sind technisch bereinigt, vollständig spielbar und für Linux, Windows &amp; Web gebaut</strong>. Alle zuvor offenen Doku-Drifts, das defekte Browser-Icon von <em>Lumaria</em> (doppeltes <code>filter</code>-XML-Attribut in <code>lumaria/icon.svg</code>), alle ObjectDB-/Resource-Exit-Leaks sowie die geplanten Kern-Finetunings wurden vollständig erledigt.
+				</p>
+				<p>
+					<strong>Aktueller Stand:</strong> Sämtliche <strong>264 Unit-Tests</strong> und alle <strong>7 Headless-Smoke-Tests</strong> laufen mit <strong>0 Warnungen, 0 Fehlern und 0 Speicher-Leaks</strong>. Offen sind nur noch das optionale Ausführen von <code>tools/release_game.sh</code> für neue GitHub-Releases sowie freiwillige Post-Launch-Ideen aus den Plänen.
+				</p>
+			</div>
+		</section>
+
+		<!-- Abschnitt 1: Vergleichstabelle -->
+		<section id="vergleich">
+			<div class="section-head">
+				<div>
+					<h2 id="vergleich-heading">1. Schnellvergleich aller Projekte</h2>
+					<p class="section-desc">Kompakter Überblick über Version, Abschlussstatus, Live-Tests (0 Leaks), bereinigte Punkte und optionale nächste Schritte.</p>
+				</div>
+			</div>
+
+			<div tabindex="0" role="region" aria-labelledby="comparison-caption" class="table-wrapper">
+				<table class="comparison-table">
+					<caption id="comparison-caption">Statusmatrix der 7 Godot-Projekte in games/ (Stand: 23.11.2026)</caption>
+					<thead>
+						<tr>
+							<th scope="col">Projekt</th>
+							<th scope="col">Version</th>
+							<th scope="col">Status</th>
+							<th scope="col">Meilensteine</th>
+							<th scope="col">Tests (live)</th>
+							<th scope="col">Letztes Update</th>
+							<th scope="col">Offene Technik-Punkte</th>
+							<th scope="col">Nächster Schritt</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<th scope="row"><a href="#proj-neon-breakout">01 · Neon Breakout</a></th>
+							<td class="num"><code>v1.1.2</code></td>
+							<td><span class="badge badge-ok"><span aria-hidden="true">✓</span> Abgeschlossen (M0–M8)</span></td>
+							<td class="num">9 / 9 ✅</td>
+							<td class="num">90 Tests · 0 Leaks</td>
+							<td class="num">23.11.2026</td>
+							<td>Keine (Portal/README &amp; Tag <code>v1.1.2</code> bereinigt; <code>F3</code>-Overlay aktiv)</td>
+							<td>Optional Post-Launch: Level-Editor oder Daily Seed</td>
+						</tr>
+						<tr>
+							<th scope="row"><a href="#proj-asteroid-drift">02 · Asteroid Drift</a></th>
+							<td class="num"><code>v1.0.5</code></td>
+							<td><span class="badge badge-ok"><span aria-hidden="true">✓</span> Abgeschlossen + Audio/F3</span></td>
+							<td class="num">8 / 8 ✅</td>
+							<td class="num">26 Tests · 0 Leaks</td>
+							<td class="num">23.11.2026</td>
+							<td>Keine (Space-Musik, Audio-Regler, <code>F3</code>-Overlay &amp; 0 Exit-Leaks behoben)</td>
+							<td>Neues Release bauen; optional Survival-Modus &amp; Bosse</td>
+						</tr>
+						<tr>
+							<th scope="row"><a href="#proj-vier-gewinnt">03 · Connect Four Deluxe</a></th>
+							<td class="num"><code>v1.2.1</code></td>
+							<td><span class="badge badge-ok"><span aria-hidden="true">✓</span> Abgeschlossen + Audio/F3</span></td>
+							<td class="num">7 / 7 ✅</td>
+							<td class="num">24 Tests · 0 Leaks</td>
+							<td class="num">23.11.2026</td>
+							<td>Keine (Lounge-Musik, Audio-Optionen &amp; <code>F3</code>-Overlay integriert)</td>
+							<td>Optional Release bauen; Idee: „Pop Out“ / 8×7-Brett / 4. KI-Stufe</td>
+						</tr>
+						<tr>
+							<th scope="row"><a href="#proj-block-stack">04 · Block Stack</a></th>
+							<td class="num"><code>v1.2.0</code></td>
+							<td><span class="badge badge-ok"><span aria-hidden="true">✓</span> Abgeschlossen + Optionen</span></td>
+							<td class="num">8 / 8 ✅</td>
+							<td class="num">26 Tests · 0 Leaks</td>
+							<td class="num">23.11.2026</td>
+							<td>Keine (DAS/ARR-Menü, Farbblind-Symbole, Musik &amp; <code>F3</code> ergänzt)</td>
+							<td>Minor-Release (<code>v1.3.0</code>) über <code>release_game.sh</code>; optional Zen/Replays</td>
+						</tr>
+						<tr>
+							<th scope="row"><a href="#proj-lane-defenders">05 · Lane Defenders</a></th>
+							<td class="num"><code>v1.5.4</code></td>
+							<td><span class="badge badge-ok"><span aria-hidden="true">✓</span> Abgeschlossen + Audio/F3</span></td>
+							<td class="num">8 / 8 ✅</td>
+							<td class="num">22 Tests · 0 Leaks</td>
+							<td class="num">23.11.2026</td>
+							<td>Keine (Portal/README auf 20 Level/4 Welten, Meadow-Musik &amp; 0 Leaks behoben)</td>
+							<td>Patch-Release veröffentlichen; optional Endlos-Modus &amp; Upgrades</td>
+						</tr>
+						<tr>
+							<th scope="row"><a href="#proj-crypt-dash">06 · Crypt Dash</a></th>
+							<td class="num"><code>v1.1.4</code></td>
+							<td><span class="badge badge-ok"><span aria-hidden="true">✓</span> Abgeschlossen + Waffen/SFX</span></td>
+							<td class="num">9 / 9 ✅</td>
+							<td class="num">15 Tests · 0 Leaks</td>
+							<td class="num">23.11.2026</td>
+							<td>Keine (<code>CryptAudio</code>, Musik, 3 Startwaffen, Plan-<code>✅</code> &amp; 0 Leaks erledigt)</td>
+							<td>Minor-Release (<code>v1.2.0</code>) veröffentlichen; optional Klassen &amp; Händler</td>
+						</tr>
+						<tr>
+							<th scope="row"><a href="#proj-lumaria">07 · Lumaria</a></th>
+							<td class="num"><code>v1.0.1</code></td>
+							<td><span class="badge badge-ok"><span aria-hidden="true">✓</span> Abgeschlossen + Save/Bogen</span></td>
+							<td class="num">9 / 9 ✅</td>
+							<td class="num">61 Tests · 0 Leaks</td>
+							<td class="num">23.11.2026</td>
+							<td>Keine (Icon-XML, 3 Save-Slots, Prisma-Bogen, Musik-Slider &amp; 0 Leaks erledigt)</td>
+							<td>Minor-Release (<code>v1.1.0</code>) veröffentlichen; optional Boss-Rush &amp; NG+</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</section>
+
+		<!-- Abschnitt 2: Alle 7 Projekte im Detail -->
+		<section id="projekte">
+			<div class="section-head">
+				<div>
+					<h2 id="projekte-heading">2. Alle 7 Projekte im Detail</h2>
+					<p class="section-desc">Aktueller Stand je Spiel inklusive aller erledigten Bugfixes, neuen Features, Live-Testzahlen und optionalen Ideen.</p>
+				</div>
+			</div>
+
+			<search aria-label="Projekte filtern und durchsuchen">
+				<div class="filter-toolbar">
+					<div class="search-group">
+						<label for="project-search">Suche:</label>
+						<input type="search" id="project-search" placeholder="z. B. AudioService, Save, Bogen, Farbblind, Waffen, Bosse …">
+					</div>
+
+					<div class="filter-pills" role="group" aria-label="Schnellfilter">
+						<button type="button" class="btn-filter" data-filter="all" aria-pressed="true">Alle (7)</button>
+						<button type="button" class="btn-filter" data-filter="feature-update" aria-pressed="false">Neue Features (3)</button>
+						<button type="button" class="btn-filter" data-filter="a11y" aria-pressed="false">Barrierefreiheit (2)</button>
+						<button type="button" class="btn-filter" data-filter="complex" aria-pressed="false">Großprojekte ⭐⭐⭐+ (3)</button>
+						<button type="button" class="btn-filter" data-filter="release-pending" aria-pressed="false">Neuer Release fällig (7)</button>
+					</div>
+
+					<button type="button" class="btn-toggle-all" commandfor="projects-list" command="--toggle-all" aria-expanded="false">
+						<span class="expand-label">Alle Technik-Details öffnen</span>
+						<span class="collapse-label">Alle Technik-Details schließen</span>
+					</button>
+
+					<p id="filter-status" class="filter-status" aria-live="polite">7 von 7 Projekten angezeigt.</p>
+				</div>
+			</search>
+
+			<div id="projects-list" class="projects-list">
+
+				<!-- 01: Neon Breakout -->
+				<article id="proj-neon-breakout" class="project-card" data-tags="release-pending">
+					<header class="card-top">
+						<img src="neon_breakout/icon.svg" alt="" width="56" height="56" class="game-icon">
+						<div class="card-title-block">
+							<div class="card-title-row">
+								<span class="plan-num">Plan 01</span>
+								<h3>Neon Breakout</h3>
+								<span class="badge badge-mono">v1.1.2</span>
+								<span class="badge badge-ok"><span aria-hidden="true">✓</span> Abgeschlossen (Vollversion)</span>
+							</div>
+							<div class="card-badges">
+								<span class="badge badge-info">Arcade / Breakout</span>
+								<span class="badge badge-mono">Aufwand: ⭐</span>
+								<span class="badge badge-ok"><span aria-hidden="true">✓</span> 90 Tests · 0 Leaks</span>
+								<span class="badge badge-ok"><span aria-hidden="true">✓</span> Portal/README &amp; F3-Overlay aktuell</span>
+							</div>
+						</div>
+					</header>
+
+					<p class="card-summary">
+						Modernes Synthwave-/Neon-Breakout (M0–M8) mit 7 Spielmodi und synthetisierter Musik. Portal-Beschreibung, Root-README, lokaler Tag <code>neon_breakout-v1.1.2</code> sowie das gemeinsame <code>F3</code>-Debug-Overlay wurden nun ebenfalls angeglichen.
+					</p>
+
+					<div class="progress-row">
+						<label for="prog-neon"><strong>Meilensteine:</strong> M0–M8 (9 / 9 erledigt)</label>
+						<progress id="prog-neon" value="9" max="9"></progress>
+						<span>100 %</span>
+					</div>
+
+					<div class="pillars-grid">
+						<div class="pillar pillar-done">
+							<div class="pillar-title"><span aria-hidden="true">✓</span> Status &amp; Erreicht</div>
+							<ul>
+								<li><strong>Vollständig fertig (M0–M8):</strong> Alle 10 ASCII-Level, 6 Power-Ups (inkl. Multiball bis 8 Bälle &amp; Laser) und Combo-Multiplikator bis ×4.</li>
+								<li><strong>7 Spielmodi:</strong> Klassisch, Zeitangriff, Endlos, Chaos, 3-Phasen-Bosskampf, Zen &amp; Demo-Autopilot mit Tipps.</li>
+								<li><strong>Doku &amp; Repo-Abgleich erledigt:</strong> <code>README.md</code>, <code>tools/build_web_portal.sh</code>, Tag <code>neon_breakout-v1.1.2</code> und zentrales <code>F3</code>-Debug-Overlay (via <code>DisplayService</code>) nachgezogen.</li>
+								<li><strong>Top-Qualität:</strong> 90 Unit-Tests + Smoke-Test laufen komplett fehler- und leakfrei.</li>
+							</ul>
+						</div>
+
+						<div class="pillar pillar-missing">
+							<div class="pillar-title"><span aria-hidden="true">•</span> Verbleibend (nur optional)</div>
+							<ul>
+								<li><strong>Keine offenen Fehler:</strong> Technik, Portal-Beschreibung, Credits und Tags sind vollständig synchron.</li>
+								<li><strong>Optionale Plan-Ideen:</strong> Level-Editor, tägliches Seed-Level (Daily Seed) oder zusätzliche Themen-Skins sind als reine Post-Launch-Ideen gelistet.</li>
+							</ul>
+						</div>
+
+						<div class="pillar pillar-next">
+							<div class="pillar-title"><span aria-hidden="true">→</span> Als Nächstes geplant</div>
+							<ul>
+								<li><strong>Portal-Deploy:</strong> Bei Bedarf Web-Portal neu deployen, damit die aktualisierte M0–M8-Beschreibung online erscheint.</li>
+								<li><strong>Optional:</strong> Level-Editor oder Daily Seed als eigenständiges Update <code>v1.2.0</code>.</li>
+							</ul>
+						</div>
+					</div>
+
+					<details class="card-details">
+						<summary>Meilensteine, Codebasis &amp; Prüfergebnisse</summary>
+						<div class="details-body">
+							<div>
+								<p class="details-subheading">Meilensteine (Plan 01)</p>
+								<ul class="milestone-list">
+									<li>✅ M0: Setup, Export, shared/</li>
+									<li>✅ M1: Spielkern (Ball, Schläger, Blöcke)</li>
+									<li>✅ M2: Optik-Vertical-Slice (freigegeben)</li>
+									<li>✅ M3: 10 ASCII-Level &amp; Loader</li>
+									<li>✅ M4: 6 Power-Ups &amp; Combo-System</li>
+									<li>✅ M5: Juice, SFX &amp; Musik-Synthese</li>
+									<li>✅ M6: Menüs, Optionen, Credits</li>
+									<li>✅ M7: Politur, Tests, 3-Plattform-Export</li>
+									<li>✅ M8: 6 Extra-Spielmodi + Demo-KI</li>
+								</ul>
+							</div>
+							<div>
+								<p class="details-subheading">Kennzahlen</p>
+								<dl class="meta-dl">
+									<dt>Letztes Update</dt><dd>23.11.2026 (Portal/README-Sync, Tag &amp; shared F3-Overlay)</dd>
+									<dt>Umfang</dt><dd>56 Skripte (38 in <code>scripts/</code>), 10 Szenen, 10 Level-Dateien</dd>
+									<dt>Lokalisierung</dt><dd>91 Zeilen in <code>neon_breakout.csv</code> (+ <code>common.csv</code>)</dd>
+									<dt>Teststatus</dt><dd>90/90 Unit-Tests + Smoke-Test grün (0 Leaks)</dd>
+								</dl>
+							</div>
+						</div>
+					</details>
+
+					<footer class="card-footer">
+						<div class="action-links">
+							<a href="https://chobitschii.github.io/games/neon_breakout/" class="btn-link btn-link-primary" target="_blank" rel="noopener">
+								▶ Im Browser spielen <span class="visually-hidden">(Neon Breakout)</span>
+							</a>
+							<a href="https://github.com/ChobitsChii/games/releases/tag/neon_breakout-latest" class="btn-link" target="_blank" rel="noopener">
+								Releases <span class="visually-hidden">(Neon Breakout)</span>
+							</a>
+						</div>
+						<div class="file-links">
+							<a href="plans/01_neon_breakout.md">Plan <span class="visually-hidden">(Neon Breakout)</span></a>
+							<a href="neon_breakout/README.md">README <span class="visually-hidden">(Neon Breakout)</span></a>
+							<a href="neon_breakout/CREDITS.md">CREDITS <span class="visually-hidden">(Neon Breakout)</span></a>
+						</div>
+					</footer>
+				</article>
+
+				<!-- 02: Asteroid Drift -->
+				<article id="proj-asteroid-drift" class="project-card" data-tags="release-pending">
+					<header class="card-top">
+						<img src="asteroid_drift/icon.svg" alt="" width="56" height="56" class="game-icon">
+						<div class="card-title-block">
+							<div class="card-title-row">
+								<span class="plan-num">Plan 02</span>
+								<h3>Asteroid Drift</h3>
+								<span class="badge badge-mono">v1.0.5</span>
+								<span class="badge badge-ok"><span aria-hidden="true">✓</span> Abgeschlossen (Vollversion)</span>
+							</div>
+							<div class="card-badges">
+								<span class="badge badge-info">Arcade-Shooter</span>
+								<span class="badge badge-mono">Aufwand: ⭐⭐</span>
+								<span class="badge badge-ok"><span aria-hidden="true">✓</span> 26 Tests · 0 Leaks</span>
+								<span class="badge badge-ok"><span aria-hidden="true">✓</span> Space-Musik &amp; 0 Exit-Leaks</span>
+							</div>
+						</div>
+					</header>
+
+					<p class="card-summary">
+						Sci-Fi-Weltraum-Shooter im modernen Flat-Vektor-Stil mit Trägheitsphysik, Bildschirm-Wrap-around, prozeduralen Asteroiden, UFO-Gegnern, Annäherungsminen und Deckbau-Upgrade-Karten – jetzt mit synthetisierter Space-Musik, Audio-Reglern, <code>F3</code>-Overlay und leakfreiem Beenden.
+					</p>
+
+					<div class="progress-row">
+						<label for="prog-asteroid"><strong>Meilensteine:</strong> M0–M7 (8 / 8 erledigt)</label>
+						<progress id="prog-asteroid" value="8" max="8"></progress>
+						<span>100 %</span>
+					</div>
+
+					<div class="pillars-grid">
+						<div class="pillar pillar-done">
+							<div class="pillar-title"><span aria-hidden="true">✓</span> Status &amp; Erreicht</div>
+							<ul>
+								<li><strong>Komplett spielbar (M0–M7):</strong> Schiff mit Trägheitsphysik, Hyperspace-Sprung, Schild, 10+ Wellen, UFOs, Minen &amp; 6 Tech-Karten.</li>
+								<li><strong>Neu — Musik &amp; Audio-Menü:</strong> Synthetisierter nahtloser Space-Ambient-Loop (<code>SharedSynthMusic</code>), eigene Musik-/Effekt-Lautstärke-Buttons &amp; Bus-Routing (<code>AudioService</code>).</li>
+								<li><strong>Alle 30 Exit-Leaks behoben:</strong> Sauberes <code>AudioManager.stop_all()</code>, Testmodus-Schutz &amp; Cleanup beim Beenden; zusätzlich 4 neue Tests in <code>test_audio_service.gd</code>.</li>
+								<li><strong>Doku &amp; Technik synchron:</strong> <code>config/version</code> auf <code>1.0.5</code> angeglichen + <code>F3</code>-Debug-Overlay aktiv.</li>
+							</ul>
+						</div>
+
+						<div class="pillar pillar-missing">
+							<div class="pillar-title"><span aria-hidden="true">•</span> Verbleibend (nur optional)</div>
+							<ul>
+								<li><strong>Keine offenen Bugs:</strong> Smoke-Test und 26/26 Unit-Tests laufen komplett ohne ObjectDB- oder Resource-Leaks.</li>
+								<li><strong>Optionale Plan-Ideen:</strong> Zweiter Modus „Survival“, Boss-Begegnungen, lokaler Highscore-Ghost oder Gamepad-Vibration.</li>
+							</ul>
+						</div>
+
+						<div class="pillar pillar-next">
+							<div class="pillar-title"><span aria-hidden="true">→</span> Als Nächstes geplant</div>
+							<ul>
+								<li><strong>Release-Update:</strong> Mit <code>tools/release_game.sh asteroid_drift patch</code> die Musik-, Audio- und Leak-Fixes veröffentlichen.</li>
+								<li><strong>Optional:</strong> Survival-Modus oder Boss-Welle als späteres Inhalts-Update.</li>
+							</ul>
+						</div>
+					</div>
+
+					<details class="card-details">
+						<summary>Meilensteine, Codebasis &amp; Prüfergebnisse</summary>
+						<div class="details-body">
+							<div>
+								<p class="details-subheading">Meilensteine (Plan 02)</p>
+								<ul class="milestone-list">
+									<li>✅ M0: Setup, Splash &amp; Menü-Optik</li>
+									<li>✅ M1: Schiff, Trägheit, Schießen, Wrap</li>
+									<li>✅ M2: Prozedurale Asteroiden &amp; Zerfall</li>
+									<li>✅ M3: Wellen-Director &amp; Kurve</li>
+									<li>✅ M4: UFOs &amp; Annäherungsminen</li>
+									<li>✅ M5: 6 Upgrade-Karten</li>
+									<li>✅ M6: Juice, Partikel, Shake, SFX &amp; Musik</li>
+									<li>✅ M7: Menüs, Highscore, Export</li>
+								</ul>
+							</div>
+							<div>
+								<p class="details-subheading">Kennzahlen</p>
+								<dl class="meta-dl">
+									<dt>Letztes Update</dt><dd>23.11.2026 (Exit-Leak-Fix, <code>AudioService</code>/Space-Musik, <code>config/version</code>)</dd>
+									<dt>Umfang</dt><dd>31 Skripte (16 eigene), 11 Szenen, 15 OGG-SFX + Synth-Musik</dd>
+									<dt>Lokalisierung</dt><dd>65 Zeilen in <code>asteroid_drift.csv</code> (+ <code>common.csv</code>)</dd>
+									<dt>Teststatus</dt><dd>26/26 Unit-Tests + Smoke-Test grün (0 Leaks)</dd>
+								</dl>
+							</div>
+						</div>
+					</details>
+
+					<footer class="card-footer">
+						<div class="action-links">
+							<a href="https://chobitschii.github.io/games/asteroid_drift/" class="btn-link btn-link-primary" target="_blank" rel="noopener">
+								▶ Im Browser spielen <span class="visually-hidden">(Asteroid Drift)</span>
+							</a>
+							<a href="https://github.com/ChobitsChii/games/releases/tag/asteroid_drift-latest" class="btn-link" target="_blank" rel="noopener">
+								Releases <span class="visually-hidden">(Asteroid Drift)</span>
+							</a>
+						</div>
+						<div class="file-links">
+							<a href="plans/02_asteroid_drift.md">Plan <span class="visually-hidden">(Asteroid Drift)</span></a>
+							<a href="asteroid_drift/README.md">README <span class="visually-hidden">(Asteroid Drift)</span></a>
+							<a href="asteroid_drift/CREDITS.md">CREDITS <span class="visually-hidden">(Asteroid Drift)</span></a>
+						</div>
+					</footer>
+				</article>
+
+				<!-- 03: Connect Four Deluxe -->
+				<article id="proj-vier-gewinnt" class="project-card" data-tags="a11y release-pending">
+					<header class="card-top">
+						<img src="vier_gewinnt/icon.svg" alt="" width="56" height="56" class="game-icon">
+						<div class="card-title-block">
+							<div class="card-title-row">
+								<span class="plan-num">Plan 03</span>
+								<h3>Connect Four Deluxe (Vier gewinnt)</h3>
+								<span class="badge badge-mono">v1.2.1</span>
+								<span class="badge badge-ok"><span aria-hidden="true">✓</span> Abgeschlossen (Vollversion)</span>
+							</div>
+							<div class="card-badges">
+								<span class="badge badge-info">Brettspiel / Strategie</span>
+								<span class="badge badge-mono">Aufwand: ⭐⭐</span>
+								<span class="badge badge-ok"><span aria-hidden="true">✓</span> 24 Tests · 0 Leaks</span>
+								<span class="badge badge-ok"><span aria-hidden="true">✓</span> Lounge-Musik &amp; Audio-Regler</span>
+								<span class="badge badge-info">Farbblind-Modus</span>
+							</div>
+						</div>
+					</header>
+
+					<p class="card-summary">
+						Hochwertiges „Vier gewinnt“ mit 2.5D-Optik, prozeduralem Sound, Farbenblindheitsmodus (Ring/Punkt-Muster), Hot-Seat-Modus und 64-Bit-Bitboard-KI – jetzt abgerundet durch sanfte Lounge-Musik, Musik-/SFX-Schalter und das <code>F3</code>-Debug-Overlay.
+					</p>
+
+					<div class="progress-row">
+						<label for="prog-c4"><strong>Meilensteine:</strong> M0–M6 (7 / 7 erledigt)</label>
+						<progress id="prog-c4" value="7" max="7"></progress>
+						<span>100 %</span>
+					</div>
+
+					<div class="pillars-grid">
+						<div class="pillar pillar-done">
+							<div class="pillar-title"><span aria-hidden="true">✓</span> Status &amp; Erreicht</div>
+							<ul>
+								<li><strong>Vollständig fertig (M0–M6):</strong> Sehr runder Release-Stand (<code>v1.2.1</code>) ohne bekannte Fehler.</li>
+								<li><strong>Starke KI &amp; Komfort:</strong> 3 KI-Stufen (Schwer schlägt Mittel im 50-Partien-Test zu 95,6 %), Hot-Seat, Zug-Tipp, Undo, Statistik, Farbenblindheitsmodus.</li>
+								<li><strong>Neu — Lounge-Musik &amp; Audio-Optionen:</strong> Warme synthetisierte Lounge-Begleitung + separate Musik-/Effekt-Regler im Hauptmenü über <code>AudioService</code> sowie <code>F3</code>-Overlay.</li>
+								<li><strong>Sauberer Testlauf:</strong> 24/24 Tests + Smoke-Test ohne Leaks.</li>
+							</ul>
+						</div>
+
+						<div class="pillar pillar-missing">
+							<div class="pillar-title"><span aria-hidden="true">•</span> Verbleibend (nur optional)</div>
+							<ul>
+								<li><strong>Keine offenen Bugs:</strong> Alles technisch Wesentliche und das Audio-Menü sind integriert.</li>
+								<li><strong>Optionale Plan-Ideen:</strong> 4. KI-Stufe („Unmöglich“), Brettvarianten (8×7, 5 in Reihe) oder „Pop Out“-Modus.</li>
+							</ul>
+						</div>
+
+						<div class="pillar pillar-next">
+							<div class="pillar-title"><span aria-hidden="true">→</span> Als Nächstes geplant</div>
+							<ul>
+								<li><strong>Release-Update:</strong> Bei Bedarf Patch-Release über <code>tools/release_game.sh vier_gewinnt patch</code> für Lounge-Musik &amp; <code>F3</code>-Overlay.</li>
+								<li><strong>Optional:</strong> Spielvarianten („Pop Out“ / 8×7) als Content-Erweiterung.</li>
+							</ul>
+						</div>
+					</div>
+
+					<details class="card-details">
+						<summary>Meilensteine, Codebasis &amp; Prüfergebnisse</summary>
+						<div class="details-body">
+							<div>
+								<p class="details-subheading">Meilensteine (Plan 03)</p>
+								<ul class="milestone-list">
+									<li>✅ M0: Setup, shared/ &amp; Basis-Optik</li>
+									<li>✅ M1: Bitboard-Engine &amp; Unit-Tests</li>
+									<li>✅ M2: Darstellung, Steuerung, Hot-Seat</li>
+									<li>✅ M3: KI Leicht &amp; Mittel</li>
+									<li>✅ M4: KI Schwer (Alpha-Beta, Zeitlimit)</li>
+									<li>✅ M5: Animationen, SFX, Lounge-Musik &amp; Statistik</li>
+									<li>✅ M6: Menüs, Optionen, Export</li>
+								</ul>
+							</div>
+							<div>
+								<p class="details-subheading">Kennzahlen</p>
+								<dl class="meta-dl">
+									<dt>Letztes Update</dt><dd>23.11.2026 (<code>AudioService</code>, Lounge-Musik, Cleanup, <code>F3</code>)</dd>
+									<dt>Umfang</dt><dd>22 Skripte (10 eigene), 5 Szenen</dd>
+									<dt>Lokalisierung</dt><dd>44 Zeilen in <code>vier_gewinnt.csv</code> (+ <code>common.csv</code>)</dd>
+									<dt>Teststatus</dt><dd>24/24 Unit-Tests (inkl. 50-Partien-KI-Benchmark) + Smoke-Test grün (0 Leaks)</dd>
+								</dl>
+							</div>
+						</div>
+					</details>
+
+					<footer class="card-footer">
+						<div class="action-links">
+							<a href="https://chobitschii.github.io/games/vier_gewinnt/" class="btn-link btn-link-primary" target="_blank" rel="noopener">
+								▶ Im Browser spielen <span class="visually-hidden">(Connect Four Deluxe)</span>
+							</a>
+							<a href="https://github.com/ChobitsChii/games/releases/tag/vier_gewinnt-latest" class="btn-link" target="_blank" rel="noopener">
+								Releases <span class="visually-hidden">(Connect Four Deluxe)</span>
+							</a>
+						</div>
+						<div class="file-links">
+							<a href="plans/03_vier_gewinnt.md">Plan <span class="visually-hidden">(Connect Four Deluxe)</span></a>
+							<a href="vier_gewinnt/README.md">README <span class="visually-hidden">(Connect Four Deluxe)</span></a>
+							<a href="vier_gewinnt/CREDITS.md">CREDITS <span class="visually-hidden">(Connect Four Deluxe)</span></a>
+						</div>
+					</footer>
+				</article>
+
+				<!-- 04: Block Stack -->
+				<article id="proj-block-stack" class="project-card" data-tags="feature-update a11y release-pending">
+					<header class="card-top">
+						<img src="block_stack/icon.svg" alt="" width="56" height="56" class="game-icon">
+						<div class="card-title-block">
+							<div class="card-title-row">
+								<span class="plan-num">Plan 04</span>
+								<h3>Block Stack</h3>
+								<span class="badge badge-mono">v1.2.0</span>
+								<span class="badge badge-ok"><span aria-hidden="true">✓</span> Abgeschlossen (Vollversion)</span>
+							</div>
+							<div class="card-badges">
+								<span class="badge badge-info">Puzzle / Tetris-Like</span>
+								<span class="badge badge-mono">Aufwand: ⭐⭐</span>
+								<span class="badge badge-ok"><span aria-hidden="true">✓</span> 26 Tests · 0 Leaks</span>
+								<span class="badge badge-ok"><span aria-hidden="true">✓</span> DAS/ARR-Menü &amp; Farbblind-Modus</span>
+							</div>
+						</div>
+					</header>
+
+					<p class="card-summary">
+						Modernes Guideline-Puzzle in Glas-/Neon-Optik mit SRS-Wall-Kicks, 7-Bag-Zufall, Hold, Ghost Piece, T-Spin-Erkennung und CPU-Duell – jetzt inklusive Optionsmenü für DAS/ARR, Vektor-Symbolen für Farbenblindheit, Puzzle-Musik und Audio-Reglern.
+					</p>
+
+					<div class="progress-row">
+						<label for="prog-stack"><strong>Meilensteine:</strong> M0–M7 (8 / 8 erledigt)</label>
+						<progress id="prog-stack" value="8" max="8"></progress>
+						<span>100 %</span>
+					</div>
+
+					<div class="pillars-grid">
+						<div class="pillar pillar-done">
+							<div class="pillar-title"><span aria-hidden="true">✓</span> Status &amp; Erreicht</div>
+							<ul>
+								<li><strong>Komplett spielbar (M0–M7):</strong> Alle 4 Modi – Marathon, Sprint (40 Reihen), Ultra (2 Min.) und CPU-Duell mit Müllreihen-Verrechnung.</li>
+								<li><strong>Neu — Optionsmenü (DAS / ARR / Audio):</strong> Über <code>HandlingSettings</code> Presets für DAS (<code>100–240 ms</code>) und ARR (<code>0–80 ms</code>, inkl. Sofort-Schub-Fix bei <code>0 ms</code>) sowie Musik-/SFX-Regler.</li>
+								<li><strong>Neu — Farbblind-Symbole &amp; Musik:</strong> Eindeutige kontrastreiche Vektor-Glyphen (<code>draw_piece_symbol</code>) auf Spielstein-, Hold- &amp; Next-Blöcken sowie nahtlose Puzzle-Synth-Musik.</li>
+								<li><strong>Verifiziert:</strong> 26/26 Unit-Tests (+ <code>test_settings.gd</code>), visueller <code>xvfb-run</code>-UI-Check &amp; Smoke-Test mit 0 Leaks.</li>
+							</ul>
+						</div>
+
+						<div class="pillar pillar-missing">
+							<div class="pillar-title"><span aria-hidden="true">•</span> Verbleibend (nur optional)</div>
+							<ul>
+								<li><strong>Keine offenen Lücken:</strong> Alle geplanten Options- und Barrierefreiheits-Punkte sind umgesetzt.</li>
+								<li><strong>Optionale Plan-Ideen:</strong> Replays (Seed + Eingabeprotokoll), Zen-Modus, Puzzle-Modus oder wählbare Themen-Skins.</li>
+							</ul>
+						</div>
+
+						<div class="pillar pillar-next">
+							<div class="pillar-title"><span aria-hidden="true">→</span> Als Nächstes geplant</div>
+							<ul>
+								<li><strong>Release-Update:</strong> Neues Feature-Release via <code>tools/release_game.sh block_stack minor</code> erstellen (Optionsmenü, Farbblind-Modus, Musik).</li>
+								<li><strong>Optional:</strong> Replay-Aufzeichnung oder Zen-Modus als späteres Update.</li>
+							</ul>
+						</div>
+					</div>
+
+					<details class="card-details">
+						<summary>Meilensteine, Codebasis &amp; Prüfergebnisse</summary>
+						<div class="details-body">
+							<div>
+								<p class="details-subheading">Meilensteine (Plan 04)</p>
+								<ul class="milestone-list">
+									<li>✅ M0: Setup, shared/ &amp; Basis-Optik</li>
+									<li>✅ M1: Formen, SRS-Kicks, Kollision</li>
+									<li>✅ M2: Darstellung, Steuerung, Marathon</li>
+									<li>✅ M3: Hold, Ghost, Vorschau, Lock Delay</li>
+									<li>✅ M4: Wertung (T-Spin, B2B, Combo)</li>
+									<li>✅ M5: Sprint, Ultra &amp; Highscores</li>
+									<li>✅ M6: Dellacherie-CPU &amp; Duell-Modus</li>
+									<li>✅ M7+: KeyBadges, Optionen (DAS/ARR), Farbblind-Modus, Musik</li>
+								</ul>
+							</div>
+							<div>
+								<p class="details-subheading">Kennzahlen</p>
+								<dl class="meta-dl">
+									<dt>Letztes Update</dt><dd>23.11.2026 (Optionsmenü DAS/ARR, Farbblind-Symbole, Musik)</dd>
+									<dt>Umfang</dt><dd>31 Skripte (15 eigene), 4 Szenen, SVG-Tasten-Icons</dd>
+									<dt>Lokalisierung</dt><dd>83 Zeilen in <code>block_stack.csv</code> (+ <code>common.csv</code>)</dd>
+									<dt>Teststatus</dt><dd>26/26 Unit-Tests + Smoke-Test grün (0 Leaks)</dd>
+								</dl>
+							</div>
+						</div>
+					</details>
+
+					<footer class="card-footer">
+						<div class="action-links">
+							<a href="https://chobitschii.github.io/games/block_stack/" class="btn-link btn-link-primary" target="_blank" rel="noopener">
+								▶ Im Browser spielen <span class="visually-hidden">(Block Stack)</span>
+							</a>
+							<a href="https://github.com/ChobitsChii/games/releases/tag/block_stack-latest" class="btn-link" target="_blank" rel="noopener">
+								Releases <span class="visually-hidden">(Block Stack)</span>
+							</a>
+						</div>
+						<div class="file-links">
+							<a href="plans/04_block_stack.md">Plan <span class="visually-hidden">(Block Stack)</span></a>
+							<a href="block_stack/README.md">README <span class="visually-hidden">(Block Stack)</span></a>
+							<a href="block_stack/CREDITS.md">CREDITS <span class="visually-hidden">(Block Stack)</span></a>
+						</div>
+					</footer>
+				</article>
+
+				<!-- 05: Lane Defenders -->
+				<article id="proj-lane-defenders" class="project-card" data-tags="complex release-pending">
+					<header class="card-top">
+						<img src="lane_defenders/icon.svg" alt="" width="56" height="56" class="game-icon">
+						<div class="card-title-block">
+							<div class="card-title-row">
+								<span class="plan-num">Plan 05</span>
+								<h3>Lane Defenders</h3>
+								<span class="badge badge-mono">v1.5.4</span>
+								<span class="badge badge-ok"><span aria-hidden="true">✓</span> Abgeschlossen &amp; Erweitert</span>
+							</div>
+							<div class="card-badges">
+								<span class="badge badge-info">Tower Defense (5 Lanes)</span>
+								<span class="badge badge-mono">Aufwand: ⭐⭐⭐</span>
+								<span class="badge badge-ok"><span aria-hidden="true">✓</span> 22 Tests · 0 Leaks</span>
+								<span class="badge badge-ok"><span aria-hidden="true">✓</span> Meadow-Musik, 20 Level &amp; 0 Leaks</span>
+							</div>
+						</div>
+					</header>
+
+					<p class="card-summary">
+						Umfangreichstes Release-Portfolio (14 Versionen bis <code>v1.5.4</code>): Flat-Cartoon-Tower-Defense auf 5×9 Feldern mit 4 Welten, 20 Leveln, 4 Bossen, Lexikon und Bot-Test – nun inklusive Meadow-Musik, Audio-Reglern, bereinigter Portal/README-Doku, <code>F3</code>-Overlay und 0 Exit-Leaks.
+					</p>
+
+					<div class="progress-row">
+						<label for="prog-lane"><strong>Meilensteine:</strong> M0–M7 + Inhalts-Updates v1.1–v1.5 (8 / 8 erledigt)</label>
+						<progress id="prog-lane" value="8" max="8"></progress>
+						<span>100 %+</span>
+					</div>
+
+					<div class="pillars-grid">
+						<div class="pillar pillar-done">
+							<div class="pillar-title"><span aria-hidden="true">✓</span> Status &amp; Erreicht</div>
+							<ul>
+								<li><strong>Über Plan hinaus erweitert:</strong> <strong>20 Level in 4 Welten</strong> (Grüne Wiese, Dunkler Pfad, Winterwald, Magma-Ödland), 7 Einheiten, 6 Gegner, 4 Welt-Bosse, Lexikon, Autosave &amp; Bot-Test.</li>
+								<li><strong>Neu — Musik, Audio-Regler &amp; Doku-Fix:</strong> Beschwingte Meadow-Musik + Musik-/SFX-Schalter (<code>AudioService</code>), Root-<code>README.md</code> &amp; Web-Portal auf 20 Level / 4 Welten korrigiert, <code>config/version = "1.5.4"</code>.</li>
+								<li><strong>Alle 42 Exit-Leaks behoben:</strong> Vorherige 42 ObjectDB-/8 Resource-Leaks beim Beenden (<code>sound_effects.gd</code> + <code>smoke.gd</code>) komplett beseitigt.</li>
+							</ul>
+						</div>
+
+						<div class="pillar pillar-missing">
+							<div class="pillar-title"><span aria-hidden="true">•</span> Verbleibend (nur optional)</div>
+							<ul>
+								<li><strong>Keine offenen Bugs:</strong> Smoke-Test, Balancing-Bot und Doku-Texte sind komplett fehler- und leakfrei.</li>
+								<li><strong>Optionale Plan-Ideen:</strong> Endlos-Modus, Tagesaufgaben oder Einheiten-Upgrades im Kampf.</li>
+							</ul>
+						</div>
+
+						<div class="pillar pillar-next">
+							<div class="pillar-title"><span aria-hidden="true">→</span> Als Nächstes geplant</div>
+							<ul>
+								<li><strong>Release-Update:</strong> Patch-Release via <code>tools/release_game.sh lane_defenders patch</code> für Musik, <code>F3</code>-Overlay &amp; Exit-Leak-Fix.</li>
+								<li><strong>Optional:</strong> Endlos-Modus als späteres Feature-Update.</li>
+							</ul>
+						</div>
+					</div>
+
+					<details class="card-details">
+						<summary>Meilensteine, Codebasis &amp; Prüfergebnisse</summary>
+						<div class="details-body">
+							<div>
+								<p class="details-subheading">Meilensteine (Plan 05)</p>
+								<ul class="milestone-list">
+									<li>✅ M0: Setup, shared/ &amp; Basis-Optik</li>
+									<li>✅ M1: 5×9 Raster, Bau &amp; Energiesystem</li>
+									<li>✅ M2: Gegner, Schütze, Projektile</li>
+									<li>✅ M3: Wellen-Director &amp; LevelData</li>
+									<li>✅ M4: Alle 7 Einheiten, 6 Gegner, Karten-UI</li>
+									<li>✅ M5: 4 Welten (20 Level &amp; 4 Bosse)</li>
+									<li>✅ M6: Autosave, Levelwahl, Tutorial, Lexikon</li>
+									<li>✅ M7+: Juice, SFX, Meadow-Musik, Bot-Test, Export</li>
+								</ul>
+							</div>
+							<div>
+								<p class="details-subheading">Kennzahlen</p>
+								<dl class="meta-dl">
+									<dt>Letztes Update</dt><dd>23.11.2026 (Exit-Leak-Fix, Meadow-Musik/Audio, Portal-Doku, <code>F3</code>)</dd>
+									<dt>Umfang</dt><dd>32 Skripte (18 eigene), 7 Szenen, 33 <code>.tres</code>-Datenressourcen</dd>
+									<dt>Lokalisierung</dt><dd>100 Zeilen in <code>lane_defenders.csv</code> (+ <code>common.csv</code>)</dd>
+									<dt>Teststatus</dt><dd>22/22 Unit-Tests (inkl. Bot-Test) + Smoke-Test grün (0 Leaks)</dd>
+								</dl>
+							</div>
+						</div>
+					</details>
+
+					<footer class="card-footer">
+						<div class="action-links">
+							<a href="https://chobitschii.github.io/games/lane_defenders/" class="btn-link btn-link-primary" target="_blank" rel="noopener">
+								▶ Im Browser spielen <span class="visually-hidden">(Lane Defenders)</span>
+							</a>
+							<a href="https://github.com/ChobitsChii/games/releases/tag/lane_defenders-latest" class="btn-link" target="_blank" rel="noopener">
+								Releases <span class="visually-hidden">(Lane Defenders)</span>
+							</a>
+						</div>
+						<div class="file-links">
+							<a href="plans/05_lane_defenders.md">Plan <span class="visually-hidden">(Lane Defenders)</span></a>
+							<a href="lane_defenders/README.md">README <span class="visually-hidden">(Lane Defenders)</span></a>
+							<a href="lane_defenders/CREDITS.md">CREDITS <span class="visually-hidden">(Lane Defenders)</span></a>
+						</div>
+					</footer>
+				</article>
+
+				<!-- 06: Crypt Dash -->
+				<article id="proj-crypt-dash" class="project-card" data-tags="feature-update complex release-pending">
+					<header class="card-top">
+						<img src="crypt_dash/icon.svg" alt="" width="56" height="56" class="game-icon">
+						<div class="card-title-block">
+							<div class="card-title-row">
+								<span class="plan-num">Plan 06</span>
+								<h3>Crypt Dash</h3>
+								<span class="badge badge-mono">v1.1.4</span>
+								<span class="badge badge-ok"><span aria-hidden="true">✓</span> Abgeschlossen (Vollversion)</span>
+							</div>
+							<div class="card-badges">
+								<span class="badge badge-info">Top-Down-Roguelite</span>
+								<span class="badge badge-mono">Aufwand: ⭐⭐⭐</span>
+								<span class="badge badge-ok"><span aria-hidden="true">✓</span> 15 Tests · 0 Leaks</span>
+								<span class="badge badge-ok"><span aria-hidden="true">✓</span> CryptAudio, Musik &amp; 3 Startwaffen</span>
+							</div>
+						</div>
+					</header>
+
+					<p class="card-summary">
+						Atmosphärischer Top-Down-Dungeon-Crawler mit prozeduralen Gruft-Etagen (1000+ Seeds getestet), Dash, 15 Relikten, Multi-Phasen-Bossen und Seelen-Altar – jetzt ergänzt um prozedurale Audio-SFX (<code>CryptAudio</code>), düstere Gruft-Musik, 3 freischaltbare Startwaffen im Altar und 0 Leaks.
+					</p>
+
+					<div class="progress-row">
+						<label for="prog-crypt"><strong>Meilensteine:</strong> M0–M8 vollständig abgeschlossen &amp; mit ✅ markiert (9 / 9)</label>
+						<progress id="prog-crypt" value="9" max="9"></progress>
+						<span>100 %</span>
+					</div>
+
+					<div class="pillars-grid">
+						<div class="pillar pillar-done">
+							<div class="pillar-title"><span aria-hidden="true">✓</span> Status &amp; Erreicht</div>
+							<ul>
+								<li><strong>Kompletter Run + Builds:</strong> 3 prozedurale Etagen, Minimap, 5 Gegnertypen, Multi-Phasen-Bosse, 15 Relikte, Bestiarium &amp; Guide.</li>
+								<li><strong>Neu — Audio &amp; Musik:</strong> Neuer Autoload <code>CryptAudio</code> für Wurf-/Treffer-/Dash-/Boss-/Pickup-SFX + düsterer Crypt-Musik-Loop und Lautstärkeschalter (<code>AudioService</code>).</li>
+								<li><strong>Neu — 3 Startwaffen im Seelen-Altar:</strong> <code>WeaponCatalog</code> mit <em>Schattendolche</em> (frei), <em>Zwillingsreißer</em> (12 Seelen, 2er-Salve) &amp; <em>Arkanstab</em> (20 Seelen, Piercing).</li>
+								<li><strong>Doku &amp; Leaks erledigt:</strong> <code>plans/06_crypt_dash.md</code> M0–M8 mit <code>✅</code> markiert, zyklische Resource-Leaks in <code>ItemData</code>/<code>BossPhase</code> behoben (0 Leaks!).</li>
+							</ul>
+						</div>
+
+						<div class="pillar pillar-missing">
+							<div class="pillar-title"><span aria-hidden="true">•</span> Verbleibend (nur optional)</div>
+							<ul>
+								<li><strong>Keine offenen Lücken:</strong> Plan-Haken, Audio/Musik, Startwaffen und Leak-Fixes sind komplett abgeschlossen.</li>
+								<li><strong>Optionale Plan-Ideen:</strong> Weitere Klassen, Daily Seed, Händler-Raum, Geheimräume oder Co-op.</li>
+							</ul>
+						</div>
+
+						<div class="pillar pillar-next">
+							<div class="pillar-title"><span aria-hidden="true">→</span> Als Nächstes geplant</div>
+							<ul>
+								<li><strong>Release-Update:</strong> Neues Feature-Release via <code>tools/release_game.sh crypt_dash minor</code> veröffentlichen (Audio, Musik, Startwaffen).</li>
+								<li><strong>Optional:</strong> Händler-Raum oder zusätzliche Charakterklassen als späteres Update.</li>
+							</ul>
+						</div>
+					</div>
+
+					<details class="card-details">
+						<summary>Meilensteine, Codebasis &amp; Prüfergebnisse</summary>
+						<div class="details-body">
+							<div>
+								<p class="details-subheading">Meilensteine (Plan 06 · vollständig ✅)</p>
+								<ul class="milestone-list">
+									<li>✅ M0: Setup, shared/ &amp; Grundgerüst</li>
+									<li>✅ M1: Bewegung, Dash, Angriff, Testraum</li>
+									<li>✅ M2: Gegner-Basis, Schaden, Drops</li>
+									<li>✅ M3: Dungeon-Generator, Türen, Minimap</li>
+									<li>✅ M4: Item-System (15 Relikte) &amp; Belohnungen</li>
+									<li>✅ M5: 5 Gegnertypen &amp; Boss-System</li>
+									<li>✅ M6: 3 Etagen &amp; Multi-Phasen-Bosse</li>
+									<li>✅ M7: Seelen-Altar, Stat-Upgrades &amp; 3 Startwaffen</li>
+									<li>✅ M8: Almanach, <code>CryptAudio</code>/Musik, Export</li>
+								</ul>
+							</div>
+							<div>
+								<p class="details-subheading">Kennzahlen</p>
+								<dl class="meta-dl">
+									<dt>Letztes Update</dt><dd>23.11.2026 (<code>CryptAudio</code>, Crypt-Musik, 3 Startwaffen, Leak- &amp; Plan-Fix)</dd>
+									<dt>Umfang</dt><dd>41 Skripte (27 eigene), 4 Szenen</dd>
+									<dt>Lokalisierung</dt><dd>115 Zeilen in <code>crypt_dash.csv</code> (+ <code>common.csv</code>)</dd>
+									<dt>Teststatus</dt><dd>15/15 Unit-Tests (inkl. 1000-Seed- &amp; Waffentests) + Smoke-Test grün (0 Leaks)</dd>
+								</dl>
+							</div>
+						</div>
+					</details>
+
+					<footer class="card-footer">
+						<div class="action-links">
+							<a href="https://chobitschii.github.io/games/crypt_dash/" class="btn-link btn-link-primary" target="_blank" rel="noopener">
+								▶ Im Browser spielen <span class="visually-hidden">(Crypt Dash)</span>
+							</a>
+							<a href="https://github.com/ChobitsChii/games/releases/tag/crypt_dash-latest" class="btn-link" target="_blank" rel="noopener">
+								Releases <span class="visually-hidden">(Crypt Dash)</span>
+							</a>
+						</div>
+						<div class="file-links">
+							<a href="plans/06_crypt_dash.md">Plan <span class="visually-hidden">(Crypt Dash)</span></a>
+							<a href="crypt_dash/README.md">README <span class="visually-hidden">(Crypt Dash)</span></a>
+							<a href="crypt_dash/CREDITS.md">CREDITS <span class="visually-hidden">(Crypt Dash)</span></a>
+						</div>
+					</footer>
+				</article>
+
+				<!-- 07: Lumaria -->
+				<article id="proj-lumaria" class="project-card" data-tags="feature-update complex release-pending">
+					<header class="card-top">
+						<img src="lumaria/icon.svg" alt="" width="56" height="56" class="game-icon">
+						<div class="card-title-block">
+							<div class="card-title-row">
+								<span class="plan-num">Plan 07</span>
+								<h3>Lumaria: The Prismatic Odyssey</h3>
+								<span class="badge badge-mono">v1.0.1</span>
+								<span class="badge badge-ok"><span aria-hidden="true">✓</span> Abgeschlossen (Vollversion)</span>
+							</div>
+							<div class="card-badges">
+								<span class="badge badge-info">Action-Adventure / RPG</span>
+								<span class="badge badge-mono">Aufwand: ⭐⭐⭐⭐</span>
+								<span class="badge badge-ok"><span aria-hidden="true">✓</span> 61 Tests · 0 Leaks</span>
+								<span class="badge badge-ok"><span aria-hidden="true">✓</span> Icon-Fix, 3 Save-Slots &amp; Prisma-Bogen</span>
+							</div>
+						</div>
+					</header>
+
+					<p class="card-summary">
+						Größtes Spiel im Repository (73 Skripte, 40 Szenen, 61 Unit-Tests): Hochauflösendes Zelda-artiges Top-Down-Action-Adventure ohne Pixel-Art mit 3 Dungeons, 4 Bossen und Turm-Showdown – jetzt mit repariertem Browser-Icon, 3-Slot-Speicherstandsystem, funktionalem Prisma-Bogen, Audio-Reglern und 0 Leaks.
+					</p>
+
+					<div class="progress-row">
+						<label for="prog-lumaria"><strong>Meilensteine:</strong> M0–M8 (9 / 9 erledigt)</label>
+						<progress id="prog-lumaria" value="9" max="9"></progress>
+						<span>100 %</span>
+					</div>
+
+					<div class="pillars-grid">
+						<div class="pillar pillar-done">
+							<div class="pillar-title"><span aria-hidden="true">✓</span> Status &amp; Erreicht</div>
+							<ul>
+								<li><strong>Browser-Icon repariert:</strong> Doppeltes XML-Attribut <code>filter="url(#glow)"</code> in <a href="lumaria/icon.svg"><code>lumaria/icon.svg</code></a> entfernt (war für Browser invalides XML), SVG validiert &amp; ins Web-Portal übernommen.</li>
+								<li><strong>Neu — 3-Slot-Speichersystem:</strong> <code>SaveSlotManager</code> über <code>SaveService</code> inkl. Hauptmenü-Overlay (Fortschrittsanzeige, Laden, Löschen), Autosave beim Zonenwechsel, Truhen, Bossen &amp; Inventar sowie <code>QuestManager</code>-Serialisierung.</li>
+								<li><strong>Neu — Funktionsfähiger Prisma-Bogen:</strong> Vektor-Projektil <code>PrismArrow</code> (schaltet Kristallschalter, mäht Gras, zerbricht Krüge, trifft Gegner/Bosse), von Alchemistin Lyra freigeschaltet &amp; im Inventar ausrüstbar.</li>
+								<li><strong>Stabilität &amp; Audio:</strong> Musik-/SFX-Schalter (<code>AudioService</code>), <code>config/version = "1.0.1"</code>, Anzeigename in <code>build_all.sh</code>, 61/61 Tests &amp; Smoke-Test mit 0 Leaks.</li>
+							</ul>
+						</div>
+
+						<div class="pillar pillar-missing">
+							<div class="pillar-title"><span aria-hidden="true">•</span> Verbleibend (nur Konzept-/Post-Launch-Ideen)</div>
+							<ul>
+								<li><strong>Keine offenen Technik-Lücken:</strong> Icon, 3 Save-Slots, Prisma-Bogen, Audio-Regler, Tooling und Exit-Leaks sind komplett behoben.</li>
+								<li><strong>Optionale Post-Launch-/Konzept-Ideen (Plan Kap. 15):</strong> 4. Erd-Prisma-Dungeon, Titanen-Armreif, Lyra als spielbare Heldin, New Game+, Boss-Rush-Arena, Angeln an den Untiefen, Relikt-Skins.</li>
+							</ul>
+						</div>
+
+						<div class="pillar pillar-next">
+							<div class="pillar-title"><span aria-hidden="true">→</span> Als Nächstes geplant</div>
+							<ul>
+								<li><strong>Feature-Release v1.1.0:</strong> Mit <code>tools/release_game.sh lumaria minor</code> das Update (Icon-Fix, 3 Save-Slots, Prisma-Bogen, Audio-Optionen) als Release ausrollen.</li>
+								<li><strong>Optional danach:</strong> Boss-Rush-Arena oder New Game+ als Post-Launch-Bonus.</li>
+							</ul>
+						</div>
+					</div>
+
+					<details class="card-details">
+						<summary>Meilensteine, Codebasis &amp; Prüfergebnisse</summary>
+						<div class="details-body">
+							<div>
+								<p class="details-subheading">Meilensteine (Plan 07)</p>
+								<ul class="milestone-list">
+									<li>✅ M0: Grundgerüst, shared/ &amp; Tests</li>
+									<li>✅ M1: 8-Wege-Controller &amp; 4-Wege-Sprites</li>
+									<li>✅ M2: Schwertkombo, Wirbelattacke, Parry</li>
+									<li>✅ M3: Dorf Oakhaven &amp; Dialogsystem (+ Lyra-Bogen)</li>
+									<li>✅ M4: 3 Gegner-KI &amp; Prisma-Bumerang</li>
+									<li>✅ M5: Dungeon 1 (Wurzel-Schrein) &amp; Floragorg</li>
+									<li>✅ M6: Untiefen, Fangseil, Klingen-Krypta &amp; Carapax</li>
+									<li>✅ M7: Plateau, Bomben, Sturm-Bastion, Turm &amp; Malakor</li>
+									<li>✅ M8+: Polish, 3-Slot-Saves, Prisma-Bogen, Audio &amp; Icon-Fix</li>
+								</ul>
+							</div>
+							<div>
+								<p class="details-subheading">Kennzahlen</p>
+								<dl class="meta-dl">
+									<dt>Letztes Update</dt><dd>23.11.2026 (Icon-XML-Fix, 3 Save-Slots, <code>PrismArrow</code>-Bogen, Audio, 0 Leaks)</dd>
+									<dt>Umfang</dt><dd>73 Skripte (51 eigene), 40 Szenen, 8 OGG-SFX + Musik</dd>
+									<dt>Lokalisierung</dt><dd>136 Zeilen in <code>lumaria.csv</code> (+ <code>common.csv</code>)</dd>
+									<dt>Teststatus</dt><dd>61/61 Unit-Tests (inkl. <code>test_save_slots.gd</code>) + Smoke-Test grün (0 Leaks)</dd>
+								</dl>
+							</div>
+						</div>
+					</details>
+
+					<footer class="card-footer">
+						<div class="action-links">
+							<a href="https://chobitschii.github.io/games/lumaria/" class="btn-link btn-link-primary" target="_blank" rel="noopener">
+								▶ Im Browser spielen <span class="visually-hidden">(Lumaria)</span>
+							</a>
+							<a href="https://github.com/ChobitsChii/games/releases/tag/lumaria-latest" class="btn-link" target="_blank" rel="noopener">
+								Releases <span class="visually-hidden">(Lumaria)</span>
+							</a>
+						</div>
+						<div class="file-links">
+							<a href="plans/07_lumaria.md">Plan <span class="visually-hidden">(Lumaria)</span></a>
+							<a href="lumaria/README.md">README <span class="visually-hidden">(Lumaria)</span></a>
+							<a href="lumaria/CREDITS.md">CREDITS <span class="visually-hidden">(Lumaria)</span></a>
+						</div>
+					</footer>
+				</article>
+
+			</div>
+
+			<div id="empty-state" class="empty-state" hidden>
+				<p><strong>Keine Projekte entsprechen dem aktuellen Filter.</strong></p>
+				<p>Setze die Suche zurück oder wähle „Alle (7)“, um wieder alle Spiele anzuzeigen.</p>
+			</div>
+		</section>
+
+		<!-- Abschnitt 3: Übergreifender Repo-Status -->
+		<section id="repo-status">
+			<div class="section-head">
+				<div>
+					<h2 id="repo-heading">3. Übergreifender Repo- &amp; Infrastruktur-Status</h2>
+					<p class="section-desc">Gemeinsame Dienste in <code>shared/</code>, Automatisierung in <code>tools/</code> und der aktuelle Bereinigungsstand im gesamten Repository.</p>
+				</div>
+			</div>
+
+			<div class="two-col-grid">
+				<div class="panel">
+					<h3><span aria-hidden="true">✓</span> Was repo-weit stabil &amp; bereinigt ist</h3>
+					<ul>
+						<li><strong>Automatisierte Pipeline:</strong> <code>tools/run_tests.sh</code>, <code>sync_shared.sh</code>, <code>build_all.sh</code>, <code>package_release.sh</code>, <code>release_game.sh</code> und <code>build_web_portal.sh</code> laufen fehlerfrei über alle 7 Projekte (Linux, Windows &amp; Web inkl. <code>lumaria</code>-Anzeigename).</li>
+						<li><strong>Erweiterte Shared-Services (<code>shared/</code>):</strong> <code>DisplayService</code> (F11 + neues <code>F3</code>-Debug-Overlay), <code>AudioService</code> + <code>SharedSynthMusic</code> (5 nahtlose Synth-Themes), <code>LocaleService</code> (DE/EN-CSV), <code>SaveService</code> und <code>ThemeFactory</code> in allen 7 Spielen synchron.</li>
+						<li><strong>Icons &amp; Doku synchron:</strong> Alle 14 SVG-Icons (<code>*/icon.svg</code> &amp; <code>public/*/icon.svg</code>, inkl. behobenem Lumaria-Icon), Root-<code>README.md</code>, Sammel-<code>CREDITS.md</code>, <code>plans/06_crypt_dash.md</code> (<code>✅</code>) und alle <code>project.godot</code>-Versionen sind konsistent.</li>
+						<li><strong>0 Leaks &amp; 100 % Testquote:</strong> <strong>264 / 264 Unit-Tests</strong> und <strong>7 / 7 Smoke-Tests</strong> ohne Warnungen, Fehler oder ObjectDB-/Resource-Leaks.</li>
+					</ul>
+				</div>
+
+				<div class="panel">
+					<h3><span aria-hidden="true">→</span> Was bewusst noch offen / optional ist</h3>
+					<ul>
+						<li><strong>GitHub-Releases &amp; Pages-Deploy auslösen:</strong> Die Code-Verbesserungen sind lokal getestet, gebaut und gepusht; neue getaggte ZIP-Releases entstehen gezielt auf Wunsch per <code>tools/release_game.sh &lt;spiel&gt; [patch|minor]</code>.</li>
+						<li><strong>Einheitliche Gamepad-Glyphen in <code>shared/</code>:</strong> Optionaler zukünftiger Shared-Baustein (<code>block_stack</code> hat bereits eigene SVG-<code>KeyBadge</code>-Komponenten).</li>
+						<li><strong>Freiwillige Post-Launch-Inhalte:</strong> Alle darüber hinausgehenden Punkte (Boss-Rush, Level-Editor, Daily Seed, Endlos-Modus, Plan 08) sind rein optionale Erweiterungsideen.</li>
+					</ul>
+				</div>
+			</div>
+		</section>
+
+		<!-- Abschnitt 4: Empfohlene nächste Schritte -->
+		<section id="naechste-schritte">
+			<div class="section-head">
+				<div>
+					<h2 id="roadmap-heading">4. Empfohlene nächste Schritte (Roadmap)</h2>
+					<p class="section-desc">Nachdem alle Bugs, Doku-Drifts und Kern-Finetunings abgearbeitet sind, bleiben nur noch Releases und optionale Erweiterungen.</p>
+				</div>
+			</div>
+
+			<div class="roadmap-grid">
+				<div class="roadmap-step">
+					<span class="badge badge-ok"><span aria-hidden="true">1</span> Veröffentlichung · Releases &amp; Pages</span>
+					<h3>Aktualisierte Builds ausliefern</h3>
+					<ul>
+						<li><strong>Minor-Releases (neue Features):</strong> <code>tools/release_game.sh block_stack minor</code>, <code>crypt_dash minor</code> und <code>lumaria minor</code> für die neuen Features &amp; Fixes.</li>
+						<li><strong>Patch-Releases (Musik, F3 &amp; Leak-Fixes):</strong> <code>asteroid_drift patch</code>, <code>lane_defenders patch</code> und <code>vier_gewinnt patch</code>.</li>
+						<li>Aktualisiert automatisch GitHub-Releases, ZIP-Artefakte und das Online-Web-Portal.</li>
+					</ul>
+				</div>
+
+				<div class="roadmap-step">
+					<span class="badge badge-info"><span aria-hidden="true">2</span> Optional · Post-Launch-Inhalte</span>
+					<h3>Beliebige Wunsch-Erweiterungen</h3>
+					<ul>
+						<li><strong>Lumaria:</strong> Boss-Rush-Arena, New Game+, Angeln an den Untiefen oder weiterer Erd-Schrein.</li>
+						<li><strong>Neon Breakout &amp; Lane Defenders:</strong> Level-Editor / Daily Seed bzw. Endlos-Modus &amp; Turm-Upgrades.</li>
+						<li><strong>Crypt Dash &amp; Block Stack:</strong> Zusätzliche Klassen / Händler-Raum bzw. Replay-System / Zen-Modus.</li>
+					</ul>
+				</div>
+
+				<div class="roadmap-step">
+					<span class="badge badge-next"><span aria-hidden="true">3</span> Ausblick · Neues Projekt</span>
+					<h3>Freie Bahn für Plan 08</h3>
+					<ul>
+						<li>Alle 7 bisherigen Spiele sind technisch sauber, zweisprachig, testgesichert und wartungsarm abgeschlossen.</li>
+						<li>Dank erweitertem <code>shared/</code>-Fundament (<code>AudioService</code>, <code>SharedSynthMusic</code>, <code>F3</code>-Overlay) startet ein potenzielles 8. Spiel sofort auf einer noch stärkeren Basis.</li>
+					</ul>
+				</div>
+			</div>
+		</section>
+	</main>
+
+	<footer class="site-footer">
+		<div class="footer-inner">
+			<p>
+				Aktualisiert am <strong>23.11.2026</strong> aus <code>/home/jennifer/development/games</code> ·
+				Live verifiziert mit <code>tools/run_tests.sh</code> &amp; <code>tools/build_all.sh</code> (Godot 4.7.2, 264/264 Tests grün, 0 Leaks).
+			</p>
+			<div class="footer-links">
+				<a href="README.md">Repo-README</a>
+				<a href="plans/00_README_Engine_und_Uebersicht.md">Gesamtplan (00)</a>
+				<a href="https://chobitschii.github.io/games/" target="_blank" rel="noopener">Web-Portal</a>
+				<a href="https://github.com/ChobitsChii/games" target="_blank" rel="noopener">GitHub</a>
+			</div>
+		</div>
+	</footer>
+
+	<script>
+		(() => {
+			/* 1. Zwei-Zustands-Theme-Toggle nach Modern Web Guidance (dark-mode-toggle) */
+			const STORAGE_KEY = "games-overview-color-scheme";
+			const metaScheme = document.querySelector('meta[name="color-scheme"]');
+			const themeToggle = document.getElementById("theme-toggle");
+			const darkQuery = window.matchMedia("(prefers-color-scheme: dark)");
+
+			const readStored = () => {
+				try {
+					const val = localStorage.getItem(STORAGE_KEY);
+					return val === "light" || val === "dark" ? val : null;
+				} catch (_) {
+					return null;
+				}
+			};
+
+			const applyScheme = (override) => {
+				metaScheme.content = override ?? "light dark";
+			};
+
+			const getRenderedScheme = () => {
+				const current = metaScheme.content;
+				if (current === "light" || current === "dark") return current;
+				return darkQuery.matches ? "dark" : "light";
+			};
+
+			if (themeToggle) {
+				themeToggle.addEventListener("click", () => {
+					const rendered = getRenderedScheme();
+					const target = rendered === "dark" ? "light" : "dark";
+					const systemScheme = darkQuery.matches ? "dark" : "light";
+
+					if (target === systemScheme) {
+						try { localStorage.removeItem(STORAGE_KEY); } catch (_) {}
+						applyScheme(null);
+					} else {
+						try { localStorage.setItem(STORAGE_KEY, target); } catch (_) {}
+						applyScheme(target);
+					}
+				});
+			}
+
+			window.addEventListener("storage", (event) => {
+				if (event.key === STORAGE_KEY) {
+					applyScheme(readStored());
+				}
+			});
+
+			/* 2. Filter- & Suchfunktion mit zugänglicher Statusmeldung */
+			const searchInput = document.getElementById("project-search");
+			const filterButtons = Array.from(document.querySelectorAll(".btn-filter"));
+			const cards = Array.from(document.querySelectorAll("#projects-list > article.project-card"));
+			const statusEl = document.getElementById("filter-status");
+			const emptyState = document.getElementById("empty-state");
+			let activeFilter = "all";
+
+			const updateFilters = () => {
+				const query = (searchInput?.value ?? "").trim().toLowerCase();
+				let visibleCount = 0;
+
+				for (const card of cards) {
+					const tags = (card.dataset.tags ?? "").split(/\s+/).filter(Boolean);
+					const matchesFilter = activeFilter === "all" || tags.includes(activeFilter);
+					const matchesQuery = query === "" || card.textContent.toLowerCase().includes(query);
+					const visible = matchesFilter && matchesQuery;
+					card.hidden = !visible;
+					if (visible) visibleCount += 1;
+				}
+
+				if (emptyState) emptyState.hidden = visibleCount > 0;
+				if (statusEl) {
+					statusEl.textContent = `${visibleCount} von ${cards.length} Projekten angezeigt.`;
+				}
+				syncToggleAllButton();
+			};
+
+			for (const btn of filterButtons) {
+				btn.addEventListener("click", () => {
+					activeFilter = btn.dataset.filter ?? "all";
+					for (const other of filterButtons) {
+						other.setAttribute("aria-pressed", String(other === btn));
+					}
+					updateFilters();
+				});
+			}
+
+			if (searchInput) {
+				searchInput.addEventListener("input", updateFilters);
+			}
+
+			/* 3. Alle Technik-Details öffnen / schließen (Invoker Commands + Fallback) */
+			const projectsList = document.getElementById("projects-list");
+			const toggleAllBtn = document.querySelector('[command="--toggle-all"]');
+
+			const getVisibleDetails = () =>
+				Array.from(document.querySelectorAll("#projects-list > article.project-card:not([hidden]) > details.card-details"));
+
+			const syncToggleAllButton = () => {
+				if (!toggleAllBtn) return;
+				const items = getVisibleDetails();
+				const allOpen = items.length > 0 && items.every((d) => d.open);
+				toggleAllBtn.setAttribute("aria-expanded", String(allOpen));
+			};
+
+			const runToggleAll = (sourceBtn) => {
+				const expand = sourceBtn.getAttribute("aria-expanded") !== "true";
+				for (const details of getVisibleDetails()) {
+					details.open = expand;
+				}
+				syncToggleAllButton();
+			};
+
+			if (projectsList) {
+				document.addEventListener("command", (event) => {
+					if (event.command !== "--toggle-all" || event.target !== projectsList) return;
+					runToggleAll(event.source);
+				}, { capture: true });
+
+				if (!Object.hasOwn(HTMLButtonElement.prototype, "commandForElement") && toggleAllBtn) {
+					toggleAllBtn.addEventListener("click", () => runToggleAll(toggleAllBtn));
+				}
+
+				document.addEventListener("toggle", (event) => {
+					if (event.target instanceof HTMLDetailsElement && event.target.matches("details.card-details")) {
+						syncToggleAllButton();
+					}
+				}, { capture: true });
+			}
+		})();
+	</script>
+</body>
+</html>
