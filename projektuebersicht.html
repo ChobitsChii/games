@@ -1484,7 +1484,7 @@
 					<strong>Chii Arcade (v1) Store-Release (7 / 7 Spiele):</strong> Alle 7 Spiele besitzen nun eine <code>chii-arcade.json</code> inklusive deutschem Store-Text, jeweils ein <code>1280×720</code>-WebP-Cover und 4 unter Linux per <code>xvfb-run</code> aufgenommene Gameplay-Screenshots (<code>&lt;spiel&gt;/store-media/</code>), sind mit ihren Release-Zertifikaten und <code>&lt;queries&gt;</code>-Einträgen in Chii Arcade v1 gepinnt (<code>TrustedGameCertificates.kt</code> / <code>AndroidManifest.xml</code>) und über GitHub Releases sowie <code>catalog-v1.json</code> ausgeliefert. <em>Chii Arcade Platform (v2)</em> blieb dabei ausdrücklich unberührt.
 				</p>
 				<p>
-					<strong>Echtgeräte-Test auf Samsung Galaxy S10 (<code>SM-G973F</code>, Android 12, 2280×1080):</strong> Über die Chii-Arcade-App wurde zunächst das In-App-Update von <code>v1.0.15</code> auf <code>v1.0.16</code> und anschließend der komplette Download, Play-Protect-Scan (<em>„Diese App ist anscheinend sicher“</em>) sowie die Installation und Paket-Erkennung (<em>„Spielen“</em>) für alle 7 Spiele wie bei einem Endnutzer durchgeführt. Im anschließenden Hardware-Test starteten alle 7 Titel sauber in <code>2280×1080</code>-Querformat mit Splash-Screen, Android-Menüs (ohne Beenden/Anzeige-Button), aktivem Gameplay, Touch-Steuerung und <strong>0 Fatal-/Script-Errors im <code>adb logcat</code></strong> (lediglich 3 kleinere kosmetische HUD-Feinschliffe für spätere Patches vorgemerkt: Pause-Overlay über <code>Rekord: 0</code> in <em>Asteroid Drift</em>, Beutel/Pause über <code>[Q]/[E]</code>-Gadget-Text in <em>Lumaria</em> sowie initiales <code>%d</code> hinter dem Tutorial-Popup in <em>Lane Defenders</em>).
+					<strong>Echtgeräte-Test auf Samsung Galaxy S10 (<code>SM-G973F</code>, Android 12, 2280×1080):</strong> Über die Chii-Arcade-App wurde zunächst das In-App-Update von <code>v1.0.15</code> auf <code>v1.0.16</code> und anschließend der komplette Download, Play-Protect-Scan (<em>„Diese App ist anscheinend sicher“</em>) sowie die Installation und Paket-Erkennung (<em>„Spielen“</em>) für alle 7 Spiele wie bei einem Endnutzer durchgeführt. Alle 3 beim ersten S10-Durchlauf entdeckten kosmetischen HUD-Details (<em>Asteroid Drift</em> <code>v1.0.6</code>, <em>Lane Defenders</em> <code>v1.5.5</code>, <em>Lumaria</em> <code>v1.0.2</code>) wurden behoben, per Chii-Arcade-Bulk-Update (<em>„Alle Spiele aktualisieren“</em>) auf das S10 ausgerollt und visuell gegengeprüft: Alle 7 Spiele laufen nun in <code>2280×1080</code>-Querformat mit Splash-Screen, Android-Menüs, Touch-UI, sauberem HUD, <strong>0 offenen Technik-Punkten</strong> und <strong>0 Fatal-/Script-Errors im <code>adb logcat</code></strong>.
 				</p>
 			</div>
 		</section>
@@ -1546,7 +1546,7 @@
 						</tr>
 						<tr>
 							<th scope="row"><a href="#proj-asteroid-drift">02 · Asteroid Drift</a></th>
-							<td class="num"><code>v1.0.5</code></td>
+							<td class="num"><code>v1.0.6</code></td>
 							<td>
 								<div class="platform-badges">
 									<span class="badge badge-ok"><span aria-hidden="true">✓</span> Web · Win · Linux</span>
@@ -1568,7 +1568,7 @@
 							<td class="num">8 / 8 ✅</td>
 							<td class="num">28 Tests · 0 Leaks</td>
 							<td class="num">23.11.2026</td>
-							<td>Kosmetisch (Android HUD): Touch-Pause-Button oben rechts überlagert leicht <code>Rekord: 0</code> (auf S10 ansonsten 0 Errors)</td>
+							<td>Keine (Galaxy S10 <code>v1.0.6</code> geprüft, Touch-HUD &amp; Rekord-Abstand ohne Überlappung)</td>
 							<td>Optional Post-Launch: Survival-Modus &amp; Boss-Begegnungen</td>
 						</tr>
 						<tr>
@@ -1627,7 +1627,7 @@
 						</tr>
 						<tr>
 							<th scope="row"><a href="#proj-lane-defenders">05 · Lane Defenders</a></th>
-							<td class="num"><code>v1.5.4</code></td>
+							<td class="num"><code>v1.5.5</code></td>
 							<td>
 								<div class="platform-badges">
 									<span class="badge badge-ok"><span aria-hidden="true">✓</span> Web · Win · Linux</span>
@@ -1649,7 +1649,7 @@
 							<td class="num">8 / 8 ✅</td>
 							<td class="num">22 Tests · 0 Leaks</td>
 							<td class="num">23.11.2026</td>
-							<td>Kosmetisch: Initial-HUD zeigt hinter dem ersten Tutorial-Popup kurz <code>%d</code> (wechselt nach „Verstanden!“ direkt auf <code>150 / 3</code>)</td>
+							<td>Keine (Galaxy S10 <code>v1.5.5</code> geprüft, Initial-HUD vor Tutorial zeigt sofort <code>150 / 3</code>)</td>
 							<td>Optional: Endlos-Modus &amp; Einheiten-Upgrades</td>
 						</tr>
 						<tr>
@@ -1681,7 +1681,7 @@
 						</tr>
 						<tr>
 							<th scope="row"><a href="#proj-lumaria">07 · Lumaria</a></th>
-							<td class="num"><code>v1.0.1</code></td>
+							<td class="num"><code>v1.0.2</code></td>
 							<td>
 								<div class="platform-badges">
 									<span class="badge badge-ok"><span aria-hidden="true">✓</span> Web · Win · Linux</span>
@@ -1703,7 +1703,7 @@
 							<td class="num">9 / 9 ✅</td>
 							<td class="num">61 Tests · 0 Leaks</td>
 							<td class="num">23.11.2026</td>
-							<td>Kosmetisch (Android HUD): <code>Beutel</code>/<code>Pause</code>-Touch-Buttons oben rechts überlagern <code>[Q]/[E]</code>-Gadget-Beschriftung (S10 sonst fehlerfrei)</td>
+							<td>Keine (Galaxy S10 <code>v1.0.2</code> geprüft, Virtual Gamepad &amp; Gadget-HUD ohne Überlappung)</td>
 							<td>Optional Post-Launch: Boss-Rush-Arena &amp; New Game+</td>
 						</tr>
 					</tbody>
@@ -1861,7 +1861,7 @@
 							<div class="card-title-row">
 								<span class="plan-num">Plan 02</span>
 								<h3>Asteroid Drift</h3>
-								<span class="badge badge-mono">v1.0.5</span>
+								<span class="badge badge-mono">v1.0.6</span>
 								<span class="badge badge-ok"><span aria-hidden="true">✓</span> Abgeschlossen (Vollversion)</span>
 							</div>
 							<div class="card-badges">
@@ -1890,7 +1890,7 @@
 								<li><strong>Komplett spielbar (M0–M7):</strong> Schiff mit Trägheitsphysik, Hyperspace-Sprung, Schild, 10+ Wellen, UFOs, Minen &amp; 6 Tech-Karten.</li>
 								<li><strong>Neu — Musik &amp; Audio-Menü:</strong> Synthetisierter nahtloser Space-Ambient-Loop (<code>SharedSynthMusic</code>), eigene Musik-/Effekt-Lautstärke-Buttons &amp; Bus-Routing (<code>AudioService</code>).</li>
 								<li><strong>Alle 30 Exit-Leaks behoben:</strong> Sauberes <code>AudioManager.stop_all()</code>, Testmodus-Schutz &amp; Cleanup beim Beenden; zusätzlich 4 neue Tests in <code>test_audio_service.gd</code>.</li>
-								<li><strong>Doku &amp; Technik synchron:</strong> <code>config/version</code> auf <code>1.0.5</code> angeglichen + <code>F3</code>-Debug-Overlay aktiv.</li>
+								<li><strong>Doku &amp; Technik synchron:</strong> <code>config/version</code> auf <code>1.0.6</code> angeglichen, Android-HUD-Margin (<code>140px</code>) für Pause-Button ergänzt + <code>F3</code>-Debug-Overlay aktiv.</li>
 							</ul>
 						</div>
 
@@ -2179,7 +2179,7 @@
 							<div class="card-title-row">
 								<span class="plan-num">Plan 05</span>
 								<h3>Lane Defenders</h3>
-								<span class="badge badge-mono">v1.5.4</span>
+								<span class="badge badge-mono">v1.5.5</span>
 								<span class="badge badge-ok"><span aria-hidden="true">✓</span> Abgeschlossen &amp; Erweitert</span>
 							</div>
 							<div class="card-badges">
@@ -2192,7 +2192,7 @@
 					</header>
 
 					<p class="card-summary">
-						Umfangreichstes Release-Portfolio (14 Versionen bis <code>v1.5.4</code>): Flat-Cartoon-Tower-Defense auf 5×9 Feldern mit 4 Welten, 20 Leveln, 4 Bossen, Lexikon und Bot-Test – nun inklusive Meadow-Musik, Audio-Reglern, bereinigter Portal/README-Doku, <code>F3</code>-Overlay und 0 Exit-Leaks.
+						Umfangreichstes Release-Portfolio (15 Versionen bis <code>v1.5.5</code>): Flat-Cartoon-Tower-Defense auf 5×9 Feldern mit 4 Welten, 20 Leveln, 4 Bossen, Lexikon und Bot-Test – nun inklusive Meadow-Musik, Audio-Reglern, bereinigter Portal/README-Doku, <code>F3</code>-Overlay, sofort initialisiertem Tutorial-HUD und 0 Exit-Leaks.
 					</p>
 
 					<div class="progress-row">
@@ -2206,7 +2206,7 @@
 							<div class="pillar-title"><span aria-hidden="true">✓</span> Status &amp; Erreicht</div>
 							<ul>
 								<li><strong>Über Plan hinaus erweitert:</strong> <strong>20 Level in 4 Welten</strong> (Grüne Wiese, Dunkler Pfad, Winterwald, Magma-Ödland), 7 Einheiten, 6 Gegner, 4 Welt-Bosse, Lexikon, Autosave &amp; Bot-Test.</li>
-								<li><strong>Neu — Musik, Audio-Regler &amp; Doku-Fix:</strong> Beschwingte Meadow-Musik + Musik-/SFX-Schalter (<code>AudioService</code>), Root-<code>README.md</code> &amp; Web-Portal auf 20 Level / 4 Welten korrigiert, <code>config/version = "1.5.4"</code>.</li>
+								<li><strong>Neu — Musik, Audio-Regler &amp; Doku-Fix:</strong> Beschwingte Meadow-Musik + Musik-/SFX-Schalter (<code>AudioService</code>), Root-<code>README.md</code> &amp; Web-Portal auf 20 Level / 4 Welten korrigiert, Initial-HUD vor Tutorial initialisiert, <code>config/version = "1.5.5"</code>.</li>
 								<li><strong>Alle 42 Exit-Leaks behoben:</strong> Vorherige 42 ObjectDB-/8 Resource-Leaks beim Beenden (<code>sound_effects.gd</code> + <code>smoke.gd</code>) komplett beseitigt.</li>
 							</ul>
 						</div>
@@ -2391,7 +2391,7 @@
 							<div class="card-title-row">
 								<span class="plan-num">Plan 07</span>
 								<h3>Lumaria: The Prismatic Odyssey</h3>
-								<span class="badge badge-mono">v1.0.1</span>
+								<span class="badge badge-mono">v1.0.2</span>
 								<span class="badge badge-ok"><span aria-hidden="true">✓</span> Abgeschlossen (Vollversion)</span>
 							</div>
 							<div class="card-badges">
@@ -2420,7 +2420,7 @@
 								<li><strong>Browser-Icon repariert:</strong> Doppeltes XML-Attribut <code>filter="url(#glow)"</code> in <a href="lumaria/icon.svg"><code>lumaria/icon.svg</code></a> entfernt (war für Browser invalides XML), SVG validiert &amp; ins Web-Portal übernommen.</li>
 								<li><strong>Neu — 3-Slot-Speichersystem:</strong> <code>SaveSlotManager</code> über <code>SaveService</code> inkl. Hauptmenü-Overlay (Fortschrittsanzeige, Laden, Löschen), Autosave beim Zonenwechsel, Truhen, Bossen &amp; Inventar sowie <code>QuestManager</code>-Serialisierung.</li>
 								<li><strong>Neu — Funktionsfähiger Prisma-Bogen:</strong> Vektor-Projektil <code>PrismArrow</code> (schaltet Kristallschalter, mäht Gras, zerbricht Krüge, trifft Gegner/Bosse), von Alchemistin Lyra freigeschaltet &amp; im Inventar ausrüstbar.</li>
-								<li><strong>Stabilität &amp; Audio:</strong> Musik-/SFX-Schalter (<code>AudioService</code>), <code>config/version = "1.0.1"</code>, Anzeigename in <code>build_all.sh</code>, 61/61 Tests &amp; Smoke-Test mit 0 Leaks.</li>
+								<li><strong>Stabilität &amp; Audio:</strong> Musik-/SFX-Schalter (<code>AudioService</code>), Android-HUD-Margin (<code>256px</code>) für Beutel/Pause-Buttons, <code>config/version = "1.0.2"</code>, Anzeigename in <code>build_all.sh</code>, 61/61 Tests &amp; Smoke-Test mit 0 Leaks.</li>
 							</ul>
 						</div>
 
