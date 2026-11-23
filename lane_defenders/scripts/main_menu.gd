@@ -34,7 +34,8 @@ func _ready() -> void:
 	_music_button.pressed.connect(_on_music_pressed)
 	_sfx_button.pressed.connect(_on_sfx_pressed)
 	_quit_button.pressed.connect(get_tree().quit)
-	_quit_button.visible = not OS.has_feature("web")
+	_quit_button.visible = not OS.has_feature("web") and not OS.has_feature("android")
+	_display_button.visible = not OS.has_feature("android")
 
 	LocaleService.language_changed.connect(func(_code: String) -> void: _refresh())
 	DisplayService.mode_changed.connect(func(_mode: int) -> void: _refresh())

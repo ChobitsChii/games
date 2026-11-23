@@ -6,6 +6,7 @@ extends CanvasLayer
 
 const TIP_SECONDS := 6.0
 
+signal pause_pressed
 signal resume_pressed
 signal menu_pressed
 
@@ -27,6 +28,7 @@ var _info_label: Label
 var _tip_label: Label
 var _tip_key := ""
 var _tip_tween: Tween
+var _pause_button: Button
 
 @onready var _root: Control = %Root
 @onready var _flash: ColorRect = %Flash
@@ -175,6 +177,8 @@ func hide_message() -> void:
 
 func show_pause(value: bool) -> void:
 	_pause_layer.visible = value
+	if _pause_button != null:
+		_pause_button.visible = not value
 	if value:
 		_resume_button.grab_focus()
 
@@ -256,3 +260,12 @@ func _build_mode_labels() -> void:
 	_tip_label.add_theme_color_override("font_color", BreakoutConfig.PALETTE["accent"])
 	_tip_label.modulate.a = 0.0
 	_root.add_child(_tip_label)
+	_pause_button = Button.new()
+	_pause_button.text = "COMMON_PAUSED"
+	_pause_button.position = Vector2(1610.0, 960.0)
+	_pause_button.size = Vector2(250.0, 64.0)
+	_pause_button.focus_mode = Control.FOCUS_NONE
+	_pause_button.pressed.connect(func() -> void:
+		Sfx.play(&"ui_click")
+		pause_pressed.emit())
+	_root.add_child(_pause_button)

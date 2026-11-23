@@ -33,5 +33,11 @@ echo "Packe Web..."
 	zip -r -9 "$OUT_DIR/${NAME}-${VERSION}-web.zip" .
 )
 
+# Android APK (falls vorhanden)
+if [ -f "$ROOT/build/$NAME/android/$NAME.apk" ]; then
+	echo "Kopiere signierte Android Release APK..."
+	cp -f "$ROOT/build/$NAME/android/$NAME.apk" "$OUT_DIR/${NAME}-${VERSION}-android.apk"
+fi
+
 echo "Pakete erfolgreich erstellt in $OUT_DIR:"
 ls -lh "$OUT_DIR"

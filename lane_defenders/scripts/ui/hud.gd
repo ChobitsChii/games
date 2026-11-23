@@ -66,7 +66,7 @@ func _ready() -> void:
 	_resume_button.pressed.connect(func() -> void: resume_requested.emit())
 	_pause_almanac_button.pressed.connect(_open_almanac)
 	_pause_folder_button.pressed.connect(_on_open_folder_pressed)
-	_pause_folder_button.visible = not OS.has_feature("web")
+	_pause_folder_button.visible = not OS.has_feature("web") and not OS.has_feature("android")
 	_pause_menu_button.pressed.connect(func() -> void: main_menu_requested.emit())
 
 	_win_retry_button.pressed.connect(func() -> void: retry_requested.emit())
@@ -74,7 +74,7 @@ func _ready() -> void:
 	_next_level_button.pressed.connect(func() -> void: next_level_requested.emit())
 	_win_screenshot_button.pressed.connect(_on_save_screenshot_pressed)
 	_win_folder_button.pressed.connect(_on_open_folder_pressed)
-	_win_folder_button.visible = not OS.has_feature("web")
+	_win_folder_button.visible = not OS.has_feature("web") and not OS.has_feature("android")
 
 	_lose_retry_button.pressed.connect(func() -> void: retry_requested.emit())
 	_lose_menu_button.pressed.connect(func() -> void: main_menu_requested.emit())

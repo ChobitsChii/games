@@ -23,6 +23,9 @@ var _debug_visible: bool = false
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	set_process(false)
+	if OS.has_feature("android"):
+		mode = Mode.FULLSCREEN
+		return
 	var saved: int = SaveService.get_value("settings", "display_mode", Mode.WINDOWED)
 	# Im Browser darf Vollbild nur nach einer Nutzeraktion starten, daher nie automatisch.
 	if OS.has_feature("web") or saved not in available_modes():
@@ -121,14 +124,20 @@ func _update_debug_overlay() -> void:
 	]
 
 
-## Im Browser gibt es kein exklusives Vollbild.
+## Im Browser gibt es kein exklusives Vollbild; auf Android läuft immer Vollbild.
 func available_modes() -> Array:
+	if OS.has_feature("android"):
+		return [Mode.FULLSCREEN]
 	if OS.has_feature("web"):
 		return [Mode.WINDOWED, Mode.FULLSCREEN]
 	return [Mode.WINDOWED, Mode.FULLSCREEN, Mode.EXCLUSIVE]
 
 
 func set_mode(new_mode: int, persist: bool = true) -> void:
+	if OS.has_feature("android"):
+		mode = Mode.FULLSCREEN
+		mode_changed.emit(mode)
+		return
 	mode = new_mode
 	match mode:
 		Mode.WINDOWED:

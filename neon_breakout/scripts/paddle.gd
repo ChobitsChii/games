@@ -79,7 +79,7 @@ func _process(delta: float) -> void:
 
 
 func _unhandled_input(event: InputEvent) -> void:
-	if event is InputEventMouseMotion:
+	if event is InputEventMouseMotion or event is InputEventMouseButton or event is InputEventScreenTouch or event is InputEventScreenDrag:
 		_use_mouse = true
 	elif event.is_action_pressed("move_left") or event.is_action_pressed("move_right"):
 		_use_mouse = false

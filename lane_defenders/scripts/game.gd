@@ -446,6 +446,11 @@ func _toggle_pause() -> void:
 	hud.set_paused(is_paused)
 
 
+func _notification(what: int) -> void:
+	if what == NOTIFICATION_WM_GO_BACK_REQUEST:
+		_toggle_pause()
+
+
 func _restart_level() -> void:
 	get_tree().paused = false
 	get_tree().reload_current_scene()

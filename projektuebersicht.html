@@ -1439,24 +1439,25 @@
 
 	<main>
 		<section class="hero">
-			<div class="hero-eyebrow">Godot 4.7.2 · GDScript · Linux, Windows &amp; Web · Stand: 23.11.2026 (nach Bugfix- &amp; Feinschliff-Sprint)</div>
+			<div class="hero-eyebrow">Godot 4.7.2 · GDScript · Linux, Windows, Web &amp; Android (Signed Release APKs) · Stand: 23.11.2026</div>
 			<h1 id="main-heading" tabindex="-1">Projektübersicht: Mini-Games Repository</h1>
 			<p class="hero-lead">
 				Vollständige Bestandsaufnahme aller sieben Godot-Spiele im Repository <code>games/</code> –
-				abgeglichen mit den Plänen (<code>plans/01</code>–<code>07</code>), allen abgeschlossenen Fixes
-				&amp; Finetunings sowie dem frischen Gesamtdurchlauf von <code>tools/run_tests.sh</code> und <code>tools/build_all.sh</code>.
+				abgeglichen mit den Plänen (<code>plans/01</code>–<code>07</code>), Format- &amp; Touch-Analyse,
+				Android-Signierschlüsseln (inkl. NAS-Backup unter <code>/media/nas.home/Development-Backups/games/</code>)
+				sowie dem frischen Gesamtdurchlauf von <code>tools/run_tests.sh</code> und <code>tools/build_all.sh</code>.
 			</p>
 
 			<div class="kpi-grid">
 				<div class="kpi-card">
 					<span class="kpi-label">Abgeschlossene Spiele</span>
 					<span class="kpi-value">7 / 7</span>
-					<span class="kpi-note">Vollversionen (v1.0.1 – v1.5.4) · alle 7 SVG-Icons XML-valide · 3-Plattform-Builds aktuell</span>
+					<span class="kpi-note">16:9 Querformat gesperrt (<code>Sensor Landscape</code>) · Web, Win &amp; Linux (7/7) · Android Signed APK (3/7)</span>
 				</div>
 				<div class="kpi-card">
-					<span class="kpi-label">Umgesetzte Meilensteine</span>
-					<span class="kpi-value">57 / 57</span>
-					<span class="kpi-note">Alle Kern-Meilensteine vollständig abgehakt (inkl. Plan 06 <code>✅</code> &amp; M8)</span>
+					<span class="kpi-label">Android Signing &amp; Backup</span>
+					<span class="kpi-value">7 / 7 Keys</span>
+					<span class="kpi-note">Eigener RSA-3072 PKCS12-Keystore je Spiel · automatisches NAS-Backup via <code>tools/backup_to_nas.sh</code></span>
 				</div>
 				<div class="kpi-card">
 					<span class="kpi-label">Live-Testergebnis</span>
@@ -1472,10 +1473,10 @@
 
 			<div class="summary-callout">
 				<p>
-					<strong>Kurzfazit:</strong> Alle <strong>7 Spiele sind technisch bereinigt, vollständig spielbar und für Linux, Windows &amp; Web gebaut</strong>. Zusätzlich besitzen nun <strong>alle 7 Titel ein eigenes 1920×1080 Boot-Logo</strong> (statt des Godot-Standardlogos) sowie einen <strong>vorgeschalteten interaktiven Splash Screen</strong> (<code>SharedSplashScreen</code>) mit sprachabhängigem Start-Hinweis (DE/EN) und dynamischem <em>„Präsentiert von / Powered by Chii Arcade“</em>-Eck-Badge.
+					<strong>Kurzfazit:</strong> Alle <strong>7 Spiele sind im 16:9-Querformat (1920×1080) konzipiert</strong> und auf Mobilgeräten fest auf Querformat (<code>window/handheld/orientation=4</code>, <em>Sensor Landscape</em>) gesperrt. Für <strong>alle 7 Spiele wurden dedizierte Android-Release-Signierschlüssel</strong> (<code>~/.local/share/chii-arcade/signing/games/&lt;spiel&gt;/&lt;spiel&gt;-release.p12</code>) erzeugt und samt Manifest und Snapshot-Archiv über <code>tools/backup_to_nas.sh</code> auf <code>/media/nas.home/Development-Backups/games/</code> gesichert.
 				</p>
 				<p>
-					<strong>Aktueller Stand:</strong> Sämtliche <strong>265 Unit-Tests</strong> und alle <strong>7 Headless-Smoke-Tests</strong> laufen mit <strong>0 Warnungen, 0 Fehlern und 0 Speicher-Leaks</strong>. Offen sind nur noch das optionale Ausführen von <code>tools/release_game.sh</code> für neue GitHub-Releases sowie freiwillige Post-Launch-Ideen aus den Plänen.
+					<strong>Android-Release-Status:</strong> Die <strong>3 direkt per Touch spielbaren Titel</strong> – <strong>01 · Neon Breakout</strong> (Touch-Drag/Tap + HUD-Pause-Button), <strong>03 · Connect Four Deluxe</strong> (Spalten-Tap + Touch-HUD) und <strong>05 · Lane Defenders</strong> (Karten- &amp; 5×9-Raster-Tap + Sonnensammeln) – sind bereits als <strong>signierte &amp; <code>apksigner</code>-verifizierte Full-Release-APKs</strong> gebaut, auf dem NAS gesichert und in die GitHub-Releases hochgeladen. Die übrigen 4 Action-/Tastatur-Spiele (<em>Asteroid Drift</em>, <em>Block Stack</em>, <em>Crypt Dash</em>, <em>Lumaria</em>) besitzen bereits ihre Release-Keystores und benötigen für einen sinnvollen Android-Export noch ein On-Screen-Touch-Overlay (virtuelle Buttons / Twin-Stick).
 				</p>
 			</div>
 		</section>
@@ -1514,8 +1515,9 @@
 							<td>
 								<div class="platform-badges">
 									<span class="badge badge-ok"><span aria-hidden="true">✓</span> Web · Win · Linux</span>
-									<span class="badge badge-mono"><span aria-hidden="true">✗</span> Android</span>
+									<span class="badge badge-ok"><span aria-hidden="true">✓</span> Android (Signed APK)</span>
 								</div>
+								<span class="cell-sub">16:9 Querformat gesperrt · Touch-Drag/Tap &amp; HUD-Pause</span>
 							</td>
 							<td>
 								<span class="badge badge-ok"><span aria-hidden="true">✓</span> Boot + Start-Szene</span>
@@ -1529,7 +1531,7 @@
 							<td class="num">9 / 9 ✅</td>
 							<td class="num">90 Tests · 0 Leaks</td>
 							<td class="num">23.11.2026</td>
-							<td>Keine (Boot-Logo, Splash, Portal/README &amp; <code>F3</code>-Overlay aktiv)</td>
+							<td>Keine (Android Signed APK live, Touch-Pause, Boot-Logo &amp; <code>F3</code> aktiv)</td>
 							<td>Optional Post-Launch: Level-Editor oder Daily Seed</td>
 						</tr>
 						<tr>
@@ -1538,8 +1540,9 @@
 							<td>
 								<div class="platform-badges">
 									<span class="badge badge-ok"><span aria-hidden="true">✓</span> Web · Win · Linux</span>
-									<span class="badge badge-mono"><span aria-hidden="true">✗</span> Android</span>
+									<span class="badge badge-warn"><span aria-hidden="true">⏳</span> Android (Touch-UI offen)</span>
 								</div>
+								<span class="cell-sub">16:9 Querformat gesperrt · Keystore bereit · braucht Schub/Hyperspace-Buttons</span>
 							</td>
 							<td>
 								<span class="badge badge-ok"><span aria-hidden="true">✓</span> Boot + Start-Szene</span>
@@ -1553,8 +1556,8 @@
 							<td class="num">8 / 8 ✅</td>
 							<td class="num">27 Tests · 0 Leaks</td>
 							<td class="num">23.11.2026</td>
-							<td>Keine (Start-Logo, Space-Musik, Audio-Regler, <code>F3</code> &amp; 0 Leaks)</td>
-							<td>Neues Release bauen; optional Survival-Modus &amp; Bosse</td>
+							<td>Für Android fehlen noch On-Screen-Touch-Buttons (Schub, Hyperspace, Pause)</td>
+							<td>On-Screen-Touch-HUD ergänzen → Android Release APK bauen</td>
 						</tr>
 						<tr>
 							<th scope="row"><a href="#proj-vier-gewinnt">03 · Connect Four Deluxe</a></th>
@@ -1562,8 +1565,9 @@
 							<td>
 								<div class="platform-badges">
 									<span class="badge badge-ok"><span aria-hidden="true">✓</span> Web · Win · Linux</span>
-									<span class="badge badge-mono"><span aria-hidden="true">✗</span> Android</span>
+									<span class="badge badge-ok"><span aria-hidden="true">✓</span> Android (Signed APK)</span>
 								</div>
+								<span class="cell-sub">16:9 Querformat gesperrt · Nativ 100 % Touch-spielbar (Spalten-Tap)</span>
 							</td>
 							<td>
 								<span class="badge badge-ok"><span aria-hidden="true">✓</span> Boot + Start-Szene</span>
@@ -1577,8 +1581,8 @@
 							<td class="num">7 / 7 ✅</td>
 							<td class="num">24 Tests · 0 Leaks</td>
 							<td class="num">23.11.2026</td>
-							<td>Keine (Start-Logo, Splash-Szene, Lounge-Musik &amp; <code>F3</code> integriert)</td>
-							<td>Optional Release bauen; Idee: „Pop Out“ / 8×7-Brett / 4. KI-Stufe</td>
+							<td>Keine (Android Signed APK live, Start-Logo, Lounge-Musik &amp; <code>F3</code> aktiv)</td>
+							<td>Optional: „Pop Out“ / 8×7-Brett / 4. KI-Stufe</td>
 						</tr>
 						<tr>
 							<th scope="row"><a href="#proj-block-stack">04 · Block Stack</a></th>
@@ -1586,8 +1590,9 @@
 							<td>
 								<div class="platform-badges">
 									<span class="badge badge-ok"><span aria-hidden="true">✓</span> Web · Win · Linux</span>
-									<span class="badge badge-mono"><span aria-hidden="true">✗</span> Android</span>
+									<span class="badge badge-warn"><span aria-hidden="true">⏳</span> Android (Touch-UI offen)</span>
 								</div>
+								<span class="cell-sub">16:9 Querformat gesperrt · Keystore bereit · braucht Touch-Buttons (L/R/Drop/Rot/Hold)</span>
 							</td>
 							<td>
 								<span class="badge badge-ok"><span aria-hidden="true">✓</span> Boot + Start-Szene</span>
@@ -1601,8 +1606,8 @@
 							<td class="num">8 / 8 ✅</td>
 							<td class="num">26 Tests · 0 Leaks</td>
 							<td class="num">23.11.2026</td>
-							<td>Keine (Splash-Szene, DAS/ARR-Menü, Farbblind-Symbole, Musik &amp; <code>F3</code>)</td>
-							<td>Minor-Release (<code>v1.3.0</code>) über <code>release_game.sh</code>; optional Zen/Replays</td>
+							<td>Für Android fehlen noch On-Screen-Steuertasten (Links/Rechts, Drehen, Drop, Hold)</td>
+							<td>Touch-Steuerung ergänzen → Android Release APK bauen</td>
 						</tr>
 						<tr>
 							<th scope="row"><a href="#proj-lane-defenders">05 · Lane Defenders</a></th>
@@ -1610,8 +1615,9 @@
 							<td>
 								<div class="platform-badges">
 									<span class="badge badge-ok"><span aria-hidden="true">✓</span> Web · Win · Linux</span>
-									<span class="badge badge-mono"><span aria-hidden="true">✗</span> Android</span>
+									<span class="badge badge-ok"><span aria-hidden="true">✓</span> Android (Signed APK)</span>
 								</div>
+								<span class="cell-sub">16:9 Querformat gesperrt · Nativ 100 % Touch-spielbar (Karten- &amp; Raster-Tap)</span>
 							</td>
 							<td>
 								<span class="badge badge-ok"><span aria-hidden="true">✓</span> Boot + Start-Szene</span>
@@ -1625,8 +1631,8 @@
 							<td class="num">8 / 8 ✅</td>
 							<td class="num">22 Tests · 0 Leaks</td>
 							<td class="num">23.11.2026</td>
-							<td>Keine (Splash-Szene, 20 Level/4 Welten, Meadow-Musik &amp; 0 Leaks)</td>
-							<td>Patch-Release veröffentlichen; optional Endlos-Modus &amp; Upgrades</td>
+							<td>Keine (Android Signed APK live, 20 Level/4 Welten, Meadow-Musik &amp; 0 Leaks)</td>
+							<td>Optional: Endlos-Modus &amp; Einheiten-Upgrades</td>
 						</tr>
 						<tr>
 							<th scope="row"><a href="#proj-crypt-dash">06 · Crypt Dash</a></th>
@@ -1634,8 +1640,9 @@
 							<td>
 								<div class="platform-badges">
 									<span class="badge badge-ok"><span aria-hidden="true">✓</span> Web · Win · Linux</span>
-									<span class="badge badge-mono"><span aria-hidden="true">✗</span> Android</span>
+									<span class="badge badge-warn"><span aria-hidden="true">⏳</span> Android (Touch-UI offen)</span>
 								</div>
+								<span class="cell-sub">16:9 Querformat gesperrt · Keystore bereit · braucht virtuellen Twin-Stick + Dash-Button</span>
 							</td>
 							<td>
 								<span class="badge badge-ok"><span aria-hidden="true">✓</span> Boot + Start-Szene</span>
@@ -1649,8 +1656,8 @@
 							<td class="num">9 / 9 ✅</td>
 							<td class="num">15 Tests · 0 Leaks</td>
 							<td class="num">23.11.2026</td>
-							<td>Keine (Splash-Szene, <code>CryptAudio</code>, Musik, 3 Startwaffen &amp; 0 Leaks)</td>
-							<td>Minor-Release (<code>v1.2.0</code>) veröffentlichen; optional Klassen &amp; Händler</td>
+							<td>Für Android fehlt noch ein virtueller Twin-Stick (Bewegung, Zielen, Dash, Pause)</td>
+							<td>Virtuellen Twin-Stick ergänzen → Android Release APK bauen</td>
 						</tr>
 						<tr>
 							<th scope="row"><a href="#proj-lumaria">07 · Lumaria</a></th>
@@ -1658,8 +1665,9 @@
 							<td>
 								<div class="platform-badges">
 									<span class="badge badge-ok"><span aria-hidden="true">✓</span> Web · Win · Linux</span>
-									<span class="badge badge-mono"><span aria-hidden="true">✗</span> Android</span>
+									<span class="badge badge-warn"><span aria-hidden="true">⏳</span> Android (Touch-UI offen)</span>
 								</div>
+								<span class="cell-sub">16:9 Querformat gesperrt · Keystore bereit · braucht V-Stick + 6 Aktionsbuttons</span>
 							</td>
 							<td>
 								<span class="badge badge-ok"><span aria-hidden="true">✓</span> Boot + Start-Szene</span>
@@ -1673,8 +1681,8 @@
 							<td class="num">9 / 9 ✅</td>
 							<td class="num">61 Tests · 0 Leaks</td>
 							<td class="num">23.11.2026</td>
-							<td>Keine (Boot-Logo, Splash-Szene, Icon-XML, 3 Save-Slots &amp; Prisma-Bogen)</td>
-							<td>Minor-Release (<code>v1.1.0</code>) veröffentlichen; optional Boss-Rush &amp; NG+</td>
+							<td>Für Android fehlt noch ein virtuelles Gamepad (Stick + Schwert/Rolle/Schild/Gadgets)</td>
+							<td>Virtuelles Gamepad-Overlay ergänzen → Android Release APK bauen</td>
 						</tr>
 					</tbody>
 				</table>
@@ -1794,7 +1802,8 @@
 							<div>
 								<p class="details-subheading">Kennzahlen</p>
 								<dl class="meta-dl">
-									<dt>Plattformen</dt><dd>Web, Windows, Linux (kein Android)</dd>
+									<dt>Plattformen &amp; Format</dt><dd><strong>Web, Windows, Linux &amp; Android (Signed Release APK: <code>de.chobitschii.neon_breakout</code>)</strong> · 16:9 Querformat gesperrt (<code>Sensor Landscape</code>)</dd>
+									<dt>Touch / Mobile</dt><dd>Touch-Drag &amp; Tap steuert sofort den Schläger, Tap startet Ball / feuert Laser, Touch-Pause-Button im HUD + Hardware-Back-Unterstützung</dd>
 									<dt>Splash &amp; Start-Logo</dt><dd>Boot-Splash + interaktive <code>splash_screen.tscn</code> (<code>NEON BREAKOUT</code>-Logo, DE/EN-Prompt + Chii-Arcade-Badge)</dd>
 									<dt>Letztes Update</dt><dd>23.11.2026 (Portal/README-Sync, Tag &amp; shared F3-Overlay)</dd>
 									<dt>Umfang</dt><dd>56 Skripte (38 in <code>scripts/</code>), 10 Szenen, 10 Level-Dateien</dd>
@@ -1899,7 +1908,8 @@
 							<div>
 								<p class="details-subheading">Kennzahlen</p>
 								<dl class="meta-dl">
-									<dt>Plattformen</dt><dd>Web, Windows, Linux (kein Android)</dd>
+									<dt>Plattformen &amp; Format</dt><dd>Web, Windows, Linux · 16:9 Querformat gesperrt (<code>Sensor Landscape</code>) · Android-Release-Keystore bereit (<code>de.chobitschii.asteroid_drift</code>)</dd>
+									<dt>Touch / Mobile</dt><dd>Zielen &amp; Feuern per Touch möglich, für Android-Release fehlen noch On-Screen-Touch-Buttons für Schub, Hyperspace &amp; Pause</dd>
 									<dt>Splash &amp; Start-Logo</dt><dd>Boot-Splash + interaktive <code>splash_screen.tscn</code> (<code>ASTEROID DRIFT</code>-Logo, DE/EN-Prompt + Chii-Arcade-Badge)</dd>
 									<dt>Letztes Update</dt><dd>23.11.2026 (Start-Logo, <code>SharedSplashScreen</code>, <code>AudioService</code>/Space-Musik)</dd>
 									<dt>Umfang</dt><dd>32 Skripte (16 eigene), 11 Szenen, 15 OGG-SFX + Synth-Musik</dd>
@@ -2004,7 +2014,8 @@
 							<div>
 								<p class="details-subheading">Kennzahlen</p>
 								<dl class="meta-dl">
-									<dt>Plattformen</dt><dd>Web, Windows, Linux (kein Android)</dd>
+									<dt>Plattformen &amp; Format</dt><dd><strong>Web, Windows, Linux &amp; Android (Signed Release APK: <code>de.chobitschii.vier_gewinnt</code>)</strong> · 16:9 Querformat gesperrt (<code>Sensor Landscape</code>)</dd>
+									<dt>Touch / Mobile</dt><dd>Nativ 100 % Touch-spielbar (Spalten-Tap wirft Spielstein ein, sämtliche HUD- &amp; Menü-Aktionen sind große Touch-Buttons + Android-Back-Pause)</dd>
 									<dt>Splash &amp; Start-Logo</dt><dd>Boot-Splash + interaktive <code>splash_screen.tscn</code> (<code>CONNECT FOUR DELUXE</code>-Logo, DE/EN-Prompt + Chii-Arcade-Badge)</dd>
 									<dt>Letztes Update</dt><dd>23.11.2026 (<code>AudioService</code>, Lounge-Musik, Cleanup, <code>F3</code>)</dd>
 									<dt>Umfang</dt><dd>22 Skripte (10 eigene), 5 Szenen</dd>
@@ -2109,7 +2120,8 @@
 							<div>
 								<p class="details-subheading">Kennzahlen</p>
 								<dl class="meta-dl">
-									<dt>Plattformen</dt><dd>Web, Windows, Linux (kein Android)</dd>
+									<dt>Plattformen &amp; Format</dt><dd>Web, Windows, Linux · 16:9 Querformat gesperrt (<code>Sensor Landscape</code>) · Android-Release-Keystore bereit (<code>de.chobitschii.block_stack</code>)</dd>
+									<dt>Touch / Mobile</dt><dd>Menüs per Touch bedienbar, für das Spielfeld fehlen noch On-Screen-Touch-Buttons (Links, Rechts, Drehen CW/CCW, Soft/Hard Drop, Hold)</dd>
 									<dt>Splash &amp; Start-Logo</dt><dd>Boot-Splash + interaktive <code>splash_screen.tscn</code> (<code>BLOCK STACK</code>-Logo, DE/EN-Prompt + Chii-Arcade-Badge)</dd>
 									<dt>Letztes Update</dt><dd>23.11.2026 (Optionsmenü DAS/ARR, Farbblind-Symbole, Musik)</dd>
 									<dt>Umfang</dt><dd>31 Skripte (15 eigene), 4 Szenen, SVG-Tasten-Icons</dd>
@@ -2213,7 +2225,8 @@
 							<div>
 								<p class="details-subheading">Kennzahlen</p>
 								<dl class="meta-dl">
-									<dt>Plattformen</dt><dd>Web, Windows, Linux (kein Android)</dd>
+									<dt>Plattformen &amp; Format</dt><dd><strong>Web, Windows, Linux &amp; Android (Signed Release APK: <code>de.chobitschii.lane_defenders</code>)</strong> · 16:9 Querformat gesperrt (<code>Sensor Landscape</code>)</dd>
+									<dt>Touch / Mobile</dt><dd>Nativ 100 % Touch-spielbar (Einheiten-Karten, Schaufel, 5×9-Rasenfeld-Tap &amp; Sonnen-Einsammeln per Tap/Wischen + Android-Back-Pause)</dd>
 									<dt>Splash &amp; Start-Logo</dt><dd>Boot-Splash + interaktive <code>splash_screen.tscn</code> (<code>LANE DEFENDERS</code>-Logo, DE/EN-Prompt + Chii-Arcade-Badge)</dd>
 									<dt>Letztes Update</dt><dd>23.11.2026 (Exit-Leak-Fix, Meadow-Musik/Audio, Portal-Doku, <code>F3</code>)</dd>
 									<dt>Umfang</dt><dd>32 Skripte (18 eigene), 7 Szenen, 33 <code>.tres</code>-Datenressourcen</dd>
@@ -2319,7 +2332,8 @@
 							<div>
 								<p class="details-subheading">Kennzahlen</p>
 								<dl class="meta-dl">
-									<dt>Plattformen</dt><dd>Web, Windows, Linux (kein Android)</dd>
+									<dt>Plattformen &amp; Format</dt><dd>Web, Windows, Linux · 16:9 Querformat gesperrt (<code>Sensor Landscape</code>) · Android-Release-Keystore bereit (<code>de.chobitschii.crypt_dash</code>)</dd>
+									<dt>Touch / Mobile</dt><dd>Menüs/Altar per Touch bedienbar, für Kämpfe fehlt noch ein virtuelles Twin-Stick-Overlay (Bewegungs-Stick, Ziel-/Schuss-Stick, Dash-Button)</dd>
 									<dt>Splash &amp; Start-Logo</dt><dd>Boot-Splash + interaktive <code>splash_screen.tscn</code> (<code>CRYPT DASH</code>-Logo, DE/EN-Prompt + Chii-Arcade-Badge)</dd>
 									<dt>Letztes Update</dt><dd>23.11.2026 (<code>CryptAudio</code>, Crypt-Musik, 3 Startwaffen, Leak- &amp; Plan-Fix)</dd>
 									<dt>Umfang</dt><dd>41 Skripte (27 eigene), 4 Szenen</dd>
@@ -2425,7 +2439,8 @@
 							<div>
 								<p class="details-subheading">Kennzahlen</p>
 								<dl class="meta-dl">
-									<dt>Plattformen</dt><dd>Web, Windows, Linux (kein Android)</dd>
+									<dt>Plattformen &amp; Format</dt><dd>Web, Windows, Linux · 16:9 Querformat gesperrt (<code>Sensor Landscape</code>) · Android-Release-Keystore bereit (<code>de.chobitschii.lumaria</code>)</dd>
+									<dt>Touch / Mobile</dt><dd>Menüs &amp; Save-Slots per Touch bedienbar, für das Gameplay fehlt noch ein virtuelles Gamepad (8-Wege-Stick + Schwert/Rolle/Schild/Interagieren/Gadgets)</dd>
 									<dt>Splash &amp; Start-Logo</dt><dd>Boot-Splash + interaktive <code>splash_screen.tscn</code> (<code>LUMARIA</code>-Logo, DE/EN-Prompt + Chii-Arcade-Badge)</dd>
 									<dt>Letztes Update</dt><dd>23.11.2026 (Icon-XML-Fix, 3 Save-Slots, <code>PrismArrow</code>-Bogen, Audio, 0 Leaks)</dd>
 									<dt>Umfang</dt><dd>73 Skripte (51 eigene), 40 Szenen, 8 OGG-SFX + Musik</dd>
@@ -2474,19 +2489,20 @@
 				<div class="panel">
 					<h3><span aria-hidden="true">✓</span> Was repo-weit stabil &amp; bereinigt ist</h3>
 					<ul>
-						<li><strong>Automatisierte Pipeline:</strong> <code>tools/run_tests.sh</code>, <code>sync_shared.sh</code>, <code>build_all.sh</code>, <code>package_release.sh</code>, <code>release_game.sh</code> und <code>build_web_portal.sh</code> laufen fehlerfrei über alle 7 Projekte (Linux, Windows &amp; Web inkl. <code>lumaria</code>-Anzeigename).</li>
-						<li><strong>Erweiterte Shared-Services (<code>shared/</code>):</strong> <code>SharedSplashScreen</code> (interaktiver Start-Splash mit DE/EN-Prompt &amp; dynamischem Chii-Arcade-Badge), <code>DisplayService</code> (F11 + <code>F3</code>-Debug-Overlay), <code>AudioService</code> + <code>SharedSynthMusic</code> (5 nahtlose Synth-Themes), <code>LocaleService</code> (DE/EN-CSV mit Systemsprach-Erkennung), <code>SaveService</code> und <code>ThemeFactory</code> in allen 7 Spielen synchron.</li>
-						<li><strong>Icons, Boot-Logos &amp; Doku synchron:</strong> Alle 14 SVG-Icons (<code>*/icon.svg</code> &amp; <code>public/*/icon.svg</code>), alle 7 Boot- &amp; Splash-Logos (<code>splash.png</code>, 1920×1080 ohne eingebrannten Prompt-Text), Root-<code>README.md</code>, Sammel-<code>CREDITS.md</code>, <code>plans/06_crypt_dash.md</code> (<code>✅</code>) und alle <code>project.godot</code>-Konfigurationen sind konsistent.</li>
+						<li><strong>Automatisierte 4-Plattform-Pipeline &amp; NAS-Backup:</strong> <code>tools/run_tests.sh</code>, <code>sync_shared.sh</code>, <code>setup_android_signing.sh</code>, <code>backup_to_nas.sh</code>, <code>build_all.sh</code>, <code>package_release.sh</code> und <code>release_game.sh</code> unterstützen Linux, Windows, Web &amp; signierte Android-Release-APKs (<code>apksigner</code>-verifiziert).</li>
+						<li><strong>Android-Signierung &amp; Format-Sperre (7/7 Spiele):</strong> Alle 7 Spiele sind auf <strong>16:9 Querformat</strong> (<code>window/handheld/orientation=4</code>, <em>Sensor Landscape</em>) gesperrt und besitzen je einen eigenen RSA-3072 PKCS12-Release-Keystore unter <code>~/.local/share/chii-arcade/signing/games/&lt;spiel&gt;/&lt;spiel&gt;-release.p12</code> – automatisch gesichert auf <code>/media/nas.home/Development-Backups/games/</code>.</li>
+						<li><strong>3 signierte Android-Releases direkt gebaut &amp; veröffentlicht:</strong> <em>Neon Breakout</em> (<code>v1.1.2</code>), <em>Connect Four Deluxe</em> (<code>v1.2.1</code>) und <em>Lane Defenders</em> (<code>v1.5.4</code>) sind als voll signierte Release-APKs gebaut, auf dem NAS gesichert und auf GitHub Releases verfügbar.</li>
 						<li><strong>0 Leaks &amp; 100 % Testquote:</strong> <strong>265 / 265 Unit-Tests</strong> und <strong>7 / 7 Smoke-Tests</strong> ohne Warnungen, Fehler oder ObjectDB-/Resource-Leaks.</li>
 					</ul>
 				</div>
 
 				<div class="panel">
-					<h3><span aria-hidden="true">→</span> Was bewusst noch offen / optional ist</h3>
+					<h3><span aria-hidden="true">→</span> Was für Android bei den übrigen 4 Spielen noch ansteht</h3>
 					<ul>
-						<li><strong>GitHub-Releases &amp; Pages-Deploy auslösen:</strong> Die Code-Verbesserungen sind lokal getestet, gebaut und gepusht; neue getaggte ZIP-Releases entstehen gezielt auf Wunsch per <code>tools/release_game.sh &lt;spiel&gt; [patch|minor]</code>.</li>
-						<li><strong>Einheitliche Gamepad-Glyphen in <code>shared/</code>:</strong> Optionaler zukünftiger Shared-Baustein (<code>block_stack</code> hat bereits eigene SVG-<code>KeyBadge</code>-Komponenten).</li>
-						<li><strong>Freiwillige Post-Launch-Inhalte:</strong> Alle darüber hinausgehenden Punkte (Boss-Rush, Level-Editor, Daily Seed, Endlos-Modus, Plan 08) sind rein optionale Erweiterungsideen.</li>
+						<li><strong>02 · Asteroid Drift:</strong> Zielen/Feuern per Touch klappt bereits; benötigt noch On-Screen-Touch-Buttons für <em>Schub (Thrust)</em>, <em>Hyperspace</em> und <em>Pause</em>.</li>
+						<li><strong>04 · Block Stack:</strong> Benötigt auf dem Spielfeld On-Screen-Touch-Buttons (oder Wischgesten) für <em>Links/Rechts</em>, <em>Drehen (CW/CCW)</em>, <em>Soft/Hard Drop</em>, <em>Hold</em> und <em>Pause</em>.</li>
+						<li><strong>06 · Crypt Dash:</strong> Benötigt ein virtuelles <em>Twin-Stick-Touch-Overlay</em> (linker Bewegungs-Stick, rechter Ziel-/Angriffs-Stick + <em>Dash</em>- &amp; <em>Pause</em>-Button).</li>
+						<li><strong>07 · Lumaria:</strong> Benötigt ein virtuelles <em>Action-RPG-Gamepad</em> (linker 8-Wege-Stick + rechte Buttons für <em>Schwert/Wirbel</em>, <em>Ausweichrolle</em>, <em>Schild/Parry</em>, <em>Interagieren</em>, <em>Gadget 1 &amp; 2</em>, <em>Inventar</em>).</li>
 					</ul>
 				</div>
 			</div>

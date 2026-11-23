@@ -129,6 +129,10 @@ $COMMITS_LOG
 • **Linux:** \`${GAME}-${NEW_VERSION}-linux-x86_64.zip\`
 • **Windows:** \`${GAME}-${NEW_VERSION}-windows-x86_64.zip\`
 • **Web (HTML5):** \`${GAME}-${NEW_VERSION}-web.zip\` (auch direkt im Browser spielbar)"
+if [ -f "$ROOT/build/packages/$GAME/${GAME}-${NEW_VERSION}-android.apk" ]; then
+	NOTES="${NOTES}
+• **Android (Signed Release APK):** \`${GAME}-${NEW_VERSION}-android.apk\`"
+fi
 
 # 5. GitHub Release erstellen
 echo ""

@@ -46,6 +46,8 @@ func _ready() -> void:
 	btn_modal_restart.pressed.connect(_on_modal_restart_pressed)
 	btn_modal_menu.pressed.connect(_on_modal_menu_pressed)
 	btn_fullscreen.pressed.connect(_on_fullscreen_pressed)
+	if OS.has_feature("android"):
+		btn_fullscreen.visible = false
 
 	# Fokus-Verhalten für TopBar-Aktionen:
 	# Wenn kein Button fokussiert ist, bewegen Pfeiltasten direkt den Spielstein.
@@ -211,6 +213,11 @@ func _on_restart_pressed() -> void:
 
 func _on_pause_pressed() -> void:
 	_toggle_pause()
+
+
+func _notification(what: int) -> void:
+	if what == NOTIFICATION_WM_GO_BACK_REQUEST:
+		_toggle_pause()
 
 
 func _toggle_pause() -> void:

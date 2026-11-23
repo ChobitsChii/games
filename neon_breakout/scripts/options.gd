@@ -20,6 +20,7 @@ const SLIDER_KEYS := {
 func _build() -> void:
 	_language_button = _add_button("", _click.bind(LocaleService.cycle_language))
 	_display_button = _add_button("", _click.bind(DisplayService.cycle_mode))
+	_display_button.visible = not OS.has_feature("android")
 	for kind in AudioSettings.KINDS:
 		_add_slider(kind)
 	_effects_button = _add_button("", _click.bind(FxSettings.cycle_quality))

@@ -21,8 +21,8 @@ func _ready() -> void:
 	_options_button.pressed.connect(_go.bind("res://scenes/options.tscn"))
 	_credits_button.pressed.connect(_go.bind("res://scenes/credits.tscn"))
 	_quit_button.pressed.connect(get_tree().quit)
-	# Im Browser gibt es nichts zu beenden.
-	_quit_button.visible = not OS.has_feature("web")
+	# Im Browser und auf Android gibt es keinen Beenden-Button.
+	_quit_button.visible = not OS.has_feature("web") and not OS.has_feature("android")
 	LocaleService.language_changed.connect(func(_code: String) -> void: _refresh())
 	Transition.fade_in(self)
 	_refresh()

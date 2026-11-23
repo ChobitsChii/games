@@ -60,4 +60,63 @@ if 'id=\"game-topbar\"' not in html:
 	else
 		echo "WARNUNG: Web-Export-Templates (web_release.zip) fehlen, Web-Build wird übersprungen."
 	fi
+
+	# Android-Release-Export (falls Preset "Android" in export_presets.cfg vorhanden ist)
+	if [ -f "$dir/export_presets.cfg" ] && grep -q 'name="Android"' "$dir/export_presets.cfg"; then
+		if ls "$HOME"/.local/share/godot/export_templates/*/android_release.apk >/dev/null 2>&1; then
+			ks_dir="$HOME/.local/share/chii-arcade/signing/games/$name"
+			ks_file="$ks_dir/${name}-release.p12"
+			pw_file="$ks_dir/${name}-release.pass"
+			fp_file="$ks_dir/${name}-release.sha256"
+			if [ ! -f "$ks_file" ] || [ ! -f "$pw_file" ]; then
+				"$ROOT/tools/setup_android_signing.sh"
+			fi
+			# Stelle sicher, dass <spiel>/.godot/export_credentials.cfg existiert
+			if [ ! -f "$dir/.godot/export_credentials.cfg" ]; then
+				"$ROOT/tools/setup_android_signing.sh"
+			fi
+			mkdir -p "$ROOT/build/$name/android"
+			out_apk="$ROOT/build/$name/android/$name.apk"
+			rm -f "$out_apk"
+			echo "   Exportiere Android Release APK ($name)..."
+			GODOT_ANDROID_KEYSTORE_RELEASE_PATH="$ks_file" \
+			GODOT_ANDROID_KEYSTORE_RELEASE_USER="$name" \
+			GODOT_ANDROID_KEYSTORE_RELEASE_PASSWORD="$(tr -d '\r\n' < "$pw_file")" \
+				godot --headless --path "$dir" --export-release "Android" "$out_apk"
+
+			# Verifiziere Signatur und Zertifikats-Fingerprint via apksigner (mit JDK 17)
+			export JAVA_HOME="${JAVA_HOME:-/usr/lib/jvm/java-17-openjdk}"
+			export PATH="${JAVA_HOME}/bin:${PATH}"
+			apksigner_bin="/opt/android-sdk/build-tools/36.1.0/apksigner"
+			[ -x "$apksigner_bin" ] || apksigner_bin="/opt/android-sdk/build-tools/36.0.0/apksigner"
+			[ -x "$apksigner_bin" ] || apksigner_bin="$(command -v apksigner || true)"
+			zipalign_bin="/opt/android-sdk/build-tools/36.1.0/zipalign"
+			[ -x "$zipalign_bin" ] || zipalign_bin="/opt/android-sdk/build-tools/36.0.0/zipalign"
+			if [ -n "$apksigner_bin" ] && [ -x "$apksigner_bin" ]; then
+				if ! "$apksigner_bin" verify "$out_apk" >/dev/null 2>&1; then
+					if [ -x "$zipalign_bin" ]; then
+						aligned_tmp="${out_apk}.aligned"
+						"$zipalign_bin" -P 16 -f 4 "$out_apk" "$aligned_tmp"
+						mv "$aligned_tmp" "$out_apk"
+					fi
+					tr -d '\r\n' < "$pw_file" | "$apksigner_bin" sign \
+						--ks "$ks_file" \
+						--ks-key-alias "$name" \
+						--ks-pass stdin \
+						--out "$out_apk" "$out_apk"
+				fi
+				actual_pin="$("$apksigner_bin" verify --verbose --print-certs "$out_apk" \
+					| sed -n 's/.*Signer #1 certificate SHA-256 digest: *//p' \
+					| tr -d ':' | tr '[:upper:]' '[:lower:]' | head -n1)"
+				expected_pin="$(tr -d '\r\n' < "$fp_file")"
+				if [ "$actual_pin" != "$expected_pin" ]; then
+					echo "FEHLER: APK-Signatur-Mismatch für $name (erwartet: $expected_pin, erhalten: $actual_pin)" >&2
+					exit 1
+				fi
+				echo "   Android APK signiert & verifiziert (SHA-256 Cert: $actual_pin)"
+			fi
+		else
+			echo "WARNUNG: Android-Export-Templates (android_release.apk) fehlen, Android-Build wird übersprungen."
+		fi
+	fi
 done

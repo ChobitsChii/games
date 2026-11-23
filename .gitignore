@@ -2,6 +2,10 @@
 .godot/
 *.translation.tmp
 export_credentials.cfg
+*.keystore
+*.jks
+*.p12
+*.pass
 
 # Build-Ausgaben
 build/

@@ -80,9 +80,11 @@ func _ready() -> void:
 	btn_close_stats.pressed.connect(func() -> void: stats_modal.visible = false)
 	btn_close_credits.pressed.connect(func() -> void: credits_modal.visible = false)
 
-	# Web-Export: Beenden-Button ausblenden
-	if OS.has_feature("web"):
+	# Web-/Android-Export: Beenden-Button ausblenden
+	if OS.has_feature("web") or OS.has_feature("android"):
 		btn_quit.visible = false
+	if OS.has_feature("android"):
+		btn_display.visible = false
 
 	btn_play.call_deferred("grab_focus")
 

@@ -98,6 +98,7 @@ func _ready() -> void:
 	_paddle.set_bounds(BreakoutConfig.FIELD.position.x, BreakoutConfig.FIELD.end.x)
 	_paddle.global_position = Vector2(BreakoutConfig.FIELD.get_center().x, PADDLE_Y)
 	_register_ball($Ball)
+	_hud.pause_pressed.connect(_on_pause_button_pressed)
 	_hud.resume_pressed.connect(_set_paused.bind(false))
 	_hud.menu_pressed.connect(_to_menu)
 	_hud.set_score(score)
@@ -155,6 +156,20 @@ func _process(delta: float) -> void:
 func _exit_tree() -> void:
 	Engine.time_scale = 1.0
 	Music.set_muffled(false)
+
+
+func _notification(what: int) -> void:
+	if what == NOTIFICATION_WM_GO_BACK_REQUEST:
+		_on_pause_button_pressed()
+
+
+func _on_pause_button_pressed() -> void:
+	if GameMode.is_demo(mode):
+		_to_menu()
+	elif state in [State.READY, State.PLAYING]:
+		_set_paused(not _paused)
+	elif state == State.GAME_OVER:
+		_to_menu()
 
 
 func _unhandled_input(event: InputEvent) -> void:
