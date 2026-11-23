@@ -1439,13 +1439,14 @@
 
 	<main>
 		<section class="hero">
-			<div class="hero-eyebrow">Godot 4.7.2 · GDScript · Linux, Windows, Web, Android &amp; Chii Arcade (v1) · Stand: 23.11.2026</div>
+			<div class="hero-eyebrow">Godot 4.7.2 · GDScript · Linux, Windows, Web, Android &amp; Chii Arcade (v1) · Galaxy S10 verifiziert · Stand: 23.11.2026</div>
 			<h1 id="main-heading" tabindex="-1">Projektübersicht: Mini-Games Repository</h1>
 			<p class="hero-lead">
 				Vollständige Bestandsaufnahme aller sieben Godot-Spiele im Repository <code>games/</code> –
 				abgeglichen mit den Plänen (<code>plans/01</code>–<code>07</code>), Format- &amp; Touch-Analyse,
 				Android-Signierschlüsseln (inkl. NAS-Backup unter <code>/media/nas.home/Development-Backups/games/</code>),
-				Chii-Arcade-v1-Store-Release (<code>catalog-v1.json</code>, Cert-Pinning, WebP-Cover &amp; Linux-Screenshots)
+				Chii-Arcade-v1-Store-Release (<code>catalog-v1.json</code>, Cert-Pinning, WebP-Cover &amp; Linux-Screenshots),
+				Echtgeräte-End-to-End-Test auf einem <strong>Samsung Galaxy S10 (<code>SM-G973F</code>, Android 12)</strong>
 				sowie dem Gesamtdurchlauf von <code>tools/run_tests.sh</code>.
 			</p>
 
@@ -1457,8 +1458,8 @@
 				</div>
 				<div class="kpi-card">
 					<span class="kpi-label">Android &amp; Chii Arcade v1</span>
-					<span class="kpi-value">7 / 7 Live</span>
-					<span class="kpi-note">7 RSA-3072 PKCS12-Keystores · Cert-Pins + <code>&lt;queries&gt;</code> in Chii Arcade v1 · 7 Cover &amp; 28 Screenshots</span>
+					<span class="kpi-value">7 / 7 S10 OK</span>
+					<span class="kpi-note">Store-Self-Update (<code>1.0.15 → 1.0.16</code>) · Alle 7 Spiele über Chii Arcade installiert · 0 Crashes</span>
 				</div>
 				<div class="kpi-card">
 					<span class="kpi-label">Live-Testergebnis</span>
@@ -1481,6 +1482,9 @@
 				</p>
 				<p>
 					<strong>Chii Arcade (v1) Store-Release (7 / 7 Spiele):</strong> Alle 7 Spiele besitzen nun eine <code>chii-arcade.json</code> inklusive deutschem Store-Text, jeweils ein <code>1280×720</code>-WebP-Cover und 4 unter Linux per <code>xvfb-run</code> aufgenommene Gameplay-Screenshots (<code>&lt;spiel&gt;/store-media/</code>), sind mit ihren Release-Zertifikaten und <code>&lt;queries&gt;</code>-Einträgen in Chii Arcade v1 gepinnt (<code>TrustedGameCertificates.kt</code> / <code>AndroidManifest.xml</code>) und über GitHub Releases sowie <code>catalog-v1.json</code> ausgeliefert. <em>Chii Arcade Platform (v2)</em> blieb dabei ausdrücklich unberührt.
+				</p>
+				<p>
+					<strong>Echtgeräte-Test auf Samsung Galaxy S10 (<code>SM-G973F</code>, Android 12, 2280×1080):</strong> Über die Chii-Arcade-App wurde zunächst das In-App-Update von <code>v1.0.15</code> auf <code>v1.0.16</code> und anschließend der komplette Download, Play-Protect-Scan (<em>„Diese App ist anscheinend sicher“</em>) sowie die Installation und Paket-Erkennung (<em>„Spielen“</em>) für alle 7 Spiele wie bei einem Endnutzer durchgeführt. Im anschließenden Hardware-Test starteten alle 7 Titel sauber in <code>2280×1080</code>-Querformat mit Splash-Screen, Android-Menüs (ohne Beenden/Anzeige-Button), aktivem Gameplay, Touch-Steuerung und <strong>0 Fatal-/Script-Errors im <code>adb logcat</code></strong> (lediglich 3 kleinere kosmetische HUD-Feinschliffe für spätere Patches vorgemerkt: Pause-Overlay über <code>Rekord: 0</code> in <em>Asteroid Drift</em>, Beutel/Pause über <code>[Q]/[E]</code>-Gadget-Text in <em>Lumaria</em> sowie initiales <code>%d</code> hinter dem Tutorial-Popup in <em>Lane Defenders</em>).
 				</p>
 			</div>
 		</section>
@@ -1521,6 +1525,7 @@
 									<span class="badge badge-ok"><span aria-hidden="true">✓</span> Web · Win · Linux</span>
 									<span class="badge badge-ok"><span aria-hidden="true">✓</span> Android (Signed APK)</span>
 									<span class="badge badge-ok"><span aria-hidden="true">✓</span> Chii Arcade v1</span>
+									<span class="badge badge-ok"><span aria-hidden="true">✓</span> Galaxy S10 OK</span>
 								</div>
 								<span class="cell-sub">16:9 Querformat gesperrt · Touch-Drag/Tap &amp; HUD-Pause</span>
 							</td>
@@ -1547,6 +1552,7 @@
 									<span class="badge badge-ok"><span aria-hidden="true">✓</span> Web · Win · Linux</span>
 									<span class="badge badge-ok"><span aria-hidden="true">✓</span> Android (Signed APK)</span>
 									<span class="badge badge-ok"><span aria-hidden="true">✓</span> Chii Arcade v1</span>
+									<span class="badge badge-ok"><span aria-hidden="true">✓</span> Galaxy S10 OK</span>
 								</div>
 								<span class="cell-sub">16:9 Querformat gesperrt · Android-Only Touch-UI (Links/Rechts, Schub, Feuer, Warp, Pause)</span>
 							</td>
@@ -1562,7 +1568,7 @@
 							<td class="num">8 / 8 ✅</td>
 							<td class="num">28 Tests · 0 Leaks</td>
 							<td class="num">23.11.2026</td>
-							<td>Keine (Android Signed APK live, Android-Only Touch-HUD, Space-Musik &amp; <code>F3</code>)</td>
+							<td>Kosmetisch (Android HUD): Touch-Pause-Button oben rechts überlagert leicht <code>Rekord: 0</code> (auf S10 ansonsten 0 Errors)</td>
 							<td>Optional Post-Launch: Survival-Modus &amp; Boss-Begegnungen</td>
 						</tr>
 						<tr>
@@ -1573,6 +1579,7 @@
 									<span class="badge badge-ok"><span aria-hidden="true">✓</span> Web · Win · Linux</span>
 									<span class="badge badge-ok"><span aria-hidden="true">✓</span> Android (Signed APK)</span>
 									<span class="badge badge-ok"><span aria-hidden="true">✓</span> Chii Arcade v1</span>
+									<span class="badge badge-ok"><span aria-hidden="true">✓</span> Galaxy S10 OK</span>
 								</div>
 								<span class="cell-sub">16:9 Querformat gesperrt · Nativ 100 % Touch-spielbar (Spalten-Tap)</span>
 							</td>
@@ -1599,6 +1606,7 @@
 									<span class="badge badge-ok"><span aria-hidden="true">✓</span> Web · Win · Linux</span>
 									<span class="badge badge-ok"><span aria-hidden="true">✓</span> Android (Signed APK)</span>
 									<span class="badge badge-ok"><span aria-hidden="true">✓</span> Chii Arcade v1</span>
+									<span class="badge badge-ok"><span aria-hidden="true">✓</span> Galaxy S10 OK</span>
 								</div>
 								<span class="cell-sub">16:9 Querformat gesperrt · Android-Only Touch-UI (L/R mit DAS/ARR, Soft/Hard Drop, Rot L/R, Hold)</span>
 							</td>
@@ -1625,6 +1633,7 @@
 									<span class="badge badge-ok"><span aria-hidden="true">✓</span> Web · Win · Linux</span>
 									<span class="badge badge-ok"><span aria-hidden="true">✓</span> Android (Signed APK)</span>
 									<span class="badge badge-ok"><span aria-hidden="true">✓</span> Chii Arcade v1</span>
+									<span class="badge badge-ok"><span aria-hidden="true">✓</span> Galaxy S10 OK</span>
 								</div>
 								<span class="cell-sub">16:9 Querformat gesperrt · Nativ 100 % Touch-spielbar (Karten- &amp; Raster-Tap)</span>
 							</td>
@@ -1640,7 +1649,7 @@
 							<td class="num">8 / 8 ✅</td>
 							<td class="num">22 Tests · 0 Leaks</td>
 							<td class="num">23.11.2026</td>
-							<td>Keine (Android Signed APK live, 20 Level/4 Welten, Meadow-Musik &amp; 0 Leaks)</td>
+							<td>Kosmetisch: Initial-HUD zeigt hinter dem ersten Tutorial-Popup kurz <code>%d</code> (wechselt nach „Verstanden!“ direkt auf <code>150 / 3</code>)</td>
 							<td>Optional: Endlos-Modus &amp; Einheiten-Upgrades</td>
 						</tr>
 						<tr>
@@ -1651,6 +1660,7 @@
 									<span class="badge badge-ok"><span aria-hidden="true">✓</span> Web · Win · Linux</span>
 									<span class="badge badge-ok"><span aria-hidden="true">✓</span> Android (Signed APK)</span>
 									<span class="badge badge-ok"><span aria-hidden="true">✓</span> Chii Arcade v1</span>
+									<span class="badge badge-ok"><span aria-hidden="true">✓</span> Galaxy S10 OK</span>
 								</div>
 								<span class="cell-sub">16:9 Querformat gesperrt · Android-Only Twin-Stick (Bewegungs-Stick + 360°-Ziel-Stick + Dash)</span>
 							</td>
@@ -1677,6 +1687,7 @@
 									<span class="badge badge-ok"><span aria-hidden="true">✓</span> Web · Win · Linux</span>
 									<span class="badge badge-ok"><span aria-hidden="true">✓</span> Android (Signed APK)</span>
 									<span class="badge badge-ok"><span aria-hidden="true">✓</span> Chii Arcade v1</span>
+									<span class="badge badge-ok"><span aria-hidden="true">✓</span> Galaxy S10 OK</span>
 								</div>
 								<span class="cell-sub">16:9 Querformat gesperrt · Android-Only Virtual Gamepad (Stick + Schwert/Rolle/Schild/Aktion/G1/G2)</span>
 							</td>
@@ -1692,7 +1703,7 @@
 							<td class="num">9 / 9 ✅</td>
 							<td class="num">61 Tests · 0 Leaks</td>
 							<td class="num">23.11.2026</td>
-							<td>Keine (Android Signed APK live, Virtual Gamepad, 3 Save-Slots &amp; Prisma-Bogen)</td>
+							<td>Kosmetisch (Android HUD): <code>Beutel</code>/<code>Pause</code>-Touch-Buttons oben rechts überlagern <code>[Q]/[E]</code>-Gadget-Beschriftung (S10 sonst fehlerfrei)</td>
 							<td>Optional Post-Launch: Boss-Rush-Arena &amp; New Game+</td>
 						</tr>
 					</tbody>
@@ -2514,6 +2525,7 @@
 						<li><strong>02 · Asteroid Drift &amp; 04 · Block Stack:</strong> Multi-Touch-Vektor-Buttons für Drehen Links/Rechts, Schub, Feuer, Hyperspace &amp; Pause bzw. Links/Rechts (mit nativem DAS/ARR), Soft/Hard Drop, Drehen CCW/CW, Hold &amp; Pause.</li>
 						<li><strong>06 · Crypt Dash &amp; 07 · Lumaria:</strong> Virtuelles Twin-Stick-HUD (Bewegungs-Stick + 360°-Ziel-/Feuer-Stick + Dash) bzw. Action-RPG-Gamepad (8-Wege-Stick + Schwert inkl. Wirbel-Charge, Rolle, Schild, Interaktion, Gadget 1 &amp; 2, Inventar &amp; Pause).</li>
 						<li><strong>Alle 7 signierten Release-APKs gebaut &amp; gesichert:</strong> Alle 7 Spiele liegen als <code>apksigner</code>-verifizierte Full-Release-APKs lokal, auf dem NAS (<code>/media/nas.home/Development-Backups/games/android-releases/</code>) und in den GitHub-Releases bereit.</li>
+						<li><strong>Galaxy S10 (<code>SM-G973F</code>, Android 12) Live-Praxistest bestanden:</strong> Chii Arcade in-app auf <code>v1.0.16</code> aktualisiert, alle 7 Spiele regulär über die Store-UI heruntergeladen, gescannt/installiert und in <code>2280×1080</code>-Querformat mit Splash, Menü, Gameplay und Touch-UI bei <code>0</code> Logcat-Crashes getestet.</li>
 					</ul>
 				</div>
 			</div>
@@ -2565,7 +2577,7 @@
 		<div class="footer-inner">
 			<p>
 				Aktualisiert am <strong>23.11.2026</strong> aus <code>/home/jennifer/development/games</code> ·
-				Live verifiziert mit <code>tools/run_tests.sh</code> &amp; Chii Arcade v1 Release-Pipeline (Godot 4.7.2, 266/266 Tests grün, 0 Leaks).
+				Live verifiziert mit <code>tools/run_tests.sh</code>, Chii Arcade v1 Release-Pipeline &amp; Samsung Galaxy S10 (<code>SM-G973F</code>, Android 12) ADB-Praxistest (Godot 4.7.2, 266/266 Tests grün, 0 Leaks).
 			</p>
 			<div class="footer-links">
 				<a href="README.md">Repo-README</a>
