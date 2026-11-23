@@ -1459,12 +1459,12 @@
 				<div class="kpi-card">
 					<span class="kpi-label">Android &amp; Chii Arcade v1</span>
 					<span class="kpi-value">7 / 7 S10 OK</span>
-					<span class="kpi-note">Store-Self-Update (<code>1.0.16 → 1.0.17</code>) · Bulk-Updater-Fix &amp; 7/7 Spiele auf S10 OK · 0 Crashes</span>
+					<span class="kpi-note">Bulk-Update 3/3 auf S10 OK · Scharfe 512px-Icons · Lane Defenders VRAM-Fix &amp; 0 Crashes</span>
 				</div>
 				<div class="kpi-card">
 					<span class="kpi-label">Live-Testergebnis</span>
-					<span class="kpi-value">266 / 266</span>
-					<span class="kpi-note">0 Fehler · 0 Warnungen · 0 Exit-Leaks · 7/7 Smoke-Tests grün</span>
+					<span class="kpi-value">269 / 269</span>
+					<span class="kpi-note">0 Fehler · 0 Warnungen · 0 Exit-Leaks · 7/7 Smoke-Tests (Seed 42) grün</span>
 				</div>
 				<div class="kpi-card">
 					<span class="kpi-label">Feinschliff &amp; Branding</span>
@@ -1484,7 +1484,7 @@
 					<strong>Chii Arcade (v1) Store-Release (7 / 7 Spiele):</strong> Alle 7 Spiele besitzen nun eine <code>chii-arcade.json</code> inklusive deutschem Store-Text, jeweils ein <code>1280×720</code>-WebP-Cover und 4 unter Linux per <code>xvfb-run</code> aufgenommene Gameplay-Screenshots (<code>&lt;spiel&gt;/store-media/</code>), sind mit ihren Release-Zertifikaten und <code>&lt;queries&gt;</code>-Einträgen in Chii Arcade v1 gepinnt (<code>TrustedGameCertificates.kt</code> / <code>AndroidManifest.xml</code>) und über GitHub Releases sowie <code>catalog-v1.json</code> ausgeliefert. <em>Chii Arcade Platform (v2)</em> blieb dabei ausdrücklich unberührt.
 				</p>
 				<p>
-					<strong>Echtgeräte-Test auf Samsung Galaxy S10 (<code>SM-G973F</code>, Android 12, 2280×1080):</strong> Nach dem In-App-Self-Update auf <code>Chii Arcade v1.0.17</code> (Build <code>17</code>) wurde neben allen 7 Spielen inklusive der 3 kosmetischen HUD-Fixes (<em>Asteroid Drift</em> <code>v1.0.6</code>, <em>Lane Defenders</em> <code>v1.5.5</code>, <em>Lumaria</em> <code>v1.0.2</code>) auch der behobene Chii-Arcade-Bulk-Updater (<code>BulkInstallVerificationPolicy</code>: aktive <code>PackageInstaller</code>-Session-Überwachung ohne vorzeitigen 8s-Timeout) mit <em>Crypt Dash</em> <code>v1.1.4 → v1.1.5</code> per <em>„Alle Spiele aktualisieren“</em> end-to-end verifiziert („1 aktualisiert · 0 übersprungen“). Alle 7 Spiele laufen in <code>2280×1080</code>-Querformat mit Splash-Screen, Android-Menüs, Touch-UI, sauberem HUD, <strong>0 offenen Technik-Punkten</strong> und <strong>0 Fatal-/Script-Errors im <code>adb logcat</code></strong>.
+					<strong>Echtgeräte-Test auf Samsung Galaxy S10 (<code>SM-G973F</code>, Android 12, 2280×1080):</strong> Über den behobenen Bulk-Updater von <code>Chii Arcade v1.0.17</code> („Alle Spiele aktualisieren“) wurden alle 3 aktualisierten Titel – <em>Asteroid Drift</em> <code>v1.0.7</code>, <em>Lane Defenders</em> <code>v1.5.6</code> und <em>Lumaria</em> <code>v1.0.3</code> – regulär über die Store-UI inklusive Google-Play-Protect-Prüfung eingespielt (<em>„3 aktualisiert · 0 übersprungen“</em>). Dabei wurden die unscharfen App-Icons von <em>Asteroid Drift</em> und <em>Lumaria</em> durch neue 512×512-Vektor-SVGs ohne <code>&lt;feGaussianBlur&gt;</code>-Filter (ThorVG-Rasterizer-Bug) ersetzt und <em>Lane Defenders</em> intensiv gehärtet (APK von <code>74,5 MB</code> auf <code>64,6 MB</code> reduziert, ETC2/S3TC-VRAM-Kompression für die 5 Full-HD-Hintergründe mit spürbarer Speicher-Entlastung auf dem S10: Graphics <code>~100 → ~68 MB</code>, GL mtrack <code>~75 → ~44 MB</code>, <code>heart.png</code>/<code>sun.png</code>-Mipmap-Fix, Lazy-Almanach &amp; Lebenszyklus-Schutzprüfungen, <strong>0 Fatal-/Script-Errors im <code>adb logcat</code></strong>).
 				</p>
 			</div>
 		</section>
@@ -1546,7 +1546,7 @@
 						</tr>
 						<tr>
 							<th scope="row"><a href="#proj-asteroid-drift">02 · Asteroid Drift</a></th>
-							<td class="num"><code>v1.0.6</code></td>
+							<td class="num"><code>v1.0.7</code></td>
 							<td>
 								<div class="platform-badges">
 									<span class="badge badge-ok"><span aria-hidden="true">✓</span> Web · Win · Linux</span>
@@ -1562,13 +1562,13 @@
 							</td>
 							<td>
 								<span class="badge badge-ok"><span aria-hidden="true">✓</span> Eigenes Spiel-Logo</span>
-								<span class="cell-sub">Sci-Fi-Logo <em>„ASTEROID DRIFT“</em> + <code>icon.svg</code></span>
+								<span class="cell-sub">Sci-Fi-Logo <em>„ASTEROID DRIFT“</em> + 512px-<code>icon.svg</code></span>
 							</td>
-							<td><span class="badge badge-ok"><span aria-hidden="true">✓</span> Abgeschlossen + Touch/Audio</span></td>
+							<td><span class="badge badge-ok"><span aria-hidden="true">✓</span> Abgeschlossen + Touch/Icon-Fix</span></td>
 							<td class="num">8 / 8 ✅</td>
 							<td class="num">28 Tests · 0 Leaks</td>
 							<td class="num">23.11.2026</td>
-							<td>Keine (Galaxy S10 <code>v1.0.6</code> geprüft, Touch-HUD &amp; Rekord-Abstand ohne Überlappung)</td>
+							<td>Keine (Galaxy S10 <code>v1.0.7</code> per Bulk-Update geprüft: scharfes 512×512-Icon ohne Blur-Filter, Touch-HUD ohne Überlappung)</td>
 							<td>Optional Post-Launch: Survival-Modus &amp; Boss-Begegnungen</td>
 						</tr>
 						<tr>
@@ -1627,7 +1627,7 @@
 						</tr>
 						<tr>
 							<th scope="row"><a href="#proj-lane-defenders">05 · Lane Defenders</a></th>
-							<td class="num"><code>v1.5.5</code></td>
+							<td class="num"><code>v1.5.6</code></td>
 							<td>
 								<div class="platform-badges">
 									<span class="badge badge-ok"><span aria-hidden="true">✓</span> Web · Win · Linux</span>
@@ -1645,11 +1645,11 @@
 								<span class="badge badge-ok"><span aria-hidden="true">✓</span> Eigenes Spiel-Logo</span>
 								<span class="cell-sub">Comic-Logo <em>„LANE DEFENDERS“</em> + <code>icon.svg</code></span>
 							</td>
-							<td><span class="badge badge-ok"><span aria-hidden="true">✓</span> Abgeschlossen + Audio/F3</span></td>
+							<td><span class="badge badge-ok"><span aria-hidden="true">✓</span> Abgeschlossen + Stabilitäts-/VRAM-Fix</span></td>
 							<td class="num">8 / 8 ✅</td>
-							<td class="num">22 Tests · 0 Leaks</td>
+							<td class="num">25 Tests · 0 Leaks</td>
 							<td class="num">23.11.2026</td>
-							<td>Keine (Galaxy S10 <code>v1.5.5</code> geprüft, Initial-HUD vor Tutorial zeigt sofort <code>150 / 3</code>)</td>
+							<td>Keine auf S10 (Galaxy S10 <code>v1.5.6</code> geprüft: VRAM-Kompression, Lazy-Almanach, Mipmap-/Lifecycle-Fixes, <code>64,6 MB</code> APK; Nokia-G42-Rückmeldung offen)</td>
 							<td>Optional: Endlos-Modus &amp; Einheiten-Upgrades</td>
 						</tr>
 						<tr>
@@ -1681,7 +1681,7 @@
 						</tr>
 						<tr>
 							<th scope="row"><a href="#proj-lumaria">07 · Lumaria</a></th>
-							<td class="num"><code>v1.0.2</code></td>
+							<td class="num"><code>v1.0.3</code></td>
 							<td>
 								<div class="platform-badges">
 									<span class="badge badge-ok"><span aria-hidden="true">✓</span> Web · Win · Linux</span>
@@ -1697,13 +1697,13 @@
 							</td>
 							<td>
 								<span class="badge badge-ok"><span aria-hidden="true">✓</span> Eigenes Spiel-Logo</span>
-								<span class="cell-sub">Kristall-Logo <em>„LUMARIA“</em> + <code>icon.svg</code></span>
+								<span class="cell-sub">Kristall-Logo <em>„LUMARIA“</em> + 512px-<code>icon.svg</code></span>
 							</td>
-							<td><span class="badge badge-ok"><span aria-hidden="true">✓</span> Abgeschlossen + Touch/Save/Bogen</span></td>
+							<td><span class="badge badge-ok"><span aria-hidden="true">✓</span> Abgeschlossen + Touch/Icon-Fix</span></td>
 							<td class="num">9 / 9 ✅</td>
 							<td class="num">61 Tests · 0 Leaks</td>
 							<td class="num">23.11.2026</td>
-							<td>Keine (Galaxy S10 <code>v1.0.2</code> geprüft, Virtual Gamepad &amp; Gadget-HUD ohne Überlappung)</td>
+							<td>Keine (Galaxy S10 <code>v1.0.3</code> per Bulk-Update geprüft: scharfes 512×512-Icon ohne Blur-Filter, Virtual Gamepad ohne Überlappung)</td>
 							<td>Optional Post-Launch: Boss-Rush-Arena &amp; New Game+</td>
 						</tr>
 					</tbody>
@@ -1861,20 +1861,20 @@
 							<div class="card-title-row">
 								<span class="plan-num">Plan 02</span>
 								<h3>Asteroid Drift</h3>
-								<span class="badge badge-mono">v1.0.6</span>
+								<span class="badge badge-mono">v1.0.7</span>
 								<span class="badge badge-ok"><span aria-hidden="true">✓</span> Abgeschlossen (Vollversion)</span>
 							</div>
 							<div class="card-badges">
 								<span class="badge badge-info">Arcade-Shooter</span>
 								<span class="badge badge-mono">Aufwand: ⭐⭐</span>
-								<span class="badge badge-ok"><span aria-hidden="true">✓</span> 27 Tests · 0 Leaks</span>
-								<span class="badge badge-ok"><span aria-hidden="true">✓</span> Space-Musik &amp; 0 Exit-Leaks</span>
+								<span class="badge badge-ok"><span aria-hidden="true">✓</span> 28 Tests · 0 Leaks</span>
+								<span class="badge badge-ok"><span aria-hidden="true">✓</span> Space-Musik &amp; 512px-Vektor-Icon</span>
 							</div>
 						</div>
 					</header>
 
 					<p class="card-summary">
-						Sci-Fi-Weltraum-Shooter im modernen Flat-Vektor-Stil mit Trägheitsphysik, Bildschirm-Wrap-around, prozeduralen Asteroiden, UFO-Gegnern, Annäherungsminen und Deckbau-Upgrade-Karten – jetzt mit synthetisierter Space-Musik, Audio-Reglern, <code>F3</code>-Overlay und leakfreiem Beenden.
+						Sci-Fi-Weltraum-Shooter im modernen Flat-Vektor-Stil mit Trägheitsphysik, Bildschirm-Wrap-around, prozeduralen Asteroiden, UFO-Gegnern, Annäherungsminen und Deckbau-Upgrade-Karten – jetzt mit synthetisierter Space-Musik, Audio-Reglern, gestochen scharfem 512×512-App-Icon, <code>F3</code>-Overlay und leakfreiem Beenden.
 					</p>
 
 					<div class="progress-row">
@@ -1890,14 +1890,14 @@
 								<li><strong>Komplett spielbar (M0–M7):</strong> Schiff mit Trägheitsphysik, Hyperspace-Sprung, Schild, 10+ Wellen, UFOs, Minen &amp; 6 Tech-Karten.</li>
 								<li><strong>Neu — Musik &amp; Audio-Menü:</strong> Synthetisierter nahtloser Space-Ambient-Loop (<code>SharedSynthMusic</code>), eigene Musik-/Effekt-Lautstärke-Buttons &amp; Bus-Routing (<code>AudioService</code>).</li>
 								<li><strong>Alle 30 Exit-Leaks behoben:</strong> Sauberes <code>AudioManager.stop_all()</code>, Testmodus-Schutz &amp; Cleanup beim Beenden; zusätzlich 4 neue Tests in <code>test_audio_service.gd</code>.</li>
-								<li><strong>Doku &amp; Technik synchron:</strong> <code>config/version</code> auf <code>1.0.6</code> angeglichen, Android-HUD-Margin (<code>140px</code>) für Pause-Button ergänzt + <code>F3</code>-Debug-Overlay aktiv.</li>
+								<li><strong>Doku &amp; Technik synchron (<code>v1.0.7</code>):</strong> App-Icon in <a href="asteroid_drift/icon.svg"><code>asteroid_drift/icon.svg</code></a> auf <code>512×512</code> hochskaliert und ohne <code>&lt;feGaussianBlur&gt;</code>/<code>&lt;feMerge&gt;</code> neu aufgebaut (Godot-ThorVG-Rasterizer-Fix), <code>store-media/*</code> aus den Exporten ausgeschlossen, Android-HUD-Margin (<code>140px</code>) ergänzt und auf dem Galaxy S10 via Chii Arcade <code>v1.0.17</code> geprüft (28/28 Tests, 0 Leaks).</li>
 							</ul>
 						</div>
 
 						<div class="pillar pillar-missing">
 							<div class="pillar-title"><span aria-hidden="true">•</span> Verbleibend (nur optional)</div>
 							<ul>
-								<li><strong>Keine offenen Bugs:</strong> Smoke-Test und 26/26 Unit-Tests laufen komplett ohne ObjectDB- oder Resource-Leaks.</li>
+								<li><strong>Keine offenen Bugs:</strong> Smoke-Test und 28/28 Unit-Tests laufen komplett ohne ObjectDB- oder Resource-Leaks.</li>
 								<li><strong>Optionale Plan-Ideen:</strong> Zweiter Modus „Survival“, Boss-Begegnungen, lokaler Highscore-Ghost oder Gamepad-Vibration.</li>
 							</ul>
 						</div>
@@ -1905,7 +1905,7 @@
 						<div class="pillar pillar-next">
 							<div class="pillar-title"><span aria-hidden="true">→</span> Als Nächstes geplant</div>
 							<ul>
-								<li><strong>Release-Update:</strong> Mit <code>tools/release_game.sh asteroid_drift patch</code> die Musik-, Audio- und Leak-Fixes veröffentlichen.</li>
+								<li><strong>Released &amp; verifiziert (<code>v1.0.7</code>):</strong> Signiertes Android-APK (<code>10007</code>) mit neuem 512×512-Icon, Desktop/Web, Chii-Arcade-v1-Katalog und NAS-Backup live; auf Galaxy S10 geprüft.</li>
 								<li><strong>Optional:</strong> Survival-Modus oder Boss-Welle als späteres Inhalts-Update.</li>
 							</ul>
 						</div>
@@ -1936,7 +1936,7 @@
 									<dt>Letztes Update</dt><dd>23.11.2026 (Start-Logo, <code>SharedSplashScreen</code>, <code>AudioService</code>/Space-Musik)</dd>
 									<dt>Umfang</dt><dd>32 Skripte (16 eigene), 11 Szenen, 15 OGG-SFX + Synth-Musik</dd>
 									<dt>Lokalisierung</dt><dd>65 Zeilen in <code>asteroid_drift.csv</code> (+ <code>common.csv</code>)</dd>
-									<dt>Teststatus</dt><dd>27/27 Unit-Tests + Smoke-Test grün (0 Leaks)</dd>
+									<dt>Teststatus</dt><dd>28/28 Unit-Tests + Smoke-Test grün (0 Leaks)</dd>
 								</dl>
 							</div>
 						</div>
@@ -2179,20 +2179,20 @@
 							<div class="card-title-row">
 								<span class="plan-num">Plan 05</span>
 								<h3>Lane Defenders</h3>
-								<span class="badge badge-mono">v1.5.5</span>
+								<span class="badge badge-mono">v1.5.6</span>
 								<span class="badge badge-ok"><span aria-hidden="true">✓</span> Abgeschlossen &amp; Erweitert</span>
 							</div>
 							<div class="card-badges">
 								<span class="badge badge-info">Tower Defense (5 Lanes)</span>
 								<span class="badge badge-mono">Aufwand: ⭐⭐⭐</span>
-								<span class="badge badge-ok"><span aria-hidden="true">✓</span> 22 Tests · 0 Leaks</span>
-								<span class="badge badge-ok"><span aria-hidden="true">✓</span> Meadow-Musik, 20 Level &amp; 0 Leaks</span>
+								<span class="badge badge-ok"><span aria-hidden="true">✓</span> 25 Tests · 0 Leaks</span>
+								<span class="badge badge-ok"><span aria-hidden="true">✓</span> VRAM-Kompression &amp; Android-Hardening</span>
 							</div>
 						</div>
 					</header>
 
 					<p class="card-summary">
-						Umfangreichstes Release-Portfolio (15 Versionen bis <code>v1.5.5</code>): Flat-Cartoon-Tower-Defense auf 5×9 Feldern mit 4 Welten, 20 Leveln, 4 Bossen, Lexikon und Bot-Test – nun inklusive Meadow-Musik, Audio-Reglern, bereinigter Portal/README-Doku, <code>F3</code>-Overlay, sofort initialisiertem Tutorial-HUD und 0 Exit-Leaks.
+						Umfangreichstes Release-Portfolio (16 Versionen bis <code>v1.5.6</code>): Flat-Cartoon-Tower-Defense auf 5×9 Feldern mit 4 Welten, 20 Leveln, 4 Bossen, Lexikon und Bot-Test – nun inklusive Meadow-Musik, <code>F3</code>-Overlay, ETC2/S3TC-VRAM-Kompression (<code>64,6 MB</code> APK statt <code>74,5 MB</code>), Lazy-Almanach, Mipmap- und Lebenszyklus-Hardening sowie 0 Exit-Leaks.
 					</p>
 
 					<div class="progress-row">
@@ -2206,7 +2206,7 @@
 							<div class="pillar-title"><span aria-hidden="true">✓</span> Status &amp; Erreicht</div>
 							<ul>
 								<li><strong>Über Plan hinaus erweitert:</strong> <strong>20 Level in 4 Welten</strong> (Grüne Wiese, Dunkler Pfad, Winterwald, Magma-Ödland), 7 Einheiten, 6 Gegner, 4 Welt-Bosse, Lexikon, Autosave &amp; Bot-Test.</li>
-								<li><strong>Neu — Musik, Audio-Regler &amp; Doku-Fix:</strong> Beschwingte Meadow-Musik + Musik-/SFX-Schalter (<code>AudioService</code>), Root-<code>README.md</code> &amp; Web-Portal auf 20 Level / 4 Welten korrigiert, Initial-HUD vor Tutorial initialisiert, <code>config/version = "1.5.5"</code>.</li>
+								<li><strong>Stabilität &amp; Speicher-Hardening (<code>v1.5.6</code>):</strong> Doppelte <code>battlefield.png</code> &amp; <code>store-media/*</code> aus APK entfernt (<code>74,5 → 64,6 MB</code>), 5 Full-HD-Hintergründe auf <code>compress/mode=2</code> (ETC2/S3TC) umgestellt, <code>heart.png</code>/<code>sun.png</code> auf <code>mipmaps/generate=false</code> vereinheitlicht, Lazy-Initialisierung im <code>AlmanacModal</code>, Signal-/Tween-/Div0-/Deferred-Tutorial-Guards &amp; 3 neue UI-Tests (<code>test_ui_safety.gd</code>). Auf Galaxy S10 verifiziert (Graphics <code>~100 → ~68 MB</code>, GL mtrack <code>~75 → ~44 MB</code>, 0 Logcat-Fehler).</li>
 								<li><strong>Alle 42 Exit-Leaks behoben:</strong> Vorherige 42 ObjectDB-/8 Resource-Leaks beim Beenden (<code>sound_effects.gd</code> + <code>smoke.gd</code>) komplett beseitigt.</li>
 							</ul>
 						</div>
@@ -2222,7 +2222,7 @@
 						<div class="pillar pillar-next">
 							<div class="pillar-title"><span aria-hidden="true">→</span> Als Nächstes geplant</div>
 							<ul>
-								<li><strong>Release-Update:</strong> Patch-Release via <code>tools/release_game.sh lane_defenders patch</code> für Musik, <code>F3</code>-Overlay &amp; Exit-Leak-Fix.</li>
+								<li><strong>Released &amp; verifiziert (<code>v1.5.6</code>):</strong> Signiertes Android-APK (<code>10506</code>, <code>64,6 MB</code>) auf Galaxy S10 geprüft; Feedback vom Nokia G42 (Adreno 619) abwarten.</li>
 								<li><strong>Optional:</strong> Endlos-Modus als späteres Feature-Update.</li>
 							</ul>
 						</div>
@@ -2250,10 +2250,10 @@
 									<dt>Plattformen &amp; Format</dt><dd><strong>Web, Windows, Linux &amp; Android (Signed Release APK: <code>de.chobitschii.lane_defenders</code>)</strong> · 16:9 Querformat gesperrt (<code>Sensor Landscape</code>)</dd>
 									<dt>Touch / Mobile</dt><dd>Nativ 100 % Touch-spielbar (Einheiten-Karten, Schaufel, 5×9-Rasenfeld-Tap &amp; Sonnen-Einsammeln per Tap/Wischen + Android-Back-Pause)</dd>
 									<dt>Splash &amp; Start-Logo</dt><dd>Boot-Splash + interaktive <code>splash_screen.tscn</code> (<code>LANE DEFENDERS</code>-Logo, DE/EN-Prompt + Chii-Arcade-Badge)</dd>
-									<dt>Letztes Update</dt><dd>23.11.2026 (Exit-Leak-Fix, Meadow-Musik/Audio, Portal-Doku, <code>F3</code>)</dd>
+									<dt>Letztes Update</dt><dd>23.11.2026 (<code>v1.5.6</code>: Android-Hardening, ETC2-VRAM, Lazy-Almanach, Mipmap-Fix)</dd>
 									<dt>Umfang</dt><dd>32 Skripte (18 eigene), 7 Szenen, 33 <code>.tres</code>-Datenressourcen</dd>
 									<dt>Lokalisierung</dt><dd>100 Zeilen in <code>lane_defenders.csv</code> (+ <code>common.csv</code>)</dd>
-									<dt>Teststatus</dt><dd>22/22 Unit-Tests (inkl. Bot-Test) + Smoke-Test grün (0 Leaks)</dd>
+									<dt>Teststatus</dt><dd>25/25 Unit-Tests (inkl. Bot- &amp; UI-Safety-Tests) + Smoke-Test grün (0 Leaks)</dd>
 								</dl>
 							</div>
 						</div>
@@ -2391,7 +2391,7 @@
 							<div class="card-title-row">
 								<span class="plan-num">Plan 07</span>
 								<h3>Lumaria: The Prismatic Odyssey</h3>
-								<span class="badge badge-mono">v1.0.2</span>
+								<span class="badge badge-mono">v1.0.3</span>
 								<span class="badge badge-ok"><span aria-hidden="true">✓</span> Abgeschlossen (Vollversion)</span>
 							</div>
 							<div class="card-badges">
@@ -2417,10 +2417,10 @@
 						<div class="pillar pillar-done">
 							<div class="pillar-title"><span aria-hidden="true">✓</span> Status &amp; Erreicht</div>
 							<ul>
-								<li><strong>Browser-Icon repariert:</strong> Doppeltes XML-Attribut <code>filter="url(#glow)"</code> in <a href="lumaria/icon.svg"><code>lumaria/icon.svg</code></a> entfernt (war für Browser invalides XML), SVG validiert &amp; ins Web-Portal übernommen.</li>
+								<li><strong>App- &amp; Browser-Icon repariert (<code>v1.0.3</code>):</strong> Doppeltes XML-Attribut sowie SVG-<code>&lt;feGaussianBlur&gt;</code>/<code>&lt;feComposite&gt;</code>-Filter in <a href="lumaria/icon.svg"><code>lumaria/icon.svg</code></a> durch geschichtete Vektor-Auren ersetzt (gestochen scharfes <code>432×432</code>-Android-Icon ohne ThorVG-Blur), <code>store-media/*</code> vom Export ausgeschlossen und auf dem Galaxy S10 verifiziert.</li>
 								<li><strong>Neu — 3-Slot-Speichersystem:</strong> <code>SaveSlotManager</code> über <code>SaveService</code> inkl. Hauptmenü-Overlay (Fortschrittsanzeige, Laden, Löschen), Autosave beim Zonenwechsel, Truhen, Bossen &amp; Inventar sowie <code>QuestManager</code>-Serialisierung.</li>
 								<li><strong>Neu — Funktionsfähiger Prisma-Bogen:</strong> Vektor-Projektil <code>PrismArrow</code> (schaltet Kristallschalter, mäht Gras, zerbricht Krüge, trifft Gegner/Bosse), von Alchemistin Lyra freigeschaltet &amp; im Inventar ausrüstbar.</li>
-								<li><strong>Stabilität &amp; Audio:</strong> Musik-/SFX-Schalter (<code>AudioService</code>), Android-HUD-Margin (<code>256px</code>) für Beutel/Pause-Buttons, <code>config/version = "1.0.2"</code>, Anzeigename in <code>build_all.sh</code>, 61/61 Tests &amp; Smoke-Test mit 0 Leaks.</li>
+								<li><strong>Stabilität &amp; Audio:</strong> Musik-/SFX-Schalter (<code>AudioService</code>), Android-HUD-Margin (<code>256px</code>) für Beutel/Pause-Buttons, <code>config/version = "1.0.3"</code>, Anzeigename in <code>build_all.sh</code>, 61/61 Tests &amp; Smoke-Test mit 0 Leaks.</li>
 							</ul>
 						</div>
 
@@ -2435,7 +2435,7 @@
 						<div class="pillar pillar-next">
 							<div class="pillar-title"><span aria-hidden="true">→</span> Als Nächstes geplant</div>
 							<ul>
-								<li><strong>Feature-Release v1.1.0:</strong> Mit <code>tools/release_game.sh lumaria minor</code> das Update (Icon-Fix, 3 Save-Slots, Prisma-Bogen, Audio-Optionen) als Release ausrollen.</li>
+								<li><strong>Released &amp; verifiziert (<code>v1.0.3</code>):</strong> Signiertes Android-APK (<code>10003</code>) mit neuem 512×512-Icon ohne Blur-Filter, Desktop/Web, Chii Arcade v1 &amp; NAS-Backup live; auf Galaxy S10 geprüft.</li>
 								<li><strong>Optional danach:</strong> Boss-Rush-Arena oder New Game+ als Post-Launch-Bonus.</li>
 							</ul>
 						</div>
@@ -2464,7 +2464,7 @@
 									<dt>Plattformen &amp; Format</dt><dd><strong>Web, Windows, Linux &amp; Android (Signed Release APK: <code>de.chobitschii.lumaria</code>)</strong> · 16:9 Querformat gesperrt (<code>Sensor Landscape</code>)</dd>
 									<dt>Touch / Mobile</dt><dd>Android-Only Virtual Gamepad (<code>SharedTouchControls</code>: 8-Wege-Stick links, Schwert Tap/Charge, Rolle, Schild, Aktion, Gadget 1/2, Inventar &amp; Pause rechts; auf PC unsichtbar)</dd>
 									<dt>Splash &amp; Start-Logo</dt><dd>Boot-Splash + interaktive <code>splash_screen.tscn</code> (<code>LUMARIA</code>-Logo, DE/EN-Prompt + Chii-Arcade-Badge)</dd>
-									<dt>Letztes Update</dt><dd>23.11.2026 (Icon-XML-Fix, 3 Save-Slots, <code>PrismArrow</code>-Bogen, Audio, 0 Leaks)</dd>
+									<dt>Letztes Update</dt><dd>23.11.2026 (<code>v1.0.3</code>: 512px-Icon ohne SVG-Blur-Filter, <code>store-media</code> exkludiert)</dd>
 									<dt>Umfang</dt><dd>73 Skripte (51 eigene), 40 Szenen, 8 OGG-SFX + Musik</dd>
 									<dt>Lokalisierung</dt><dd>136 Zeilen in <code>lumaria.csv</code> (+ <code>common.csv</code>)</dd>
 									<dt>Teststatus</dt><dd>61/61 Unit-Tests (inkl. <code>test_save_slots.gd</code>) + Smoke-Test grün (0 Leaks)</dd>
@@ -2514,7 +2514,7 @@
 						<li><strong>Automatisierte 4-Plattform-Pipeline &amp; NAS-Backup:</strong> <code>tools/run_tests.sh</code>, <code>sync_shared.sh</code>, <code>setup_android_signing.sh</code>, <code>backup_to_nas.sh</code>, <code>build_all.sh</code>, <code>package_release.sh</code> und <code>release_game.sh</code> unterstützen Linux, Windows, Web &amp; signierte Android-Release-APKs (<code>apksigner</code>-verifiziert).</li>
 						<li><strong>Android-Signierung &amp; Format-Sperre (7/7 Spiele):</strong> Alle 7 Spiele sind auf <strong>16:9 Querformat</strong> (<code>window/handheld/orientation=4</code>, <em>Sensor Landscape</em>) gesperrt und besitzen je einen eigenen RSA-3072 PKCS12-Release-Keystore unter <code>~/.local/share/chii-arcade/signing/games/&lt;spiel&gt;/&lt;spiel&gt;-release.p12</code> – automatisch gesichert auf <code>/media/nas.home/Development-Backups/games/</code>.</li>
 						<li><strong>7 / 7 signierte Android-Releases &amp; Chii Arcade v1 Live-Release:</strong> Alle 7 Spiele sind als voll signierte Release-APKs gebaut, auf dem NAS gesichert, auf GitHub Releases veröffentlicht und mit <code>chii-arcade.json</code>, <code>cover.webp</code> (1280×720) sowie je 4 unter Linux aufgenommenen Gameplay-Screenshots im Chii-Arcade-v1-Katalog (<code>catalog-v1.json</code>) gelistet (inkl. Cert-Pinning in <code>TrustedGameCertificates.kt</code> &amp; <code>&lt;queries&gt;</code> im Manifest; Chii Arcade v2 blieb unberührt).</li>
-						<li><strong>0 Leaks &amp; 100 % Testquote:</strong> <strong>266 / 266 Unit-Tests</strong> und <strong>7 / 7 Smoke-Tests</strong> ohne Warnungen, Fehler oder ObjectDB-/Resource-Leaks.</li>
+						<li><strong>0 Leaks &amp; 100 % Testquote:</strong> <strong>269 / 269 Unit-Tests</strong> und <strong>7 / 7 Smoke-Tests</strong> (deterministischer <code>SMOKE_SEED=42</code> in <code>tools/run_tests.sh</code>) ohne Warnungen, Fehler oder ObjectDB-/Resource-Leaks.</li>
 					</ul>
 				</div>
 
@@ -2525,7 +2525,7 @@
 						<li><strong>02 · Asteroid Drift &amp; 04 · Block Stack:</strong> Multi-Touch-Vektor-Buttons für Drehen Links/Rechts, Schub, Feuer, Hyperspace &amp; Pause bzw. Links/Rechts (mit nativem DAS/ARR), Soft/Hard Drop, Drehen CCW/CW, Hold &amp; Pause.</li>
 						<li><strong>06 · Crypt Dash &amp; 07 · Lumaria:</strong> Virtuelles Twin-Stick-HUD (Bewegungs-Stick + 360°-Ziel-/Feuer-Stick + Dash) bzw. Action-RPG-Gamepad (8-Wege-Stick + Schwert inkl. Wirbel-Charge, Rolle, Schild, Interaktion, Gadget 1 &amp; 2, Inventar &amp; Pause).</li>
 						<li><strong>Alle 7 signierten Release-APKs gebaut &amp; gesichert:</strong> Alle 7 Spiele liegen als <code>apksigner</code>-verifizierte Full-Release-APKs lokal, auf dem NAS (<code>/media/nas.home/Development-Backups/games/android-releases/</code>) und in den GitHub-Releases bereit.</li>
-						<li><strong>Galaxy S10 (<code>SM-G973F</code>, Android 12) Live-Praxistest bestanden:</strong> Chii Arcade in-app auf <code>v1.0.17</code> (Bulk-Updater-Fix für aktive Sessions) aktualisiert, alle 7 Spiele inklusive <em>Crypt Dash</em> <code>v1.1.5</code> (Bulk-Update) regulär über die Store-UI installiert und in <code>2280×1080</code>-Querformat mit Splash, Menü, Gameplay und Touch-UI bei <code>0</code> Logcat-Crashes getestet.</li>
+						<li><strong>Galaxy S10 (<code>SM-G973F</code>, Android 12) Live-Praxistest bestanden:</strong> Chii Arcade <code>v1.0.17</code> per 3er-Sammelaktualisierung für <em>Asteroid Drift</em> <code>v1.0.7</code>, <em>Lane Defenders</em> <code>v1.5.6</code> und <em>Lumaria</em> <code>v1.0.3</code> regulär inklusive Play-Protect-Scan durchlaufen (<em>„3 aktualisiert · 0 übersprungen“</em>); gestochen scharfe App-Icons und reduzierter Speicherbedarf bei <code>0</code> Logcat-Fehlern verifiziert.</li>
 					</ul>
 				</div>
 			</div>
@@ -2577,7 +2577,7 @@
 		<div class="footer-inner">
 			<p>
 				Aktualisiert am <strong>23.11.2026</strong> aus <code>/home/jennifer/development/games</code> ·
-				Live verifiziert mit <code>tools/run_tests.sh</code>, Chii Arcade v1 Release-Pipeline &amp; Samsung Galaxy S10 (<code>SM-G973F</code>, Android 12) ADB-Praxistest (Godot 4.7.2, 266/266 Tests grün, 0 Leaks).
+				Live verifiziert mit <code>tools/run_tests.sh</code> (Seed 42), Chii Arcade v1 Release-Pipeline &amp; Samsung Galaxy S10 (<code>SM-G973F</code>, Android 12) ADB-Praxistest (Godot 4.7.2, 269/269 Tests grün, 0 Leaks).
 			</p>
 			<div class="footer-links">
 				<a href="README.md">Repo-README</a>
