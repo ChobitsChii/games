@@ -25,14 +25,6 @@ var _sticks: Array[Dictionary] = []
 var _stripped_actions: Array[String] = []
 
 
-class TouchCanvas extends Control:
-	var owner_layer: SharedTouchControls = null
-
-	func _draw() -> void:
-		if owner_layer != null:
-			owner_layer._draw_controls(self)
-
-
 static func is_android_or_forced(force: bool = false) -> bool:
 	return OS.has_feature("android") or force
 
@@ -53,26 +45,39 @@ func _ready() -> void:
 	if OS.has_feature("android") and _stripped_actions.size() > 0:
 		_strip_mouse_buttons(_stripped_actions)
 
-	_canvas = TouchCanvas.new()
+	_canvas = Control.new()
 	_canvas.name = "TouchCanvas"
-	_canvas.owner_layer = self
 	_canvas.set_anchors_preset(Control.PRESET_FULL_RECT)
 	_canvas.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_canvas.draw.connect(_on_canvas_draw)
 	add_child(_canvas)
 
 	if Engine.get_main_loop() is SceneTree:
 		var root := (Engine.get_main_loop() as SceneTree).root
 		if root != null and root.has_node("LocaleService"):
 			var ls := root.get_node("LocaleService")
-			if ls.has_signal("language_changed"):
-				ls.connect("language_changed", func(_c: String) -> void:
-					if _canvas != null:
-						_canvas.queue_redraw()
-				)
+			if ls.has_signal("language_changed") and not ls.is_connected("language_changed", _on_language_changed):
+				ls.connect("language_changed", _on_language_changed)
 
 
 func _exit_tree() -> void:
+	if Engine.get_main_loop() is SceneTree:
+		var root := (Engine.get_main_loop() as SceneTree).root
+		if root != null and root.has_node("LocaleService"):
+			var ls := root.get_node("LocaleService")
+			if ls.has_signal("language_changed") and ls.is_connected("language_changed", _on_language_changed):
+				ls.disconnect("language_changed", _on_language_changed)
 	release_all_inputs()
+
+
+func _on_canvas_draw() -> void:
+	if _canvas != null:
+		_draw_controls(_canvas)
+
+
+func _on_language_changed(_code: String) -> void:
+	if _canvas != null:
+		_canvas.queue_redraw()
 
 
 func is_active() -> bool:

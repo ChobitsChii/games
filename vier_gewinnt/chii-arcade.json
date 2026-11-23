@@ -1,0 +1,19 @@
+{
+  "id": "vier-gewinnt",
+  "title": "Connect Four Deluxe",
+  "category": "Strategie",
+  "teaser": "Klassisches Vier Gewinnt in edler 2.5D-Optik mit starker Bitboard-KI, Hot-Seat-Modus, Zug-Tipps und Farbenblindheitsmodus.",
+  "description": "Das klassische Strategiespiel Vier Gewinnt in hochwertiger 2.5D-Optik auf dem 7×6-Spielbrett. Fordere die schnelle 64-Bit-Bitboard-KI in drei Schwierigkeitsstufen (Leicht, Mittel und Schwer mit Alpha-Beta-Suche und Transpositionstabelle) heraus oder spiele lokal zu zweit im Hot-Seat-Modus. Ein integrierter Zug-Tipp-Berater, eine Zug-Rücknahme (Undo), dauerhaft gespeicherte Spielstatistiken, ein zuschaltbarer Farbenblindheitsmodus mit klaren Ring- und Punktmustern sowie entspannte Lounge-Musik sorgen für höchsten Spielkomfort. Nativ für direkte Spalten-Touch-Bedienung im Querformat gestaltet, auf Deutsch und Englisch – vollständig offline, werbefrei und ohne Käufe.",
+  "symbol": "🟡",
+  "android": {
+    "packageName": "de.chobitschii.vier_gewinnt",
+    "signingCertificateSha256": "6bca48784ed9cf871a1c07dc27be5f1defb0d87150bfb8c16ab72f200b998c57"
+  },
+  "coverImage": "store-media/cover.webp",
+  "screenshots": [
+    "store-media/01-main-menu.webp",
+    "store-media/02-board-match.webp",
+    "store-media/03-colorblind-hint.webp",
+    "store-media/04-stats-modal.webp"
+  ]
+}

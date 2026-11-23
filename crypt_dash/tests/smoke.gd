@@ -5,7 +5,7 @@ extends Node
 
 const PHYSICS_FRAMES := 1800
 
-var _game: Game
+var _game: Node2D
 var _frames := 0
 
 
@@ -46,6 +46,7 @@ func _finish(error: String) -> void:
 	AudioService.stop_all()
 	if _game and is_instance_valid(_game):
 		_game.queue_free()
+	_game = null
 	await get_tree().process_frame
 	await get_tree().process_frame
 	OS.delay_msec(300)

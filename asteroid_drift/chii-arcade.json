@@ -1,0 +1,19 @@
+{
+  "id": "asteroid-drift",
+  "title": "Asteroid Drift",
+  "category": "Arcade-Shooter",
+  "teaser": "Vektor-Weltraum-Shooter mit Trägheitsphysik, UFOs, Annäherungsminen und Deckbau-Tech-Upgrades nach jeder Welle.",
+  "description": "Steuere dein Raumschiff mit echter Trägheitsphysik und Bildschirm-Wrap-around durch ein prozedurales Asteroidenfeld im leuchtenden Flat-Vektor-Stil. Zerstöre mehrstufig zerfallende Asteroiden, weiche jagenden UFO-Gegnern und blinkenden Annäherungsminen aus und nutze im Notfall den Hyperspace-Sprung oder deinen regenerierenden Energieschild. Nach jeder überstandenen Welle wählst du aus 6 stapelbaren Deckbau-Tech-Karten (Doppelschuss, Streuschuss, Explosivmunition, Schnellfeuer, Schild-Boost und Beute-Magnet). Mit synthetisierter Space-Ambient-Musik, dedizierter Android-Multi-Touch-Steuerung im Querformat, Deutsch und Englisch – vollständig offline, werbefrei und ohne Käufe.",
+  "symbol": "🚀",
+  "android": {
+    "packageName": "de.chobitschii.asteroid_drift",
+    "signingCertificateSha256": "6e01bb726481756ef6983175dc1cce649aa3c02ba77e50b4b14b3f34f5664aca"
+  },
+  "coverImage": "store-media/cover.webp",
+  "screenshots": [
+    "store-media/01-main-menu.webp",
+    "store-media/02-space-combat.webp",
+    "store-media/03-ufo-wave.webp",
+    "store-media/04-upgrade-picker.webp"
+  ]
+}

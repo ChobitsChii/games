@@ -1,0 +1,19 @@
+{
+  "id": "lumaria",
+  "title": "Lumaria: The Prismatic Odyssey",
+  "category": "Action-Adventure",
+  "teaser": "Top-Down-Action-Adventure mit Schwertkombos, 4 Prisma-Gadgets, Dorf Oakhaven, 3 Dungeons und 4 mehrphasigen Bossen.",
+  "description": "Begib dich in Lumaria: The Prismatic Odyssey auf ein hochauflösendes Top-Down-Action-Adventure, um die gestohlenen Lichtprismen zurückzuerobern. Erkunde das friedliche Dorf Oakhaven mit illustrierten NPC-Porträtdialogen, durchquere gefährliche Außengebiete und meistere 3 verzweigte Rätsel-Dungeons (Wurzel-Schrein, Klingen-Krypta, Sturm-Bastion) bis zum großen Finale im Ewigen Turm gegen Malakor. Kämpfe mit 3er-Schwertkombos, aufgeladenem 360°-Rundumschlag, Ausweichrolle und präzisem Schild-Parry und setze 4 freischaltbare Prisma-Gadgets ein: Prisma-Bumerang, Kinetisches Fangseil (Hookshot), Schallbomben und Prisma-Bogen. Mit 3 separaten Speicherplätzen, virtuellem Action-RPG-Gamepad für Android im Querformat, Deutsch und Englisch – vollständig offline, werbefrei und ohne Käufe.",
+  "symbol": "💎",
+  "android": {
+    "packageName": "de.chobitschii.lumaria",
+    "signingCertificateSha256": "ca0d843d9013e0445624280ed786bde834de12d3e0f07c92592d3851510474db"
+  },
+  "coverImage": "store-media/cover.webp",
+  "screenshots": [
+    "store-media/01-main-menu.webp",
+    "store-media/02-oakhaven-village.webp",
+    "store-media/03-npc-dialogue.webp",
+    "store-media/04-shrine-dungeon.webp"
+  ]
+}

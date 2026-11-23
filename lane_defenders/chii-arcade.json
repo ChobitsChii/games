@@ -1,0 +1,19 @@
+{
+  "id": "lane-defenders",
+  "title": "Lane Defenders",
+  "category": "Tower Defense",
+  "teaser": "Taktisches 5-Lanes-Tower-Defense durch 4 Welten, 20 Level und 4 epische Bosskämpfe mit 7 Einheiten und Lexikon.",
+  "description": "Verteidige dein 5×9-Schlachtfeld in diesem farbenfrohen, taktischen Lane-Tower-Defense durch 4 abwechslungsreiche Welten (Grüne Wiese, Dunkler Pfad, Winterwald und Magma-Ödland) mit insgesamt 20 Leveln und 4 großen Welt-Bossen. Sammle Sonnen-Energie, baue eine clevere Wirtschaft mit Generatoren auf und kombiniere 7 Verteidigungseinheiten (darunter Schützen, Doppelschützen, Frosttürme, Schutzmauern und Minen) gegen 6 spezialisierte Gegnertypen. Mit interaktivem In-Game-Lexikon (Almanach), automatischer Fortschrittsspeicherung, fröhlicher Meadow-Musik, direkter Touch-Steuerung im Querformat, Deutsch und Englisch – vollständig offline, werbefrei und ohne Käufe.",
+  "symbol": "🛡️",
+  "android": {
+    "packageName": "de.chobitschii.lane_defenders",
+    "signingCertificateSha256": "776ecbdcc7bc00c7a8b826289ea252ee4781933b1f5a23e2128b1e26c6fd0bab"
+  },
+  "coverImage": "store-media/cover.webp",
+  "screenshots": [
+    "store-media/01-main-menu.webp",
+    "store-media/02-meadow-battle.webp",
+    "store-media/03-magma-world.webp",
+    "store-media/04-level-select.webp"
+  ]
+}

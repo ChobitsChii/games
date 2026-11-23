@@ -1,0 +1,19 @@
+{
+  "id": "crypt-dash",
+  "title": "Crypt Dash",
+  "category": "Roguelite",
+  "teaser": "Schneller Top-Down-Dungeon-Crawler mit prozeduralen Gruft-Etagen, Dash-Manövern, 15 Relikten, 3 Startwaffen und Bossen.",
+  "description": "Stürze dich in ein atmosphärisches Top-Down-Action-Roguelite durch 3 prozedural generierte Gruft-Etagen voller Monster, Fallen und mehrphasiger Etagen-Bosse. Nutze präzise Dash-Manöver mit Unverwundbarkeits-Frames, sammle 15 kombinierbare Relikte für mächtige Synergien und investiere erbeutete Seelen am Altar der Seelen in dauerhafte Status-Upgrades sowie 3 freischaltbare Startwaffen (Schattendolche, Zwillingsreißer mit Doppelsalve und Arkanstab mit durchschlagenden Projektilen). Inklusive Bestiarium & Kompendium, düsterer Gruft-Musik, virtuellem Android-Twin-Stick-Overlay mit Auto-Aim-Unterstützung im Querformat, Deutsch und Englisch – vollständig offline, werbefrei und ohne Käufe.",
+  "symbol": "⚔️",
+  "android": {
+    "packageName": "de.chobitschii.crypt_dash",
+    "signingCertificateSha256": "3ccebe94fa10c7bd87cb2bf65550db66aea072c94a0c86a15cf145b0fe81b00b"
+  },
+  "coverImage": "store-media/cover.webp",
+  "screenshots": [
+    "store-media/01-main-menu.webp",
+    "store-media/02-dungeon-combat.webp",
+    "store-media/03-soul-altar.webp",
+    "store-media/04-almanac-relics.webp"
+  ]
+}

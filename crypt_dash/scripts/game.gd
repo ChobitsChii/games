@@ -30,7 +30,7 @@ var _item_selection_modal: Control
 var _game_over_modal: Control
 var _victory_modal: Control
 var _pause_modal: Control
-var _touch_controls: SharedTouchControls
+var _touch_controls: CanvasLayer
 
 var _shake_timer: float = 0.0
 var _shake_intensity: float = 0.0
@@ -45,10 +45,7 @@ func _ready() -> void:
 	EventBus.enemy_died.connect(_on_enemy_died)
 	EventBus.floor_completed.connect(_on_floor_completed)
 	EventBus.game_over.connect(_on_game_over)
-	EventBus.item_collected.connect(func(_id: String) -> void:
-		CryptAudio.play_item_pickup()
-		_show_item_selection()
-	)
+	EventBus.item_collected.connect(_on_item_collected)
 	EventBus.screen_shake_requested.connect(_on_screen_shake)
 
 	_setup_camera()
@@ -235,7 +232,7 @@ func _process(delta: float) -> void:
 			or (_item_selection_modal != null and _item_selection_modal.visible) \
 			or (_game_over_modal != null and _game_over_modal.visible) \
 			or (_victory_modal != null and _victory_modal.visible)
-		_touch_controls.gameplay_visible = not any_modal
+		_touch_controls.set("gameplay_visible", not any_modal)
 
 	if _room_transition_cooldown > 0.0:
 		_room_transition_cooldown -= delta
@@ -301,12 +298,9 @@ func _setup_ui() -> void:
 	_setup_victory_modal()
 	_setup_pause_modal()
 
-	_touch_controls = SharedTouchControls.create_for_crypt_dash()
-	_touch_controls.aim_vector_changed.connect(func(vec: Vector2, active: bool) -> void:
-		if player != null:
-			player.touch_aim_dir = vec
-			player.touch_aim_active = active
-	)
+	var touch_script: GDScript = load("res://addons/shared/ui/touch_controls.gd") as GDScript
+	_touch_controls = touch_script.call("create_for_crypt_dash") as CanvasLayer
+	_touch_controls.connect("aim_vector_changed", _on_touch_aim_changed)
 	add_child(_touch_controls)
 
 
@@ -512,3 +506,27 @@ func _on_player_health_changed(c: int, m: int) -> void:
 func _on_dash_progress(cur: float, max_cd: float) -> void:
 	if _dash_bar != null:
 		_dash_bar.value = 1.0 - (cur / max_cd)
+
+
+func _exit_tree() -> void:
+	if EventBus.enemy_died.is_connected(_on_enemy_died):
+		EventBus.enemy_died.disconnect(_on_enemy_died)
+	if EventBus.floor_completed.is_connected(_on_floor_completed):
+		EventBus.floor_completed.disconnect(_on_floor_completed)
+	if EventBus.game_over.is_connected(_on_game_over):
+		EventBus.game_over.disconnect(_on_game_over)
+	if EventBus.item_collected.is_connected(_on_item_collected):
+		EventBus.item_collected.disconnect(_on_item_collected)
+	if EventBus.screen_shake_requested.is_connected(_on_screen_shake):
+		EventBus.screen_shake_requested.disconnect(_on_screen_shake)
+
+
+func _on_item_collected(_id: String) -> void:
+	CryptAudio.play_item_pickup()
+	_show_item_selection()
+
+
+func _on_touch_aim_changed(vec: Vector2, active: bool) -> void:
+	if player != null:
+		player.touch_aim_dir = vec
+		player.touch_aim_active = active

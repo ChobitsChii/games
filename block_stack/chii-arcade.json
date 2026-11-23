@@ -1,0 +1,19 @@
+{
+  "id": "block-stack",
+  "title": "Block Stack",
+  "category": "Puzzle",
+  "teaser": "Modernes Guideline-Blockpuzzle in Glas-Neon-Optik mit Marathon, Sprint, Ultra, CPU-Duell und Farbenblindheitsmodus.",
+  "description": "Schnelles, modernes Guideline-Blockpuzzle in edler Glas- und Neon-Optik mit präzisen SRS-Wall-Kicks, fairem 7-Bag-Zufallsgenerator, Hold-Funktion, Ghost Piece sowie T-Spin-, Back-to-Back- und Combo-Wertung. Spiele in 4 Modi: Marathon (15 Geschwindigkeitsstufen), 40-Reihen-Sprint gegen die Uhr, 2-Minuten-Ultra-Highscorejagd oder im direkten Duell gegen die Dellacherie-CPU mit Müllreihen-Angriffen und -Kontern. Im Optionsmenü lassen sich DAS- und ARR-Verzögerungen sowie eindeutige Vektor-Symbole für Farbenblindheit frei anpassen. Mit dedizierter Android-Multi-Touch-Steuerung im Querformat, Puzzle-Synth-Musik, Deutsch und Englisch – vollständig offline, werbefrei und ohne Käufe.",
+  "symbol": "🟦",
+  "android": {
+    "packageName": "de.chobitschii.block_stack",
+    "signingCertificateSha256": "197d0294c7084604ca30a4790b9ee03b2f3a6d73b65d7ff924c48b7904c493fa"
+  },
+  "coverImage": "store-media/cover.webp",
+  "screenshots": [
+    "store-media/01-main-menu.webp",
+    "store-media/02-marathon-play.webp",
+    "store-media/03-cpu-duel.webp",
+    "store-media/04-options-colorblind.webp"
+  ]
+}
