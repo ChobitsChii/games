@@ -73,3 +73,52 @@ func test_shared_splash_screen_localization_and_dynamic_branding() -> void:
 	LocaleService.set_language(prev_lang, false)
 	splash._exit_tree()
 	splash.free()
+
+
+func test_shared_touch_controls_visibility_and_actions() -> void:
+	# 1. Auf dem PC (Linux/Windows) muss das Touch-Overlay standardmäßig unsichtbar und inaktiv sein
+	var tc_pc := SharedTouchControls.create_for_asteroid_drift(false)
+	tc_pc._ready()
+	assert_true(not tc_pc.is_active(), "Touch-UI auf PC standardmäßig inaktiv")
+	assert_true(not tc_pc.visible, "Touch-UI auf PC standardmäßig unsichtbar")
+	tc_pc._exit_tree()
+	tc_pc.free()
+
+	# 2. Mit force=true (Android-Simulation) sind alle 4 Presets aktiv und steuern Aktionen
+	var tc_ad := SharedTouchControls.create_for_asteroid_drift(true)
+	tc_ad._ready()
+	assert_true(tc_ad.is_active() and tc_ad.visible, "Asteroid-Drift-Touch-UI bei Android aktiv")
+	assert_eq(tc_ad.get_button_count(), 6, "Asteroid Drift hat 6 Touch-Buttons")
+	assert_true(tc_ad.simulate_button_press("thrust"), "Thrust-Button drückbar")
+	assert_true(Input.is_action_pressed("thrust"), "Thrust-Action via Touch aktiv")
+	assert_true(tc_ad.simulate_button_release("thrust"), "Thrust-Button lösbar")
+	assert_true(not Input.is_action_pressed("thrust"), "Thrust-Action nach Release inaktiv")
+	tc_ad._exit_tree()
+	tc_ad.free()
+
+	var tc_bs := SharedTouchControls.create_for_block_stack(true)
+	tc_bs._ready()
+	assert_eq(tc_bs.get_button_count(), 8, "Block Stack hat 8 Touch-Buttons")
+	assert_true(tc_bs.has_action_button("hard_drop") and tc_bs.has_action_button("hold"), "Block Stack hat Drop & Hold")
+	tc_bs._exit_tree()
+	tc_bs.free()
+
+	var tc_cd := SharedTouchControls.create_for_crypt_dash(true)
+	tc_cd._ready()
+	assert_eq(tc_cd.get_stick_count(), 2, "Crypt Dash hat 2 virtuelle Twin-Sticks")
+	assert_eq(tc_cd.get_button_count(), 2, "Crypt Dash hat Dash- & Pause-Buttons")
+	var aim_state := {"vec": Vector2.ZERO}
+	tc_cd.aim_vector_changed.connect(func(v: Vector2, _act: bool) -> void: aim_state["vec"] = v)
+	assert_true(tc_cd.simulate_stick_drag("aim", Vector2(1.0, 0.0)), "Aim-Stick ziehbar")
+	assert_almost((aim_state["vec"] as Vector2).x, 1.0, "Aim-Stick liefert Zielvektor nach rechts")
+	tc_cd.simulate_stick_release("aim")
+	tc_cd._exit_tree()
+	tc_cd.free()
+
+	var tc_lu := SharedTouchControls.create_for_lumaria(true)
+	tc_lu._ready()
+	assert_eq(tc_lu.get_stick_count(), 1, "Lumaria hat 1 Bewegungs-Stick")
+	assert_eq(tc_lu.get_button_count(), 8, "Lumaria hat 8 Aktions-/Menü-Buttons")
+	assert_true(tc_lu.has_action_button("attack") and tc_lu.has_action_button("gadget_1") and tc_lu.has_action_button("inventory"), "Lumaria-Buttons komplett")
+	tc_lu._exit_tree()
+	tc_lu.free()

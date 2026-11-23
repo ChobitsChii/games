@@ -76,7 +76,7 @@ var _using_mouse_aim := false
 
 
 func _unhandled_input(event: InputEvent) -> void:
-	if autoplay:
+	if autoplay or OS.has_feature("android"):
 		return
 	if event is InputEventMouseMotion:
 		_using_mouse_aim = true

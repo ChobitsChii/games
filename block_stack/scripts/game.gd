@@ -40,6 +40,7 @@ var best_ultra_score: int = 0
 @onready var _hud: Hud = $Hud
 
 var _sound: SoundEffects
+var _touch_controls: SharedTouchControls
 
 
 func _ready() -> void:
@@ -48,6 +49,8 @@ func _ready() -> void:
 
 	_sound = SoundEffects.new()
 	add_child(_sound)
+	_touch_controls = SharedTouchControls.create_for_block_stack()
+	add_child(_touch_controls)
 	AudioService.play_music_theme("puzzle")
 
 	mode = SaveService.get_value("session", "selected_mode", "marathon")
@@ -316,8 +319,20 @@ func _end_ultra_mode() -> void:
 
 func _set_paused(value: bool) -> void:
 	is_paused = value
+	if value:
+		_left_held = false
+		_right_held = false
+		_soft_drop_held = false
+	if _touch_controls != null:
+		_touch_controls.gameplay_visible = (is_active and not is_paused)
 	get_tree().paused = value
 	_hud.show_pause(value)
+
+
+func _notification(what: int) -> void:
+	if what == NOTIFICATION_WM_GO_BACK_REQUEST:
+		if logic != null and not logic.game_over and is_active:
+			_set_paused(not is_paused)
 
 
 func _restart_game() -> void:

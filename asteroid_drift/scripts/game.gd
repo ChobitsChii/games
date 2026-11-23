@@ -50,6 +50,7 @@ var _shake_intensity: float = 0.0
 @onready var upgrade_picker: UpgradePicker = %UpgradePicker
 
 var _audio_mgr: AudioManager
+var _touch_controls: SharedTouchControls
 
 
 func _ready() -> void:
@@ -97,6 +98,9 @@ func _ready() -> void:
 
 	upgrade_picker.upgrade_selected.connect(_on_upgrade_chosen)
 
+	_touch_controls = SharedTouchControls.create_for_asteroid_drift()
+	add_child(_touch_controls)
+
 	_update_hud()
 	_start_wave(1)
 
@@ -118,7 +122,17 @@ func _input(event: InputEvent) -> void:
 			get_viewport().set_input_as_handled()
 
 
+func _notification(what: int) -> void:
+	if what == NOTIFICATION_WM_GO_BACK_REQUEST:
+		if state == State.PLAYING:
+			_pause_game()
+		elif state == State.PAUSED:
+			_resume_game()
+
+
 func _physics_process(delta: float) -> void:
+	if _touch_controls != null:
+		_touch_controls.gameplay_visible = (state == State.PLAYING)
 	# Kamera-Shake abklingen
 	if _shake_intensity > 0.0:
 		_shake_intensity = maxf(0.0, _shake_intensity - (delta * 25.0))

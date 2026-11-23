@@ -163,6 +163,14 @@ func _toggle_pause(should_pause: bool) -> void:
 		resume_btn.grab_focus()
 
 
+func _notification(what: int) -> void:
+	if what == NOTIFICATION_WM_GO_BACK_REQUEST:
+		if inventory_menu != null and inventory_menu.visible:
+			inventory_menu.close()
+		else:
+			_toggle_pause(not get_tree().paused)
+
+
 func _on_quit_to_menu() -> void:
 	SaveSlotManager.save_active_slot(scene_file_path)
 	get_tree().paused = false

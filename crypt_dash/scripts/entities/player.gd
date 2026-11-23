@@ -37,6 +37,8 @@ var _health: HealthComponent
 var _hurtbox: HurtboxComponent
 var _facing: Vector2 = Vector2.RIGHT
 var _equipped_weapon_id: String = "daggers"
+var touch_aim_dir: Vector2 = Vector2.ZERO
+var touch_aim_active: bool = false
 
 
 func _ready() -> void:
@@ -126,10 +128,32 @@ func _handle_player_input(delta: float) -> void:
 
 	# Angriff
 	if Input.is_action_pressed("attack") and attack_timer <= 0.0:
-		var aim_dir := (get_global_mouse_position() - global_position).normalized()
+		var aim_dir := Vector2.ZERO
+		if touch_aim_active or OS.has_feature("android"):
+			if touch_aim_dir != Vector2.ZERO:
+				aim_dir = touch_aim_dir
+			else:
+				aim_dir = _find_nearest_enemy_dir()
+		else:
+			aim_dir = (get_global_mouse_position() - global_position).normalized()
 		if aim_dir == Vector2.ZERO:
 			aim_dir = _facing
 		perform_attack(aim_dir)
+
+
+func _find_nearest_enemy_dir() -> Vector2:
+	if not is_inside_tree():
+		return _facing
+	var best_dist := INF
+	var best_dir := Vector2.ZERO
+	for node in get_tree().get_nodes_in_group("enemies"):
+		if node is Node2D and is_instance_valid(node) and not node.is_queued_for_deletion():
+			var n2d := node as Node2D
+			var d := global_position.distance_squared_to(n2d.global_position)
+			if d > 1.0 and d < best_dist:
+				best_dist = d
+				best_dir = (n2d.global_position - global_position).normalized()
+	return best_dir if best_dir != Vector2.ZERO else _facing
 
 
 func _handle_autoplay(delta: float) -> void:

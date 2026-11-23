@@ -24,8 +24,10 @@ func _ready() -> void:
 	_audio_mgr = AudioManager.new()
 	add_child(_audio_mgr)
 
-	if OS.has_feature("web"):
+	if OS.has_feature("web") or OS.has_feature("android"):
 		quit_btn.visible = false
+	if OS.has_feature("android"):
+		fullscreen_btn.visible = false
 
 	start_btn.pressed.connect(_on_start_pressed)
 	controls_btn.pressed.connect(_on_controls_pressed)

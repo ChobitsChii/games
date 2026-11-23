@@ -14,9 +14,13 @@ extends CanvasLayer
 
 var _current_quarters: int = 12
 var _max_quarters: int = 12
+var _touch_controls: SharedTouchControls
 
 
 func _ready() -> void:
+	process_mode = Node.PROCESS_MODE_ALWAYS
+	_touch_controls = SharedTouchControls.create_for_lumaria()
+	add_child(_touch_controls)
 	EventBus.player_damaged.connect(_on_health_changed)
 	EventBus.player_healed.connect(_on_health_changed)
 	EventBus.lumen_changed.connect(_on_lumen_changed)
@@ -24,6 +28,20 @@ func _ready() -> void:
 	EventBus.show_toast_requested.connect(show_toast)
 	EventBus.room_transition_requested.connect(func(room: String, _m: String) -> void: show_room_banner(room))
 	_refresh_vitality()
+
+
+func _process(_delta: float) -> void:
+	if _touch_controls == null or not _touch_controls.is_active():
+		return
+	var p := get_parent()
+	if p == null:
+		return
+	var inv_open := false
+	var pause_open := get_tree().paused
+	var inv_node := p.get_node_or_null("InventoryMenu") as CanvasItem
+	if inv_node != null and inv_node.visible:
+		inv_open = true
+	_touch_controls.gameplay_visible = not (inv_open or pause_open)
 
 
 func update_state(inv: InventoryModel) -> void:

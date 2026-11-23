@@ -25,6 +25,11 @@ var _active_npc_id: String = ""
 func _ready() -> void:
 	visible = false
 	_dialogue_model = DialogueModel.new()
+	if _panel != null:
+		_panel.gui_input.connect(func(ev: InputEvent) -> void:
+			if ev is InputEventMouseButton and (ev as InputEventMouseButton).pressed and (ev as InputEventMouseButton).button_index == MOUSE_BUTTON_LEFT:
+				advance()
+		)
 
 
 func is_dialogue_active() -> bool:

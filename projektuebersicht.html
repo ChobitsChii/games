@@ -1452,16 +1452,16 @@
 				<div class="kpi-card">
 					<span class="kpi-label">Abgeschlossene Spiele</span>
 					<span class="kpi-value">7 / 7</span>
-					<span class="kpi-note">16:9 Querformat gesperrt (<code>Sensor Landscape</code>) · Web, Win &amp; Linux (7/7) · Android Signed APK (3/7)</span>
+					<span class="kpi-note">16:9 Querformat gesperrt (<code>Sensor Landscape</code>) · Web, Win, Linux &amp; Android Signed APK (7/7)</span>
 				</div>
 				<div class="kpi-card">
-					<span class="kpi-label">Android Signing &amp; Backup</span>
-					<span class="kpi-value">7 / 7 Keys</span>
-					<span class="kpi-note">Eigener RSA-3072 PKCS12-Keystore je Spiel · automatisches NAS-Backup via <code>tools/backup_to_nas.sh</code></span>
+					<span class="kpi-label">Android Signing &amp; Touch-UI</span>
+					<span class="kpi-value">7 / 7 Ready</span>
+					<span class="kpi-note">7 RSA-3072 PKCS12-Keystores · NAS-Backup (<code>tools/backup_to_nas.sh</code>) · Android-Only Touch-UI</span>
 				</div>
 				<div class="kpi-card">
 					<span class="kpi-label">Live-Testergebnis</span>
-					<span class="kpi-value">265 / 265</span>
+					<span class="kpi-value">266 / 266</span>
 					<span class="kpi-note">0 Fehler · 0 Warnungen · 0 Exit-Leaks · 7/7 Smoke-Tests grün</span>
 				</div>
 				<div class="kpi-card">
@@ -1473,10 +1473,10 @@
 
 			<div class="summary-callout">
 				<p>
-					<strong>Kurzfazit:</strong> Alle <strong>7 Spiele sind im 16:9-Querformat (1920×1080) konzipiert</strong> und auf Mobilgeräten fest auf Querformat (<code>window/handheld/orientation=4</code>, <em>Sensor Landscape</em>) gesperrt. Für <strong>alle 7 Spiele wurden dedizierte Android-Release-Signierschlüssel</strong> (<code>~/.local/share/chii-arcade/signing/games/&lt;spiel&gt;/&lt;spiel&gt;-release.p12</code>) erzeugt und samt Manifest und Snapshot-Archiv über <code>tools/backup_to_nas.sh</code> auf <code>/media/nas.home/Development-Backups/games/</code> gesichert.
+					<strong>Kurzfazit:</strong> Alle <strong>7 Spiele sind nun für alle 4 Plattformen (Linux, Windows, Web &amp; signiertes Android-Release) fertig gebaut</strong>, fest auf <strong>16:9-Querformat</strong> (<code>window/handheld/orientation=4</code>, <em>Sensor Landscape</em>) gesperrt und mit je einem eigenen Android-Release-Signierschlüssel (<code>~/.local/share/chii-arcade/signing/games/&lt;spiel&gt;/&lt;spiel&gt;-release.p12</code>) signiert sowie auf dem NAS unter <code>/media/nas.home/Development-Backups/games/</code> gesichert.
 				</p>
 				<p>
-					<strong>Android-Release-Status:</strong> Die <strong>3 direkt per Touch spielbaren Titel</strong> – <strong>01 · Neon Breakout</strong> (Touch-Drag/Tap + HUD-Pause-Button), <strong>03 · Connect Four Deluxe</strong> (Spalten-Tap + Touch-HUD) und <strong>05 · Lane Defenders</strong> (Karten- &amp; 5×9-Raster-Tap + Sonnensammeln) – sind bereits als <strong>signierte &amp; <code>apksigner</code>-verifizierte Full-Release-APKs</strong> gebaut, auf dem NAS gesichert und in die GitHub-Releases hochgeladen. Die übrigen 4 Action-/Tastatur-Spiele (<em>Asteroid Drift</em>, <em>Block Stack</em>, <em>Crypt Dash</em>, <em>Lumaria</em>) besitzen bereits ihre Release-Keystores und benötigen für einen sinnvollen Android-Export noch ein On-Screen-Touch-Overlay (virtuelle Buttons / Twin-Stick).
+					<strong>Android-Only Touch-Integration (7 / 7 Spiele):</strong> Neben den 3 direkt per Tap/Drag spielbaren Titeln (<em>Neon Breakout</em>, <em>Connect Four Deluxe</em>, <em>Lane Defenders</em>) besitzen nun auch <em>Asteroid Drift</em>, <em>Block Stack</em>, <em>Crypt Dash</em> (virtueller Twin-Stick + Dash) und <em>Lumaria</em> (virtueller 8-Wege-Stick + 6 Action-RPG-Buttons + Inventar/Pause) eine maßgeschneiderte Multi-Touch-Oberfläche über <code>SharedTouchControls</code> (<code>shared/ui/touch_controls.gd</code>), die <strong>ausschließlich auf Android</strong> (<code>OS.has_feature("android")</code>) eingeblendet wird und auf dem PC unter Windows, Linux und Desktop-Web komplett unsichtbar bleibt.
 				</p>
 			</div>
 		</section>
@@ -1540,9 +1540,9 @@
 							<td>
 								<div class="platform-badges">
 									<span class="badge badge-ok"><span aria-hidden="true">✓</span> Web · Win · Linux</span>
-									<span class="badge badge-warn"><span aria-hidden="true">⏳</span> Android (Touch-UI offen)</span>
+									<span class="badge badge-ok"><span aria-hidden="true">✓</span> Android (Signed APK)</span>
 								</div>
-								<span class="cell-sub">16:9 Querformat gesperrt · Keystore bereit · braucht Schub/Hyperspace-Buttons</span>
+								<span class="cell-sub">16:9 Querformat gesperrt · Android-Only Touch-UI (Links/Rechts, Schub, Feuer, Warp, Pause)</span>
 							</td>
 							<td>
 								<span class="badge badge-ok"><span aria-hidden="true">✓</span> Boot + Start-Szene</span>
@@ -1552,12 +1552,12 @@
 								<span class="badge badge-ok"><span aria-hidden="true">✓</span> Eigenes Spiel-Logo</span>
 								<span class="cell-sub">Sci-Fi-Logo <em>„ASTEROID DRIFT“</em> + <code>icon.svg</code></span>
 							</td>
-							<td><span class="badge badge-ok"><span aria-hidden="true">✓</span> Abgeschlossen + Audio/F3</span></td>
+							<td><span class="badge badge-ok"><span aria-hidden="true">✓</span> Abgeschlossen + Touch/Audio</span></td>
 							<td class="num">8 / 8 ✅</td>
-							<td class="num">27 Tests · 0 Leaks</td>
+							<td class="num">28 Tests · 0 Leaks</td>
 							<td class="num">23.11.2026</td>
-							<td>Für Android fehlen noch On-Screen-Touch-Buttons (Schub, Hyperspace, Pause)</td>
-							<td>On-Screen-Touch-HUD ergänzen → Android Release APK bauen</td>
+							<td>Keine (Android Signed APK live, Android-Only Touch-HUD, Space-Musik &amp; <code>F3</code>)</td>
+							<td>Optional Post-Launch: Survival-Modus &amp; Boss-Begegnungen</td>
 						</tr>
 						<tr>
 							<th scope="row"><a href="#proj-vier-gewinnt">03 · Connect Four Deluxe</a></th>
@@ -1590,9 +1590,9 @@
 							<td>
 								<div class="platform-badges">
 									<span class="badge badge-ok"><span aria-hidden="true">✓</span> Web · Win · Linux</span>
-									<span class="badge badge-warn"><span aria-hidden="true">⏳</span> Android (Touch-UI offen)</span>
+									<span class="badge badge-ok"><span aria-hidden="true">✓</span> Android (Signed APK)</span>
 								</div>
-								<span class="cell-sub">16:9 Querformat gesperrt · Keystore bereit · braucht Touch-Buttons (L/R/Drop/Rot/Hold)</span>
+								<span class="cell-sub">16:9 Querformat gesperrt · Android-Only Touch-UI (L/R mit DAS/ARR, Soft/Hard Drop, Rot L/R, Hold)</span>
 							</td>
 							<td>
 								<span class="badge badge-ok"><span aria-hidden="true">✓</span> Boot + Start-Szene</span>
@@ -1602,12 +1602,12 @@
 								<span class="badge badge-ok"><span aria-hidden="true">✓</span> Eigenes Spiel-Logo</span>
 								<span class="cell-sub">3D-Neon-Logo <em>„BLOCK STACK“</em> + <code>icon.svg</code></span>
 							</td>
-							<td><span class="badge badge-ok"><span aria-hidden="true">✓</span> Abgeschlossen + Optionen</span></td>
+							<td><span class="badge badge-ok"><span aria-hidden="true">✓</span> Abgeschlossen + Touch/Optionen</span></td>
 							<td class="num">8 / 8 ✅</td>
 							<td class="num">26 Tests · 0 Leaks</td>
 							<td class="num">23.11.2026</td>
-							<td>Für Android fehlen noch On-Screen-Steuertasten (Links/Rechts, Drehen, Drop, Hold)</td>
-							<td>Touch-Steuerung ergänzen → Android Release APK bauen</td>
+							<td>Keine (Android Signed APK live, Android-Only Touch-Pad, DAS/ARR, Farbblind &amp; Musik)</td>
+							<td>Optional Post-Launch: Zen-Modus &amp; Replays</td>
 						</tr>
 						<tr>
 							<th scope="row"><a href="#proj-lane-defenders">05 · Lane Defenders</a></th>
@@ -1640,9 +1640,9 @@
 							<td>
 								<div class="platform-badges">
 									<span class="badge badge-ok"><span aria-hidden="true">✓</span> Web · Win · Linux</span>
-									<span class="badge badge-warn"><span aria-hidden="true">⏳</span> Android (Touch-UI offen)</span>
+									<span class="badge badge-ok"><span aria-hidden="true">✓</span> Android (Signed APK)</span>
 								</div>
-								<span class="cell-sub">16:9 Querformat gesperrt · Keystore bereit · braucht virtuellen Twin-Stick + Dash-Button</span>
+								<span class="cell-sub">16:9 Querformat gesperrt · Android-Only Twin-Stick (Bewegungs-Stick + 360°-Ziel-Stick + Dash)</span>
 							</td>
 							<td>
 								<span class="badge badge-ok"><span aria-hidden="true">✓</span> Boot + Start-Szene</span>
@@ -1652,12 +1652,12 @@
 								<span class="badge badge-ok"><span aria-hidden="true">✓</span> Eigenes Spiel-Logo</span>
 								<span class="cell-sub">Runen-Logo <em>„CRYPT DASH“</em> + <code>icon.svg</code></span>
 							</td>
-							<td><span class="badge badge-ok"><span aria-hidden="true">✓</span> Abgeschlossen + Waffen/SFX</span></td>
+							<td><span class="badge badge-ok"><span aria-hidden="true">✓</span> Abgeschlossen + Touch/Waffen</span></td>
 							<td class="num">9 / 9 ✅</td>
 							<td class="num">15 Tests · 0 Leaks</td>
 							<td class="num">23.11.2026</td>
-							<td>Für Android fehlt noch ein virtueller Twin-Stick (Bewegung, Zielen, Dash, Pause)</td>
-							<td>Virtuellen Twin-Stick ergänzen → Android Release APK bauen</td>
+							<td>Keine (Android Signed APK live, Twin-Stick-Touch-UI, <code>CryptAudio</code> &amp; 3 Startwaffen)</td>
+							<td>Optional Post-Launch: Weitere Klassen &amp; Händler-Raum</td>
 						</tr>
 						<tr>
 							<th scope="row"><a href="#proj-lumaria">07 · Lumaria</a></th>
@@ -1665,9 +1665,9 @@
 							<td>
 								<div class="platform-badges">
 									<span class="badge badge-ok"><span aria-hidden="true">✓</span> Web · Win · Linux</span>
-									<span class="badge badge-warn"><span aria-hidden="true">⏳</span> Android (Touch-UI offen)</span>
+									<span class="badge badge-ok"><span aria-hidden="true">✓</span> Android (Signed APK)</span>
 								</div>
-								<span class="cell-sub">16:9 Querformat gesperrt · Keystore bereit · braucht V-Stick + 6 Aktionsbuttons</span>
+								<span class="cell-sub">16:9 Querformat gesperrt · Android-Only Virtual Gamepad (Stick + Schwert/Rolle/Schild/Aktion/G1/G2)</span>
 							</td>
 							<td>
 								<span class="badge badge-ok"><span aria-hidden="true">✓</span> Boot + Start-Szene</span>
@@ -1677,12 +1677,12 @@
 								<span class="badge badge-ok"><span aria-hidden="true">✓</span> Eigenes Spiel-Logo</span>
 								<span class="cell-sub">Kristall-Logo <em>„LUMARIA“</em> + <code>icon.svg</code></span>
 							</td>
-							<td><span class="badge badge-ok"><span aria-hidden="true">✓</span> Abgeschlossen + Save/Bogen</span></td>
+							<td><span class="badge badge-ok"><span aria-hidden="true">✓</span> Abgeschlossen + Touch/Save/Bogen</span></td>
 							<td class="num">9 / 9 ✅</td>
 							<td class="num">61 Tests · 0 Leaks</td>
 							<td class="num">23.11.2026</td>
-							<td>Für Android fehlt noch ein virtuelles Gamepad (Stick + Schwert/Rolle/Schild/Gadgets)</td>
-							<td>Virtuelles Gamepad-Overlay ergänzen → Android Release APK bauen</td>
+							<td>Keine (Android Signed APK live, Virtual Gamepad, 3 Save-Slots &amp; Prisma-Bogen)</td>
+							<td>Optional Post-Launch: Boss-Rush-Arena &amp; New Game+</td>
 						</tr>
 					</tbody>
 				</table>
@@ -1908,8 +1908,8 @@
 							<div>
 								<p class="details-subheading">Kennzahlen</p>
 								<dl class="meta-dl">
-									<dt>Plattformen &amp; Format</dt><dd>Web, Windows, Linux · 16:9 Querformat gesperrt (<code>Sensor Landscape</code>) · Android-Release-Keystore bereit (<code>de.chobitschii.asteroid_drift</code>)</dd>
-									<dt>Touch / Mobile</dt><dd>Zielen &amp; Feuern per Touch möglich, für Android-Release fehlen noch On-Screen-Touch-Buttons für Schub, Hyperspace &amp; Pause</dd>
+									<dt>Plattformen &amp; Format</dt><dd><strong>Web, Windows, Linux &amp; Android (Signed Release APK: <code>de.chobitschii.asteroid_drift</code>)</strong> · 16:9 Querformat gesperrt (<code>Sensor Landscape</code>)</dd>
+									<dt>Touch / Mobile</dt><dd>Android-Only Touch-Overlay (<code>SharedTouchControls</code>: Links/Rechts-Steuerung unten links, Schub/Feuer/Warp unten rechts, Pause oben rechts; auf PC unsichtbar)</dd>
 									<dt>Splash &amp; Start-Logo</dt><dd>Boot-Splash + interaktive <code>splash_screen.tscn</code> (<code>ASTEROID DRIFT</code>-Logo, DE/EN-Prompt + Chii-Arcade-Badge)</dd>
 									<dt>Letztes Update</dt><dd>23.11.2026 (Start-Logo, <code>SharedSplashScreen</code>, <code>AudioService</code>/Space-Musik)</dd>
 									<dt>Umfang</dt><dd>32 Skripte (16 eigene), 11 Szenen, 15 OGG-SFX + Synth-Musik</dd>
@@ -2120,8 +2120,8 @@
 							<div>
 								<p class="details-subheading">Kennzahlen</p>
 								<dl class="meta-dl">
-									<dt>Plattformen &amp; Format</dt><dd>Web, Windows, Linux · 16:9 Querformat gesperrt (<code>Sensor Landscape</code>) · Android-Release-Keystore bereit (<code>de.chobitschii.block_stack</code>)</dd>
-									<dt>Touch / Mobile</dt><dd>Menüs per Touch bedienbar, für das Spielfeld fehlen noch On-Screen-Touch-Buttons (Links, Rechts, Drehen CW/CCW, Soft/Hard Drop, Hold)</dd>
+									<dt>Plattformen &amp; Format</dt><dd><strong>Web, Windows, Linux &amp; Android (Signed Release APK: <code>de.chobitschii.block_stack</code>)</strong> · 16:9 Querformat gesperrt (<code>Sensor Landscape</code>)</dd>
+									<dt>Touch / Mobile</dt><dd>Android-Only Touch-Overlay (<code>SharedTouchControls</code>: Links/Rechts mit nativem DAS/ARR, Soft/Hard Drop, Drehen CCW/CW, Hold &amp; Pause; auf PC unsichtbar)</dd>
 									<dt>Splash &amp; Start-Logo</dt><dd>Boot-Splash + interaktive <code>splash_screen.tscn</code> (<code>BLOCK STACK</code>-Logo, DE/EN-Prompt + Chii-Arcade-Badge)</dd>
 									<dt>Letztes Update</dt><dd>23.11.2026 (Optionsmenü DAS/ARR, Farbblind-Symbole, Musik)</dd>
 									<dt>Umfang</dt><dd>31 Skripte (15 eigene), 4 Szenen, SVG-Tasten-Icons</dd>
@@ -2332,8 +2332,8 @@
 							<div>
 								<p class="details-subheading">Kennzahlen</p>
 								<dl class="meta-dl">
-									<dt>Plattformen &amp; Format</dt><dd>Web, Windows, Linux · 16:9 Querformat gesperrt (<code>Sensor Landscape</code>) · Android-Release-Keystore bereit (<code>de.chobitschii.crypt_dash</code>)</dd>
-									<dt>Touch / Mobile</dt><dd>Menüs/Altar per Touch bedienbar, für Kämpfe fehlt noch ein virtuelles Twin-Stick-Overlay (Bewegungs-Stick, Ziel-/Schuss-Stick, Dash-Button)</dd>
+									<dt>Plattformen &amp; Format</dt><dd><strong>Web, Windows, Linux &amp; Android (Signed Release APK: <code>de.chobitschii.crypt_dash</code>)</strong> · 16:9 Querformat gesperrt (<code>Sensor Landscape</code>)</dd>
+									<dt>Touch / Mobile</dt><dd>Android-Only Twin-Stick-Overlay (<code>SharedTouchControls</code>: 360°-Bewegungs-Stick links, 360°-Ziel-/Feuer-Stick + Auto-Aim &amp; Dash rechts, Pause oben; auf PC unsichtbar)</dd>
 									<dt>Splash &amp; Start-Logo</dt><dd>Boot-Splash + interaktive <code>splash_screen.tscn</code> (<code>CRYPT DASH</code>-Logo, DE/EN-Prompt + Chii-Arcade-Badge)</dd>
 									<dt>Letztes Update</dt><dd>23.11.2026 (<code>CryptAudio</code>, Crypt-Musik, 3 Startwaffen, Leak- &amp; Plan-Fix)</dd>
 									<dt>Umfang</dt><dd>41 Skripte (27 eigene), 4 Szenen</dd>
@@ -2439,8 +2439,8 @@
 							<div>
 								<p class="details-subheading">Kennzahlen</p>
 								<dl class="meta-dl">
-									<dt>Plattformen &amp; Format</dt><dd>Web, Windows, Linux · 16:9 Querformat gesperrt (<code>Sensor Landscape</code>) · Android-Release-Keystore bereit (<code>de.chobitschii.lumaria</code>)</dd>
-									<dt>Touch / Mobile</dt><dd>Menüs &amp; Save-Slots per Touch bedienbar, für das Gameplay fehlt noch ein virtuelles Gamepad (8-Wege-Stick + Schwert/Rolle/Schild/Interagieren/Gadgets)</dd>
+									<dt>Plattformen &amp; Format</dt><dd><strong>Web, Windows, Linux &amp; Android (Signed Release APK: <code>de.chobitschii.lumaria</code>)</strong> · 16:9 Querformat gesperrt (<code>Sensor Landscape</code>)</dd>
+									<dt>Touch / Mobile</dt><dd>Android-Only Virtual Gamepad (<code>SharedTouchControls</code>: 8-Wege-Stick links, Schwert Tap/Charge, Rolle, Schild, Aktion, Gadget 1/2, Inventar &amp; Pause rechts; auf PC unsichtbar)</dd>
 									<dt>Splash &amp; Start-Logo</dt><dd>Boot-Splash + interaktive <code>splash_screen.tscn</code> (<code>LUMARIA</code>-Logo, DE/EN-Prompt + Chii-Arcade-Badge)</dd>
 									<dt>Letztes Update</dt><dd>23.11.2026 (Icon-XML-Fix, 3 Save-Slots, <code>PrismArrow</code>-Bogen, Audio, 0 Leaks)</dd>
 									<dt>Umfang</dt><dd>73 Skripte (51 eigene), 40 Szenen, 8 OGG-SFX + Musik</dd>
@@ -2497,12 +2497,12 @@
 				</div>
 
 				<div class="panel">
-					<h3><span aria-hidden="true">→</span> Was für Android bei den übrigen 4 Spielen noch ansteht</h3>
+					<h3><span aria-hidden="true">✓</span> Android-Only Touch-UI in allen 7 Spielen aktiv</h3>
 					<ul>
-						<li><strong>02 · Asteroid Drift:</strong> Zielen/Feuern per Touch klappt bereits; benötigt noch On-Screen-Touch-Buttons für <em>Schub (Thrust)</em>, <em>Hyperspace</em> und <em>Pause</em>.</li>
-						<li><strong>04 · Block Stack:</strong> Benötigt auf dem Spielfeld On-Screen-Touch-Buttons (oder Wischgesten) für <em>Links/Rechts</em>, <em>Drehen (CW/CCW)</em>, <em>Soft/Hard Drop</em>, <em>Hold</em> und <em>Pause</em>.</li>
-						<li><strong>06 · Crypt Dash:</strong> Benötigt ein virtuelles <em>Twin-Stick-Touch-Overlay</em> (linker Bewegungs-Stick, rechter Ziel-/Angriffs-Stick + <em>Dash</em>- &amp; <em>Pause</em>-Button).</li>
-						<li><strong>07 · Lumaria:</strong> Benötigt ein virtuelles <em>Action-RPG-Gamepad</em> (linker 8-Wege-Stick + rechte Buttons für <em>Schwert/Wirbel</em>, <em>Ausweichrolle</em>, <em>Schild/Parry</em>, <em>Interagieren</em>, <em>Gadget 1 &amp; 2</em>, <em>Inventar</em>).</li>
+						<li><strong>Strikt auf Android begrenzt:</strong> <code>SharedTouchControls</code> (<code>shared/ui/touch_controls.gd</code>) prüft <code>OS.has_feature("android")</code> – auf Windows, Linux und Desktop-Web bleibt das Touch-Overlay komplett unsichtbar und inaktiv.</li>
+						<li><strong>02 · Asteroid Drift &amp; 04 · Block Stack:</strong> Multi-Touch-Vektor-Buttons für Drehen Links/Rechts, Schub, Feuer, Hyperspace &amp; Pause bzw. Links/Rechts (mit nativem DAS/ARR), Soft/Hard Drop, Drehen CCW/CW, Hold &amp; Pause.</li>
+						<li><strong>06 · Crypt Dash &amp; 07 · Lumaria:</strong> Virtuelles Twin-Stick-HUD (Bewegungs-Stick + 360°-Ziel-/Feuer-Stick + Dash) bzw. Action-RPG-Gamepad (8-Wege-Stick + Schwert inkl. Wirbel-Charge, Rolle, Schild, Interaktion, Gadget 1 &amp; 2, Inventar &amp; Pause).</li>
+						<li><strong>Alle 7 signierten Release-APKs gebaut &amp; gesichert:</strong> Alle 7 Spiele liegen als <code>apksigner</code>-verifizierte Full-Release-APKs lokal, auf dem NAS (<code>/media/nas.home/Development-Backups/games/android-releases/</code>) und in den GitHub-Releases bereit.</li>
 					</ul>
 				</div>
 			</div>

@@ -229,8 +229,9 @@ func apply_powerup(kind: PowerUps.Kind) -> void:
 			_update_ball_speeds()
 			Sfx.play(&"powerup", 0.7)
 		PowerUps.Kind.LIFE:
-			lives = mini(lives + 1, PowerUps.MAX_LIVES)
-			_hud.set_lives(lives)
+			if GameMode.has_lives(mode):
+				lives = mini(lives + 1, PowerUps.MAX_LIVES)
+				_hud.set_lives(lives)
 			Sfx.play(&"life_up")
 	_hud.show_toast(PowerUps.NAME_KEYS[kind], PowerUps.COLORS[kind])
 	_demo_tip(POWERUP_TIP_EVENTS[kind])

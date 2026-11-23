@@ -30,6 +30,7 @@ var _item_selection_modal: Control
 var _game_over_modal: Control
 var _victory_modal: Control
 var _pause_modal: Control
+var _touch_controls: SharedTouchControls
 
 var _shake_timer: float = 0.0
 var _shake_intensity: float = 0.0
@@ -198,6 +199,12 @@ func _toggle_pause() -> void:
 	_pause_modal.visible = is_paused
 
 
+func _notification(what: int) -> void:
+	if what == NOTIFICATION_WM_GO_BACK_REQUEST:
+		if not _game_over_modal.visible and not _victory_modal.visible and not _item_selection_modal.visible:
+			_toggle_pause()
+
+
 func _on_floor_completed(_f_num: int) -> void:
 	if current_floor_num >= 3:
 		_show_victory()
@@ -223,6 +230,13 @@ func _on_screen_shake(intensity: float, duration: float) -> void:
 
 
 func _process(delta: float) -> void:
+	if _touch_controls != null:
+		var any_modal := (_pause_modal != null and _pause_modal.visible) \
+			or (_item_selection_modal != null and _item_selection_modal.visible) \
+			or (_game_over_modal != null and _game_over_modal.visible) \
+			or (_victory_modal != null and _victory_modal.visible)
+		_touch_controls.gameplay_visible = not any_modal
+
 	if _room_transition_cooldown > 0.0:
 		_room_transition_cooldown -= delta
 
@@ -286,6 +300,14 @@ func _setup_ui() -> void:
 	_setup_game_over_modal()
 	_setup_victory_modal()
 	_setup_pause_modal()
+
+	_touch_controls = SharedTouchControls.create_for_crypt_dash()
+	_touch_controls.aim_vector_changed.connect(func(vec: Vector2, active: bool) -> void:
+		if player != null:
+			player.touch_aim_dir = vec
+			player.touch_aim_active = active
+	)
+	add_child(_touch_controls)
 
 
 func _setup_item_modal() -> void:
