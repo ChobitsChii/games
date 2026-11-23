@@ -21,9 +21,27 @@ func _physics_process(_delta: float) -> void:
 	_frames += 1
 	if _frames >= SMOKE_FRAMES:
 		if _game.logic.score > 0:
-			print("Smoke-Test ok: Punkte=%d, Zeilen=%d, Level=%d" % [_game.logic.score, _game.logic.lines, _game.logic.level])
-			get_tree().quit(0)
+			_finish("")
 		else:
-			printerr("FEHLER: Nach %d Frames wurde kein Punkt erzielt" % _frames)
-			get_tree().quit(1)
-		set_physics_process(false)
+			_finish("FEHLER: Nach %d Frames wurde kein Punkt erzielt" % _frames)
+
+
+func _finish(error: String) -> void:
+	set_physics_process(false)
+	var ok_msg := ""
+	if error == "" and _game and is_instance_valid(_game):
+		ok_msg = "Smoke-Test ok: Punkte=%d, Zeilen=%d, Level=%d" % [_game.logic.score, _game.logic.lines, _game.logic.level]
+	var sfx := SoundEffects.get_instance()
+	if sfx:
+		sfx.stop_all()
+	if _game and is_instance_valid(_game):
+		_game.queue_free()
+	await get_tree().process_frame
+	await get_tree().process_frame
+	OS.delay_msec(300)
+	if error == "":
+		print(ok_msg)
+		get_tree().quit(0)
+	else:
+		printerr(error)
+		get_tree().quit(1)

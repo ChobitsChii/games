@@ -82,16 +82,25 @@ func _physics_process(_delta: float) -> void:
 
 
 func _finish(error: String) -> void:
-	if error == "":
-		print("Smoke-Test ok: Spieler=%s, Leben=%d/%d, Lumen=%d, DialogOk=%s" % [
+	set_physics_process(false)
+	var ok_msg := ""
+	if error == "" and _game and is_instance_valid(_game) and _game.player and is_instance_valid(_game.player):
+		ok_msg = "Smoke-Test ok: Spieler=%s, Leben=%d/%d, Lumen=%d, DialogOk=%s" % [
 			_game.player.name,
 			_game.inventory.current_vitality_quarters,
 			_game.inventory.max_vitality_quarters,
 			_game.inventory.lumen,
 			str(_dialogue_tested)
-		])
+		]
+	AudioManager.stop_all()
+	if _game and is_instance_valid(_game):
+		_game.queue_free()
+	await get_tree().process_frame
+	await get_tree().process_frame
+	OS.delay_msec(300)
+	if error == "":
+		print(ok_msg)
 		get_tree().quit(0)
 	else:
 		printerr(error)
 		get_tree().quit(1)
-	set_physics_process(false)

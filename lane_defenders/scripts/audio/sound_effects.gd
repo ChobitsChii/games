@@ -6,6 +6,7 @@ var _streams: Dictionary = {}
 var _players: Array[AudioStreamPlayer] = []
 var _pool_size := 12
 var _current_player := 0
+var _shutting_down: bool = false
 
 
 func _ready() -> void:
@@ -93,7 +94,7 @@ func play_lose() -> void:
 
 
 func _play(key: String, pitch: float = 1.0, volume_db: float = 0.0) -> void:
-	if not _streams.has(key):
+	if _shutting_down or _players.is_empty() or not _streams.has(key):
 		return
 	var stream: AudioStream = _streams[key]
 	var p := _players[_current_player]
@@ -102,3 +103,17 @@ func _play(key: String, pitch: float = 1.0, volume_db: float = 0.0) -> void:
 	p.pitch_scale = pitch
 	p.volume_db = volume_db
 	p.play()
+
+
+func stop_all() -> void:
+	_shutting_down = true
+	for p in _players:
+		if is_instance_valid(p):
+			p.stop()
+			p.stream = null
+	_streams.clear()
+
+
+func _exit_tree() -> void:
+	stop_all()
+	_players.clear()

@@ -4,17 +4,7 @@ extends Node
 ## verwaltet nahtlos loopende, prozedural synthetisierte Soundtrack-Themen
 ## für Dorf, Dungeons, Bosskämpfe und Epilog.
 
-const SOUNDS: Dictionary = {
-	"slash": preload("res://assets/sounds/slash.ogg"),
-	"hit": preload("res://assets/sounds/hit.ogg"),
-	"parry": preload("res://assets/sounds/parry.ogg"),
-	"break": preload("res://assets/sounds/break.ogg"),
-	"lumen_collect": preload("res://assets/sounds/lumen_collect.ogg"),
-	"dash": preload("res://assets/sounds/dash.ogg"),
-	"explosion": preload("res://assets/sounds/explosion.ogg"),
-	"dialogue_blip": preload("res://assets/sounds/dialogue_blip.ogg"),
-}
-
+var _sounds: Dictionary = {}
 var _pool: Array[AudioStreamPlayer] = []
 const POOL_SIZE := 8
 
@@ -22,10 +12,21 @@ var _music_player: AudioStreamPlayer = null
 var _current_track: String = ""
 var _music_cache: Dictionary = {}
 var _sfx_cache: Dictionary = {}
+var _shutting_down: bool = false
 
 
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
+	_sounds = {
+		"slash": load("res://assets/sounds/slash.ogg"),
+		"hit": load("res://assets/sounds/hit.ogg"),
+		"parry": load("res://assets/sounds/parry.ogg"),
+		"break": load("res://assets/sounds/break.ogg"),
+		"lumen_collect": load("res://assets/sounds/lumen_collect.ogg"),
+		"dash": load("res://assets/sounds/dash.ogg"),
+		"explosion": load("res://assets/sounds/explosion.ogg"),
+		"dialogue_blip": load("res://assets/sounds/dialogue_blip.ogg"),
+	}
 	for i in range(POOL_SIZE):
 		var player := AudioStreamPlayer.new()
 		player.bus = "Master"
@@ -37,10 +38,32 @@ func _ready() -> void:
 	add_child(_music_player)
 
 
+func stop_all() -> void:
+	_shutting_down = true
+	_current_track = ""
+	if _music_player and is_instance_valid(_music_player):
+		_music_player.stop()
+		_music_player.stream = null
+	for player in _pool:
+		if is_instance_valid(player):
+			player.stop()
+			player.stream = null
+	_music_cache.clear()
+	_sfx_cache.clear()
+	_sounds.clear()
+
+
+func _exit_tree() -> void:
+	stop_all()
+	_pool.clear()
+
+
 func play_sfx(sound_name: String, pitch_scale: float = 1.0) -> void:
+	if _shutting_down or _pool.is_empty():
+		return
 	var stream: AudioStream = null
-	if SOUNDS.has(sound_name):
-		stream = SOUNDS[sound_name]
+	if _sounds.has(sound_name):
+		stream = _sounds[sound_name]
 	else:
 		stream = _get_or_create_sfx_stream(sound_name)
 
@@ -62,12 +85,17 @@ func play_sfx(sound_name: String, pitch_scale: float = 1.0) -> void:
 
 
 func play_music(track_name: String, volume_db: float = -10.0) -> void:
-	if _current_track == track_name and _music_player.playing:
+	if _shutting_down:
+		return
+	if SaveService and SaveService.is_test_mode:
+		_current_track = track_name
+		return
+	if _current_track == track_name and _music_player and _music_player.playing:
 		return
 	_current_track = track_name
 
 	var stream := _get_or_create_music_stream(track_name)
-	if stream != null:
+	if stream != null and _music_player and is_instance_valid(_music_player):
 		_music_player.stream = stream
 		_music_player.volume_db = volume_db
 		_music_player.play()

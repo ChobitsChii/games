@@ -23,10 +23,31 @@ func _physics_process(_delta: float) -> void:
 	_frames += 1
 	if _frames >= SMOKE_FRAMES:
 		if _game.moves_played > 0:
-			print("Connect Four Deluxe – Seed: %d" % _game.controller.rng.seed)
-			print("Smoke-Test ok: Züge=%d, Beendet=%s" % [_game.moves_played, str(_game.is_finished)])
-			get_tree().quit(0)
+			_finish("")
 		else:
-			printerr("FEHLER: Nach %d Frames wurde kein Zug ausgeführt" % _frames)
-			get_tree().quit(1)
-		set_physics_process(false)
+			_finish("FEHLER: Nach %d Frames wurde kein Zug ausgeführt" % _frames)
+
+
+func _finish(error: String) -> void:
+	set_physics_process(false)
+	var ok_msg := ""
+	var seed_msg := ""
+	if error == "" and _game and is_instance_valid(_game):
+		seed_msg = "Connect Four Deluxe – Seed: %d" % _game.controller.rng.seed
+		ok_msg = "Smoke-Test ok: Züge=%d, Beendet=%s" % [_game.moves_played, str(_game.is_finished)]
+	var sfx := SoundEffects.get_instance()
+	if sfx:
+		sfx.stop_all()
+	if _game and is_instance_valid(_game):
+		_game.queue_free()
+	await get_tree().process_frame
+	await get_tree().process_frame
+	OS.delay_msec(300)
+	if error == "":
+		if seed_msg != "":
+			print(seed_msg)
+		print(ok_msg)
+		get_tree().quit(0)
+	else:
+		printerr(error)
+		get_tree().quit(1)

@@ -9,7 +9,7 @@ var step_index: int = 0
 
 
 static func create(p_name: String, p_duration: float, p_action: String) -> BossPhase:
-	var phase := BossPhase.new()
+	var phase := new()
 	phase.name = p_name
 	phase.duration = p_duration
 	phase.action = p_action

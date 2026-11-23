@@ -6,6 +6,7 @@ var _sfx_players: Array[AudioStreamPlayer] = []
 const MAX_PLAYERS := 12
 
 var _sounds: Dictionary = {}
+var _shutting_down: bool = false
 
 
 func _ready() -> void:
@@ -36,7 +37,7 @@ func _load_sound(key: String, path: String) -> void:
 
 
 func play(sound_name: String, pitch_range: float = 0.05, volume_db: float = 0.0) -> void:
-	if not _sounds.has(sound_name):
+	if _shutting_down or not _sounds.has(sound_name):
 		return
 
 	var stream: AudioStream = _sounds[sound_name]
@@ -50,3 +51,17 @@ func play(sound_name: String, pitch_range: float = 0.05, volume_db: float = 0.0)
 				p.pitch_scale = 1.0
 			p.play()
 			return
+
+
+func stop_all() -> void:
+	_shutting_down = true
+	for p in _sfx_players:
+		if is_instance_valid(p):
+			p.stop()
+			p.stream = null
+	_sounds.clear()
+
+
+func _exit_tree() -> void:
+	stop_all()
+	_sfx_players.clear()

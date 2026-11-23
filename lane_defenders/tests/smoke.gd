@@ -37,14 +37,24 @@ func _physics_process(_delta: float) -> void:
 
 
 func _finish(error: String) -> void:
-	if error == "":
-		print("Smoke-Test ok: Level=%s, Leben=%d, Energie=%d" % [
+	set_physics_process(false)
+	var ok_msg := ""
+	if error == "" and _game and is_instance_valid(_game):
+		ok_msg = "Smoke-Test ok: Level=%s, Leben=%d, Energie=%d" % [
 			_game.current_level.level_id,
 			_game.model.lives,
 			_game.model.energy
-		])
+		]
+	if _game and is_instance_valid(_game):
+		if _game.sfx:
+			_game.sfx.stop_all()
+		_game.queue_free()
+	await get_tree().process_frame
+	await get_tree().process_frame
+	OS.delay_msec(300)
+	if error == "":
+		print(ok_msg)
 		get_tree().quit(0)
 	else:
 		printerr(error)
 		get_tree().quit(1)
-	set_physics_process(false)

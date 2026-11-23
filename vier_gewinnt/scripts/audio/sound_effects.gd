@@ -8,6 +8,7 @@ static var _instance: SoundEffects
 var _players: Array[AudioStreamPlayer] = []
 var _player_idx := 0
 var _sample_rate := 22050
+var _shutting_down: bool = false
 
 
 func _init() -> void:
@@ -56,12 +57,27 @@ func play_button() -> void:
 
 
 func _play_stream(stream: AudioStreamWAV) -> void:
-	if _players.is_empty():
+	if _shutting_down or _players.is_empty():
 		return
 	var player := _players[_player_idx]
 	_player_idx = (_player_idx + 1) % _players.size()
 	player.stream = stream
 	player.play()
+
+
+func stop_all() -> void:
+	_shutting_down = true
+	for p in _players:
+		if is_instance_valid(p):
+			p.stop()
+			p.stream = null
+
+
+func _exit_tree() -> void:
+	stop_all()
+	_players.clear()
+	if _instance == self:
+		_instance = null
 
 
 func _generate_tone(freq: float, duration: float, volume: float, wave_type: String = "sine") -> AudioStreamWAV:
