@@ -15,3 +15,5 @@ COMMON_VOLUME_MUSIC,Musik,Music
 COMMON_VOLUME_SFX,Effekte,SFX
 COMMON_AUDIO_OFF,Aus,Off
 COMMON_AUDIO_ON,An,On
+COMMON_SPLASH_PROMPT,Bitte Taste drücken oder klicken / tippen zum Starten,Press any key or click / tap to start
+COMMON_POWERED_BY,Präsentiert von %s,Powered by %s

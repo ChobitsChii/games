@@ -8,6 +8,9 @@ var _game: Node2D
 
 
 func _ready() -> void:
+	var splash: Control = (load("res://scenes/splash_screen.tscn") as PackedScene).instantiate()
+	add_child(splash)
+	splash.queue_free()
 	var menu: Control = (load("res://scenes/main_menu.tscn") as PackedScene).instantiate()
 	add_child(menu)
 	menu.queue_free()

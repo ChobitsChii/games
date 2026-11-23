@@ -7,7 +7,8 @@ Dieses Spiel verwendet ausschließlich frei nutzbare Assets unter permissiven Op
 | Asset | Urheber / Quelle | Lizenz | Verwendung |
 |---|---|---|---|
 | **Spiel-Icon** (`icon.svg`) | Antigravity Vector Studio | Eigene Erstellung / CC0 | Anwendungs-Icon & Fenstersymbol |
-| **Boot-Splash** (`assets/splash.png`) | Antigravity AI Image Generation | Eigene Generierung / CC0 | Startbildschirm & Boot Splash |
+| **Boot-Splash & Start-Logo** (`assets/splash.png`) | Antigravity AI Image Generation | Eigene Generierung / CC0 | Startbildschirm & Boot Splash |
+| **Chii Arcade Logo** (`addons/shared/branding/chii_arcade_logo.png`) | Jennifer / Chii Arcade | Eigenes Marken-Logo / CC0 | Splash Screen Branding-Badge |
 | **Titelmenü-Hintergrund** (`assets/main_menu_bg.png`) | Antigravity AI Image Generation | Eigene Generierung / CC0 | Hauptmenü-Hintergrundbild mit Kristallspitze |
 | **Dorf-Hintergrund** (`assets/environments/oakhaven_village.png`) | Antigravity AI Image Generation | Eigene Generierung / CC0 | Oberwelt Oakhaven Dorfplatz (1920×1080) |
 | **Held Kaelen Sprites** (`assets/characters/player/*.png`) | Antigravity AI Image Generation | Eigene Generierung / CC0 | 4-Wege-Charaktersprites (Down, Up, Left, Right, Attack) |

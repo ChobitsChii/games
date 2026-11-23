@@ -9,7 +9,10 @@ var _frames := 0
 
 
 func _ready() -> void:
-	# 1. Menü muss sich fehlerfrei aufbauen lassen
+	# 1. Splash & Menü müssen sich fehlerfrei aufbauen lassen
+	var splash: Control = (load("res://scenes/splash_screen.tscn") as PackedScene).instantiate()
+	add_child(splash)
+	splash.queue_free()
 	var menu: Control = (load("res://scenes/main_menu.tscn") as PackedScene).instantiate()
 	add_child(menu)
 	menu.queue_free()

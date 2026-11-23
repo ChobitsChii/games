@@ -1,0 +1,4 @@
+CC0 1.0 Universal (CC0 1.0) Public Domain Dedication
+Eigenes Marken- und Projektlogo (Chii Arcade / Jennifer).
+Frei verwendbar innerhalb aller Spiele dieses Repositories.
+https://creativecommons.org/publicdomain/zero/1.0/

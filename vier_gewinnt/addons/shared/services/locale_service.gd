@@ -49,5 +49,10 @@ func get_language_name(code: String = "") -> String:
 
 
 func _detect_system_language() -> String:
-	var system := OS.get_locale_language()
+	var system := OS.get_locale_language().to_lower()
+	if system.begins_with("de"):
+		return "de"
+	var raw_locale := OS.get_locale().to_lower()
+	if raw_locale.begins_with("de"):
+		return "de"
 	return system if system in SUPPORTED else FALLBACK

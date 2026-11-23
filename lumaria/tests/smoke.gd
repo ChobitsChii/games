@@ -13,7 +13,10 @@ var _dialogue_tested := false
 
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
-	# 1. Menü testen
+	# 1. Splash & Menü testen
+	var splash: Control = (load("res://scenes/splash_screen.tscn") as PackedScene).instantiate()
+	add_child(splash)
+	splash.queue_free()
 	var menu: Control = (load("res://scenes/main_menu.tscn") as PackedScene).instantiate()
 	add_child(menu)
 	menu.queue_free()

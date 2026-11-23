@@ -51,3 +51,25 @@ func test_display_service_debug_overlay_toggle() -> void:
 	assert_true(DisplayService.is_debug_overlay_visible(), "Debug-Overlay eingeschaltet")
 	DisplayService.set_debug_overlay(false)
 	assert_true(not DisplayService.is_debug_overlay_visible(), "Debug-Overlay wieder aus")
+
+
+func test_shared_splash_screen_localization_and_dynamic_branding() -> void:
+	var prev_lang := LocaleService.current
+	var splash := (load("res://scenes/splash_screen.tscn") as PackedScene).instantiate() as SharedSplashScreen
+	assert_true(splash != null, "SplashScreen instanziiert")
+	splash._ready()
+
+	LocaleService.set_language("de", false)
+	assert_true("Taste" in splash.get_prompt_text(), "Deutscher Start-Prompt aktiv")
+	assert_eq(splash.get_brand_text(), "Präsentiert von Chii Arcade", "Deutsches Chii-Arcade-Badge aktiv")
+
+	LocaleService.set_language("en", false)
+	assert_true("Press any key" in splash.get_prompt_text(), "Englischer Start-Prompt aktiv")
+	assert_eq(splash.get_brand_text(), "Powered by Chii Arcade", "Englisches Chii-Arcade-Badge aktiv")
+
+	splash.set_brand_name_override("Chii Studio")
+	assert_eq(splash.get_brand_text(), "Powered by Chii Studio", "Markenname dynamisch anpassbar")
+
+	LocaleService.set_language(prev_lang, false)
+	splash._exit_tree()
+	splash.free()

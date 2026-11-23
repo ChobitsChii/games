@@ -7,6 +7,7 @@ Dieses Spiel verwendet frei nutzbare Assets unter permissiven Open-Source- und P
 | Asset | Urheber / Quelle | Lizenz | Verwendung |
 |---|---|---|---|
 | **Splash-Screen** (`assets/splash.png`) | Antigravity AI Image Generation (Google DeepMind) | Eigene Generierung / Public Domain | Startbildschirm & Boot Splash |
+| **Chii Arcade Logo** (`addons/shared/branding/chii_arcade_logo.png`) | Jennifer / Chii Arcade | Eigenes Marken-Logo / CC0 | Splash Screen Branding-Badge |
 | **Menü-Hintergrund** (`assets/main_menu_bg.png`) | Antigravity AI Image Generation (Google DeepMind) | Eigene Generierung / Public Domain | Hauptmenü-Hintergrundbild |
 | **Spiel-Icon** (`icon.svg`) | Antigravity AI Vector Design | Eigene Erstellung / CC0 | Anwendungs-Icon & Fenstersymbol |
 | **Soundeffekte & Audio** | Kenney Game Audio / Kenney.nl & OpenGameArt (Synthetisch erzeugt / CC0) | CC0 (Public Domain) | Dash, Angriff, Treffer, Item-Pickup, Boss-Phase |

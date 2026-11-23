@@ -4,7 +4,8 @@
 |---|---|---|---|---|
 | Standard-Schrift der Engine (Open Sans) | Steve Matteson / Godot-Projekt | https://godotengine.org | Apache 2.0 | Alle UI-Texte |
 | Icon (`icon.svg`) | selbst erstellt | – | CC0 | Projekt-Icon |
-| Start-Logo / Splash (`assets/splash.png`) | Antigravity (KI-generiert) | – | CC0 | Boot-Splash-Logo |
+| Start-Logo / Splash (`assets/splash.png`) | Antigravity (KI-generiert & Logo-Komposition) | – | CC0 | Boot-Splash & interaktiver Splash Screen |
+| Chii Arcade Logo (`addons/shared/branding/chii_arcade_logo.png`) | Jennifer / Chii Arcade | https://chobitschii.github.io/chii-arcade/ | CC0 | Splash Screen Branding-Badge |
 | Menü-Hintergrund (`assets/menu_bg.png`) | Antigravity (KI-generiert) | – | CC0 | Hauptmenü-Hintergrund |
 | Sound-Synthese (`sound_effects.gd`) | selbst erstellt (prozedural) | – | CC0 | Alle Spiel-Sounds |
 | 3D/2.5D-Brett & Scheiben-Visuals | selbst erstellt (prozedural) | – | CC0 | Brettdarstellung & Effekte |
