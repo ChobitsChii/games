@@ -350,7 +350,7 @@
 		}
 
 		.header-bar {
-			max-inline-size: 1320px;
+			max-inline-size: 98%;
 			margin-inline: auto;
 			padding: 0.75rem 1.25rem;
 			display: flex;
@@ -461,13 +461,13 @@
 			gap: 0.45rem;
 		}
 
-		/* Hauptbereich */
+		/* Hauptbereich (98 % Breite für maximale Tabellen-Übersicht ohne Horizontal-Scroll) */
 		main {
 			flex: 1;
-			max-inline-size: 1320px;
+			max-inline-size: 98%;
 			inline-size: 100%;
 			margin-inline: auto;
-			padding: 2rem 1.25rem 4rem;
+			padding: 2rem 1rem 4rem;
 			display: flex;
 			flex-direction: column;
 			gap: 3rem;
@@ -658,15 +658,18 @@
 			inline-size: 100%;
 			border-collapse: separate;
 			border-spacing: 0;
-			font-size: 0.9rem;
+			font-size: 0.86rem;
 			--label-1: "Projekt";
 			--label-2: "Version";
-			--label-3: "Status";
-			--label-4: "Meilensteine";
-			--label-5: "Tests (live)";
-			--label-6: "Letztes Update";
-			--label-7: "Größter offener Punkt";
-			--label-8: "Nächster Schritt";
+			--label-3: "Plattformen (Release)";
+			--label-4: "Splash Screen";
+			--label-5: "Start-Logo";
+			--label-6: "Status";
+			--label-7: "Meilensteine";
+			--label-8: "Tests (live)";
+			--label-9: "Letztes Update";
+			--label-10: "Offene Technik-Punkte";
+			--label-11: "Nächster Schritt";
 		}
 
 		.comparison-table caption {
@@ -687,19 +690,19 @@
 
 		.comparison-table thead th {
 			text-align: start;
-			padding: 0.75rem 0.9rem;
+			padding: 0.7rem 0.7rem;
 			background: var(--bg-subtle);
 			color: var(--text-primary);
-			font-size: 0.8rem;
+			font-size: 0.77rem;
 			text-transform: uppercase;
-			letter-spacing: 0.03em;
+			letter-spacing: 0.025em;
 			border-block-end: 2px solid var(--border-default);
 			white-space: nowrap;
 		}
 
 		.comparison-table tbody th,
 		.comparison-table tbody td {
-			padding: 0.85rem 0.9rem;
+			padding: 0.75rem 0.7rem;
 			border-block-end: 1px solid var(--border-default);
 			vertical-align: top;
 		}
@@ -796,6 +799,24 @@
 			.comparison-table td:nth-child(6)::before { content: var(--label-6) ": "; }
 			.comparison-table td:nth-child(7)::before { content: var(--label-7) ": "; }
 			.comparison-table td:nth-child(8)::before { content: var(--label-8) ": "; }
+			.comparison-table td:nth-child(9)::before { content: var(--label-9) ": "; }
+			.comparison-table td:nth-child(10)::before { content: var(--label-10) ": "; }
+			.comparison-table td:nth-child(11)::before { content: var(--label-11) ": "; }
+		}
+
+		.cell-sub {
+			display: block;
+			margin-block-start: 0.25rem;
+			font-size: 0.78rem;
+			color: var(--text-muted);
+			line-height: 1.35;
+		}
+
+		.platform-badges {
+			display: flex;
+			flex-wrap: wrap;
+			gap: 0.28rem;
+			align-items: center;
 		}
 
 		/* Filter- und Suchleiste (<search>) */
@@ -1305,7 +1326,7 @@
 		}
 
 		.footer-inner {
-			max-inline-size: 1320px;
+			max-inline-size: 98%;
 			margin-inline: auto;
 			display: flex;
 			justify-content: space-between;
@@ -1464,7 +1485,7 @@
 			<div class="section-head">
 				<div>
 					<h2 id="vergleich-heading">1. Schnellvergleich aller Projekte</h2>
-					<p class="section-desc">Kompakter Überblick über Version, Abschlussstatus, Live-Tests (0 Leaks), bereinigte Punkte und optionale nächste Schritte.</p>
+					<p class="section-desc">Kompakter Überblick über Version, Release-Plattformen (Web, Windows, Linux, Android), Splash Screen &amp; Start-Logo, Abschlussstatus, Live-Tests (0 Leaks) und nächste Schritte.</p>
 				</div>
 			</div>
 
@@ -1475,6 +1496,9 @@
 						<tr>
 							<th scope="col">Projekt</th>
 							<th scope="col">Version</th>
+							<th scope="col">Plattformen (Release)</th>
+							<th scope="col">Splash Screen</th>
+							<th scope="col">Start-Logo</th>
 							<th scope="col">Status</th>
 							<th scope="col">Meilensteine</th>
 							<th scope="col">Tests (live)</th>
@@ -1487,36 +1511,92 @@
 						<tr>
 							<th scope="row"><a href="#proj-neon-breakout">01 · Neon Breakout</a></th>
 							<td class="num"><code>v1.1.2</code></td>
+							<td>
+								<div class="platform-badges">
+									<span class="badge badge-ok"><span aria-hidden="true">✓</span> Web · Win · Linux</span>
+									<span class="badge badge-mono"><span aria-hidden="true">✗</span> Android</span>
+								</div>
+							</td>
+							<td>
+								<span class="badge badge-warn"><span aria-hidden="true">✗</span> Kein Splash</span>
+								<span class="cell-sub">Startet direkt in <code>main_menu.tscn</code></span>
+							</td>
+							<td>
+								<span class="badge badge-warn"><span aria-hidden="true">✗</span> Nur Text-Label</span>
+								<span class="cell-sub">App-Icon (<code>icon.svg</code>) da; Menü nutzt <code>Label</code></span>
+							</td>
 							<td><span class="badge badge-ok"><span aria-hidden="true">✓</span> Abgeschlossen (M0–M8)</span></td>
 							<td class="num">9 / 9 ✅</td>
 							<td class="num">90 Tests · 0 Leaks</td>
 							<td class="num">23.11.2026</td>
 							<td>Keine (Portal/README &amp; Tag <code>v1.1.2</code> bereinigt; <code>F3</code>-Overlay aktiv)</td>
-							<td>Optional Post-Launch: Level-Editor oder Daily Seed</td>
+							<td>Optional: Splash/Logo ergänzen, Level-Editor oder Daily Seed</td>
 						</tr>
 						<tr>
 							<th scope="row"><a href="#proj-asteroid-drift">02 · Asteroid Drift</a></th>
 							<td class="num"><code>v1.0.5</code></td>
+							<td>
+								<div class="platform-badges">
+									<span class="badge badge-ok"><span aria-hidden="true">✓</span> Web · Win · Linux</span>
+									<span class="badge badge-mono"><span aria-hidden="true">✗</span> Android</span>
+								</div>
+							</td>
+							<td>
+								<span class="badge badge-ok"><span aria-hidden="true">✓</span> Boot + Start-Szene</span>
+								<span class="cell-sub"><code>splash.png</code> (1,2 s) + <code>splash_screen.tscn</code></span>
+							</td>
+							<td>
+								<span class="badge badge-warn"><span aria-hidden="true">✗</span> Nur Text-Label</span>
+								<span class="cell-sub">Splash ohne Schriftzug; Menü nutzt <code>Label</code> + <code>icon.svg</code></span>
+							</td>
 							<td><span class="badge badge-ok"><span aria-hidden="true">✓</span> Abgeschlossen + Audio/F3</span></td>
 							<td class="num">8 / 8 ✅</td>
 							<td class="num">26 Tests · 0 Leaks</td>
 							<td class="num">23.11.2026</td>
 							<td>Keine (Space-Musik, Audio-Regler, <code>F3</code>-Overlay &amp; 0 Exit-Leaks behoben)</td>
-							<td>Neues Release bauen; optional Survival-Modus &amp; Bosse</td>
+							<td>Neues Release bauen; optional Start-Logo, Survival-Modus &amp; Bosse</td>
 						</tr>
 						<tr>
 							<th scope="row"><a href="#proj-vier-gewinnt">03 · Connect Four Deluxe</a></th>
 							<td class="num"><code>v1.2.1</code></td>
+							<td>
+								<div class="platform-badges">
+									<span class="badge badge-ok"><span aria-hidden="true">✓</span> Web · Win · Linux</span>
+									<span class="badge badge-mono"><span aria-hidden="true">✗</span> Android</span>
+								</div>
+							</td>
+							<td>
+								<span class="badge badge-ok"><span aria-hidden="true">✓</span> Boot-Splash</span>
+								<span class="cell-sub"><code>assets/splash.png</code> (1,2 s in <code>project.godot</code>)</span>
+							</td>
+							<td>
+								<span class="badge badge-warn"><span aria-hidden="true">✗</span> Nur Text-Label</span>
+								<span class="cell-sub">3D-Brett-Splash ohne Logo; Menü nutzt <code>Label</code> + <code>icon.svg</code></span>
+							</td>
 							<td><span class="badge badge-ok"><span aria-hidden="true">✓</span> Abgeschlossen + Audio/F3</span></td>
 							<td class="num">7 / 7 ✅</td>
 							<td class="num">24 Tests · 0 Leaks</td>
 							<td class="num">23.11.2026</td>
 							<td>Keine (Lounge-Musik, Audio-Optionen &amp; <code>F3</code>-Overlay integriert)</td>
-							<td>Optional Release bauen; Idee: „Pop Out“ / 8×7-Brett / 4. KI-Stufe</td>
+							<td>Optional Release bauen; Idee: Start-Logo, „Pop Out“ / 8×7-Brett</td>
 						</tr>
 						<tr>
 							<th scope="row"><a href="#proj-block-stack">04 · Block Stack</a></th>
 							<td class="num"><code>v1.2.0</code></td>
+							<td>
+								<div class="platform-badges">
+									<span class="badge badge-ok"><span aria-hidden="true">✓</span> Web · Win · Linux</span>
+									<span class="badge badge-mono"><span aria-hidden="true">✗</span> Android</span>
+								</div>
+							</td>
+							<td>
+								<span class="badge badge-ok"><span aria-hidden="true">✓</span> Boot-Splash</span>
+								<span class="cell-sub"><code>assets/splash.png</code> (1,2 s in <code>project.godot</code>)</span>
+							</td>
+							<td>
+								<span class="badge badge-info"><span aria-hidden="true">◐</span> Im Splash-Bild</span>
+								<span class="cell-sub">Neon-Logo <em>„BLOCK STACK“</em> im Splash; im Menü Text-<code>Label</code></span>
+							</td>
 							<td><span class="badge badge-ok"><span aria-hidden="true">✓</span> Abgeschlossen + Optionen</span></td>
 							<td class="num">8 / 8 ✅</td>
 							<td class="num">26 Tests · 0 Leaks</td>
@@ -1527,6 +1607,20 @@
 						<tr>
 							<th scope="row"><a href="#proj-lane-defenders">05 · Lane Defenders</a></th>
 							<td class="num"><code>v1.5.4</code></td>
+							<td>
+								<div class="platform-badges">
+									<span class="badge badge-ok"><span aria-hidden="true">✓</span> Web · Win · Linux</span>
+									<span class="badge badge-mono"><span aria-hidden="true">✗</span> Android</span>
+								</div>
+							</td>
+							<td>
+								<span class="badge badge-ok"><span aria-hidden="true">✓</span> Boot-Splash</span>
+								<span class="cell-sub"><code>assets/splash.png</code> (1,2 s in <code>project.godot</code>)</span>
+							</td>
+							<td>
+								<span class="badge badge-info"><span aria-hidden="true">◐</span> Im Splash-Bild</span>
+								<span class="cell-sub">Comic-Logo <em>„LANE DEFENDERS“</em> im Splash; im Menü Text-<code>Label</code></span>
+							</td>
 							<td><span class="badge badge-ok"><span aria-hidden="true">✓</span> Abgeschlossen + Audio/F3</span></td>
 							<td class="num">8 / 8 ✅</td>
 							<td class="num">22 Tests · 0 Leaks</td>
@@ -1537,6 +1631,20 @@
 						<tr>
 							<th scope="row"><a href="#proj-crypt-dash">06 · Crypt Dash</a></th>
 							<td class="num"><code>v1.1.4</code></td>
+							<td>
+								<div class="platform-badges">
+									<span class="badge badge-ok"><span aria-hidden="true">✓</span> Web · Win · Linux</span>
+									<span class="badge badge-mono"><span aria-hidden="true">✗</span> Android</span>
+								</div>
+							</td>
+							<td>
+								<span class="badge badge-ok"><span aria-hidden="true">✓</span> Boot-Splash</span>
+								<span class="cell-sub"><code>assets/splash.png</code> (1,2 s in <code>project.godot</code>)</span>
+							</td>
+							<td>
+								<span class="badge badge-info"><span aria-hidden="true">◐</span> Im Splash-Bild</span>
+								<span class="cell-sub">Runen-Logo <em>„CRYPT DASH“</em> im Splash; im Menü Text-<code>Label</code></span>
+							</td>
 							<td><span class="badge badge-ok"><span aria-hidden="true">✓</span> Abgeschlossen + Waffen/SFX</span></td>
 							<td class="num">9 / 9 ✅</td>
 							<td class="num">15 Tests · 0 Leaks</td>
@@ -1547,11 +1655,25 @@
 						<tr>
 							<th scope="row"><a href="#proj-lumaria">07 · Lumaria</a></th>
 							<td class="num"><code>v1.0.1</code></td>
+							<td>
+								<div class="platform-badges">
+									<span class="badge badge-ok"><span aria-hidden="true">✓</span> Web · Win · Linux</span>
+									<span class="badge badge-mono"><span aria-hidden="true">✗</span> Android</span>
+								</div>
+							</td>
+							<td>
+								<span class="badge badge-warn"><span aria-hidden="true">!</span> Bild da, nicht aktiv</span>
+								<span class="cell-sub"><code>assets/splash.png</code> vorhanden, fehlt noch in <code>project.godot</code></span>
+							</td>
+							<td>
+								<span class="badge badge-warn"><span aria-hidden="true">✗</span> Nur Text-Label</span>
+								<span class="cell-sub">Panorama-Artwork ohne Logo; Menü nutzt <code>Label</code> + <code>icon.svg</code></span>
+							</td>
 							<td><span class="badge badge-ok"><span aria-hidden="true">✓</span> Abgeschlossen + Save/Bogen</span></td>
 							<td class="num">9 / 9 ✅</td>
 							<td class="num">61 Tests · 0 Leaks</td>
 							<td class="num">23.11.2026</td>
-							<td>Keine (Icon-XML, 3 Save-Slots, Prisma-Bogen, Musik-Slider &amp; 0 Leaks erledigt)</td>
+							<td>Keine im Spielkern (optional: <code>boot_splash/image</code> in <code>project.godot</code> setzen)</td>
 							<td>Minor-Release (<code>v1.1.0</code>) veröffentlichen; optional Boss-Rush &amp; NG+</td>
 						</tr>
 					</tbody>
@@ -1672,6 +1794,8 @@
 							<div>
 								<p class="details-subheading">Kennzahlen</p>
 								<dl class="meta-dl">
+									<dt>Plattformen</dt><dd>Web, Windows, Linux (kein Android)</dd>
+									<dt>Splash &amp; Start-Logo</dt><dd>Kein Splash Screen; eigenes <code>icon.svg</code>, im Menü nur Text-<code>Label</code></dd>
 									<dt>Letztes Update</dt><dd>23.11.2026 (Portal/README-Sync, Tag &amp; shared F3-Overlay)</dd>
 									<dt>Umfang</dt><dd>56 Skripte (38 in <code>scripts/</code>), 10 Szenen, 10 Level-Dateien</dd>
 									<dt>Lokalisierung</dt><dd>91 Zeilen in <code>neon_breakout.csv</code> (+ <code>common.csv</code>)</dd>
@@ -1775,6 +1899,8 @@
 							<div>
 								<p class="details-subheading">Kennzahlen</p>
 								<dl class="meta-dl">
+									<dt>Plattformen</dt><dd>Web, Windows, Linux (kein Android)</dd>
+									<dt>Splash &amp; Start-Logo</dt><dd>Boot-Splash + interaktive <code>splash_screen.tscn</code>; Artwork ohne Logo-Schriftzug (Menü: Text-<code>Label</code>)</dd>
 									<dt>Letztes Update</dt><dd>23.11.2026 (Exit-Leak-Fix, <code>AudioService</code>/Space-Musik, <code>config/version</code>)</dd>
 									<dt>Umfang</dt><dd>31 Skripte (16 eigene), 11 Szenen, 15 OGG-SFX + Synth-Musik</dd>
 									<dt>Lokalisierung</dt><dd>65 Zeilen in <code>asteroid_drift.csv</code> (+ <code>common.csv</code>)</dd>
@@ -1878,6 +2004,8 @@
 							<div>
 								<p class="details-subheading">Kennzahlen</p>
 								<dl class="meta-dl">
+									<dt>Plattformen</dt><dd>Web, Windows, Linux (kein Android)</dd>
+									<dt>Splash &amp; Start-Logo</dt><dd>Boot-Splash (<code>assets/splash.png</code>, 1,2 s); 3D-Brett ohne Logo-Schriftzug (Menü: Text-<code>Label</code>)</dd>
 									<dt>Letztes Update</dt><dd>23.11.2026 (<code>AudioService</code>, Lounge-Musik, Cleanup, <code>F3</code>)</dd>
 									<dt>Umfang</dt><dd>22 Skripte (10 eigene), 5 Szenen</dd>
 									<dt>Lokalisierung</dt><dd>44 Zeilen in <code>vier_gewinnt.csv</code> (+ <code>common.csv</code>)</dd>
@@ -1981,6 +2109,8 @@
 							<div>
 								<p class="details-subheading">Kennzahlen</p>
 								<dl class="meta-dl">
+									<dt>Plattformen</dt><dd>Web, Windows, Linux (kein Android)</dd>
+									<dt>Splash &amp; Start-Logo</dt><dd>Boot-Splash (<code>assets/splash.png</code>, 1,2 s) mit Neon-Logo <em>„BLOCK STACK“</em>; im Hauptmenü Text-<code>Label</code></dd>
 									<dt>Letztes Update</dt><dd>23.11.2026 (Optionsmenü DAS/ARR, Farbblind-Symbole, Musik)</dd>
 									<dt>Umfang</dt><dd>31 Skripte (15 eigene), 4 Szenen, SVG-Tasten-Icons</dd>
 									<dt>Lokalisierung</dt><dd>83 Zeilen in <code>block_stack.csv</code> (+ <code>common.csv</code>)</dd>
@@ -2083,6 +2213,8 @@
 							<div>
 								<p class="details-subheading">Kennzahlen</p>
 								<dl class="meta-dl">
+									<dt>Plattformen</dt><dd>Web, Windows, Linux (kein Android)</dd>
+									<dt>Splash &amp; Start-Logo</dt><dd>Boot-Splash (<code>assets/splash.png</code>, 1,2 s) mit Comic-Logo <em>„LANE DEFENDERS“</em>; im Hauptmenü Text-<code>Label</code></dd>
 									<dt>Letztes Update</dt><dd>23.11.2026 (Exit-Leak-Fix, Meadow-Musik/Audio, Portal-Doku, <code>F3</code>)</dd>
 									<dt>Umfang</dt><dd>32 Skripte (18 eigene), 7 Szenen, 33 <code>.tres</code>-Datenressourcen</dd>
 									<dt>Lokalisierung</dt><dd>100 Zeilen in <code>lane_defenders.csv</code> (+ <code>common.csv</code>)</dd>
@@ -2187,6 +2319,8 @@
 							<div>
 								<p class="details-subheading">Kennzahlen</p>
 								<dl class="meta-dl">
+									<dt>Plattformen</dt><dd>Web, Windows, Linux (kein Android)</dd>
+									<dt>Splash &amp; Start-Logo</dt><dd>Boot-Splash (<code>assets/splash.png</code>, 1,2 s) mit Runen-Logo <em>„CRYPT DASH“</em>; im Hauptmenü Text-<code>Label</code></dd>
 									<dt>Letztes Update</dt><dd>23.11.2026 (<code>CryptAudio</code>, Crypt-Musik, 3 Startwaffen, Leak- &amp; Plan-Fix)</dd>
 									<dt>Umfang</dt><dd>41 Skripte (27 eigene), 4 Szenen</dd>
 									<dt>Lokalisierung</dt><dd>115 Zeilen in <code>crypt_dash.csv</code> (+ <code>common.csv</code>)</dd>
@@ -2291,6 +2425,8 @@
 							<div>
 								<p class="details-subheading">Kennzahlen</p>
 								<dl class="meta-dl">
+									<dt>Plattformen</dt><dd>Web, Windows, Linux (kein Android)</dd>
+									<dt>Splash &amp; Start-Logo</dt><dd><code>assets/splash.png</code> vorhanden (noch nicht als <code>boot_splash/image</code> gesetzt); Artwork ohne Schriftzug, im Menü Text-<code>Label</code></dd>
 									<dt>Letztes Update</dt><dd>23.11.2026 (Icon-XML-Fix, 3 Save-Slots, <code>PrismArrow</code>-Bogen, Audio, 0 Leaks)</dd>
 									<dt>Umfang</dt><dd>73 Skripte (51 eigene), 40 Szenen, 8 OGG-SFX + Musik</dd>
 									<dt>Lokalisierung</dt><dd>136 Zeilen in <code>lumaria.csv</code> (+ <code>common.csv</code>)</dd>
