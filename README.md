@@ -19,7 +19,7 @@ Pläne und Entscheidungen: [plans/](plans/00_README_Engine_und_Uebersicht.md)
 | [Asteroid Drift](asteroid_drift/README.md) | `v1.0.7` | Vollständig spielbar (10+ Wellen, Trägheitsphysik, Upgrades, UFOs, Minen), M0–M7 fertig | [▶ Spielen](https://chobitschii.github.io/games/asteroid_drift/) | [Release & Downloads](../../releases/tag/asteroid_drift-latest) |
 | [Crypt Dash](crypt_dash/README.md) | `v1.1.5` | Vollständig spielbar (Top-Down Roguelite, Prozedurale Krypta, 15 Relikte, Multi-Phasen Bosse), M0–M7 fertig | [▶ Spielen](https://chobitschii.github.io/games/crypt_dash/) | [Release & Downloads](../../releases/tag/crypt_dash-latest) |
 | [Neon Breakout](neon_breakout/README.md) | `v1.1.2` | Vollständig spielbar (10 Level, 6 Power-Ups, 7 Modi inkl. Bosskampf, Zeitangriff, Endlos, Chaos, Zen & Demo), M0–M8 fertig | [▶ Spielen](https://chobitschii.github.io/games/neon_breakout/) | [Release & Downloads](../../releases/tag/neon_breakout-latest) |
-| [Lumaria: The Prismatic Odyssey](lumaria/README.md) | `v1.0.2` | Vollständig spielbar (Zelda-artiges RPG, 3 Dungeons, 3 Gadgets, 4 Bosse, Finale im Turm des Ewigen Prismas), M0–M8 fertig | [▶ Spielen](https://chobitschii.github.io/games/lumaria/) | [Release & Downloads](../../releases/tag/lumaria-latest) |
+| [Lumaria: The Prismatic Odyssey](lumaria/README.md) | `v1.0.3` | Vollständig spielbar (Zelda-artiges RPG, 3 Dungeons, 3 Gadgets, 4 Bosse, Finale im Turm des Ewigen Prismas), M0–M8 fertig | [▶ Spielen](https://chobitschii.github.io/games/lumaria/) | [Release & Downloads](../../releases/tag/lumaria-latest) |
 
 ## Werkzeuge
 ```bash
