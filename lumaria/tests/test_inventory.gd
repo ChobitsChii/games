@@ -105,3 +105,18 @@ func test_serialization_roundtrip() -> void:
 	assert_eq(inv2.small_keys, 3, "Schlüssel wiederhergestellt")
 	assert_true(inv2.has_boss_key, "Bossschlüssel wiederhergestellt")
 	assert_eq(inv2.unlocked_gadgets.size(), 2, "Gadgets wiederhergestellt")
+
+
+func test_bow_gadget_unlock_equip_and_serialize() -> void:
+	var inv := InventoryModel.new()
+	assert_false(inv.has_gadget("bow"), "Bogen anfangs gesperrt")
+	inv.unlock_gadget("boomerang")
+	inv.unlock_gadget("bow")
+	assert_true(inv.has_gadget("bow"), "Bogen freigeschaltet")
+	assert_true(inv.equip_gadget(2, "bow"), "Bogen auf Slot 2 gelegt")
+	assert_eq(inv.slot_2_gadget, "bow", "Slot 2 enthält Prisma-Bogen")
+
+	var restored := InventoryModel.new()
+	restored.deserialize(inv.serialize())
+	assert_true(restored.has_gadget("bow"), "Bogen nach Serialisierung erhalten")
+	assert_eq(restored.slot_2_gadget, "bow", "Slot 2 nach Serialisierung erhalten")

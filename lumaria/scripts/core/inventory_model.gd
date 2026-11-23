@@ -83,6 +83,10 @@ func spend_lumen(amount: int) -> bool:
 	return false
 
 
+func has_gadget(gadget_id: String) -> bool:
+	return unlocked_gadgets.has(gadget_id)
+
+
 func unlock_gadget(gadget_id: String) -> void:
 	if not unlocked_gadgets.has(gadget_id):
 		unlocked_gadgets.append(gadget_id)

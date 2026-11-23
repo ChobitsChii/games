@@ -28,9 +28,12 @@ func _ready() -> void:
 	epilogue_text.text = tr("VICTORY_EPILOGUE_TEXT")
 	stats_header.text = tr("VICTORY_STATS")
 
+	var prisms_found: int = clampi(maxi(SaveSlotManager.runtime_prisms.size(), 1), 1, 4) if SaveSlotManager.runtime_inventory != null else 4
+	var lumen_total: int = SaveSlotManager.runtime_inventory.lumen if SaveSlotManager.runtime_inventory != null else 350
+
 	stat_time.text = tr("VICTORY_STAT_TIME") % "00:42:15"
-	stat_prisms.text = tr("VICTORY_STAT_PRISMS") % 4
-	stat_lumen.text = tr("VICTORY_STAT_LUMEN") % 350
+	stat_prisms.text = tr("VICTORY_STAT_PRISMS") % prisms_found
+	stat_lumen.text = tr("VICTORY_STAT_LUMEN") % lumen_total
 
 	continue_btn.text = tr("BTN_CONTINUE_EXPLORING")
 	menu_btn.text = tr("BTN_RETURN_MAIN_MENU")

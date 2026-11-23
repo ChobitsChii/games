@@ -1,8 +1,22 @@
-[gd_scene load_steps=2 format=3]
+[gd_scene load_steps=4 format=3]
 
 [ext_resource type="Script" path="res://scripts/ui/main_menu.gd" id="1_menu"]
 
 [ext_resource type="Texture2D" path="res://assets/main_menu_bg.png" id="2_bg"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_overlay"]
+bg_color = Color(0.06, 0.09, 0.16, 0.96)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.22, 0.84, 0.96, 0.8)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+shadow_color = Color(0, 0, 0, 0.65)
+shadow_size = 18
 
 [node name="MainMenu" type="Control"]
 layout_mode = 3
@@ -149,6 +163,7 @@ offset_right = 460.0
 offset_bottom = 340.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_overlay")
 
 [node name="Margin" type="MarginContainer" parent="HowToPlayOverlay"]
 layout_mode = 2
@@ -234,6 +249,7 @@ offset_right = 460.0
 offset_bottom = 300.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_overlay")
 
 [node name="Margin" type="MarginContainer" parent="CreditsOverlay"]
 layout_mode = 2
@@ -273,6 +289,112 @@ layout_mode = 2
 size_flags_vertical = 3
 
 [node name="CloseCreditsButton" type="Button" parent="CreditsOverlay/Margin/VBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(220, 50)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 24
+text = "BTN_CLOSE"
+
+[node name="SaveSlotsOverlay" type="PanelContainer" parent="."]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -480.0
+offset_top = -240.0
+offset_right = 480.0
+offset_bottom = 240.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_overlay")
+
+[node name="Margin" type="MarginContainer" parent="SaveSlotsOverlay"]
+layout_mode = 2
+theme_override_constants/margin_left = 32
+theme_override_constants/margin_top = 28
+theme_override_constants/margin_right = 32
+theme_override_constants/margin_bottom = 28
+
+[node name="VBox" type="VBoxContainer" parent="SaveSlotsOverlay/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Title" type="Label" parent="SaveSlotsOverlay/Margin/VBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 36
+text = "MENU_SLOTS_TITLE"
+horizontal_alignment = 1
+
+[node name="HSeparator" type="HSeparator" parent="SaveSlotsOverlay/Margin/VBox"]
+layout_mode = 2
+
+[node name="SlotRow1" type="HBoxContainer" parent="SaveSlotsOverlay/Margin/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Slot1Button" type="Button" parent="SaveSlotsOverlay/Margin/VBox/SlotRow1"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 60)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 22
+text = "MENU_SLOT_1"
+
+[node name="DeleteSlot1Button" type="Button" parent="SaveSlotsOverlay/Margin/VBox/SlotRow1"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(150, 60)
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "BTN_DELETE_SLOT"
+
+[node name="SlotRow2" type="HBoxContainer" parent="SaveSlotsOverlay/Margin/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Slot2Button" type="Button" parent="SaveSlotsOverlay/Margin/VBox/SlotRow2"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 60)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 22
+text = "MENU_SLOT_2"
+
+[node name="DeleteSlot2Button" type="Button" parent="SaveSlotsOverlay/Margin/VBox/SlotRow2"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(150, 60)
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "BTN_DELETE_SLOT"
+
+[node name="SlotRow3" type="HBoxContainer" parent="SaveSlotsOverlay/Margin/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Slot3Button" type="Button" parent="SaveSlotsOverlay/Margin/VBox/SlotRow3"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 60)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 22
+text = "MENU_SLOT_3"
+
+[node name="DeleteSlot3Button" type="Button" parent="SaveSlotsOverlay/Margin/VBox/SlotRow3"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(150, 60)
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "BTN_DELETE_SLOT"
+
+[node name="Spacer" type="Control" parent="SaveSlotsOverlay/Margin/VBox"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="CloseSlotsButton" type="Button" parent="SaveSlotsOverlay/Margin/VBox"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(220, 50)
 layout_mode = 2

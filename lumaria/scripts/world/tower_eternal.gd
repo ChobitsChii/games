@@ -12,6 +12,7 @@ signal victory_achieved()
 @export var autoplay: bool = false
 
 var trial_state: TowerTrialState
+var inventory: InventoryModel
 var _camera_trauma: float = 0.0
 
 @onready var player: Player = $Player
@@ -33,21 +34,21 @@ var _camera_trauma: float = 0.0
 
 
 func _ready() -> void:
-	trial_state = TowerTrialState.new()
+	trial_state = SaveSlotManager.get_or_init_tower()
+	inventory = SaveSlotManager.get_or_init_inventory(["boomerang", "bombs", "tether"])
 
 	if autoplay:
 		player.autoplay = true
 
-	# Alle 3 Gadgets im Turm zur Verfügung stellen
-	var inv := InventoryModel.new()
-	inv.unlock_gadget("boomerang")
-	inv.unlock_gadget("tether")
-	inv.unlock_gadget("bombs")
-	inv.equip_gadget(1, "boomerang")
-	inv.equip_gadget(2, "bombs")
-	hud.update_state(inv)
+	hud.update_state(inventory)
 	AudioManager.play_music("boss")
 	EventBus.room_transition_requested.emit("ROOM_TOWER_ETERNAL", "cathedral")
+
+	inventory_menu.closed.connect(_on_inventory_closed)
+	inventory.health_changed.connect(_on_inventory_health_changed)
+	inventory.lumen_changed.connect(_on_inventory_lumen_changed)
+	EventBus.lumen_collected.connect(_on_lumen_collected)
+	EventBus.vitality_collected.connect(_on_vitality_collected)
 
 	# 1. Multitool-Prüfungen verbinden
 	if switch_roots:
@@ -71,12 +72,7 @@ func _ready() -> void:
 		)
 
 	# 2. Apex-Pforte öffnet sich bei Abschluss aller 3 Prüfungen
-	trial_state.apex_unlocked.connect(func() -> void:
-		if apex_door:
-			apex_door.open_door()
-		EventBus.show_toast_requested.emit(tr("ROOM_TOWER_ETERNAL") + " - DIE APEX-PFORTE ÖFFNET SICH!")
-		AudioManager.play_sfx("parry", 1.2)
-	)
+	trial_state.apex_unlocked.connect(_on_apex_unlocked)
 
 	# 3. Boss Malakor & Phase 2 Barrieren-Orbs
 	if boss:
@@ -98,16 +94,66 @@ func _ready() -> void:
 			)
 
 	# 4. Ewiges Prisma eingesammelt -> Sieg und Epilog!
-	EventBus.prism_collected.connect(func(id: String) -> void:
-		if id == "eternal_prism":
-			tower_completed.emit()
-			victory_achieved.emit()
-			_trigger_victory_sequence()
-	)
+	EventBus.prism_collected.connect(_on_prism_collected)
 
 	player.camera_shake_requested.connect(func(amount: float) -> void:
 		_camera_trauma = clampf(_camera_trauma + amount, 0.0, 1.0)
 	)
+
+	SaveSlotManager.save_active_slot(scene_file_path)
+
+
+func _exit_tree() -> void:
+	if inventory != null:
+		if inventory.health_changed.is_connected(_on_inventory_health_changed):
+			inventory.health_changed.disconnect(_on_inventory_health_changed)
+		if inventory.lumen_changed.is_connected(_on_inventory_lumen_changed):
+			inventory.lumen_changed.disconnect(_on_inventory_lumen_changed)
+	if trial_state != null and trial_state.apex_unlocked.is_connected(_on_apex_unlocked):
+		trial_state.apex_unlocked.disconnect(_on_apex_unlocked)
+	if EventBus.lumen_collected.is_connected(_on_lumen_collected):
+		EventBus.lumen_collected.disconnect(_on_lumen_collected)
+	if EventBus.vitality_collected.is_connected(_on_vitality_collected):
+		EventBus.vitality_collected.disconnect(_on_vitality_collected)
+	if EventBus.prism_collected.is_connected(_on_prism_collected):
+		EventBus.prism_collected.disconnect(_on_prism_collected)
+
+
+func _on_inventory_health_changed(curr: int, max_hp: int) -> void:
+	EventBus.player_damaged.emit(curr, max_hp)
+
+
+func _on_inventory_lumen_changed(tot: int) -> void:
+	EventBus.lumen_changed.emit(tot, 0)
+
+
+func _on_lumen_collected(amount: int) -> void:
+	inventory.add_lumen(amount)
+
+
+func _on_vitality_collected(quarters: int) -> void:
+	inventory.heal(quarters)
+
+
+func _on_apex_unlocked() -> void:
+	if apex_door:
+		apex_door.open_door()
+	EventBus.show_toast_requested.emit(tr("ROOM_TOWER_ETERNAL") + " - DIE APEX-PFORTE ÖFFNET SICH!")
+	AudioManager.play_sfx("parry", 1.2)
+
+
+func _on_prism_collected(id: String) -> void:
+	if id == "eternal_prism":
+		SaveSlotManager.record_prism(id)
+		SaveSlotManager.save_active_slot(scene_file_path)
+		tower_completed.emit()
+		victory_achieved.emit()
+		_trigger_victory_sequence()
+
+
+func _on_inventory_closed() -> void:
+	hud.update_state(inventory)
+	SaveSlotManager.save_active_slot(scene_file_path)
 
 
 func _process(delta: float) -> void:
@@ -127,6 +173,7 @@ func _process(delta: float) -> void:
 func _on_boss_defeated() -> void:
 	trial_state.advance_malakor_phase()
 	EventBus.show_toast_requested.emit(tr("BOSS_MALAKOR_NAME") + " " + tr("VICTORY_DESC"))
+	SaveSlotManager.save_active_slot(scene_file_path)
 
 
 func _trigger_victory_sequence() -> void:
@@ -143,12 +190,6 @@ func _trigger_victory_sequence() -> void:
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("inventory"):
 		if not inventory_menu.visible:
-			var inv := InventoryModel.new()
-			inv.unlock_gadget("boomerang")
-			inv.unlock_gadget("tether")
-			inv.unlock_gadget("bombs")
-			inv.equip_gadget(1, "boomerang")
-			inv.equip_gadget(2, "bombs")
-			inventory_menu.open(inv)
+			inventory_menu.open(inventory)
 		else:
 			inventory_menu.close()

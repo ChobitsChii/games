@@ -2,7 +2,7 @@ class_name InventoryMenu
 extends CanvasLayer
 ## Vollständiges Inventar- und Ausrüstungs-Menü in Lumaria.
 ## Zeigt Vitalität, Lumen, Schlüssel, Quest-Ziele und erlaubt das
-## Zuweisen von Gadgets (Prisma-Bumerang, Fangseil, Bomben) auf Slot 1 & 2.
+## Zuweisen von Gadgets (Prisma-Bumerang, Fangseil, Bomben, Prisma-Bogen) auf Slot 1 & 2.
 
 signal closed()
 
@@ -33,6 +33,7 @@ func _ready() -> void:
 	_boomerang_btn.pressed.connect(func() -> void: _select_gadget("boomerang"))
 	_tether_btn.pressed.connect(func() -> void: _select_gadget("tether"))
 	_bombs_btn.pressed.connect(func() -> void: _select_gadget("bombs"))
+	_bow_btn.pressed.connect(func() -> void: _select_gadget("bow"))
 
 
 func open(inv: InventoryModel) -> void:
@@ -66,6 +67,7 @@ func _assign_selected_to_slot(slot: int) -> void:
 	if _inventory == null or _selected_gadget == "":
 		return
 	_inventory.equip_gadget(slot, _selected_gadget)
+	SaveSlotManager.save_active_slot()
 	AudioManager.play_sfx("parry", 1.3)
 	_refresh_display()
 
@@ -83,17 +85,18 @@ func _refresh_display() -> void:
 	_slot_2_btn.text = tr("HUD_SLOT_E") + ": " + (_get_gadget_name(_inventory.slot_2_gadget))
 
 	# Gesperrte Items
-	var has_tether := _inventory.unlocked_gadgets.has("tether")
+	var has_tether := _inventory.has_gadget("tether")
 	_tether_btn.disabled = not has_tether
 	_tether_btn.text = tr("ITEM_TETHER") if has_tether else (tr("ITEM_TETHER") + " (" + tr("INV_LOCKED") + ")")
-	var has_bombs := _inventory.unlocked_gadgets.has("bombs")
+	var has_bombs := _inventory.has_gadget("bombs")
 	_bombs_btn.disabled = not has_bombs
 	_bombs_btn.text = tr("ITEM_BOMBS") if has_bombs else (tr("ITEM_BOMBS") + " (" + tr("INV_LOCKED") + ")")
-	_bow_btn.disabled = true
-	_bow_btn.text = tr("ITEM_BOW") + " (" + tr("INV_LOCKED") + ")"
+	var has_bow := _inventory.has_gadget("bow")
+	_bow_btn.disabled = not has_bow
+	_bow_btn.text = tr("ITEM_BOW") if has_bow else (tr("ITEM_BOW") + " (" + tr("INV_LOCKED") + ")")
 
 	_boomerang_btn.text = tr("ITEM_BOOMERANG")
-	_boomerang_btn.disabled = not _inventory.unlocked_gadgets.has("boomerang")
+	_boomerang_btn.disabled = not _inventory.has_gadget("boomerang")
 
 	# Quest
 	_quest_title.text = tr("QUEST_MAIN_TITLE")

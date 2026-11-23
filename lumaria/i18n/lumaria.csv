@@ -128,4 +128,9 @@ BTN_RETURN_MAIN_MENU,Zum Hauptmenü,Return to Title
 PROMPT_SIGN_EAST,Wegweiser: Smaragdhain & Wurzel-Schrein →,Signpost: Emerald Grove & Shrine of Roots →
 PROMPT_SIGN_SOUTH,Wegweiser: Flüsternde Untiefen ↓,Signpost: Sunken Shallows ↓
 PROMPT_SIGN_NORTH,Wegweiser: Donnerplateau ↑,Signpost: Echoing Crags ↑
+MENU_SLOTS_TITLE,Spielstand wählen,Choose Save Slot
+MENU_SLOT_EMPTY,%s — Leer (Neues Abenteuer),%s — Empty (New Adventure)
+MENU_SLOT_USED,%s — %d/4 Prismen · %d Lumen · %d Gadgets,%s — %d/4 Prisms · %d Lumen · %d Gadgets
+BTN_DELETE_SLOT,Löschen,Delete
+MSG_BOW_UNLOCKED,Prisma-Bogen von Lyra erhalten! Im Inventar [Tab/I] ausrüsten.,Prism Bow received from Lyra! Equip it in Inventory [Tab/I].
 

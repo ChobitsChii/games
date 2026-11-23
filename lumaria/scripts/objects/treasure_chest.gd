@@ -95,7 +95,18 @@ func open_chest() -> void:
 			d_state.open_chest(chest_id, item_type)
 
 	_grant_rewards()
+	SaveSlotManager.save_active_slot()
 	opened.emit(chest_id, item_type)
+
+
+func _unlock_player_gadget(gadget_id: String) -> void:
+	var inv: InventoryModel = SaveSlotManager.runtime_inventory
+	if inv == null and is_inside_tree():
+		var players := get_tree().get_nodes_in_group("player")
+		if players.size() > 0 and players[0].get_parent() != null and players[0].get_parent().get("inventory") is InventoryModel:
+			inv = players[0].get_parent().get("inventory") as InventoryModel
+	if inv != null:
+		inv.unlock_gadget(gadget_id)
 
 
 func _grant_rewards() -> void:
@@ -108,30 +119,26 @@ func _grant_rewards() -> void:
 			EventBus.key_count_changed.emit(1, true)
 		"sun_prism":
 			EventBus.show_toast_requested.emit(tr("MSG_FOUND_SUN_PRISM"))
+			SaveSlotManager.record_prism("sun_prism")
 			EventBus.prism_collected.emit("sun_prism")
 		"tide_prism":
 			EventBus.show_toast_requested.emit(tr("MSG_FOUND_TIDE_PRISM"))
+			SaveSlotManager.record_prism("tide_prism")
 			EventBus.prism_collected.emit("tide_prism")
 		"storm_prism":
 			EventBus.show_toast_requested.emit(tr("MSG_FOUND_STORM_PRISM"))
+			SaveSlotManager.record_prism("storm_prism")
 			EventBus.prism_collected.emit("storm_prism")
 		"eternal_prism":
 			EventBus.show_toast_requested.emit(tr("MSG_FOUND_ETERNAL_PRISM"))
+			SaveSlotManager.record_prism("eternal_prism")
 			EventBus.prism_collected.emit("eternal_prism")
 		"tether":
 			EventBus.show_toast_requested.emit(tr("MSG_FOUND_TETHER"))
-			# Gadget freischalten
-			if is_inside_tree():
-				var players := get_tree().get_nodes_in_group("player")
-				if players.size() > 0 and players[0].get_parent() != null and players[0].get_parent().get("inventory") != null:
-					players[0].get_parent().inventory.unlock_gadget("tether")
+			_unlock_player_gadget("tether")
 		"bombs":
 			EventBus.show_toast_requested.emit(tr("MSG_FOUND_BOMBS"))
-			# Gadget freischalten
-			if is_inside_tree():
-				var players := get_tree().get_nodes_in_group("player")
-				if players.size() > 0 and players[0].get_parent() != null and players[0].get_parent().get("inventory") != null:
-					players[0].get_parent().inventory.unlock_gadget("bombs")
+			_unlock_player_gadget("bombs")
 		"vitality_shard":
 			EventBus.vitality_collected.emit(4)
 		"lumen_50":

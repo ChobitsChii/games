@@ -78,6 +78,9 @@ func _ready() -> void:
 
 
 func _physics_process(delta: float) -> void:
+	if _bow_cooldown > 0.0:
+		_bow_cooldown = maxf(0.0, _bow_cooldown - delta)
+
 	if is_input_locked:
 		velocity = Vector2.ZERO
 		current_state = State.IDLE
@@ -228,27 +231,47 @@ func _process_combat_inputs(delta: float) -> void:
 const BOOMERANG_SCENE: PackedScene = preload("res://scenes/objects/prismatic_boomerang.tscn")
 const TETHER_SCENE: PackedScene = preload("res://scenes/objects/kinetic_tether.tscn")
 const BOMB_SCENE: PackedScene = preload("res://scenes/objects/sonic_bomb.tscn")
+const PRISM_ARROW_SCENE: PackedScene = preload("res://scenes/objects/prism_arrow.tscn")
+const BOW_COOLDOWN := 0.28
 var active_boomerang: PrismaticBoomerang = null
 var active_tether: KineticTether = null
 var _tether_target_pos: Vector2 = Vector2.ZERO
+var _bow_cooldown: float = 0.0
 
 
 func use_gadget(slot: int) -> void:
 	var gadget_id: String = ""
-	if get_parent() is Game:
-		var g: Game = get_parent() as Game
-		gadget_id = g.inventory.slot_1_gadget if slot == 1 else g.inventory.slot_2_gadget
-	elif get_parent().has_node("HUD"):
-		gadget_id = "tether" if slot == 2 else "boomerang"
+	var active_inv: InventoryModel = SaveSlotManager.runtime_inventory
+	if active_inv == null and get_parent() != null and get_parent().get("inventory") is InventoryModel:
+		active_inv = get_parent().get("inventory") as InventoryModel
+	if active_inv != null:
+		gadget_id = active_inv.slot_1_gadget if slot == 1 else active_inv.slot_2_gadget
 	else:
 		gadget_id = "tether" if slot == 2 else "boomerang"
 
-	if gadget_id == "boomerang":
-		throw_boomerang()
-	elif gadget_id == "tether":
-		fire_tether()
-	elif gadget_id == "bombs":
-		place_bomb()
+	match gadget_id:
+		"boomerang":
+			throw_boomerang()
+		"tether":
+			fire_tether()
+		"bombs":
+			place_bomb()
+		"bow":
+			shoot_arrow()
+
+
+func shoot_arrow() -> void:
+	if _bow_cooldown > 0.0 or get_parent() == null:
+		return
+	_bow_cooldown = BOW_COOLDOWN
+	var arrow := PRISM_ARROW_SCENE.instantiate() as PrismArrow
+	get_parent().add_child(arrow)
+	arrow.launch(self, facing_direction)
+	AudioManager.play_sfx("slash", 1.45)
+	var recoil := -facing_direction * 6.0
+	var tween := create_tween()
+	tween.tween_property(_visuals, "position", Vector2(recoil.x, -52.0 + recoil.y), 0.06)
+	tween.tween_property(_visuals, "position", Vector2(0, -52.0), 0.1)
 
 
 func place_bomb() -> void:

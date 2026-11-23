@@ -23,8 +23,8 @@ var _trauma: float = 0.0
 
 
 func _ready() -> void:
-	inventory = InventoryModel.new()
-	quest_manager = QuestManager.new()
+	inventory = SaveSlotManager.get_or_init_inventory(["boomerang"])
+	quest_manager = SaveSlotManager.get_or_init_quests()
 
 	# Spielerposition gemäß Eintrittspunkt setzen
 	match spawn_entry_point:
@@ -46,10 +46,6 @@ func _ready() -> void:
 		camera.position = player.position
 		camera.reset_smoothing()
 
-	# Erstes Gadget: Prisma-Bumerang freischalten und ausrüsten
-	inventory.unlock_gadget("boomerang")
-	inventory.equip_gadget(1, "boomerang")
-
 	if autoplay:
 		player.autoplay = true
 
@@ -59,37 +55,76 @@ func _ready() -> void:
 
 	resume_btn.pressed.connect(_toggle_pause.bind(false))
 	quit_btn.pressed.connect(_on_quit_to_menu)
-	inventory_menu.closed.connect(func() -> void: hud.update_state(inventory))
+	inventory_menu.closed.connect(_on_inventory_closed)
 
 	# Inventar-Events
-	inventory.health_changed.connect(func(curr: int, max_hp: int) -> void:
-		EventBus.player_damaged.emit(curr, max_hp)
-	)
-	inventory.lumen_changed.connect(func(tot: int) -> void:
-		EventBus.lumen_changed.emit(tot, 0)
-	)
+	inventory.health_changed.connect(_on_inventory_health_changed)
+	inventory.lumen_changed.connect(_on_inventory_lumen_changed)
 
 	# Sammelbare Objekte
-	EventBus.lumen_collected.connect(func(amount: int) -> void:
-		inventory.add_lumen(amount)
-	)
-	EventBus.vitality_collected.connect(func(quarters: int) -> void:
-		inventory.heal(quarters)
-	)
+	EventBus.lumen_collected.connect(_on_lumen_collected)
+	EventBus.vitality_collected.connect(_on_vitality_collected)
 
 	# Dialoge & Interaktion
-	EventBus.interaction_requested.connect(func(target: Node2D) -> void:
-		if target is NPCBase:
-			dialogue_box.start_dialogue(target.npc_id)
-	)
-	dialogue_box.dialogue_finished.connect(func(npc_id: String) -> void:
-		if npc_id == "morwen":
-			hud.show_toast(tr("QUEST_MAIN_TITLE"))
-	)
+	EventBus.interaction_requested.connect(_on_interaction_requested)
+	dialogue_box.dialogue_finished.connect(_on_dialogue_finished)
 
 	# Kamera-Trauma / Screen Shake
 	if player:
 		player.camera_shake_requested.connect(add_trauma)
+
+	SaveSlotManager.save_active_slot(scene_file_path)
+
+
+func _exit_tree() -> void:
+	if inventory != null:
+		if inventory.health_changed.is_connected(_on_inventory_health_changed):
+			inventory.health_changed.disconnect(_on_inventory_health_changed)
+		if inventory.lumen_changed.is_connected(_on_inventory_lumen_changed):
+			inventory.lumen_changed.disconnect(_on_inventory_lumen_changed)
+	if EventBus.lumen_collected.is_connected(_on_lumen_collected):
+		EventBus.lumen_collected.disconnect(_on_lumen_collected)
+	if EventBus.vitality_collected.is_connected(_on_vitality_collected):
+		EventBus.vitality_collected.disconnect(_on_vitality_collected)
+	if EventBus.interaction_requested.is_connected(_on_interaction_requested):
+		EventBus.interaction_requested.disconnect(_on_interaction_requested)
+
+
+func _on_inventory_health_changed(curr: int, max_hp: int) -> void:
+	EventBus.player_damaged.emit(curr, max_hp)
+
+
+func _on_inventory_lumen_changed(tot: int) -> void:
+	EventBus.lumen_changed.emit(tot, 0)
+
+
+func _on_lumen_collected(amount: int) -> void:
+	inventory.add_lumen(amount)
+
+
+func _on_vitality_collected(quarters: int) -> void:
+	inventory.heal(quarters)
+
+
+func _on_interaction_requested(target: Node2D) -> void:
+	if target is NPCBase:
+		dialogue_box.start_dialogue(target.npc_id)
+
+
+func _on_dialogue_finished(npc_id: String) -> void:
+	if npc_id == "morwen":
+		hud.show_toast(tr("QUEST_MAIN_TITLE"))
+	elif npc_id == "lyra" and inventory != null and not inventory.has_gadget("bow"):
+		inventory.unlock_gadget("bow")
+		hud.update_state(inventory)
+		hud.show_toast(tr("MSG_BOW_UNLOCKED"))
+		AudioManager.play_sfx("parry", 1.35)
+		SaveSlotManager.save_active_slot(scene_file_path)
+
+
+func _on_inventory_closed() -> void:
+	hud.update_state(inventory)
+	SaveSlotManager.save_active_slot(scene_file_path)
 
 
 func _process(delta: float) -> void:
@@ -129,5 +164,6 @@ func _toggle_pause(should_pause: bool) -> void:
 
 
 func _on_quit_to_menu() -> void:
+	SaveSlotManager.save_active_slot(scene_file_path)
 	get_tree().paused = false
 	get_tree().change_scene_to_file("res://scenes/main_menu.tscn")

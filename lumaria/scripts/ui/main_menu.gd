@@ -15,21 +15,31 @@ extends Control
 @onready var _close_how_button: Button = %CloseHowButton
 @onready var _credits_overlay: Control = %CreditsOverlay
 @onready var _close_credits_button: Button = %CloseCreditsButton
+@onready var _save_slots_overlay: Control = %SaveSlotsOverlay
+@onready var _close_slots_button: Button = %CloseSlotsButton
+@onready var _slot_buttons: Array[Button] = [%Slot1Button, %Slot2Button, %Slot3Button]
+@onready var _delete_slot_buttons: Array[Button] = [%DeleteSlot1Button, %DeleteSlot2Button, %DeleteSlot3Button]
 
 
 func _ready() -> void:
 	AudioManager.play_music("village")
-	_play_button.pressed.connect(_on_play_pressed)
+	_play_button.pressed.connect(_toggle_save_slots.bind(true))
 	_how_to_play_button.pressed.connect(_toggle_how_to_play.bind(true))
 	_close_how_button.pressed.connect(_toggle_how_to_play.bind(false))
 	_credits_button.pressed.connect(_toggle_credits.bind(true))
 	_close_credits_button.pressed.connect(_toggle_credits.bind(false))
+	_close_slots_button.pressed.connect(_toggle_save_slots.bind(false))
+
+	for i in range(SaveSlotManager.SLOT_COUNT):
+		var slot: int = i + 1
+		_slot_buttons[i].pressed.connect(_on_slot_selected.bind(slot))
+		_delete_slot_buttons[i].pressed.connect(_on_slot_delete.bind(slot))
 
 	_language_button.pressed.connect(LocaleService.cycle_language)
 	_display_button.pressed.connect(DisplayService.cycle_mode)
 	_music_button.pressed.connect(_on_music_pressed)
 	_sfx_button.pressed.connect(_on_sfx_pressed)
-	_quit_button.pressed.connect(get_tree().quit)
+	_quit_button.pressed.connect(_on_quit_pressed)
 	_quit_button.visible = not OS.has_feature("web")
 
 	LocaleService.language_changed.connect(func(_code: String) -> void: _refresh())
@@ -44,6 +54,25 @@ func _refresh() -> void:
 	_display_button.text = "%s: %s" % [tr("COMMON_DISPLAY_MODE"), tr(DisplayService.get_mode_key())]
 	_music_button.text = AudioService.format_volume_label("COMMON_VOLUME_MUSIC", "Music")
 	_sfx_button.text = AudioService.format_volume_label("COMMON_VOLUME_SFX", "Sfx")
+	_refresh_save_slots()
+
+
+func _refresh_save_slots() -> void:
+	for i in range(SaveSlotManager.SLOT_COUNT):
+		var slot: int = i + 1
+		var slot_name: String = tr("MENU_SLOT_%d" % slot)
+		var summary: Dictionary = SaveSlotManager.get_slot_summary(slot)
+		if bool(summary.get("exists", false)):
+			_slot_buttons[i].text = tr("MENU_SLOT_USED") % [
+				slot_name,
+				int(summary.get("prisms_count", 0)),
+				int(summary.get("lumen", 0)),
+				int(summary.get("gadgets_count", 0)),
+			]
+			_delete_slot_buttons[i].disabled = false
+		else:
+			_slot_buttons[i].text = tr("MENU_SLOT_EMPTY") % [slot_name]
+			_delete_slot_buttons[i].disabled = true
 
 
 func _on_music_pressed() -> void:
@@ -57,8 +86,34 @@ func _on_sfx_pressed() -> void:
 	_refresh()
 
 
-func _on_play_pressed() -> void:
-	get_tree().change_scene_to_file("res://scenes/game.tscn")
+func _toggle_save_slots(open: bool) -> void:
+	_save_slots_overlay.visible = open
+	if open:
+		_refresh_save_slots()
+		_slot_buttons[0].grab_focus()
+	else:
+		_play_button.grab_focus()
+
+
+func _on_slot_selected(slot: int) -> void:
+	AudioManager.play_sfx("parry", 1.2)
+	if SaveSlotManager.has_slot(slot):
+		SaveSlotManager.load_slot(slot)
+		get_tree().change_scene_to_file(SaveSlotManager.current_scene_path)
+	else:
+		SaveSlotManager.start_new_slot(slot)
+		get_tree().change_scene_to_file(SaveSlotManager.DEFAULT_SCENE)
+
+
+func _on_slot_delete(slot: int) -> void:
+	SaveSlotManager.delete_slot(slot)
+	AudioManager.play_sfx("hit", 1.1)
+	_refresh_save_slots()
+
+
+func _on_quit_pressed() -> void:
+	SaveSlotManager.reset_runtime()
+	get_tree().quit()
 
 
 func _toggle_how_to_play(open: bool) -> void:

@@ -20,11 +20,7 @@ var _camera_trauma: float = 0.0
 
 
 func _ready() -> void:
-	inventory = InventoryModel.new()
-	inventory.unlock_gadget("boomerang")
-	inventory.unlock_gadget("tether")
-	inventory.equip_gadget(1, "boomerang")
-	inventory.equip_gadget(2, "tether")
+	inventory = SaveSlotManager.get_or_init_inventory(["boomerang", "tether"])
 
 	if autoplay:
 		player.autoplay = true
@@ -33,18 +29,51 @@ func _ready() -> void:
 	AudioManager.play_music("dungeon")
 	EventBus.room_transition_requested.emit("ROOM_PLATEAU", "peaks")
 
-	inventory_menu.closed.connect(func() -> void: hud.update_state(inventory))
+	inventory_menu.closed.connect(_on_inventory_closed)
+	inventory.health_changed.connect(_on_inventory_health_changed)
+	inventory.lumen_changed.connect(_on_inventory_lumen_changed)
 
 	player.camera_shake_requested.connect(func(amount: float) -> void:
 		_camera_trauma = clampf(_camera_trauma + amount, 0.0, 1.0)
 	)
 
-	EventBus.lumen_collected.connect(func(amount: int) -> void:
-		inventory.add_lumen(amount)
-	)
-	EventBus.vitality_collected.connect(func(quarters: int) -> void:
-		inventory.heal(quarters)
-	)
+	EventBus.lumen_collected.connect(_on_lumen_collected)
+	EventBus.vitality_collected.connect(_on_vitality_collected)
+
+	SaveSlotManager.save_active_slot(scene_file_path)
+
+
+func _exit_tree() -> void:
+	if inventory != null:
+		if inventory.health_changed.is_connected(_on_inventory_health_changed):
+			inventory.health_changed.disconnect(_on_inventory_health_changed)
+		if inventory.lumen_changed.is_connected(_on_inventory_lumen_changed):
+			inventory.lumen_changed.disconnect(_on_inventory_lumen_changed)
+	if EventBus.lumen_collected.is_connected(_on_lumen_collected):
+		EventBus.lumen_collected.disconnect(_on_lumen_collected)
+	if EventBus.vitality_collected.is_connected(_on_vitality_collected):
+		EventBus.vitality_collected.disconnect(_on_vitality_collected)
+
+
+func _on_inventory_health_changed(curr: int, max_hp: int) -> void:
+	EventBus.player_damaged.emit(curr, max_hp)
+
+
+func _on_inventory_lumen_changed(tot: int) -> void:
+	EventBus.lumen_changed.emit(tot, 0)
+
+
+func _on_lumen_collected(amount: int) -> void:
+	inventory.add_lumen(amount)
+
+
+func _on_vitality_collected(quarters: int) -> void:
+	inventory.heal(quarters)
+
+
+func _on_inventory_closed() -> void:
+	hud.update_state(inventory)
+	SaveSlotManager.save_active_slot(scene_file_path)
 
 
 func _process(delta: float) -> void:

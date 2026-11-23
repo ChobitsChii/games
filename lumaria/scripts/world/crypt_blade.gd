@@ -11,6 +11,7 @@ signal exit_to_overworld()
 @export var autoplay: bool = false
 
 var dungeon_state: DungeonState
+var inventory: InventoryModel
 var _camera_trauma: float = 0.0
 
 @onready var player: Player = $Player
@@ -26,20 +27,22 @@ var _camera_trauma: float = 0.0
 
 
 func _ready() -> void:
-	dungeon_state = DungeonState.new("crypt_blade")
+	dungeon_state = SaveSlotManager.get_or_init_dungeon("crypt_blade")
+	inventory = SaveSlotManager.get_or_init_inventory(["boomerang", "tether"])
+	inventory.small_keys = dungeon_state.get_available_keys()
 
 	if autoplay:
 		player.autoplay = true
 
-	# Fangseil und Bumerang freischalten/ausrüsten
-	var inv := InventoryModel.new()
-	inv.unlock_gadget("boomerang")
-	inv.unlock_gadget("tether")
-	inv.equip_gadget(1, "boomerang")
-	inv.equip_gadget(2, "tether")
-	hud.update_state(inv)
+	hud.update_state(inventory)
 	AudioManager.play_music("dungeon")
 	EventBus.room_transition_requested.emit("ROOM_CRYPT_BLADE", "entrance")
+
+	inventory_menu.closed.connect(_on_inventory_closed)
+	inventory.health_changed.connect(_on_inventory_health_changed)
+	inventory.lumen_changed.connect(_on_inventory_lumen_changed)
+	EventBus.lumen_collected.connect(_on_lumen_collected)
+	EventBus.vitality_collected.connect(_on_vitality_collected)
 
 	# Schalterrätsel über der Schlucht
 	if chasm_switch and chasm_door:
@@ -53,15 +56,57 @@ func _ready() -> void:
 	if boss:
 		boss.boss_defeated_signal.connect(_on_boss_defeated)
 
-	EventBus.prism_collected.connect(func(id: String) -> void:
-		if id == "tide_prism":
-			dungeon_state.collect_prism()
-			dungeon_completed.emit()
-	)
+	EventBus.prism_collected.connect(_on_prism_collected)
 
 	player.camera_shake_requested.connect(func(amount: float) -> void:
 		_camera_trauma = clampf(_camera_trauma + amount, 0.0, 1.0)
 	)
+
+	SaveSlotManager.save_active_slot(scene_file_path)
+
+
+func _exit_tree() -> void:
+	if inventory != null:
+		if inventory.health_changed.is_connected(_on_inventory_health_changed):
+			inventory.health_changed.disconnect(_on_inventory_health_changed)
+		if inventory.lumen_changed.is_connected(_on_inventory_lumen_changed):
+			inventory.lumen_changed.disconnect(_on_inventory_lumen_changed)
+	if EventBus.lumen_collected.is_connected(_on_lumen_collected):
+		EventBus.lumen_collected.disconnect(_on_lumen_collected)
+	if EventBus.vitality_collected.is_connected(_on_vitality_collected):
+		EventBus.vitality_collected.disconnect(_on_vitality_collected)
+	if EventBus.prism_collected.is_connected(_on_prism_collected):
+		EventBus.prism_collected.disconnect(_on_prism_collected)
+
+
+func _on_inventory_health_changed(curr: int, max_hp: int) -> void:
+	EventBus.player_damaged.emit(curr, max_hp)
+
+
+func _on_inventory_lumen_changed(tot: int) -> void:
+	EventBus.lumen_changed.emit(tot, 0)
+
+
+func _on_lumen_collected(amount: int) -> void:
+	inventory.add_lumen(amount)
+
+
+func _on_vitality_collected(quarters: int) -> void:
+	inventory.heal(quarters)
+
+
+func _on_prism_collected(id: String) -> void:
+	if id == "tide_prism":
+		dungeon_state.collect_prism()
+		SaveSlotManager.record_prism(id)
+		SaveSlotManager.save_active_slot(scene_file_path)
+		dungeon_completed.emit()
+
+
+func _on_inventory_closed() -> void:
+	inventory.small_keys = dungeon_state.get_available_keys()
+	hud.update_state(inventory)
+	SaveSlotManager.save_active_slot(scene_file_path)
 
 
 func _process(delta: float) -> void:
@@ -81,17 +126,13 @@ func _process(delta: float) -> void:
 func _on_boss_defeated() -> void:
 	dungeon_state.defeat_boss()
 	EventBus.show_toast_requested.emit(tr("BOSS_CARAPAX_NAME") + " " + tr("VICTORY_DESC"))
+	SaveSlotManager.save_active_slot(scene_file_path)
 
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("inventory"):
 		if not inventory_menu.visible:
-			var inv := InventoryModel.new()
-			inv.small_keys = dungeon_state.get_available_keys()
-			inv.unlock_gadget("boomerang")
-			inv.unlock_gadget("tether")
-			inv.equip_gadget(1, "boomerang")
-			inv.equip_gadget(2, "tether")
-			inventory_menu.open(inv)
+			inventory.small_keys = dungeon_state.get_available_keys()
+			inventory_menu.open(inventory)
 		else:
 			inventory_menu.close()

@@ -60,3 +60,23 @@ func complete_quest(quest_id: String) -> void:
 
 func is_quest_completed(quest_id: String) -> bool:
 	return get_quest_state(quest_id) == QuestState.COMPLETED
+
+
+func serialize() -> Dictionary:
+	return _quests.duplicate(true)
+
+
+func deserialize(data: Dictionary) -> void:
+	if data.is_empty():
+		return
+	_quests.clear()
+	for q_id in data:
+		var entry: Variant = data[q_id]
+		if entry is Dictionary:
+			var d := entry as Dictionary
+			_quests[str(q_id)] = {
+				"title_key": str(d.get("title_key", "")),
+				"desc_key": str(d.get("desc_key", "")),
+				"state": int(d.get("state", QuestState.UNSTARTED)),
+				"step": int(d.get("step", 0)),
+			}

@@ -70,6 +70,10 @@ func _physics_process(_delta: float) -> void:
 		_game.inventory_menu.open(_game.inventory)
 	elif _frames == 270 and _game.inventory_menu and _game.inventory_menu.visible:
 		_game.inventory_menu.close()
+	elif _frames == 290 and _game.player and _game.inventory:
+		_game.inventory.unlock_gadget("bow")
+		_game.inventory.equip_gadget(2, "bow")
+		_game.player.use_gadget(2)
 
 	if _frames >= PHYSICS_FRAMES:
 		if _game.player != null and is_instance_valid(_game.player):
@@ -94,6 +98,7 @@ func _finish(error: String) -> void:
 		]
 	AudioManager.stop_all()
 	AudioService.stop_all()
+	SaveSlotManager.reset_runtime()
 	if _game and is_instance_valid(_game):
 		_game.queue_free()
 	await get_tree().process_frame

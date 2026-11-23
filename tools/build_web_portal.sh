@@ -724,11 +724,11 @@ cat << 'EOF' > "$TARGET_DIR/index.html"
 					</div>
 				</div>
 				<div class="card-body">
-					<p class="card-desc">Modernes Zelda-artiges Top-Down-Action-Adventure in nativer HD-Auflösung ohne Pixel-Art. Erkunde Lumaria, meistere 3 Gadgets und besiege den Rissfürsten Malakor.</p>
+					<p class="card-desc">Modernes Zelda-artiges Top-Down-Action-Adventure in nativer HD-Auflösung ohne Pixel-Art. Erkunde Lumaria, meistere 4 Gadgets, speichere in 3 Slots und besiege den Rissfürsten Malakor.</p>
 					<ul class="features-list">
-						<li>3 thematische Dungeons & 4 epische Multi-Phasen-Bosse</li>
-						<li>3 Gadgets: Bumerang, Kinetisches Fangseil & Schall-Bomben</li>
-						<li>Schwertkombos, 360°-Wirbelattacke, Schild-Block & Timing-Parry</li>
+						<li>3 thematische Dungeons, Turm-Showdown &amp; 4 Multi-Phasen-Bosse</li>
+						<li>4 Gadgets: Bumerang, Fangseil, Schall-Bomben &amp; Prisma-Bogen</li>
+						<li>3-Slot-Speichersystem, Schwertkombos, Schild-Block &amp; Timing-Parry</li>
 					</ul>
 				</div>
 				<div class="card-footer">
