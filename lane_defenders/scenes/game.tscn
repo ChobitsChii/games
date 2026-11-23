@@ -1,7 +1,7 @@
 [gd_scene format=3]
 
 [ext_resource type="Script" path="res://scripts/game.gd" id="1_game"]
-[ext_resource type="Texture2D" path="res://assets/battlefield.png" id="2_bg"]
+[ext_resource type="Texture2D" path="res://assets/battlefield_world_1.png" id="2_bg"]
 [ext_resource type="PackedScene" path="res://scenes/hud.tscn" id="3_hud"]
 [ext_resource type="Script" path="res://scripts/audio/sound_effects.gd" id="4_sfx"]
 

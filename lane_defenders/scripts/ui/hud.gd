@@ -159,10 +159,18 @@ func _on_save_screenshot_pressed() -> void:
 	_win_screenshot_button.disabled = true
 	_victory_overlay.visible = false
 	await get_tree().process_frame
+	if not is_inside_tree():
+		return
 	await RenderingServer.frame_post_draw
-	var img: Image = get_viewport().get_texture().get_image()
+	if not is_inside_tree():
+		return
+	var vp := get_viewport()
+	var tex := vp.get_texture() if vp != null else null
+	var img: Image = tex.get_image() if tex != null else null
 	_victory_overlay.visible = true
 	_win_screenshot_button.disabled = false
+	if img == null:
+		return
 
 	var dir_path := "user://screenshots"
 	DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path(dir_path))

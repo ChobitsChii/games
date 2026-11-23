@@ -32,6 +32,8 @@ var _shake_amount: float = 0.0
 @onready var _ghost_layer: Node2D = $GhostLayer
 
 var _ghost_sprite: Sprite2D
+var _ghost_tex_path: String = ""
+var _ghost_target_size: float = 0.0
 
 
 func _ready() -> void:
@@ -41,7 +43,10 @@ func _ready() -> void:
 			seed_val = int(arg.trim_prefix("--seed="))
 	print("Lane Defenders – Seed: %d" % seed_val)
 
-	var level_id: String = SaveService.get_value("session", "selected_level", "1-1")
+	var raw_level_id: Variant = SaveService.get_value("session", "selected_level", "1-1")
+	var level_id: String = str(raw_level_id).strip_edges() if raw_level_id != null else "1-1"
+	if level_id == "":
+		level_id = "1-1"
 	var level_path := "res://data/levels/level_%s.tres" % level_id.replace("-", "_")
 	if ResourceLoader.exists(level_path):
 		current_level = load(level_path)
@@ -50,11 +55,12 @@ func _ready() -> void:
 
 	model = GameModel.new(current_level, seed_val)
 	_setup_model_callbacks()
-	AudioService.play_music_theme("meadow")
+	_start_music.call_deferred()
 
-	var bg_path := "res://assets/battlefield_world_%d.png" % current_level.world
-	if ResourceLoader.exists(bg_path):
-		$Background.texture = load(bg_path)
+	if current_level.world != 1:
+		var bg_path := "res://assets/battlefield_world_%d.png" % current_level.world
+		if ResourceLoader.exists(bg_path):
+			$Background.texture = load(bg_path)
 
 	_ghost_sprite = Sprite2D.new()
 	_ghost_sprite.visible = false
@@ -80,10 +86,20 @@ func _ready() -> void:
 	hud.main_menu_requested.connect(_go_to_menu)
 
 	if current_level.is_tutorial and not autoplay:
-		hud.show_tutorial_step("TUTORIAL_STEP_1")
+		_show_initial_tutorial.call_deferred()
 
 	# Board Layer Redraw verbinden
 	_board_draw.draw.connect(_draw_board)
+
+
+func _start_music() -> void:
+	if is_inside_tree():
+		AudioService.play_music_theme("meadow")
+
+
+func _show_initial_tutorial() -> void:
+	if is_inside_tree() and hud != null and current_level != null and current_level.is_tutorial and not autoplay:
+		hud.show_tutorial_step("TUTORIAL_STEP_1")
 
 
 func _setup_model_callbacks() -> void:
@@ -195,6 +211,8 @@ func _setup_model_callbacks() -> void:
 
 
 func _process(delta: float) -> void:
+	if not is_inside_tree() or model == null:
+		return
 	if _shake_amount > 0.0:
 		_shake_amount = maxf(0.0, _shake_amount - delta * 30.0)
 		position = Vector2(randf_range(-_shake_amount, _shake_amount), randf_range(-_shake_amount, _shake_amount))
@@ -213,15 +231,28 @@ func _process(delta: float) -> void:
 	_update_ghost_view(mpos)
 
 
+func _set_ghost_texture(tex_path: String, target_size: float) -> void:
+	if _ghost_tex_path == tex_path and is_equal_approx(_ghost_target_size, target_size):
+		return
+	_ghost_tex_path = tex_path
+	_ghost_target_size = target_size
+	if ResourceLoader.exists(tex_path):
+		var tex: Texture2D = load(tex_path)
+		_ghost_sprite.texture = tex
+		if tex != null:
+			var max_dim := maxf(float(tex.get_width()), float(tex.get_height()))
+			if max_dim > 0.0:
+				var s := target_size / max_dim
+				_ghost_sprite.scale = Vector2(s, s)
+	else:
+		_ghost_sprite.texture = null
+
+
 func _update_ghost_view(mpos: Vector2) -> void:
 	if selected_unit_data != null:
 		var tex_path := "res://assets/units/%s.png" % selected_unit_data.id
-		if ResourceLoader.exists(tex_path):
-			_ghost_sprite.texture = load(tex_path)
-			var max_dim := maxf(float(_ghost_sprite.texture.get_width()), float(_ghost_sprite.texture.get_height()))
-			var s := 105.0 / max_dim
-			_ghost_sprite.scale = Vector2(s, s)
-		_ghost_sprite.visible = true
+		_set_ghost_texture(tex_path, 105.0)
+		_ghost_sprite.visible = _ghost_sprite.texture != null
 
 		if _hover_lane >= 0 and _hover_col >= 0 and _hover_lane < LaneDefendersConfig.LANES and _hover_col < LaneDefendersConfig.COLS:
 			_ghost_sprite.position = model.grid.get_cell_center(_hover_lane, _hover_col) + Vector2(0, -6.0)
@@ -234,12 +265,8 @@ func _update_ghost_view(mpos: Vector2) -> void:
 			_ghost_sprite.modulate = Color(1.0, 1.0, 1.0, 0.7)
 
 	elif hud.is_shovel_active:
-		if ResourceLoader.exists("res://assets/ui/shovel.png"):
-			_ghost_sprite.texture = load("res://assets/ui/shovel.png")
-			var max_dim := maxf(float(_ghost_sprite.texture.get_width()), float(_ghost_sprite.texture.get_height()))
-			var s := 65.0 / max_dim
-			_ghost_sprite.scale = Vector2(s, s)
-		_ghost_sprite.visible = true
+		_set_ghost_texture("res://assets/ui/shovel.png", 65.0)
+		_ghost_sprite.visible = _ghost_sprite.texture != null
 		_ghost_sprite.position = mpos + Vector2(20, -20)
 		_ghost_sprite.modulate = Color.WHITE
 	else:

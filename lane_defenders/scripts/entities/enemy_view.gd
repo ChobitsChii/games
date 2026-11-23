@@ -15,16 +15,18 @@ func setup(p_enemy: GameModel.SimEnemy) -> void:
 		var tex_path := "res://assets/enemies/%s.png" % enemy.data.id
 		if ResourceLoader.exists(tex_path):
 			var tex: Texture2D = load(tex_path)
-			if _sprite == null:
-				_sprite = Sprite2D.new()
-				add_child(_sprite)
-			_sprite.texture = tex
-			_sprite.flip_h = true # Goblins schauen nach links zur Basis
-			var max_dim := maxf(float(tex.get_width()), float(tex.get_height()))
-			var target_size := 115.0 if not enemy.data.is_boss else 180.0
-			var s := target_size / max_dim
-			_sprite.scale = Vector2(s, s)
-			_sprite.position = Vector2(0, -6.0)
+			if tex != null:
+				if _sprite == null:
+					_sprite = Sprite2D.new()
+					add_child(_sprite)
+				_sprite.texture = tex
+				_sprite.flip_h = true # Goblins schauen nach links zur Basis
+				var max_dim := maxf(float(tex.get_width()), float(tex.get_height()))
+				if max_dim > 0.0:
+					var target_size := 115.0 if not enemy.data.is_boss else 180.0
+					var s := target_size / max_dim
+					_sprite.scale = Vector2(s, s)
+				_sprite.position = Vector2(0, -6.0)
 	queue_redraw()
 
 

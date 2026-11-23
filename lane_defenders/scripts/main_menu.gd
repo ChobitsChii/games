@@ -33,15 +33,38 @@ func _ready() -> void:
 	_display_button.pressed.connect(DisplayService.cycle_mode)
 	_music_button.pressed.connect(_on_music_pressed)
 	_sfx_button.pressed.connect(_on_sfx_pressed)
-	_quit_button.pressed.connect(get_tree().quit)
+	_quit_button.pressed.connect(_on_quit_pressed)
 	_quit_button.visible = not OS.has_feature("web") and not OS.has_feature("android")
 	_display_button.visible = not OS.has_feature("android")
 
-	LocaleService.language_changed.connect(func(_code: String) -> void: _refresh())
-	DisplayService.mode_changed.connect(func(_mode: int) -> void: _refresh())
-	AudioService.play_music_theme("meadow")
+	LocaleService.language_changed.connect(_on_language_changed)
+	DisplayService.mode_changed.connect(_on_display_mode_changed)
+	_start_music.call_deferred()
 	_refresh()
-	_play_button.grab_focus()
+	if _play_button.is_inside_tree():
+		_play_button.grab_focus()
+
+
+func _exit_tree() -> void:
+	if LocaleService != null and LocaleService.language_changed.is_connected(_on_language_changed):
+		LocaleService.language_changed.disconnect(_on_language_changed)
+	if DisplayService != null and DisplayService.mode_changed.is_connected(_on_display_mode_changed):
+		DisplayService.mode_changed.disconnect(_on_display_mode_changed)
+
+
+func _start_music() -> void:
+	if is_inside_tree():
+		AudioService.play_music_theme("meadow")
+
+
+func _on_language_changed(_code: String) -> void:
+	if is_inside_tree():
+		_refresh()
+
+
+func _on_display_mode_changed(_mode: int) -> void:
+	if is_inside_tree():
+		_refresh()
 
 
 func _refresh() -> void:
@@ -59,6 +82,11 @@ func _on_music_pressed() -> void:
 func _on_sfx_pressed() -> void:
 	AudioService.cycle_volume("Sfx")
 	_refresh()
+
+
+func _on_quit_pressed() -> void:
+	if is_inside_tree():
+		get_tree().quit()
 
 
 func _on_play_pressed() -> void:

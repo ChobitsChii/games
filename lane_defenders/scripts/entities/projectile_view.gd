@@ -16,11 +16,14 @@ func setup(p_proj: GameModel.SimProjectile) -> void:
 
 	if tex_path != "" and ResourceLoader.exists(tex_path):
 		var tex: Texture2D = load(tex_path)
-		_sprite = Sprite2D.new()
-		_sprite.texture = tex
-		var s := 36.0 / float(maxi(tex.get_width(), tex.get_height()))
-		_sprite.scale = Vector2(s, s)
-		add_child(_sprite)
+		if tex != null:
+			var max_dim := maxi(tex.get_width(), tex.get_height())
+			if max_dim > 0:
+				_sprite = Sprite2D.new()
+				_sprite.texture = tex
+				var s := 36.0 / float(max_dim)
+				_sprite.scale = Vector2(s, s)
+				add_child(_sprite)
 
 	queue_redraw()
 

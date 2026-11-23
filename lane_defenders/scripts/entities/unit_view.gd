@@ -12,25 +12,35 @@ func _ready() -> void:
 	_start_idle_tween()
 
 
+func _exit_tree() -> void:
+	if _tween and _tween.is_valid():
+		_tween.kill()
+	_tween = null
+
+
 func setup(p_unit: GridModel.GridUnit) -> void:
 	unit = p_unit
 	if unit and unit.unit_data:
 		var tex_path := "res://assets/units/%s.png" % unit.unit_data.id
 		if ResourceLoader.exists(tex_path):
 			var tex: Texture2D = load(tex_path)
-			if _sprite == null:
-				_sprite = Sprite2D.new()
-				add_child(_sprite)
-			_sprite.texture = tex
-			var max_dim := maxf(float(tex.get_width()), float(tex.get_height()))
-			var target_size := 105.0
-			var s := target_size / max_dim
-			_sprite.scale = Vector2(s, s)
-			_sprite.position = Vector2(0, -6.0)
+			if tex != null:
+				if _sprite == null:
+					_sprite = Sprite2D.new()
+					add_child(_sprite)
+				_sprite.texture = tex
+				var max_dim := maxf(float(tex.get_width()), float(tex.get_height()))
+				if max_dim > 0.0:
+					var target_size := 105.0
+					var s := target_size / max_dim
+					_sprite.scale = Vector2(s, s)
+				_sprite.position = Vector2(0, -6.0)
 	queue_redraw()
 
 
 func play_attack_animation() -> void:
+	if not is_inside_tree():
+		return
 	if _tween and _tween.is_valid():
 		_tween.kill()
 	# Rückstoß beim Schuss
@@ -42,6 +52,8 @@ func play_attack_animation() -> void:
 
 
 func _start_idle_tween() -> void:
+	if not is_inside_tree():
+		return
 	if _tween and _tween.is_valid():
 		_tween.kill()
 	_tween = create_tween().set_loops()

@@ -11,15 +11,27 @@ const ENEMIES := ["runner", "fast_runner", "tank", "jumper", "shield", "boss"]
 @onready var _enemies_container: GridContainer = %EnemiesGrid
 @onready var _close_button: Button = %CloseButton
 
+var _populated: bool = false
+var _populated_locale: String = ""
+
 
 func _ready() -> void:
 	_close_button.pressed.connect(_on_close_pressed)
-	_populate()
+
+
+func is_populated() -> bool:
+	return _populated
 
 
 func open() -> void:
+	var current_locale := TranslationServer.get_locale()
+	if not _populated or _populated_locale != current_locale:
+		_populate()
+		_populated = true
+		_populated_locale = current_locale
 	visible = true
-	_close_button.grab_focus()
+	if _close_button != null and _close_button.is_inside_tree():
+		_close_button.grab_focus()
 
 
 func _on_close_pressed() -> void:
@@ -29,8 +41,10 @@ func _on_close_pressed() -> void:
 
 func _populate() -> void:
 	for child in _units_container.get_children():
+		_units_container.remove_child(child)
 		child.queue_free()
 	for child in _enemies_container.get_children():
+		_enemies_container.remove_child(child)
 		child.queue_free()
 
 	for u_id in UNITS:

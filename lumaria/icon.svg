@@ -1,68 +1,88 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
   <defs>
-    <radialGradient id="bgGlow" cx="50%" cy="50%" r="50%">
+    <radialGradient id="bgGlow" cx="50%" cy="48%" r="58%">
       <stop offset="0%" stop-color="#1e293b" />
-      <stop offset="60%" stop-color="#0f172a" />
+      <stop offset="58%" stop-color="#0f172a" />
       <stop offset="100%" stop-color="#05070f" />
     </radialGradient>
-    <linearGradient id="prismLight" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.9" />
-      <stop offset="50%" stop-color="#67e8f9" stop-opacity="0.8" />
-      <stop offset="100%" stop-color="#3b82f6" stop-opacity="0.9" />
-    </linearGradient>
-    <linearGradient id="prismSun" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%" stop-color="#fbbf24" stop-opacity="0.8" />
+    <radialGradient id="crystalHalo" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#67e8f9" stop-opacity="0.46" />
+      <stop offset="45%" stop-color="#38bdf8" stop-opacity="0.22" />
+      <stop offset="100%" stop-color="#0284c7" stop-opacity="0" />
+    </radialGradient>
+    <radialGradient id="crestHalo" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#fbbf24" stop-opacity="0.48" />
+      <stop offset="100%" stop-color="#f59e0b" stop-opacity="0" />
+    </radialGradient>
+    <linearGradient id="prismSun" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#fbbf24" stop-opacity="0.52" />
       <stop offset="100%" stop-color="#f59e0b" stop-opacity="0" />
     </linearGradient>
-    <linearGradient id="prismTide" x1="0%" y1="0%" x2="0%" y2="100%">
-      <stop offset="0%" stop-color="#06b6d4" stop-opacity="0.8" />
+    <linearGradient id="prismTide" x1="100%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#06b6d4" stop-opacity="0.52" />
       <stop offset="100%" stop-color="#0284c7" stop-opacity="0" />
     </linearGradient>
-    <linearGradient id="prismGale" x1="100%" y1="0%" x2="0%" y2="100%">
-      <stop offset="0%" stop-color="#10b981" stop-opacity="0.8" />
+    <linearGradient id="prismGale" x1="100%" y1="100%" x2="0%" y2="0%">
+      <stop offset="0%" stop-color="#10b981" stop-opacity="0.52" />
       <stop offset="100%" stop-color="#059669" stop-opacity="0" />
     </linearGradient>
-    <linearGradient id="prismEarth" x1="100%" y1="100%" x2="0%" y2="0%">
-      <stop offset="0%" stop-color="#a855f7" stop-opacity="0.8" />
+    <linearGradient id="prismEarth" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#a855f7" stop-opacity="0.52" />
       <stop offset="100%" stop-color="#7c3aed" stop-opacity="0" />
     </linearGradient>
-    <filter id="glow" x="-30%" y="-30%" width="160%" height="160%">
-      <feGaussianBlur stdDeviation="16" result="blur" />
-      <feComposite in="SourceGraphic" in2="blur" operator="over" />
-    </filter>
+    <linearGradient id="topFacet" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f0f9ff" />
+      <stop offset="100%" stop-color="#bae6fd" />
+    </linearGradient>
+    <linearGradient id="leftFacet" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0369a1" />
+      <stop offset="100%" stop-color="#0284c7" />
+    </linearGradient>
+    <linearGradient id="rightFacet" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#7dd3fc" />
+      <stop offset="100%" stop-color="#0ea5e9" />
+    </linearGradient>
   </defs>
 
-  <!-- Background -->
-  <rect width="512" height="512" rx="96" fill="url(#bgGlow)" />
-  <rect width="504" height="504" x="4" y="4" rx="92" fill="none" stroke="#38bdf8" stroke-width="4" stroke-opacity="0.3" />
+  <!-- Vollflächiger astraler Hintergrund (nahtlos für Adaptive-Icon-Masken) -->
+  <rect width="512" height="512" fill="url(#bgGlow)" />
 
-  <!-- Radiating Prismatic Rays -->
-  <polygon points="256,220 500,80 440,40" fill="url(#prismSun)" filter="url(#glow)" opacity="0.6" />
-  <polygon points="256,220 480,420 420,480" fill="url(#prismEarth)" filter="url(#glow)" opacity="0.6" />
-  <polygon points="256,220 80,460 20,400" fill="url(#prismTide)" filter="url(#glow)" opacity="0.6" />
-  <polygon points="256,220 30,100 90,40" fill="url(#prismGale)" filter="url(#glow)" opacity="0.6" />
+  <!-- Prismatische Lichtstrahlen (weiche Gradienten ohne SVG-Blur-Filter) -->
+  <polygon points="256,228 456,110 412,68" fill="url(#prismSun)" opacity="0.65" />
+  <polygon points="256,228 438,392 386,438" fill="url(#prismEarth)" opacity="0.65" />
+  <polygon points="256,228 118,434 68,382" fill="url(#prismTide)" opacity="0.65" />
+  <polygon points="256,228 66,124 114,72" fill="url(#prismGale)" opacity="0.65" />
 
-  <!-- Outer Astral Halo -->
-  <circle cx="256" cy="246" r="160" fill="none" stroke="#67e8f9" stroke-width="2" stroke-dasharray="8 6" opacity="0.4" />
-  <circle cx="256" cy="246" r="130" fill="none" stroke="#fbbf24" stroke-width="1.5" opacity="0.3" />
+  <!-- Äußerer astraler Halo -->
+  <circle cx="256" cy="242" r="154" fill="none" stroke="#67e8f9" stroke-width="3" stroke-dasharray="10 8" opacity="0.55" />
+  <circle cx="256" cy="242" r="126" fill="none" stroke="#fbbf24" stroke-width="2" opacity="0.45" />
 
-  <!-- Master Prismatic Crystal Core -->
-  <g filter="url(#glow)">
-    <!-- Top Face -->
-    <polygon points="256,90 350,210 256,256 162,210" fill="#e0f2fe" opacity="0.9" />
-    <!-- Left Bottom Face -->
-    <polygon points="162,210 256,256 256,390" fill="#0284c7" opacity="0.85" />
-    <!-- Right Bottom Face -->
-    <polygon points="350,210 256,256 256,390" fill="#38bdf8" opacity="0.95" />
-    <!-- Inner Radiant Sparkle Facet -->
-    <polygon points="256,150 290,230 256,256 222,230" fill="#ffffff" opacity="0.95" />
-    <!-- Outer Facet Edges -->
-    <polygon points="256,90 350,210 256,390 162,210" fill="none" stroke="#f8fafc" stroke-width="4" stroke-linejoin="round" />
-    <line x1="256" y1="90" x2="256" y2="390" stroke="#f8fafc" stroke-width="3" opacity="0.7" />
-    <line x1="162" y1="210" x2="350" y2="210" stroke="#f8fafc" stroke-width="3" opacity="0.7" />
+  <!-- Kristall-Aura -->
+  <circle cx="256" cy="240" r="134" fill="url(#crystalHalo)" />
+
+  <!-- Haupt-Kristallkern (rasiermesserscharfe Facetten) -->
+  <g>
+    <!-- Obere Krone links / rechts -->
+    <polygon points="256,96 256,248 164,208" fill="url(#topFacet)" />
+    <polygon points="256,96 348,208 256,248" fill="#e0f2fe" />
+    <!-- Untere linke & rechte Facette -->
+    <polygon points="164,208 256,248 256,376" fill="url(#leftFacet)" />
+    <polygon points="348,208 256,248 256,376" fill="url(#rightFacet)" />
+    <!-- Innerer leuchtender Diamant-Kern -->
+    <polygon points="256,154 294,224 256,262 218,224" fill="#ffffff" opacity="0.95" />
+    <!-- Äußere & innere Facetten-Kanten -->
+    <polygon points="256,96 348,208 256,376 164,208" fill="none" stroke="#f8fafc" stroke-width="6" stroke-linejoin="round" />
+    <line x1="256" y1="96" x2="256" y2="376" stroke="#ffffff" stroke-width="4" stroke-linecap="round" opacity="0.88" />
+    <line x1="164" y1="208" x2="348" y2="208" stroke="#ffffff" stroke-width="3.5" stroke-linecap="round" opacity="0.85" />
+    <line x1="164" y1="208" x2="256" y2="248" stroke="#f0f9ff" stroke-width="3" opacity="0.7" />
+    <line x1="348" y1="208" x2="256" y2="248" stroke="#f0f9ff" stroke-width="3" opacity="0.7" />
   </g>
 
-  <!-- Golden Crest Ornament -->
-  <path d="M 230 420 Q 256 450 282 420 Q 256 435 230 420 Z" fill="#fbbf24" filter="url(#glow)" />
-  <circle cx="256" cy="446" r="6" fill="#fbbf24" />
+  <!-- Scharfer 4-zackiger Glanzstern am oberen Kristall -->
+  <polygon points="256,136 263,168 295,175 263,182 256,214 249,182 217,175 249,168" fill="#ffffff" opacity="0.9" />
+
+  <!-- Goldenes Wappen-Ornament unten -->
+  <circle cx="256" cy="406" r="42" fill="url(#crestHalo)" />
+  <path d="M 224 394 Q 256 426 288 394 Q 256 410 224 394 Z" fill="#fbbf24" stroke="#fef08a" stroke-width="2" stroke-linejoin="round" />
+  <circle cx="256" cy="422" r="7" fill="#fbbf24" stroke="#fef08a" stroke-width="2" />
 </svg>
