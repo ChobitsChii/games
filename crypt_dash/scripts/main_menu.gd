@@ -50,13 +50,28 @@ func _ready() -> void:
 	_quit_button.visible = not OS.has_feature("web") and not OS.has_feature("android")
 	_display_button.visible = not OS.has_feature("android")
 
-	LocaleService.language_changed.connect(func(_code: String) -> void: _refresh())
-	DisplayService.mode_changed.connect(func(_mode: int) -> void: _refresh())
+	LocaleService.language_changed.connect(_on_language_changed)
+	DisplayService.mode_changed.connect(_on_display_mode_changed)
 
 	_setup_upgrade_buttons()
 	_refresh()
 	AudioService.play_music_theme("crypt")
 	_play_button.grab_focus()
+
+
+func _exit_tree() -> void:
+	if LocaleService.language_changed.is_connected(_on_language_changed):
+		LocaleService.language_changed.disconnect(_on_language_changed)
+	if DisplayService.mode_changed.is_connected(_on_display_mode_changed):
+		DisplayService.mode_changed.disconnect(_on_display_mode_changed)
+
+
+func _on_language_changed(_code: String) -> void:
+	_refresh()
+
+
+func _on_display_mode_changed(_mode: int) -> void:
+	_refresh()
 
 
 func _refresh() -> void:
