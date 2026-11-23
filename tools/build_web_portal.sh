@@ -552,7 +552,7 @@ cat << 'EOF' > "$TARGET_DIR/index.html"
 					<div class="title-wrap">
 						<h2>Lane Defenders</h2>
 						<div class="tags-row">
-							<span class="tag tag-ver">v1.5.5</span>
+							<span class="tag tag-ver">v1.5.6</span>
 							<span class="tag tag-ready">Vollversion</span>
 							<span class="tag tag-genre">Tower Defense</span>
 						</div>
