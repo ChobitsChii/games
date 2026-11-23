@@ -160,15 +160,23 @@ func _process_handling(delta: float) -> void:
 	if _left_held and not _right_held:
 		_das_timer += delta
 		if _das_timer >= das:
-			while _das_timer >= das + arr:
-				logic.move_horizontal(-1)
-				_das_timer -= arr
+			if arr <= 0.0:
+				while logic.move_horizontal(-1):
+					pass
+			else:
+				while _das_timer >= das + arr:
+					logic.move_horizontal(-1)
+					_das_timer -= arr
 	elif _right_held and not _left_held:
 		_das_timer += delta
 		if _das_timer >= das:
-			while _das_timer >= das + arr:
-				logic.move_horizontal(1)
-				_das_timer -= arr
+			if arr <= 0.0:
+				while logic.move_horizontal(1):
+					pass
+			else:
+				while _das_timer >= das + arr:
+					logic.move_horizontal(1)
+					_das_timer -= arr
 	else:
 		_das_timer = 0.0
 

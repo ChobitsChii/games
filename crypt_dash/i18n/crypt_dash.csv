@@ -107,3 +107,9 @@ CREDITS_AUDIO,Sound & Musik: Kenney Game Audio / Freesound CC0,Sound & Music: Ke
 CREDITS_DEV,Open Source für alle Spieler • Initiiert & getestet von Jennifer,Open source for all players • Initiated & tested by Jennifer
 ROOM_FLOOR_EXIT,Treppe zur nächsten Etage,Stairs to Next Floor
 ROOM_ALTAR_PEDESTAL,Schatz-Altar,Treasure Altar
+ALTAR_WEAPONS_TITLE,Startwaffe wählen,Choose Starting Weapon
+UPGRADE_WEAPON_DAGGERS,Schattendolche (Basis),Shadow Daggers (Base)
+UPGRADE_WEAPON_TWINS,Zwillingsklingen (+Tempo),Twin Fangs (+Speed)
+UPGRADE_WEAPON_STAFF,Arkanstab (+Schaden / Durchschlag),Arcane Staff (+Damage / Pierce)
+UPGRADE_EQUIPPED,Ausgerüstet,Equipped
+UPGRADE_EQUIP,Ausrüsten,Equip

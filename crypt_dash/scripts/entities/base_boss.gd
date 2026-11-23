@@ -135,9 +135,12 @@ func _fire_spiral() -> void:
 func _on_hit_received(dmg: int, _knockback: Vector2, _from_player: bool) -> void:
 	if runner.state == BossPatternRunner.BossState.DEFEATED:
 		return
+	var prev_phase := runner.current_phase_idx
 	var dead := runner.take_damage(dmg)
 	current_health = runner.hp
 	EventBus.enemy_damaged.emit(self, dmg)
+	if not dead and runner.current_phase_idx > prev_phase:
+		CryptAudio.play_boss_phase()
 	if dead:
 		set_deferred("collision_layer", 0)
 		set_deferred("collision_mask", 0)

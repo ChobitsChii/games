@@ -26,6 +26,9 @@ extends Control
 @onready var _dmg_upgrade_btn: Button = %DmgUpgradeBtn
 @onready var _speed_upgrade_btn: Button = %SpeedUpgradeBtn
 @onready var _dash_upgrade_btn: Button = %DashUpgradeBtn
+@onready var _weapon_daggers_btn: Button = %WeaponDaggersBtn
+@onready var _weapon_twins_btn: Button = %WeaponTwinsBtn
+@onready var _weapon_staff_btn: Button = %WeaponStaffBtn
 
 
 func _ready() -> void:
@@ -51,6 +54,7 @@ func _ready() -> void:
 
 	_setup_upgrade_buttons()
 	_refresh()
+	AudioService.play_music_theme("crypt")
 	_play_button.grab_focus()
 
 
@@ -63,16 +67,19 @@ func _refresh() -> void:
 
 
 func _on_music_pressed() -> void:
+	CryptAudio.play_click()
 	AudioService.cycle_volume("Music")
 	_refresh()
 
 
 func _on_sfx_pressed() -> void:
 	AudioService.cycle_volume("Sfx")
+	CryptAudio.play_click()
 	_refresh()
 
 
 func _on_play_pressed() -> void:
+	CryptAudio.play_click()
 	get_tree().change_scene_to_file("res://scenes/game.tscn")
 
 
@@ -108,6 +115,15 @@ func _setup_upgrade_buttons() -> void:
 	_dmg_upgrade_btn.pressed.connect(func() -> void: _buy_upgrade("upg_damage", 8))
 	_speed_upgrade_btn.pressed.connect(func() -> void: _buy_upgrade("upg_speed", 6))
 	_dash_upgrade_btn.pressed.connect(func() -> void: _buy_upgrade("upg_dash_cd", 10))
+	_weapon_daggers_btn.pressed.connect(_on_weapon_pressed.bind("daggers"))
+	_weapon_twins_btn.pressed.connect(_on_weapon_pressed.bind("twin_fangs"))
+	_weapon_staff_btn.pressed.connect(_on_weapon_pressed.bind("arcane_staff"))
+
+
+func _on_weapon_pressed(weapon_id: String) -> void:
+	if WeaponCatalog.try_buy_or_equip(weapon_id):
+		CryptAudio.play_item_pickup()
+		_refresh_upgrades_ui()
 
 
 func _buy_upgrade(key: String, cost_base: int) -> void:
@@ -118,6 +134,7 @@ func _buy_upgrade(key: String, cost_base: int) -> void:
 		souls -= cost
 		SaveService.set_value("crypt_dash", "souls", souls)
 		SaveService.set_value("crypt_dash", key, current_lvl + 1)
+		CryptAudio.play_item_pickup()
 		_refresh_upgrades_ui()
 
 
@@ -130,6 +147,29 @@ func _refresh_upgrades_ui() -> void:
 	_update_btn_label(_dmg_upgrade_btn, "upg_damage", "UPGRADE_DAMAGE_NAME", 8, souls)
 	_update_btn_label(_speed_upgrade_btn, "upg_speed", "UPGRADE_SPEED_NAME", 6, souls)
 	_update_btn_label(_dash_upgrade_btn, "upg_dash_cd", "UPGRADE_DASH_CD_NAME", 10, souls)
+
+	_update_weapon_btn(_weapon_daggers_btn, "daggers", souls)
+	_update_weapon_btn(_weapon_twins_btn, "twin_fangs", souls)
+	_update_weapon_btn(_weapon_staff_btn, "arcane_staff", souls)
+
+
+func _update_weapon_btn(btn: Button, weapon_id: String, souls: int) -> void:
+	if btn == null:
+		return
+	var w := WeaponCatalog.get_weapon(weapon_id)
+	var equipped_id := WeaponCatalog.get_equipped_id()
+	var unlocked := WeaponCatalog.is_unlocked(weapon_id)
+	var w_name := tr(str(w["name_key"]))
+	if equipped_id == weapon_id:
+		btn.text = "%s\n(%s)" % [w_name, tr("UPGRADE_EQUIPPED")]
+		btn.disabled = true
+	elif unlocked:
+		btn.text = "%s\n(%s)" % [w_name, tr("UPGRADE_EQUIP")]
+		btn.disabled = false
+	else:
+		var cost: int = int(w["cost"])
+		btn.text = "%s\n(%s)" % [w_name, tr("UPGRADE_COST") % cost]
+		btn.disabled = souls < cost
 
 
 func _update_btn_label(btn: Button, key: String, name_key: String, cost_base: int, souls: int) -> void:

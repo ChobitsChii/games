@@ -7,6 +7,7 @@ extends Control
 @onready var _duel_button: Button = %DuelButton
 @onready var _language_button: Button = %LanguageButton
 @onready var _display_button: Button = %DisplayButton
+@onready var _options_button: Button = %OptionsButton
 @onready var _controls_button: Button = %ControlsButton
 @onready var _credits_button: Button = %CreditsButton
 @onready var _quit_button: Button = %QuitButton
@@ -14,6 +15,13 @@ extends Control
 @onready var _close_controls_button: Button = %CloseControlsButton
 @onready var _credits_overlay: Control = %CreditsOverlay
 @onready var _close_credits_button: Button = %CloseCreditsButton
+@onready var _options_overlay: Control = %OptionsOverlay
+@onready var _close_options_button: Button = %CloseOptionsButton
+@onready var _das_button: Button = %DasButton
+@onready var _arr_button: Button = %ArrButton
+@onready var _colorblind_button: Button = %ColorblindButton
+@onready var _music_button: Button = %MusicButton
+@onready var _sfx_button: Button = %SfxButton
 
 
 func _ready() -> void:
@@ -24,6 +32,13 @@ func _ready() -> void:
 	_duel_button.pressed.connect(_start_mode.bind("duel"))
 	_language_button.pressed.connect(LocaleService.cycle_language)
 	_display_button.pressed.connect(DisplayService.cycle_mode)
+	_options_button.pressed.connect(_toggle_options.bind(true))
+	_close_options_button.pressed.connect(_toggle_options.bind(false))
+	_das_button.pressed.connect(_on_das_pressed)
+	_arr_button.pressed.connect(_on_arr_pressed)
+	_colorblind_button.pressed.connect(_on_colorblind_pressed)
+	_music_button.pressed.connect(_on_music_pressed)
+	_sfx_button.pressed.connect(_on_sfx_pressed)
 	_controls_button.pressed.connect(_toggle_controls.bind(true))
 	_close_controls_button.pressed.connect(_toggle_controls.bind(false))
 	_credits_button.pressed.connect(_toggle_credits.bind(true))
@@ -35,6 +50,40 @@ func _ready() -> void:
 	_refresh()
 	AudioService.play_music_theme("puzzle")
 	_marathon_button.grab_focus()
+
+
+func _toggle_options(open: bool) -> void:
+	_options_overlay.visible = open
+	if open:
+		_refresh()
+		_das_button.grab_focus()
+	else:
+		_options_button.grab_focus()
+
+
+func _on_das_pressed() -> void:
+	HandlingSettings.set_das_ms(HandlingSettings.next_das_ms(HandlingSettings.get_das_ms()))
+	_refresh()
+
+
+func _on_arr_pressed() -> void:
+	HandlingSettings.set_arr_ms(HandlingSettings.next_arr_ms(HandlingSettings.get_arr_ms()))
+	_refresh()
+
+
+func _on_colorblind_pressed() -> void:
+	HandlingSettings.set_colorblind(not HandlingSettings.is_colorblind())
+	_refresh()
+
+
+func _on_music_pressed() -> void:
+	AudioService.cycle_volume("Music")
+	_refresh()
+
+
+func _on_sfx_pressed() -> void:
+	AudioService.cycle_volume("Sfx")
+	_refresh()
 
 
 func _toggle_controls(open: bool) -> void:
@@ -56,6 +105,12 @@ func _toggle_credits(open: bool) -> void:
 func _refresh() -> void:
 	_language_button.text = "%s: %s" % [tr("COMMON_LANGUAGE"), LocaleService.get_language_name()]
 	_display_button.text = "%s: %s" % [tr("COMMON_DISPLAY_MODE"), tr(DisplayService.get_mode_key())]
+	_das_button.text = tr("MENU_DAS_FMT") % HandlingSettings.get_das_ms()
+	_arr_button.text = tr("MENU_ARR_FMT") % HandlingSettings.get_arr_ms()
+	var cb_state := tr("MENU_ON") if HandlingSettings.is_colorblind() else tr("MENU_OFF")
+	_colorblind_button.text = tr("MENU_COLORBLIND") % cb_state
+	_music_button.text = AudioService.format_volume_label("COMMON_VOLUME_MUSIC", "Music")
+	_sfx_button.text = AudioService.format_volume_label("COMMON_VOLUME_SFX", "Sfx")
 
 
 func _start_mode(mode: String) -> void:

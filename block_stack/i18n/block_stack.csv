@@ -76,3 +76,8 @@ MSG_TSPIN_DOUBLE,T-Spin Double!,T-Spin Double!
 MSG_TSPIN_TRIPLE,T-Spin Triple!,T-Spin Triple!
 MSG_BACK_TO_BACK,Back-to-Back!,Back-to-Back!
 MSG_COMBO_FMT,%d Combo!,%d Combo!
+MENU_DAS_FMT,DAS (Verzögerung): %d ms,DAS (Delay): %d ms
+MENU_ARR_FMT,ARR (Wiederholung): %d ms,ARR (Repeat): %d ms
+MENU_COLORBLIND,Farbblind-Symbole: %s,Colorblind symbols: %s
+MENU_ON,An,On
+MENU_OFF,Aus,Off

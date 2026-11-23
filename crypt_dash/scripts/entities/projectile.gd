@@ -7,6 +7,8 @@ extends Area2D
 @export var is_player: bool = true
 @export var pierce: bool = false
 @export var life_time: float = 3.0
+@export var radius_scale: float = 1.0
+@export var tint: Color = Color("22d3ee")
 
 var direction: Vector2 = Vector2.RIGHT
 var _time_alive: float = 0.0
@@ -29,7 +31,7 @@ func _ready() -> void:
 	)
 	var shape := CollisionShape2D.new()
 	var circle := CircleShape2D.new()
-	circle.radius = 8.0
+	circle.radius = 8.0 * radius_scale
 	shape.shape = circle
 	_hitbox.add_child(shape)
 	add_child(_hitbox)
@@ -43,11 +45,11 @@ func _physics_process(delta: float) -> void:
 
 
 func _draw() -> void:
-	var color := Color("22d3ee") if is_player else Color("f87171")
+	var color := tint if is_player else Color("f87171")
 	# Stylischer Leucht-Glow und Kern
-	draw_circle(Vector2.ZERO, 9.0, Color(color.r, color.g, color.b, 0.35))
-	draw_circle(Vector2.ZERO, 6.0, color)
-	draw_circle(Vector2.ZERO, 3.0, Color.WHITE)
+	draw_circle(Vector2.ZERO, 9.0 * radius_scale, Color(color.r, color.g, color.b, 0.35))
+	draw_circle(Vector2.ZERO, 6.0 * radius_scale, color)
+	draw_circle(Vector2.ZERO, 3.0 * radius_scale, Color.WHITE)
 
 
 func _on_body_entered(_body: Node2D) -> void:

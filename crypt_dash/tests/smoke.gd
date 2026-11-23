@@ -39,6 +39,7 @@ func _finish(error: String) -> void:
 			_game.player.current_hp,
 			_game.souls_collected
 		]
+	CryptAudio.stop_all()
 	AudioService.stop_all()
 	if _game and is_instance_valid(_game):
 		_game.queue_free()

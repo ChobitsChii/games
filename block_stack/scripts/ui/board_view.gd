@@ -131,7 +131,7 @@ func _draw() -> void:
 			var cell_type := logic.matrix.get_cell(c, r)
 			if cell_type != "":
 				var col := Piece.get_color(cell_type)
-				_draw_block(Vector2(c * cell_size, vis_r * cell_size), cell_size, col, false)
+				_draw_block(Vector2(c * cell_size, vis_r * cell_size), cell_size, col, false, cell_type)
 
 	# 2. Ghost Piece zeichnen
 	if logic.state == GameLogic.State.FALL or logic.state == GameLogic.State.LOCK:
@@ -143,7 +143,7 @@ func _draw() -> void:
 			var r := ghost_pos.y + cell.y
 			if r >= StackConfig.BUFFER_ROWS and r < StackConfig.TOTAL_ROWS:
 				var vis_r := r - StackConfig.BUFFER_ROWS
-				_draw_block(Vector2(c * cell_size, vis_r * cell_size), cell_size, piece_col, true)
+				_draw_block(Vector2(c * cell_size, vis_r * cell_size), cell_size, piece_col, true, logic.current_piece)
 
 		# 3. Aktiver fallender Stein
 		var active_cells := Piece.get_cells(logic.current_piece, logic.current_rot)
@@ -152,7 +152,7 @@ func _draw() -> void:
 			var r := logic.current_pos.y + cell.y
 			if r >= StackConfig.BUFFER_ROWS and r < StackConfig.TOTAL_ROWS:
 				var vis_r := r - StackConfig.BUFFER_ROWS
-				_draw_block(Vector2(c * cell_size, vis_r * cell_size), cell_size, piece_col, false)
+				_draw_block(Vector2(c * cell_size, vis_r * cell_size), cell_size, piece_col, false, logic.current_piece)
 
 	# 4. Zeilen-Flash bei Räumung
 	if flash_alpha > 0.0 and not flash_rows.is_empty():
@@ -172,7 +172,7 @@ func _draw() -> void:
 		draw_rect(Rect2(p["pos"] - Vector2(s * 0.5, s * 0.5), Vector2(s, s)), p_col)
 
 
-func _draw_block(pos: Vector2, size: float, color: Color, is_ghost: bool) -> void:
+func _draw_block(pos: Vector2, size: float, color: Color, is_ghost: bool, piece_type: String = "") -> void:
 	var pad := 2.0
 	var block_rect := Rect2(pos.x + pad, pos.y + pad, size - pad * 2.0, size - pad * 2.0)
 
@@ -196,3 +196,6 @@ func _draw_block(pos: Vector2, size: float, color: Color, is_ghost: bool) -> voi
 		)
 		# 4. Leuchtender Rahmen
 		draw_rect(block_rect, Color(color.r * 1.2, color.g * 1.2, color.b * 1.2, 0.95), false, 1.5)
+		# 5. Optionales Farbblind-Symbol
+		if piece_type != "" and HandlingSettings.is_colorblind():
+			HandlingSettings.draw_piece_symbol(self, block_rect, piece_type)

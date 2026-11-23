@@ -84,34 +84,52 @@ layout_mode = 2
 text = "MENU_MODE_DUEL"
 
 [node name="Spacer2" type="Control" parent="Center/Box"]
-custom_minimum_size = Vector2(0, 16)
+custom_minimum_size = Vector2(0, 12)
 layout_mode = 2
 
-[node name="LanguageButton" type="Button" parent="Center/Box"]
+[node name="OptionsButton" type="Button" parent="Center/Box"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 68)
 layout_mode = 2
+text = "MENU_OPTIONS"
 
-[node name="DisplayButton" type="Button" parent="Center/Box"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 68)
+[node name="PrefsRow" type="HBoxContainer" parent="Center/Box"]
 layout_mode = 2
+theme_override_constants/separation = 12
 
-[node name="ControlsButton" type="Button" parent="Center/Box"]
+[node name="LanguageButton" type="Button" parent="Center/Box/PrefsRow"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 68)
+custom_minimum_size = Vector2(0, 62)
 layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="DisplayButton" type="Button" parent="Center/Box/PrefsRow"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 62)
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="MetaRow" type="HBoxContainer" parent="Center/Box"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="ControlsButton" type="Button" parent="Center/Box/MetaRow"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 62)
+layout_mode = 2
+size_flags_horizontal = 3
 text = "MENU_CONTROLS"
 
-[node name="CreditsButton" type="Button" parent="Center/Box"]
+[node name="CreditsButton" type="Button" parent="Center/Box/MetaRow"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 68)
+custom_minimum_size = Vector2(0, 62)
 layout_mode = 2
+size_flags_horizontal = 3
 text = "MENU_CREDITS"
 
 [node name="QuitButton" type="Button" parent="Center/Box"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 68)
+custom_minimum_size = Vector2(0, 62)
 layout_mode = 2
 text = "COMMON_QUIT"
 
@@ -208,5 +226,92 @@ layout_mode = 2
 [node name="CloseCreditsButton" type="Button" parent="CreditsOverlay/Center/Box"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 68)
+layout_mode = 2
+text = "COMMON_BACK"
+
+[node name="OptionsOverlay" type="ColorRect" parent="."]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.04, 0.05, 0.1, 0.94)
+
+[node name="Center" type="CenterContainer" parent="OptionsOverlay"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="PanelContainer" parent="OptionsOverlay/Center"]
+custom_minimum_size = Vector2(720, 0)
+layout_mode = 2
+
+[node name="Margin" type="MarginContainer" parent="OptionsOverlay/Center/Panel"]
+layout_mode = 2
+theme_override_constants/margin_left = 36
+theme_override_constants/margin_top = 32
+theme_override_constants/margin_right = 36
+theme_override_constants/margin_bottom = 32
+
+[node name="Box" type="VBoxContainer" parent="OptionsOverlay/Center/Panel/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Title" type="Label" parent="OptionsOverlay/Center/Panel/Margin/Box"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0.898, 1, 1)
+theme_override_font_sizes/font_size = 52
+text = "MENU_OPTIONS"
+horizontal_alignment = 1
+
+[node name="DasButton" type="Button" parent="OptionsOverlay/Center/Panel/Margin/Box"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 62)
+layout_mode = 2
+text = "MENU_DAS_FMT"
+
+[node name="ArrButton" type="Button" parent="OptionsOverlay/Center/Panel/Margin/Box"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 62)
+layout_mode = 2
+text = "MENU_ARR_FMT"
+
+[node name="ColorblindButton" type="Button" parent="OptionsOverlay/Center/Panel/Margin/Box"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 62)
+layout_mode = 2
+text = "MENU_COLORBLIND"
+
+[node name="AudioRow" type="HBoxContainer" parent="OptionsOverlay/Center/Panel/Margin/Box"]
+layout_mode = 2
+theme_override_constants/separation = 14
+
+[node name="MusicButton" type="Button" parent="OptionsOverlay/Center/Panel/Margin/Box/AudioRow"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 62)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "COMMON_VOLUME_MUSIC"
+
+[node name="SfxButton" type="Button" parent="OptionsOverlay/Center/Panel/Margin/Box/AudioRow"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 62)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "COMMON_VOLUME_SFX"
+
+[node name="Spacer" type="Control" parent="OptionsOverlay/Center/Panel/Margin/Box"]
+custom_minimum_size = Vector2(0, 12)
+layout_mode = 2
+
+[node name="CloseOptionsButton" type="Button" parent="OptionsOverlay/Center/Panel/Margin/Box"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 64)
 layout_mode = 2
 text = "COMMON_BACK"

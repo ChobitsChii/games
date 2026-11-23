@@ -36,6 +36,7 @@ var autoplay_timer: float = 0.0
 var _health: HealthComponent
 var _hurtbox: HurtboxComponent
 var _facing: Vector2 = Vector2.RIGHT
+var _equipped_weapon_id: String = "daggers"
 
 
 func _ready() -> void:
@@ -68,7 +69,9 @@ func _ready() -> void:
 
 
 func recalculate_stats() -> void:
+	_equipped_weapon_id = WeaponCatalog.get_equipped_id()
 	stats = PlayerStatsCalculator.calculate_stats(items, meta_upgrades)
+	stats = WeaponCatalog.apply_weapon_to_stats(stats, _equipped_weapon_id)
 	max_hp = int(stats["max_hp"])
 	current_hp = mini(current_hp if current_hp > 0 else max_hp, max_hp)
 	move_speed = float(stats["speed"])
@@ -152,10 +155,13 @@ func start_dash(dir: Vector2) -> void:
 	dash_direction = dir.normalized()
 	dash_cooldown_timer = dash_cooldown
 	_hurtbox.invulnerable = true
+	CryptAudio.play_dash()
 
 
 func perform_attack(dir: Vector2) -> void:
 	attack_timer = attack_cooldown
+	CryptAudio.play_shoot()
+	var weapon := WeaponCatalog.get_weapon(_equipped_weapon_id)
 
 	var has_spread := false
 	var has_pierce := false
@@ -172,14 +178,18 @@ func perform_attack(dir: Vector2) -> void:
 		p.global_position = global_position + dir * 24.0
 		p.direction = dir.rotated(ang)
 		p.damage = int(roundf(damage))
+		p.speed = float(weapon.get("speed", 650.0))
 		p.is_player = true
-		p.pierce = has_pierce
+		p.pierce = has_pierce or bool(weapon.get("pierce", false))
+		p.radius_scale = float(weapon.get("radius_scale", 1.0))
+		p.tint = weapon.get("color", Color("22d3ee"))
 		get_parent().add_child(p)
 
 
 func _on_hit_received(dmg: int, _knockback: Vector2, _from_player: bool) -> void:
 	if is_dashing:
 		return
+	CryptAudio.play_hit()
 	_health.take_damage(dmg)
 	EventBus.screen_shake_requested.emit(8.0, 0.2)
 

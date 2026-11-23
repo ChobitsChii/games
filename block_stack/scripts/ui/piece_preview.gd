@@ -44,3 +44,5 @@ func _draw() -> void:
 		var shine := Rect2(block_rect.position.x + 1, block_rect.position.y + 1, block_rect.size.x - 2, block_rect.size.y * 0.35)
 		draw_rect(shine, Color(1.0, 1.0, 1.0, 0.35))
 		draw_rect(block_rect, Color(color.r * 1.2, color.g * 1.2, color.b * 1.2, 0.95), false, 1.5)
+		if HandlingSettings.is_colorblind():
+			HandlingSettings.draw_piece_symbol(self, block_rect, piece_type)

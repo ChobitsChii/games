@@ -414,7 +414,7 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="Panel" type="PanelContainer" parent="UpgradesOverlay/Center"]
-custom_minimum_size = Vector2(880, 600)
+custom_minimum_size = Vector2(960, 740)
 layout_mode = 2
 
 [node name="Margin" type="MarginContainer" parent="UpgradesOverlay/Center/Panel"]
@@ -470,8 +470,46 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 22
 text = "UPGRADE_DASH_CD_NAME"
 
+[node name="WeaponsTitle" type="Label" parent="UpgradesOverlay/Center/Panel/Margin/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.13, 0.83, 0.93, 1)
+theme_override_font_sizes/font_size = 24
+text = "ALTAR_WEAPONS_TITLE"
+horizontal_alignment = 1
+
+[node name="WeaponsRow" type="HBoxContainer" parent="UpgradesOverlay/Center/Panel/Margin/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="WeaponDaggersBtn" type="Button" parent="UpgradesOverlay/Center/Panel/Margin/VBox/WeaponsRow"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 76)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 18
+autowrap_mode = 2
+text = "UPGRADE_WEAPON_DAGGERS"
+
+[node name="WeaponTwinsBtn" type="Button" parent="UpgradesOverlay/Center/Panel/Margin/VBox/WeaponsRow"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 76)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 18
+autowrap_mode = 2
+text = "UPGRADE_WEAPON_TWINS"
+
+[node name="WeaponStaffBtn" type="Button" parent="UpgradesOverlay/Center/Panel/Margin/VBox/WeaponsRow"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 76)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 18
+autowrap_mode = 2
+text = "UPGRADE_WEAPON_STAFF"
+
 [node name="Spacer" type="Control" parent="UpgradesOverlay/Center/Panel/Margin/VBox"]
-custom_minimum_size = Vector2(0, 16)
+custom_minimum_size = Vector2(0, 12)
 layout_mode = 2
 
 [node name="CloseUpgradesButton" type="Button" parent="UpgradesOverlay/Center/Panel/Margin/VBox"]

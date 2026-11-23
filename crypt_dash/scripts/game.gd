@@ -44,11 +44,15 @@ func _ready() -> void:
 	EventBus.enemy_died.connect(_on_enemy_died)
 	EventBus.floor_completed.connect(_on_floor_completed)
 	EventBus.game_over.connect(_on_game_over)
-	EventBus.item_collected.connect(func(_id: String) -> void: _show_item_selection())
+	EventBus.item_collected.connect(func(_id: String) -> void:
+		CryptAudio.play_item_pickup()
+		_show_item_selection()
+	)
 	EventBus.screen_shake_requested.connect(_on_screen_shake)
 
 	_setup_camera()
 	_setup_ui()
+	AudioService.play_music_theme("crypt")
 	_start_floor(current_floor_num)
 
 
@@ -169,10 +173,12 @@ func _on_door_entered(dir: String) -> void:
 			enter_from = "west"
 
 	if dungeon.rooms.has(next_coords):
+		CryptAudio.play_door_open()
 		_load_room(next_coords, enter_from)
 
 
 func _on_enemy_died(_enemy: Node2D, souls: int) -> void:
+	CryptAudio.play_enemy_die()
 	souls_collected += souls
 	SaveService.set_value("crypt_dash", "souls", souls_collected)
 	EventBus.souls_changed.emit(souls_collected)
@@ -200,11 +206,13 @@ func _on_floor_completed(_f_num: int) -> void:
 
 
 func _on_game_over() -> void:
+	CryptAudio.play_game_over()
 	get_tree().paused = true
 	_game_over_modal.visible = true
 
 
 func _show_victory() -> void:
+	CryptAudio.play_victory()
 	get_tree().paused = true
 	_victory_modal.visible = true
 
