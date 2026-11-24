@@ -618,7 +618,7 @@ cat << 'EOF' > "$TARGET_DIR/index.html"
 					<div class="title-wrap">
 						<h2>Neon Breakout</h2>
 						<div class="tags-row">
-							<span class="tag tag-ver">v1.1.2</span>
+							<span class="tag tag-ver">v1.1.3</span>
 							<span class="tag tag-ready">Vollversion</span>
 							<span class="tag tag-genre">Arcade</span>
 						</div>
