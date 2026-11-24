@@ -9,16 +9,13 @@ func _init() -> void:
 	contact_damage = 1
 
 
-func _draw() -> void:
-	super._draw()
-	# Scharfer Schatten & Outline
-	draw_circle(Vector2.ZERO, 19.0, Color("0f172a"))
-	# Knochen-Weiß
-	draw_circle(Vector2.ZERO, 17.0, Color("f1f5f9"))
-	# Rote glühende Augen
-	draw_circle(Vector2(-5, -2), 4.0, Color("ef4444"))
-	draw_circle(Vector2(5, -2), 4.0, Color("ef4444"))
-	draw_circle(Vector2(-5, -2), 1.5, Color.WHITE)
-	draw_circle(Vector2(5, -2), 1.5, Color.WHITE)
-	# Kiefer / Zähne
-	draw_rect(Rect2(-6, 5, 12, 4), Color("334155"))
+func get_sprite_path() -> String:
+	return "res://assets/sprites/enemy_skeleton.png"
+
+
+func get_sprite_size() -> float:
+	return 66.0
+
+
+func get_death_color() -> Color:
+	return Color("e2e8f0")

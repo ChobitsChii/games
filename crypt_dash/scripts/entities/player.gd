@@ -1,7 +1,6 @@
 class_name Player
 extends CharacterBody2D
-## Spieler-Charakter für Crypt Dash.
-## Steuerung: WASD/Pfeile, Dash mit Space/A, Schuss mit Klick/J.
+## Spieler-Charakter für Crypt Dash mit hochauflösendem Sprite-Rig, sichtbarer Startwaffe, Licht & Dash-Nachbildern.
 
 signal health_changed(current: int, max_hp: int)
 signal dash_cooldown_progress(current: float, max_cd: float)
@@ -36,9 +35,16 @@ var autoplay_timer: float = 0.0
 var _health: HealthComponent
 var _hurtbox: HurtboxComponent
 var _facing: Vector2 = Vector2.RIGHT
+var _aim_dir: Vector2 = Vector2.RIGHT
 var _equipped_weapon_id: String = "daggers"
 var touch_aim_dir: Vector2 = Vector2.ZERO
 var touch_aim_active: bool = false
+
+var _visual: EntityVisual
+var _weapon_sprite: Sprite2D
+var _player_light: PointLight2D
+var _afterimage_timer: float = 0.0
+var _weapon_recoil: float = 0.0
 
 
 func _ready() -> void:
@@ -67,6 +73,22 @@ func _ready() -> void:
 	body_col.shape = body_circle
 	add_child(body_col)
 
+	_visual = EntityVisual.new()
+	_visual.setup(CryptAssets.get_texture("res://assets/sprites/player_rogue.png"), 80.0, Vector2(0.55, 0.45), false, 0.0, 1.0)
+	add_child(_visual)
+
+	_weapon_sprite = Sprite2D.new()
+	_weapon_sprite.z_index = 2
+	_weapon_sprite.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR
+	add_child(_weapon_sprite)
+
+	_player_light = PointLight2D.new()
+	_player_light.texture = CryptAssets.get_radial_light_texture()
+	_player_light.color = Color("bfefff")
+	_player_light.energy = 0.85
+	_player_light.texture_scale = 2.6
+	add_child(_player_light)
+
 	recalculate_stats()
 
 
@@ -83,13 +105,19 @@ func recalculate_stats() -> void:
 	dash_duration = float(stats["dash_duration"])
 	attack_cooldown = 1.0 / float(stats["attack_rate"])
 
+	if _weapon_sprite != null:
+		var w_tex := CryptAssets.get_texture(CryptAssets.get_weapon_sprite_path(_equipped_weapon_id))
+		_weapon_sprite.texture = w_tex
+		if w_tex != null and w_tex.get_size().x > 0.0:
+			var sc := 34.0 / maxf(w_tex.get_size().x, w_tex.get_size().y)
+			_weapon_sprite.scale = Vector2(sc, sc)
+
 	_health.init_health(max_hp)
 	_health.current_health = current_hp
 	health_changed.emit(current_hp, max_hp)
 
 
 func _physics_process(delta: float) -> void:
-	# Cooldowns herunterzählen
 	if dash_cooldown_timer > 0.0:
 		dash_cooldown_timer = maxf(0.0, dash_cooldown_timer - delta)
 		dash_cooldown_progress.emit(dash_cooldown_timer, dash_cooldown)
@@ -97,12 +125,39 @@ func _physics_process(delta: float) -> void:
 	if attack_timer > 0.0:
 		attack_timer = maxf(0.0, attack_timer - delta)
 
+	if _weapon_recoil > 0.0:
+		_weapon_recoil = maxf(0.0, _weapon_recoil - delta * 42.0)
+
 	if autoplay:
 		_handle_autoplay(delta)
 	else:
 		_handle_player_input(delta)
 
-	queue_redraw()
+	if is_dashing:
+		_afterimage_timer -= delta
+		if _afterimage_timer <= 0.0:
+			_afterimage_timer = 0.042
+			if _visual != null and _visual.main_sprite != null:
+				CryptVfx.spawn_dash_afterimage(
+					get_parent(),
+					global_position,
+					_visual.main_sprite.texture,
+					80.0,
+					_visual.main_sprite.flip_h
+				)
+
+	if _visual != null:
+		_visual.update_motion(delta, velocity, _aim_dir if _aim_dir != Vector2.ZERO else _facing)
+		if is_dashing:
+			_visual.set_tint(Color(0.65, 0.95, 1.0, 0.85))
+		else:
+			_visual.set_tint(Color.WHITE)
+
+	if _weapon_sprite != null:
+		var aim := _aim_dir.normalized() if _aim_dir != Vector2.ZERO else _facing
+		_weapon_sprite.position = aim * (24.0 + _weapon_recoil) + Vector2(0.0, 4.0)
+		_weapon_sprite.rotation = aim.angle()
+		_weapon_sprite.flip_v = aim.x < 0.0
 
 
 func _handle_player_input(delta: float) -> void:
@@ -110,6 +165,18 @@ func _handle_player_input(delta: float) -> void:
 
 	if move_input != Vector2.ZERO:
 		_facing = move_input.normalized()
+
+	if touch_aim_active or OS.has_feature("android"):
+		if touch_aim_dir != Vector2.ZERO:
+			_aim_dir = touch_aim_dir.normalized()
+		else:
+			_aim_dir = _find_nearest_enemy_dir()
+	else:
+		var m_dir := get_global_mouse_position() - global_position
+		if m_dir.length_squared() > 4.0:
+			_aim_dir = m_dir.normalized()
+		else:
+			_aim_dir = _facing
 
 	# Dash
 	if Input.is_action_just_pressed("dash") and dash_cooldown_timer <= 0.0 and not is_dashing:
@@ -128,16 +195,7 @@ func _handle_player_input(delta: float) -> void:
 
 	# Angriff
 	if Input.is_action_pressed("attack") and attack_timer <= 0.0:
-		var aim_dir := Vector2.ZERO
-		if touch_aim_active or OS.has_feature("android"):
-			if touch_aim_dir != Vector2.ZERO:
-				aim_dir = touch_aim_dir
-			else:
-				aim_dir = _find_nearest_enemy_dir()
-		else:
-			aim_dir = (get_global_mouse_position() - global_position).normalized()
-		if aim_dir == Vector2.ZERO:
-			aim_dir = _facing
+		var aim_dir := _aim_dir if _aim_dir != Vector2.ZERO else _facing
 		perform_attack(aim_dir)
 
 
@@ -158,17 +216,15 @@ func _find_nearest_enemy_dir() -> Vector2:
 
 func _handle_autoplay(delta: float) -> void:
 	autoplay_timer += delta
-	# Kreisbewegung oder Raummitte ansteuern
 	var move_dir := Vector2(cos(autoplay_timer * 2.0), sin(autoplay_timer * 2.0))
 	_facing = move_dir
+	_aim_dir = Vector2(cos(autoplay_timer * 4.0), sin(autoplay_timer * 4.0))
 	velocity = move_dir * move_speed
 	move_and_slide()
 
-	# Automatischer Angriff
 	if attack_timer <= 0.0:
-		perform_attack(Vector2(cos(autoplay_timer * 4.0), sin(autoplay_timer * 4.0)))
+		perform_attack(_aim_dir)
 
-	# Gelegentlicher Dash
 	if dash_cooldown_timer <= 0.0 and fmod(autoplay_timer, 2.5) < 0.2:
 		start_dash(_facing)
 
@@ -176,14 +232,17 @@ func _handle_autoplay(delta: float) -> void:
 func start_dash(dir: Vector2) -> void:
 	is_dashing = true
 	dash_timer = 0.0
+	_afterimage_timer = 0.0
 	dash_direction = dir.normalized()
 	dash_cooldown_timer = dash_cooldown
 	_hurtbox.invulnerable = true
 	CryptAudio.play_dash()
+	CryptVfx.spawn_burst(get_parent(), global_position, Color("38bdf8"), 10, 190.0, 4.0)
 
 
 func perform_attack(dir: Vector2) -> void:
 	attack_timer = attack_cooldown
+	_weapon_recoil = 8.0
 	CryptAudio.play_shoot()
 	var weapon := WeaponCatalog.get_weapon(_equipped_weapon_id)
 
@@ -192,6 +251,12 @@ func perform_attack(dir: Vector2) -> void:
 	for it in items:
 		if it.special_tag == "spread": has_spread = true
 		if it.special_tag == "pierce": has_pierce = true
+
+	var style := "dagger"
+	if _equipped_weapon_id == "twin_fangs":
+		style = "twin_fang"
+	elif _equipped_weapon_id == "arcane_staff":
+		style = "arcane_orb"
 
 	var angles := [0.0]
 	if has_spread:
@@ -207,6 +272,7 @@ func perform_attack(dir: Vector2) -> void:
 		p.pierce = has_pierce or bool(weapon.get("pierce", false))
 		p.radius_scale = float(weapon.get("radius_scale", 1.0))
 		p.tint = weapon.get("color", Color("22d3ee"))
+		p.visual_style = style
 		get_parent().add_child(p)
 
 
@@ -214,6 +280,9 @@ func _on_hit_received(dmg: int, _knockback: Vector2, _from_player: bool) -> void
 	if is_dashing:
 		return
 	CryptAudio.play_hit()
+	if _visual != null:
+		_visual.flash_hit(Color("ff6b6b"), 0.18)
+	CryptVfx.spawn_burst(get_parent(), global_position, Color("ef4444"), 10, 175.0, 4.0)
 	_health.take_damage(dmg)
 	EventBus.screen_shake_requested.emit(8.0, 0.2)
 
@@ -228,36 +297,3 @@ func _on_health_changed(c: int, m: int) -> void:
 func _on_died() -> void:
 	player_died.emit()
 	EventBus.game_over.emit()
-
-
-func _draw() -> void:
-	# Moderner Vektor-Charakter
-	var body_color := Color("06b6d4")
-	if is_dashing:
-		body_color = Color("67e8f9")
-		# Dash Nachbild
-		draw_circle(-dash_direction * 22.0, 22.0, Color(0.2, 0.8, 1.0, 0.45))
-		draw_circle(-dash_direction * 11.0, 24.0, Color(0.2, 0.8, 1.0, 0.65))
-
-	# Scharfer Schatten
-	draw_circle(Vector2(0, 10), 24.0, Color(0, 0, 0, 0.5))
-	
-	# Leucht-Aura
-	draw_circle(Vector2.ZERO, 26.0, Color(0.02, 0.71, 0.83, 0.3))
-	# Heller Rand
-	draw_circle(Vector2.ZERO, 23.0, Color.WHITE)
-	# Körper
-	draw_circle(Vector2.ZERO, 21.0, body_color)
-	draw_circle(Vector2.ZERO, 15.0, Color("0f172a"))
-	
-	# Blickrichtung / Glühende Augen
-	var eye_offset := _facing * 9.0
-	draw_circle(eye_offset + Vector2(-5, -2), 4.5, Color("67e8f9"))
-	draw_circle(eye_offset + Vector2(5, -2), 4.5, Color("67e8f9"))
-	draw_circle(eye_offset + Vector2(-5, -2), 2.0, Color.WHITE)
-	draw_circle(eye_offset + Vector2(5, -2), 2.0, Color.WHITE)
-
-	# Gehaltene Leuchtdolche
-	var weapon_pos := _facing * 22.0
-	draw_circle(weapon_pos, 5.0, Color("22d3ee"))
-	draw_circle(weapon_pos, 2.5, Color.WHITE)

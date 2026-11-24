@@ -1,6 +1,6 @@
 class_name MainMenu
 extends Control
-## Hauptmenü von Crypt Dash mit Altar der Seelen, Optionen und Credits.
+## Hauptmenü von Crypt Dash mit Dark-Fantasy-Theme, schwebenden Partikeln, Altar der Seelen und Waffen-Icons.
 
 @onready var _play_button: Button = %PlayButton
 @onready var _upgrades_button: Button = %UpgradesButton
@@ -32,6 +32,9 @@ extends Control
 
 
 func _ready() -> void:
+	theme = CryptTheme.build()
+	_apply_visual_polish()
+
 	_play_button.pressed.connect(_on_play_pressed)
 	_upgrades_button.pressed.connect(_open_upgrades)
 	_close_upgrades_button.connect("pressed", _close_upgrades)
@@ -57,6 +60,80 @@ func _ready() -> void:
 	_refresh()
 	AudioService.play_music_theme("crypt")
 	_play_button.grab_focus()
+
+
+func _apply_visual_polish() -> void:
+	var title_lbl := get_node_or_null("Center/Box/Title") as Label
+	if title_lbl != null:
+		CryptTheme.style_display_label(title_lbl, 94, Color("38bdf8"))
+		title_lbl.add_theme_color_override("font_shadow_color", Color(0.0, 0.0, 0.0, 0.85))
+		title_lbl.add_theme_constant_override("shadow_offset_x", 0)
+		title_lbl.add_theme_constant_override("shadow_offset_y", 6)
+
+	for path in [
+		"HowToPlayOverlay/Center/Panel/Margin/VBox/Title",
+		"CreditsOverlay/Center/Panel/Margin/VBox/Title",
+		"UpgradesOverlay/Center/Panel/Margin/VBox/Title",
+	]:
+		var lbl := get_node_or_null(path) as Label
+		if lbl != null:
+			var col := Color("c084fc") if "Upgrades" in path else Color("38bdf8")
+			CryptTheme.style_display_label(lbl, 40, col)
+
+	# Schwebende Seelenfunken im Hintergrund
+	var wisps := CPUParticles2D.new()
+	wisps.position = Vector2(960.0, 560.0)
+	wisps.amount = 24
+	wisps.lifetime = 5.0
+	wisps.preprocess = 2.0
+	wisps.emission_shape = CPUParticles2D.EMISSION_SHAPE_RECTANGLE
+	wisps.emission_rect_extents = Vector2(920.0, 480.0)
+	wisps.gravity = Vector2(0.0, -18.0)
+	wisps.initial_velocity_min = 6.0
+	wisps.initial_velocity_max = 18.0
+	wisps.scale_amount_min = 2.2
+	wisps.scale_amount_max = 4.8
+	wisps.color = Color(0.18, 0.85, 0.94, 0.42)
+	var bg_dim := get_node_or_null("BackgroundDim")
+	if bg_dim != null:
+		bg_dim.add_child(wisps)
+
+	# Seelen-Icon neben Verfügbare Seelen
+	if _souls_avail_label != null and _souls_avail_label.get_parent() is VBoxContainer:
+		var vbox := _souls_avail_label.get_parent() as VBoxContainer
+		var idx := _souls_avail_label.get_index()
+		var row := HBoxContainer.new()
+		row.alignment = BoxContainer.ALIGNMENT_CENTER
+		row.add_theme_constant_override("separation", 10)
+		var icon := TextureRect.new()
+		icon.texture = CryptAssets.get_texture("res://assets/icons/icon_soul.png")
+		icon.custom_minimum_size = Vector2(30, 30)
+		icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+		vbox.remove_child(_souls_avail_label)
+		row.add_child(icon)
+		row.add_child(_souls_avail_label)
+		vbox.add_child(row)
+		vbox.move_child(row, idx)
+		_souls_avail_label.add_theme_color_override("font_color", Color("e9d5ff"))
+
+	# Waffen-Icons auf Startwaffen-Buttons
+	var weapon_pairs := [
+		[_weapon_daggers_btn, "daggers"],
+		[_weapon_twins_btn, "twin_fangs"],
+		[_weapon_staff_btn, "arcane_staff"],
+	]
+	for pair in weapon_pairs:
+		var btn := pair[0] as Button
+		var wid := str(pair[1])
+		if btn != null:
+			btn.icon = CryptAssets.get_texture(CryptAssets.get_weapon_sprite_path(wid))
+			btn.expand_icon = true
+			btn.icon_alignment = HORIZONTAL_ALIGNMENT_CENTER
+			btn.vertical_icon_alignment = VERTICAL_ALIGNMENT_TOP
+			btn.add_theme_constant_override("icon_max_width", 64)
+			btn.custom_minimum_size = Vector2(0, 126)
+			btn.add_theme_font_size_override("font_size", 16)
 
 
 func _exit_tree() -> void:

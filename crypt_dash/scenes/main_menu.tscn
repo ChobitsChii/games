@@ -414,7 +414,7 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="Panel" type="PanelContainer" parent="UpgradesOverlay/Center"]
-custom_minimum_size = Vector2(960, 740)
+custom_minimum_size = Vector2(980, 790)
 layout_mode = 2
 
 [node name="Margin" type="MarginContainer" parent="UpgradesOverlay/Center/Panel"]

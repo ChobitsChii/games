@@ -12,6 +12,22 @@ func _init() -> void:
 	contact_damage = 1
 
 
+func get_sprite_path() -> String:
+	return "res://assets/sprites/enemy_slime.png"
+
+
+func get_sprite_size() -> float:
+	return 64.0 if split_level > 0 else 44.0
+
+
+func get_death_color() -> Color:
+	return Color("84cc16")
+
+
+func get_bounce_strength() -> float:
+	return 1.45
+
+
 func _on_died() -> void:
 	if split_level > 0:
 		for offset in [Vector2(-20, 0), Vector2(20, 0)]:
@@ -23,20 +39,3 @@ func _on_died() -> void:
 			get_parent().call_deferred("add_child", mini_slime)
 
 	super._on_died()
-
-
-func _draw() -> void:
-	super._draw()
-	var radius := 18.0 if split_level > 0 else 12.0
-	# Leucht-Aura
-	draw_circle(Vector2.ZERO, radius + 4.0, Color(0.5, 0.9, 0.1, 0.35))
-	# Scharfe Outline
-	draw_circle(Vector2.ZERO, radius + 1.5, Color("14532d"))
-	# Giftiges Säure-Grün
-	draw_circle(Vector2.ZERO, radius, Color("84cc16"))
-	draw_circle(Vector2(0, -3), radius * 0.65, Color("bef264"))
-	# Gelbe Augen
-	draw_circle(Vector2(-4, -2), 3.5, Color("fef08a"))
-	draw_circle(Vector2(4, -2), 3.5, Color("fef08a"))
-	draw_circle(Vector2(-4, -2), 1.5, Color("1e293b"))
-	draw_circle(Vector2(4, -2), 1.5, Color("1e293b"))

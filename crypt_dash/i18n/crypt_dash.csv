@@ -1,14 +1,18 @@
 keys,de,en
 MENU_TITLE,Crypt Dash,Crypt Dash
 MENU_PLAY,▶ Run starten,▶ Start Run
-MENU_UPGRADES,🛒 Altar der Seelen,🛒 Soul Altar
-MENU_HOW_TO_PLAY,📜 Anleitung & Steuerung,📜 Guide & Controls
-MENU_ALMANAC,📖 Lexikon & Bestiarium,📖 Almanac & Bestiary
-MENU_ALMANAC_TITLE,📖 Gruft-Lexikon & Relikte,📖 Crypt Almanac & Relics
-MENU_CREDITS,ℹ Mitwirkende & Credits,ℹ Credits
+MENU_UPGRADES,Altar der Seelen,Soul Altar
+MENU_HOW_TO_PLAY,Anleitung & Steuerung,Guide & Controls
+MENU_ALMANAC,Lexikon & Bestiarium,Almanac & Bestiary
+MENU_ALMANAC_TITLE,Gruft-Lexikon & Relikte,Crypt Almanac & Relics
+MENU_CREDITS,Mitwirkende & Credits,Credits
 COMMON_CLOSE,Schließen,Close
 DISPLAY_BORDERLESS,Randlos,Borderless
 HUD_FLOOR,Etage %d,Floor %d
+HUD_FLOOR_NAME_1,Katakomben,Catacombs
+HUD_FLOOR_NAME_2,Glutgewölbe,Ember Vaults
+HUD_FLOOR_NAME_3,Schattenzitadelle,Shadow Citadel
+HUD_FLOOR_FULL,Etage %d · %s,Floor %d · %s
 HUD_HEALTH,Leben,Health
 HUD_DASH,Dash,Dash
 HUD_SOULS,Seelen: %d,Souls: %d
@@ -73,7 +77,7 @@ ENEMY_SUMMONER,Nekromant,Necromancer
 BOSS_FLOOR_1,Knochenfürst Malok,Bone Lord Malok
 BOSS_FLOOR_2,Schattenweberin Vex,Shadow Weaver Vex
 BOSS_FLOOR_3,Kryptafürst Thanatos,Crypt Lord Thanatos
-HELP_TITLE,📜 Spielanleitung & Steuerung,📜 Game Guide & Controls
+HELP_TITLE,Spielanleitung & Steuerung,Game Guide & Controls
 HELP_HEADER_CONTROLS,Steuerung,Controls
 HELP_CONTROLS_MOVE,• Bewegen: [W/A/S/D] oder [Pfeiltasten] (Gamepad: Linker Stick),• Movement: [W/A/S/D] or [Arrow Keys] (Gamepad: Left Stick)
 HELP_CONTROLS_DASH,• Dash (Ausweichen): [Leertaste] (0.18s vollständige Unverwundbarkeit gegen Treffer & Projektile!),• Dash: [Spacebar] (0.18s full invulnerability against hits & projectiles!)

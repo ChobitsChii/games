@@ -11,6 +11,9 @@ signal room_cleared(coords: Vector2i)
 signal item_collected(item_id: String)
 signal souls_changed(total_souls: int)
 signal floor_completed(floor_num: int)
+signal boss_spawned(boss_name: String, current_hp: int, max_hp: int)
+signal boss_health_changed(current_hp: int, max_hp: int, phase_idx: int)
+signal boss_defeated
 signal game_won
 signal game_over
 signal screen_shake_requested(intensity: float, duration: float)

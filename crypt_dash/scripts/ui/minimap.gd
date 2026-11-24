@@ -1,27 +1,22 @@
 class_name Minimap
 extends Control
-## Minimap für Crypt Dash: Zeigt ein 7x7 Raster der besuchten und angrenzenden Räume.
-## Icons & Farben:
-## - Spieler / Aktueller Raum: Türkis leuchtend
-## - Besuchter Kampfraum: Hellgrau
-## - Unbesuchter bekannter Nachbar: Dunkles Schieferblau
-## - Schatzkammer: Gold
-## - Bossraum: Rubinrot
+## Stilvolle Obsidian-Minimap für Crypt Dash: zeigt 7x7 Raumraster mit Türen, Schatz- und Boss-Symbolen.
 
 var dungeon: DungeonGenerator.DungeonFloor
 var current_coords: Vector2i = Vector2i(3, 3)
 var visited_rooms: Dictionary = {} # Vector2i -> bool
 
 const CELL_SIZE := 20.0
-const PADDING := 4.0
+const PADDING := 5.0
 const GRID_DIM := 7
 
 
 func _init() -> void:
 	custom_minimum_size = Vector2(
-		GRID_DIM * (CELL_SIZE + PADDING) + 16.0,
-		GRID_DIM * (CELL_SIZE + PADDING) + 16.0
+		GRID_DIM * (CELL_SIZE + PADDING) + 18.0,
+		GRID_DIM * (CELL_SIZE + PADDING) + 18.0
 	)
+	size = custom_minimum_size
 	mouse_filter = MOUSE_FILTER_IGNORE
 
 
@@ -42,15 +37,18 @@ func _draw() -> void:
 	if dungeon == null:
 		return
 
-	# Hintergrund-Kasten (abgerundetes Panel)
 	var bg_rect := Rect2(Vector2.ZERO, size)
-	draw_rect(bg_rect, Color(0.04, 0.07, 0.12, 0.8), true)
-	draw_rect(bg_rect, Color(0.12, 0.2, 0.3, 0.9), false, 2.0)
+	var panel_sb := CryptTheme.make_glass_card(
+		Color(0.04, 0.06, 0.12, 0.88),
+		Color(0.24, 0.56, 0.72, 0.72),
+		2, 12,
+		Color(0.0, 0.0, 0.0, 0.6), 10
+	)
+	draw_style_box(panel_sb, bg_rect)
 
-	var offset_x := 8.0
-	var offset_y := 8.0
+	var offset_x := 11.0
+	var offset_y := 11.0
 
-	# 7x7 Räume zeichnen
 	for y in range(GRID_DIM):
 		for x in range(GRID_DIM):
 			var coords := Vector2i(x, y)
@@ -59,7 +57,6 @@ func _draw() -> void:
 				continue
 
 			var is_visited: bool = visited_rooms.get(coords, false)
-			# Prüfen ob Raum an einen besuchten Raum angrenzt (Fog of War)
 			var is_adjacent: bool = false
 			if not is_visited:
 				for n_dir in [Vector2i(0, -1), Vector2i(0, 1), Vector2i(-1, 0), Vector2i(1, 0)]:
@@ -68,13 +65,14 @@ func _draw() -> void:
 						break
 
 			if not is_visited and not is_adjacent:
-				continue # Noch im Nebel
+				continue
 
 			var cell_pos := Vector2(
 				offset_x + x * (CELL_SIZE + PADDING),
 				offset_y + y * (CELL_SIZE + PADDING)
 			)
 			var cell_rect := Rect2(cell_pos, Vector2(CELL_SIZE, CELL_SIZE))
+			var center := cell_pos + Vector2(CELL_SIZE * 0.5, CELL_SIZE * 0.5)
 
 			var fill_color := Color("1e293b")
 			var border_color := Color("334155")
@@ -82,34 +80,54 @@ func _draw() -> void:
 			if is_visited:
 				match r_data.type:
 					DungeonGenerator.RoomType.START:
-						fill_color = Color("0284c7") # Blau
+						fill_color = Color("0369a1")
 					DungeonGenerator.RoomType.TREASURE:
-						fill_color = Color("f59e0b") # Gold
+						fill_color = Color("b45309")
 					DungeonGenerator.RoomType.BOSS:
-						fill_color = Color("ef4444") # Rot
+						fill_color = Color("991b1b")
 					_:
-						fill_color = Color("475569") # Besuchter Kampfraum
+						fill_color = Color("334155")
 				border_color = Color("94a3b8")
 			else:
-				# Bekannter Nachbarraum
 				fill_color = Color("0f172a")
-				border_color = Color("38bdf8") if r_data.type == DungeonGenerator.RoomType.BOSS else Color("334155")
+				if r_data.type == DungeonGenerator.RoomType.BOSS:
+					border_color = Color("ef4444")
+				elif r_data.type == DungeonGenerator.RoomType.TREASURE:
+					border_color = Color("f59e0b")
+				else:
+					border_color = Color("475569")
 
-			draw_rect(cell_rect, fill_color, true)
-			draw_rect(cell_rect, border_color, false, 1.5)
+			var cell_sb := StyleBoxFlat.new()
+			cell_sb.bg_color = fill_color
+			cell_sb.border_color = border_color
+			cell_sb.set_border_width_all(1)
+			cell_sb.set_corner_radius_all(4)
+			draw_style_box(cell_sb, cell_rect)
 
-			# Türen als kleine Verbindungen zeichnen
 			if is_visited:
+				var conn_col := Color("38bdf8")
 				if r_data.doors["north"]:
-					draw_line(cell_pos + Vector2(CELL_SIZE / 2.0, 0), cell_pos + Vector2(CELL_SIZE / 2.0, -PADDING), Color("38bdf8"), 2.0)
+					draw_line(cell_pos + Vector2(CELL_SIZE * 0.5, 0.0), cell_pos + Vector2(CELL_SIZE * 0.5, -PADDING), conn_col, 2.5)
 				if r_data.doors["south"]:
-					draw_line(cell_pos + Vector2(CELL_SIZE / 2.0, CELL_SIZE), cell_pos + Vector2(CELL_SIZE / 2.0, CELL_SIZE + PADDING), Color("38bdf8"), 2.0)
+					draw_line(cell_pos + Vector2(CELL_SIZE * 0.5, CELL_SIZE), cell_pos + Vector2(CELL_SIZE * 0.5, CELL_SIZE + PADDING), conn_col, 2.5)
 				if r_data.doors["west"]:
-					draw_line(cell_pos + Vector2(0, CELL_SIZE / 2.0), cell_pos + Vector2(-PADDING, CELL_SIZE / 2.0), Color("38bdf8"), 2.0)
+					draw_line(cell_pos + Vector2(0.0, CELL_SIZE * 0.5), cell_pos + Vector2(-PADDING, CELL_SIZE * 0.5), conn_col, 2.5)
 				if r_data.doors["east"]:
-					draw_line(cell_pos + Vector2(CELL_SIZE, CELL_SIZE / 2.0), cell_pos + Vector2(CELL_SIZE + PADDING, CELL_SIZE / 2.0), Color("38bdf8"), 2.0)
+					draw_line(cell_pos + Vector2(CELL_SIZE, CELL_SIZE * 0.5), cell_pos + Vector2(CELL_SIZE + PADDING, CELL_SIZE * 0.5), conn_col, 2.5)
 
-			# Aktueller Spieler-Marker
+			if r_data.type == DungeonGenerator.RoomType.TREASURE and coords != current_coords:
+				var d := PackedVector2Array([
+					center + Vector2(0.0, -4.5),
+					center + Vector2(4.5, 0.0),
+					center + Vector2(0.0, 4.5),
+					center + Vector2(-4.5, 0.0),
+				])
+				draw_colored_polygon(d, Color("fde047"))
+			elif r_data.type == DungeonGenerator.RoomType.BOSS and coords != current_coords:
+				draw_circle(center, 4.5, Color("f87171"))
+				draw_line(center + Vector2(-4.0, -3.0), center + Vector2(-5.5, -6.0), Color("fca5a5"), 1.5)
+				draw_line(center + Vector2(4.0, -3.0), center + Vector2(5.5, -6.0), Color("fca5a5"), 1.5)
+
 			if coords == current_coords:
-				draw_circle(cell_pos + Vector2(CELL_SIZE / 2.0, CELL_SIZE / 2.0), CELL_SIZE / 3.0, Color("22d3ee"))
-				draw_circle(cell_pos + Vector2(CELL_SIZE / 2.0, CELL_SIZE / 2.0), CELL_SIZE / 5.0, Color.WHITE)
+				draw_circle(center, CELL_SIZE * 0.32, Color("22d3ee"))
+				draw_circle(center, CELL_SIZE * 0.16, Color.WHITE)
