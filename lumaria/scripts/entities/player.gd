@@ -20,6 +20,8 @@ const ATTACK_DURATION := 0.20
 const SPIN_DURATION := 0.28
 const COMBO_WINDOW := 0.38
 const CHARGE_TIME_REQUIRED := 0.42
+const BASE_VISUALS_Y := -56.0
+const BASE_SPRITE_SCALE := Vector2(0.48, 0.48)
 
 const TEX_DOWN: Texture2D = preload("res://assets/characters/player/player_down.png")
 const TEX_UP: Texture2D = preload("res://assets/characters/player/player_up.png")
@@ -55,26 +57,42 @@ var _auto_timer: float = 0.0
 @onready var _visuals: Node2D = $Visuals
 @onready var _sprite: Sprite2D = %CharacterSprite
 @onready var _slash_arc: Sprite2D = %SlashArc
-@onready var _shadow: ColorRect = $Shadow
+@onready var _shadow: Sprite2D = $Shadow
+
+var _dialogue_started_cb: Callable
+var _dialogue_ended_cb: Callable
 
 
 func _ready() -> void:
+	if not is_in_group("player"):
+		add_to_group("player")
 	if _sword_hitbox:
 		_sword_hitbox.monitoring = false
 	if _spin_hitbox:
 		_spin_hitbox.monitoring = false
 	if _slash_arc:
 		_slash_arc.visible = false
+	if _visuals:
+		_visuals.position.y = BASE_VISUALS_Y
+	if _sprite:
+		_sprite.scale = BASE_SPRITE_SCALE
 	_update_texture()
 
-	EventBus.dialogue_started.connect(func(_n: String, _t: String, _p: String) -> void:
+	_dialogue_started_cb = func(_n: String, _t: String, _p: String) -> void:
 		is_input_locked = true
 		velocity = Vector2.ZERO
 		current_state = State.IDLE
-	)
-	EventBus.dialogue_ended.connect(func() -> void:
+	_dialogue_ended_cb = func() -> void:
 		is_input_locked = false
-	)
+	EventBus.dialogue_started.connect(_dialogue_started_cb)
+	EventBus.dialogue_ended.connect(_dialogue_ended_cb)
+
+
+func _exit_tree() -> void:
+	if _dialogue_started_cb.is_valid() and EventBus.dialogue_started.is_connected(_dialogue_started_cb):
+		EventBus.dialogue_started.disconnect(_dialogue_started_cb)
+	if _dialogue_ended_cb.is_valid() and EventBus.dialogue_ended.is_connected(_dialogue_ended_cb):
+		EventBus.dialogue_ended.disconnect(_dialogue_ended_cb)
 
 
 func _physics_process(delta: float) -> void:
@@ -140,18 +158,18 @@ func _process_movement(delta: float) -> void:
 		
 		# Lebendige Schritt-Animation synchron zur Gehgeschwindigkeit
 		_step_phase += delta * (velocity.length() / SPEED) * 14.0
-		_visuals.position.y = -52.0 - absf(sin(_step_phase)) * 6.0
+		_visuals.position.y = BASE_VISUALS_Y - absf(sin(_step_phase)) * 6.0
 		_visuals.rotation = sin(_step_phase) * 0.05 + clampf(velocity.x * 0.0003, -0.06, 0.06)
-		_sprite.scale = Vector2(0.46, 0.46)
+		_sprite.scale = BASE_SPRITE_SCALE
 	else:
 		velocity = Vector2.ZERO
 		current_state = State.IDLE
 		
 		# Sanfte Atemanimation im Stillstand
 		_idle_phase += delta * 2.8
-		_visuals.position.y = -52.0 + sin(_idle_phase) * 1.5
+		_visuals.position.y = BASE_VISUALS_Y + sin(_idle_phase) * 1.5
 		_visuals.rotation = move_toward(_visuals.rotation, 0.0, delta * 3.0)
-		_sprite.scale = Vector2(0.46, 0.46 + sin(_idle_phase) * 0.008)
+		_sprite.scale = Vector2(BASE_SPRITE_SCALE.x, BASE_SPRITE_SCALE.y + sin(_idle_phase) * 0.008)
 
 	move_and_slide()
 
@@ -270,8 +288,8 @@ func shoot_arrow() -> void:
 	AudioManager.play_sfx("slash", 1.45)
 	var recoil := -facing_direction * 6.0
 	var tween := create_tween()
-	tween.tween_property(_visuals, "position", Vector2(recoil.x, -52.0 + recoil.y), 0.06)
-	tween.tween_property(_visuals, "position", Vector2(0, -52.0), 0.1)
+	tween.tween_property(_visuals, "position", Vector2(recoil.x, BASE_VISUALS_Y + recoil.y), 0.06)
+	tween.tween_property(_visuals, "position", Vector2(0, BASE_VISUALS_Y), 0.1)
 
 
 func place_bomb() -> void:
@@ -289,8 +307,8 @@ func throw_boomerang() -> void:
 	active_boomerang.launch(self, facing_direction)
 	var lunge := facing_direction * 12.0
 	var tween := create_tween()
-	tween.tween_property(_visuals, "position", Vector2(lunge.x, -52.0 + lunge.y), 0.08)
-	tween.tween_property(_visuals, "position", Vector2(0, -52.0), 0.12)
+	tween.tween_property(_visuals, "position", Vector2(lunge.x, BASE_VISUALS_Y + lunge.y), 0.08)
+	tween.tween_property(_visuals, "position", Vector2(0, BASE_VISUALS_Y), 0.12)
 
 
 func fire_tether() -> void:
@@ -301,8 +319,8 @@ func fire_tether() -> void:
 	active_tether.launch(self, facing_direction)
 	var lunge := facing_direction * 10.0
 	var tween := create_tween()
-	tween.tween_property(_visuals, "position", Vector2(lunge.x, -52.0 + lunge.y), 0.08)
-	tween.tween_property(_visuals, "position", Vector2(0, -52.0), 0.12)
+	tween.tween_property(_visuals, "position", Vector2(lunge.x, BASE_VISUALS_Y + lunge.y), 0.08)
+	tween.tween_property(_visuals, "position", Vector2(0, BASE_VISUALS_Y), 0.12)
 
 
 func pull_to_target(target_pos: Vector2, tether: KineticTether) -> void:
@@ -367,10 +385,10 @@ func start_attack() -> void:
 	# Kraftvoller Ausfallschritt nach vorne beim Schlagen
 	var attack_lunge := facing_direction * lunge_dist
 	var tween := create_tween()
-	tween.tween_property(_visuals, "position", Vector2(attack_lunge.x, -52.0 + attack_lunge.y), 0.07)
-	tween.parallel().tween_property(_sprite, "scale", Vector2(0.52, 0.44), 0.07)
-	tween.tween_property(_visuals, "position", Vector2(0, -52.0), 0.12)
-	tween.parallel().tween_property(_sprite, "scale", Vector2(0.46, 0.46), 0.12)
+	tween.tween_property(_visuals, "position", Vector2(attack_lunge.x, BASE_VISUALS_Y + attack_lunge.y), 0.07)
+	tween.parallel().tween_property(_sprite, "scale", Vector2(0.54, 0.45), 0.07)
+	tween.tween_property(_visuals, "position", Vector2(0, BASE_VISUALS_Y), 0.12)
+	tween.parallel().tween_property(_sprite, "scale", BASE_SPRITE_SCALE, 0.12)
 
 
 func start_spin_attack() -> void:
@@ -393,8 +411,8 @@ func start_spin_attack() -> void:
 	# 360-Grad Wirbelwind-Drehung
 	var tween := create_tween()
 	tween.tween_property(_visuals, "rotation", TAU, SPIN_DURATION)
-	tween.parallel().tween_property(_sprite, "scale", Vector2(0.55, 0.55), SPIN_DURATION * 0.5)
-	tween.tween_property(_sprite, "scale", Vector2(0.46, 0.46), SPIN_DURATION * 0.5)
+	tween.parallel().tween_property(_sprite, "scale", Vector2(0.57, 0.57), SPIN_DURATION * 0.5)
+	tween.tween_property(_sprite, "scale", BASE_SPRITE_SCALE, SPIN_DURATION * 0.5)
 
 
 func _show_slash_arc(rot: float, flip_v: bool, scale_mul: float) -> void:
@@ -460,8 +478,8 @@ func start_roll() -> void:
 	var roll_sign: float = -1.0 if _roll_direction.x < 0 else 1.0
 	var tween := create_tween()
 	tween.tween_property(_visuals, "rotation", roll_sign * TAU, ROLL_DURATION)
-	tween.parallel().tween_property(_sprite, "scale", Vector2(0.34, 0.34), ROLL_DURATION * 0.5)
-	tween.tween_property(_sprite, "scale", Vector2(0.46, 0.46), ROLL_DURATION * 0.5)
+	tween.parallel().tween_property(_sprite, "scale", Vector2(0.36, 0.36), ROLL_DURATION * 0.5)
+	tween.tween_property(_sprite, "scale", BASE_SPRITE_SCALE, ROLL_DURATION * 0.5)
 
 
 func _process_roll(delta: float) -> void:
@@ -478,41 +496,86 @@ func start_block() -> void:
 	current_state = State.BLOCK
 	block_hold_time = 0.0
 	velocity = Vector2.ZERO
-	_visuals.position.y = -46.0 # Schildhaltung: tiefere kompakte Silhouette
+	if _visuals:
+		_visuals.position.y = BASE_VISUALS_Y + 6.0 # Schildhaltung: tiefere kompakte Silhouette
 
 
 func _process_block(delta: float) -> void:
 	block_hold_time += delta
 	if not autoplay and not Input.is_action_pressed("shield"):
 		current_state = State.IDLE
-		_visuals.position.y = -52.0
+		if _visuals:
+			_visuals.position.y = BASE_VISUALS_Y
 		return
 	if autoplay and block_hold_time > 0.35:
 		current_state = State.IDLE
-		_visuals.position.y = -52.0
+		if _visuals:
+			_visuals.position.y = BASE_VISUALS_Y
+
+
+func _get_active_inventory() -> InventoryModel:
+	if SaveSlotManager.runtime_inventory != null:
+		return SaveSlotManager.runtime_inventory
+	var p := get_parent()
+	if p != null and p.get("inventory") is InventoryModel:
+		return p.get("inventory") as InventoryModel
+	return null
+
+
+func _apply_vitality_damage(quarters: int) -> bool:
+	var inv := _get_active_inventory()
+	if inv == null or quarters <= 0:
+		return false
+	var dead: bool = inv.take_damage(quarters)
+	if dead:
+		is_input_locked = true
+		velocity = Vector2.ZERO
+		is_invulnerable = true
+		EventBus.player_died.emit()
+	return dead
+
+
+func take_damage(quarters: int, attacker_pos: Vector2) -> Dictionary:
+	return _resolve_player_damage(quarters * 10, attacker_pos, quarters)
 
 
 func take_hit(incoming_damage: int, attacker_pos: Vector2) -> Dictionary:
+	return _resolve_player_damage(incoming_damage, attacker_pos, -1)
+
+
+func _resolve_player_damage(defense_input: int, attacker_pos: Vector2, exact_quarters: int) -> Dictionary:
 	if is_invulnerable:
-		return {"absorbed": true, "damage": 0, "parried": false}
+		return {"absorbed": true, "damage_taken": 0, "parried": false, "blocked": false}
 
 	var is_blocking: bool = (current_state == State.BLOCK)
-	var resolution: Dictionary = CombatCalculator.resolve_defense(incoming_damage, is_blocking, block_hold_time)
+	var resolution: Dictionary = CombatCalculator.resolve_defense(defense_input, is_blocking, block_hold_time)
 
 	if resolution["parried"]:
 		defended.emit(true)
 		AudioManager.play_sfx("parry", 1.1)
 		camera_shake_requested.emit(0.35)
 		_flash_sprite(Color(2.0, 2.0, 2.0)) # Weißer Blitz bei Parade
-		EventBus.player_healed.emit(1, 12)
+		var inv := _get_active_inventory()
+		if inv != null:
+			inv.heal(1)
+		EventBus.show_toast_requested.emit(tr("MSG_PARRY_SUCCESS"))
 		return resolution
 
+	var quarters_to_apply: int = 0
+	var can_slide: bool = is_inside_tree() and PhysicsServer2D.body_get_space(get_rid()).is_valid()
 	if resolution["blocked"]:
 		defended.emit(false)
 		AudioManager.play_sfx("hit", 1.3) # Gedämpfter Schildtreffer
 		camera_shake_requested.emit(0.15)
 		velocity = CombatCalculator.calculate_knockback(attacker_pos, global_position, 180.0)
-		move_and_slide()
+		if can_slide:
+			move_and_slide()
+		if exact_quarters >= 0:
+			quarters_to_apply = maxi(1, int(floor(float(exact_quarters) * 0.5))) if exact_quarters > 0 else 0
+		else:
+			var dmg_blocked: int = int(resolution.get("damage_taken", 0))
+			quarters_to_apply = clampi(int(round(float(dmg_blocked) / 10.0)), 1, 4) if dmg_blocked > 0 else 0
+		_apply_vitality_damage(quarters_to_apply)
 		return resolution
 
 	# Ungeblockter Treffer
@@ -521,19 +584,34 @@ func take_hit(incoming_damage: int, attacker_pos: Vector2) -> Dictionary:
 	_flash_sprite(Color(1.8, 0.4, 0.4)) # Roter Trefferblitz
 	_start_invulnerability(0.65)
 	velocity = CombatCalculator.calculate_knockback(attacker_pos, global_position, 340.0)
-	move_and_slide()
+	if can_slide:
+		move_and_slide()
+	if exact_quarters >= 0:
+		quarters_to_apply = maxi(1, exact_quarters)
+	else:
+		var dmg_unblocked: int = int(resolution.get("damage_taken", defense_input))
+		quarters_to_apply = clampi(int(round(float(dmg_unblocked) / 10.0)), 1, 4) if dmg_unblocked > 0 else 0
+	_apply_vitality_damage(quarters_to_apply)
 	return resolution
 
 
 func _flash_sprite(color: Color) -> void:
+	if not is_inside_tree() or _sprite == null:
+		return
 	var tween := create_tween()
+	if tween == null:
+		return
 	tween.tween_property(_sprite, "modulate", color, 0.05)
 	tween.tween_property(_sprite, "modulate", Color.WHITE, 0.12)
 
 
 func _start_invulnerability(duration: float) -> void:
 	is_invulnerable = true
+	if not is_inside_tree() or _sprite == null:
+		return
 	var tween := create_tween()
+	if tween == null:
+		return
 	# Flimmern während der Unverwundbarkeit
 	for i in range(5):
 		tween.tween_property(_sprite, "modulate:a", 0.35, duration / 10.0)

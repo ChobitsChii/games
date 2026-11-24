@@ -33,9 +33,11 @@ size = Vector2(240, 360)
 size = Vector2(240, 360)
 
 [node name="TowerEternal" type="Node2D"]
+y_sort_enabled = true
 script = ExtResource("1_tower")
 
 [node name="Environment" type="Node2D" parent="."]
+z_index = -10
 
 [node name="Background" type="Sprite2D" parent="Environment"]
 position = Vector2(960, 540)
@@ -69,6 +71,7 @@ position = Vector2(1440, 720)
 shape = SubResource("RectangleShape2D_void_east")
 
 [node name="Props" type="Node2D" parent="."]
+y_sort_enabled = true
 
 [node name="Pot1" parent="Props" instance=ExtResource("7_pot")]
 position = Vector2(240, 880)
@@ -77,12 +80,14 @@ position = Vector2(240, 880)
 position = Vector2(1680, 880)
 
 [node name="Vents" type="Node2D" parent="."]
+y_sort_enabled = true
 
 [node name="WindVentCenter" parent="Vents" instance=ExtResource("8_vent")]
 position = Vector2(960, 760)
 blow_direction = Vector2(0, -1)
 
 [node name="Trials" type="Node2D" parent="."]
+y_sort_enabled = true
 
 [node name="SwitchRoots" parent="Trials" instance=ExtResource("10_switch")]
 unique_name_in_owner = true
@@ -110,6 +115,7 @@ door_id = "apex_gate"
 requires_switch = true
 
 [node name="BossSanctuary" type="Node2D" parent="."]
+y_sort_enabled = true
 
 [node name="OrbNature" parent="BossSanctuary" instance=ExtResource("10_switch")]
 unique_name_in_owner = true

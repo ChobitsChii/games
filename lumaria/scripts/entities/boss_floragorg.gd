@@ -146,7 +146,8 @@ func _on_core_area_entered(area: Area2D) -> void:
 		stun_boss()
 	elif boss_state == BossState.STUNNED:
 		if area.name == "SwordHitbox" or area.name == "SpinHitbox":
-			take_hit(CombatCalculator.calculate_sword_damage(1, area.name == "SpinHitbox"), area.global_position, 0.0)
+			var tier: int = SaveSlotManager.runtime_inventory.sword_tier if SaveSlotManager.runtime_inventory != null else 1
+			take_hit(CombatCalculator.calculate_sword_damage(tier, area.name == "SpinHitbox"), area.global_position, 0.0)
 
 
 func stun_boss() -> void:

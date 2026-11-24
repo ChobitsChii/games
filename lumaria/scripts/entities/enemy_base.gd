@@ -59,11 +59,13 @@ func _on_hurtbox_area_entered(area: Area2D) -> void:
 		return
 	if area.name == "SwordHitbox":
 		var p: Node2D = area.get_parent()
-		var dmg: int = CombatCalculator.calculate_sword_damage(1)
+		var tier: int = SaveSlotManager.runtime_inventory.sword_tier if SaveSlotManager.runtime_inventory != null else 1
+		var dmg: int = CombatCalculator.calculate_sword_damage(tier)
 		take_hit(dmg, p.global_position, 340.0)
 	elif area.name == "SpinHitbox":
 		var p: Node2D = area.get_parent()
-		var dmg: int = CombatCalculator.calculate_sword_damage(1, true)
+		var tier: int = SaveSlotManager.runtime_inventory.sword_tier if SaveSlotManager.runtime_inventory != null else 1
+		var dmg: int = CombatCalculator.calculate_sword_damage(tier, true)
 		take_hit(dmg, p.global_position, 480.0)
 
 

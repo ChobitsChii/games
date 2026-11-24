@@ -13,8 +13,9 @@ MENU_SLOT_2,Spielstand 2,Save Slot 2
 MENU_SLOT_3,Spielstand 3,Save Slot 3
 HUD_LUMEN,Lumen,Lumen
 HUD_KEYS,Schlüssel,Keys
+HUD_VITALITY,Leben,Vitality
 HUD_SLOT_Q,[Q] Gadget 1,[Q] Gadget 1
-HUD_SLOT_E,[E] Gadget 2,[E] Gadget 2
+HUD_SLOT_E,[R] Gadget 2,[R] Gadget 2
 GAME_PAUSED,Pause,Game Paused
 GAME_OVER,Gefallen im Schatten,Fallen in Shadow
 VICTORY_TITLE,Das Ewige Prisma erstrahlt!,The Eternal Prism Shines!
@@ -74,7 +75,7 @@ INV_STATS,Status & Relikte,Status & Relics
 INV_GADGETS,Ausrüstung,Equipment
 INV_QUESTS,Aktuelle Quest,Current Quest
 INV_EQUIP_SLOT_1,Auf Slot 1 (Q) legen,Assign to Slot 1 (Q)
-INV_EQUIP_SLOT_2,Auf Slot 2 (E) legen,Assign to Slot 2 (E)
+INV_EQUIP_SLOT_2,Auf Slot 2 (R) legen,Assign to Slot 2 (R)
 INV_SWORD_TIER,Klingen-Stufe: %d,Blade Tier: %d
 INV_LOCKED,Gesperrt,Locked
 PROMPT_CHEST_OPEN,[E] Truhe öffnen,[E] Open Chest

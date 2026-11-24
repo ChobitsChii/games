@@ -25,15 +25,17 @@ normal = Vector2(1, 0)
 normal = Vector2(-1, 0)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_chasm_top"]
-size = Vector2(400, 360)
+size = Vector2(320, 220)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_chasm_bottom"]
-size = Vector2(400, 360)
+size = Vector2(320, 220)
 
 [node name="EchoingPlateau" type="Node2D"]
+y_sort_enabled = true
 script = ExtResource("1_plateau")
 
 [node name="Environment" type="Node2D" parent="."]
+z_index = -10
 
 [node name="Background" type="Sprite2D" parent="Environment"]
 position = Vector2(960, 540)
@@ -62,14 +64,15 @@ shape = SubResource("WorldBoundaryShape2D_right")
 collision_mask = 0
 
 [node name="ChasmTop" type="CollisionShape2D" parent="Environment/MountainChasms"]
-position = Vector2(960, 320)
+position = Vector2(960, 330)
 shape = SubResource("RectangleShape2D_chasm_top")
 
 [node name="ChasmBottom" type="CollisionShape2D" parent="Environment/MountainChasms"]
-position = Vector2(960, 780)
+position = Vector2(960, 750)
 shape = SubResource("RectangleShape2D_chasm_bottom")
 
 [node name="Props" type="Node2D" parent="."]
+y_sort_enabled = true
 
 [node name="Pot1" parent="Props" instance=ExtResource("7_pot")]
 position = Vector2(320, 680)
@@ -81,6 +84,7 @@ position = Vector2(370, 680)
 position = Vector2(1620, 680)
 
 [node name="Interactables" type="Node2D" parent="."]
+y_sort_enabled = true
 
 [node name="CrackedWallCave" parent="Interactables" instance=ExtResource("8_cracked")]
 position = Vector2(360, 240)
@@ -92,7 +96,7 @@ chest_id = "chest_bombs"
 item_type = "bombs"
 
 [node name="ExitToOakhaven" parent="Interactables" instance=ExtResource("12_portal")]
-position = Vector2(960, 1000)
+position = Vector2(960, 995)
 target_scene_path = "res://scenes/game.tscn"
 prompt_key = "PROMPT_EXIT_DUNGEON"
 entry_point_id = "north"
@@ -104,11 +108,12 @@ target_scene_path = "res://scenes/world/bastion_wind.tscn"
 prompt_key = "PROMPT_ENTER_BASTION"
 
 [node name="EnterTower" parent="Interactables" instance=ExtResource("12_portal")]
-position = Vector2(960, 110)
+position = Vector2(960, 115)
 target_scene_path = "res://scenes/world/tower_eternal.tscn"
 prompt_key = "PROMPT_ENTER_TOWER"
 
 [node name="Enemies" type="Node2D" parent="."]
+y_sort_enabled = true
 
 [node name="Scout1" parent="Enemies" instance=ExtResource("10_scout")]
 position = Vector2(560, 540)
@@ -117,10 +122,10 @@ position = Vector2(560, 540)
 position = Vector2(1440, 540)
 
 [node name="Player" parent="." instance=ExtResource("3_player")]
-position = Vector2(960, 880)
+position = Vector2(960, 915)
 
 [node name="Camera2D" type="Camera2D" parent="."]
-position = Vector2(960, 880)
+position = Vector2(960, 915)
 limit_left = 0
 limit_top = 0
 limit_right = 1920

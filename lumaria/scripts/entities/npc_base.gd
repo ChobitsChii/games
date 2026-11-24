@@ -31,7 +31,7 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	# Sanfte Atemanimation
 	_phase += delta * 2.6
-	_sprite.position.y = -44.0 + sin(_phase) * 1.5
+	_sprite.position.y = -62.0 + sin(_phase) * 1.5
 
 	# Wenn Spieler in Reichweite, auf Taste 'interact' prüfen
 	if _player_nearby != null and is_instance_valid(_player_nearby):
@@ -66,7 +66,7 @@ func _show_prompt(show: bool) -> void:
 		_prompt.modulate.a = 0.0
 		var tween := create_tween()
 		tween.tween_property(_prompt, "modulate:a", 1.0, 0.15)
-		tween.parallel().tween_property(_prompt, "position:y", -110.0, 0.15)
+		tween.parallel().tween_property(_prompt, "position:y", -140.0, 0.15)
 	else:
 		var tween := create_tween()
 		tween.tween_property(_prompt, "modulate:a", 0.0, 0.15)

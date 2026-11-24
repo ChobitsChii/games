@@ -1,4 +1,4 @@
-[gd_scene load_steps=36 format=3]
+[gd_scene load_steps=34 format=3]
 
 [ext_resource type="Script" path="res://scripts/game.gd" id="1_game"]
 [ext_resource type="Texture2D" path="res://assets/environments/oakhaven_village.png" id="2_bg"]
@@ -12,11 +12,8 @@
 [ext_resource type="Texture2D" path="res://assets/characters/npcs/npc_alchemist.png" id="10_tex_lyra"]
 [ext_resource type="PackedScene" path="res://scenes/ui/dialogue_box.tscn" id="11_dialogue"]
 [ext_resource type="PackedScene" path="res://scenes/ui/inventory_menu.tscn" id="12_inv"]
-[ext_resource type="PackedScene" path="res://scenes/entities/enemies/moss_scout.tscn" id="13_scout"]
-[ext_resource type="PackedScene" path="res://scenes/entities/enemies/thorn_spitter.tscn" id="14_spitter"]
-[ext_resource type="PackedScene" path="res://scenes/entities/enemies/bone_warrior.tscn" id="15_bone"]
-[ext_resource type="PackedScene" path="res://scenes/world/room_transition_trigger.tscn" id="16_portal"]
-[ext_resource type="Texture2D" path="res://assets/objects/signpost.png" id="17_sign"]
+[ext_resource type="PackedScene" path="res://scenes/world/room_transition_trigger.tscn" id="13_portal"]
+[ext_resource type="Texture2D" path="res://assets/objects/signpost.png" id="14_sign"]
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_top"]
 normal = Vector2(0, 1)
@@ -30,45 +27,63 @@ normal = Vector2(1, 0)
 normal = Vector2(-1, 0)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_oak"]
-size = Vector2(360, 160)
+size = Vector2(230, 140)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_inn"]
-size = Vector2(360, 200)
+size = Vector2(360, 185)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_stall_nw"]
-size = Vector2(230, 90)
+size = Vector2(290, 115)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_blacksmith"]
-size = Vector2(290, 180)
+size = Vector2(275, 145)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_mayor"]
-size = Vector2(280, 160)
+size = Vector2(330, 175)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_house_sw"]
-size = Vector2(230, 320)
+size = Vector2(295, 280)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_roof_sw"]
-size = Vector2(340, 160)
+size = Vector2(470, 135)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_house_se"]
-size = Vector2(240, 200)
+size = Vector2(285, 280)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_canopy_s"]
-size = Vector2(240, 160)
+size = Vector2(255, 125)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_well"]
-radius = 52.0
+radius = 58.0
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_pillar"]
-size = Vector2(28, 28)
+size = Vector2(40, 36)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_flowerbed"]
-size = Vector2(120, 40)
+size = Vector2(110, 50)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_sign_label"]
+bg_color = Color(0.06, 0.08, 0.13, 0.86)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.76, 0.6, 0.34, 0.9)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+content_margin_left = 12.0
+content_margin_top = 5.0
+content_margin_right = 12.0
+content_margin_bottom = 5.0
 
 [node name="Game" type="Node2D"]
+y_sort_enabled = true
 script = ExtResource("1_game")
 
 [node name="Environment" type="Node2D" parent="."]
+z_index = -10
 
 [node name="VillageBackground" type="Sprite2D" parent="Environment"]
 position = Vector2(960, 540)
@@ -83,7 +98,7 @@ position = Vector2(960, 40)
 shape = SubResource("WorldBoundaryShape2D_top")
 
 [node name="Bottom" type="CollisionShape2D" parent="Environment/Boundaries"]
-position = Vector2(960, 1080)
+position = Vector2(960, 1075)
 shape = SubResource("WorldBoundaryShape2D_bottom")
 
 [node name="Left" type="CollisionShape2D" parent="Environment/Boundaries"]
@@ -91,160 +106,156 @@ position = Vector2(40, 540)
 shape = SubResource("WorldBoundaryShape2D_left")
 
 [node name="Right" type="CollisionShape2D" parent="Environment/Boundaries"]
-position = Vector2(1920, 540)
+position = Vector2(1915, 540)
 shape = SubResource("WorldBoundaryShape2D_right")
 
 [node name="VillageColliders" type="StaticBody2D" parent="Environment"]
 collision_mask = 0
 
 [node name="ColOak" type="CollisionShape2D" parent="Environment/VillageColliders"]
-position = Vector2(960, 90)
+position = Vector2(650, 290)
 shape = SubResource("RectangleShape2D_oak")
 
 [node name="ColInn" type="CollisionShape2D" parent="Environment/VillageColliders"]
-position = Vector2(300, 390)
+position = Vector2(390, 425)
 shape = SubResource("RectangleShape2D_inn")
 
 [node name="ColStallNW" type="CollisionShape2D" parent="Environment/VillageColliders"]
-position = Vector2(605, 395)
+position = Vector2(825, 405)
 shape = SubResource("RectangleShape2D_stall_nw")
 
 [node name="ColBlacksmith" type="CollisionShape2D" parent="Environment/VillageColliders"]
-position = Vector2(1230, 340)
+position = Vector2(1210, 355)
 shape = SubResource("RectangleShape2D_blacksmith")
 
 [node name="ColMayor" type="CollisionShape2D" parent="Environment/VillageColliders"]
-position = Vector2(1610, 350)
+position = Vector2(1625, 440)
 shape = SubResource("RectangleShape2D_mayor")
 
 [node name="ColHouseSW" type="CollisionShape2D" parent="Environment/VillageColliders"]
-position = Vector2(115, 690)
+position = Vector2(155, 715)
 shape = SubResource("RectangleShape2D_house_sw")
 
 [node name="ColRoofSW" type="CollisionShape2D" parent="Environment/VillageColliders"]
-position = Vector2(430, 970)
+position = Vector2(615, 1005)
 shape = SubResource("RectangleShape2D_roof_sw")
 
 [node name="ColHouseSE" type="CollisionShape2D" parent="Environment/VillageColliders"]
-position = Vector2(1740, 780)
+position = Vector2(1790, 785)
 shape = SubResource("RectangleShape2D_house_se")
 
 [node name="ColCanopyS" type="CollisionShape2D" parent="Environment/VillageColliders"]
-position = Vector2(1290, 970)
+position = Vector2(1310, 1015)
 shape = SubResource("RectangleShape2D_canopy_s")
 
 [node name="ColWell" type="CollisionShape2D" parent="Environment/VillageColliders"]
-position = Vector2(960, 560)
+position = Vector2(1026, 622)
 shape = SubResource("CircleShape2D_well")
 
 [node name="ColRuneN" type="CollisionShape2D" parent="Environment/VillageColliders"]
-position = Vector2(960, 430)
+position = Vector2(1026, 455)
 shape = SubResource("RectangleShape2D_pillar")
 
 [node name="ColRuneS" type="CollisionShape2D" parent="Environment/VillageColliders"]
-position = Vector2(1100, 840)
+position = Vector2(1033, 905)
 shape = SubResource("RectangleShape2D_pillar")
 
 [node name="ColRuneW" type="CollisionShape2D" parent="Environment/VillageColliders"]
-position = Vector2(600, 580)
+position = Vector2(585, 625)
 shape = SubResource("RectangleShape2D_pillar")
 
 [node name="ColRuneE" type="CollisionShape2D" parent="Environment/VillageColliders"]
-position = Vector2(1440, 470)
+position = Vector2(1460, 625)
 shape = SubResource("RectangleShape2D_pillar")
 
 [node name="ColFlowerW" type="CollisionShape2D" parent="Environment/VillageColliders"]
-position = Vector2(680, 670)
+position = Vector2(680, 725)
 shape = SubResource("RectangleShape2D_flowerbed")
 
 [node name="ColFlowerE" type="CollisionShape2D" parent="Environment/VillageColliders"]
-position = Vector2(1360, 690)
+position = Vector2(1380, 725)
 shape = SubResource("RectangleShape2D_flowerbed")
 
 [node name="Objects" type="Node2D" parent="."]
+y_sort_enabled = true
 
 [node name="Pot1" parent="Objects" instance=ExtResource("5_pot")]
-position = Vector2(540, 465)
+position = Vector2(335, 620)
 
 [node name="Pot2" parent="Objects" instance=ExtResource("5_pot")]
-position = Vector2(670, 465)
+position = Vector2(385, 625)
 
 [node name="Pot3" parent="Objects" instance=ExtResource("5_pot")]
-position = Vector2(720, 465)
+position = Vector2(885, 470)
 
 [node name="Pot4" parent="Objects" instance=ExtResource("5_pot")]
-position = Vector2(1080, 445)
+position = Vector2(935, 470)
 
 [node name="Pot5" parent="Objects" instance=ExtResource("5_pot")]
-position = Vector2(1130, 445)
+position = Vector2(1090, 435)
 
 [node name="Pot6" parent="Objects" instance=ExtResource("5_pot")]
-position = Vector2(1140, 860)
+position = Vector2(1140, 435)
 
 [node name="Pot7" parent="Objects" instance=ExtResource("5_pot")]
-position = Vector2(1430, 860)
+position = Vector2(1530, 715)
 
 [node name="Pot8" parent="Objects" instance=ExtResource("5_pot")]
-position = Vector2(1560, 680)
+position = Vector2(1570, 740)
 
 [node name="Grass1" parent="Objects" instance=ExtResource("6_grass")]
-position = Vector2(450, 600)
+position = Vector2(425, 745)
 
 [node name="Grass2" parent="Objects" instance=ExtResource("6_grass")]
-position = Vector2(490, 650)
+position = Vector2(475, 790)
 
 [node name="Grass3" parent="Objects" instance=ExtResource("6_grass")]
-position = Vector2(530, 700)
+position = Vector2(425, 835)
 
 [node name="Grass4" parent="Objects" instance=ExtResource("6_grass")]
-position = Vector2(820, 780)
+position = Vector2(625, 855)
 
 [node name="Grass5" parent="Objects" instance=ExtResource("6_grass")]
-position = Vector2(870, 820)
+position = Vector2(1270, 840)
 
 [node name="Grass6" parent="Objects" instance=ExtResource("6_grass")]
-position = Vector2(920, 850)
+position = Vector2(1220, 870)
 
 [node name="Grass7" parent="Objects" instance=ExtResource("6_grass")]
-position = Vector2(1420, 760)
+position = Vector2(1585, 795)
 
 [node name="Grass8" parent="Objects" instance=ExtResource("6_grass")]
-position = Vector2(1470, 800)
+position = Vector2(1635, 835)
 
 [node name="Grass9" parent="Objects" instance=ExtResource("6_grass")]
-position = Vector2(1520, 840)
-
-[node name="Grass10" parent="Objects" instance=ExtResource("6_grass")]
-position = Vector2(780, 360)
-
-[node name="Grass11" parent="Objects" instance=ExtResource("6_grass")]
-position = Vector2(840, 350)
+position = Vector2(1595, 875)
 
 [node name="NPCs" type="Node2D" parent="."]
+y_sort_enabled = true
 
 [node name="Morwen" parent="NPCs" instance=ExtResource("7_npc")]
-position = Vector2(860, 500)
+position = Vector2(795, 520)
 npc_id = "morwen"
 sprite_texture = ExtResource("8_tex_morwen")
 display_name_key = "NPC_MORWEN"
 
 [node name="Thalon" parent="NPCs" instance=ExtResource("7_npc")]
-position = Vector2(1160, 440)
+position = Vector2(1235, 480)
 npc_id = "thalon"
 sprite_texture = ExtResource("9_tex_thalon")
 display_name_key = "NPC_THALON"
 
 [node name="Lyra" parent="NPCs" instance=ExtResource("7_npc")]
-position = Vector2(510, 470)
+position = Vector2(515, 575)
 npc_id = "lyra"
 sprite_texture = ExtResource("10_tex_lyra")
 display_name_key = "NPC_LYRA"
 
 [node name="Player" parent="." instance=ExtResource("3_player")]
-position = Vector2(960, 680)
+position = Vector2(1026, 735)
 
 [node name="Camera2D" type="Camera2D" parent="."]
-position = Vector2(960, 680)
+position = Vector2(1026, 735)
 limit_left = 0
 limit_top = 0
 limit_right = 1920
@@ -258,137 +269,77 @@ position_smoothing_speed = 7.0
 
 [node name="InventoryMenu" parent="." instance=ExtResource("12_inv")]
 
-[node name="Enemies" type="Node2D" parent="."]
-
-[node name="MossScout1" parent="Enemies" instance=ExtResource("13_scout")]
-position = Vector2(1560, 480)
-
-[node name="ThornSpitter1" parent="Enemies" instance=ExtResource("14_spitter")]
-position = Vector2(1700, 360)
-
-[node name="BoneWarrior1" parent="Enemies" instance=ExtResource("15_bone")]
-position = Vector2(1640, 720)
-
-[node name="ShrinePortal" parent="." instance=ExtResource("16_portal")]
-position = Vector2(1820, 550)
+[node name="ShrinePortal" parent="." instance=ExtResource("13_portal")]
+position = Vector2(1855, 605)
 target_scene_path = "res://scenes/world/shrine_roots.tscn"
 prompt_key = "PROMPT_ENTER_DUNGEON"
 requires_interaction = false
-trigger_size = Vector2(200, 260)
+trigger_size = Vector2(130, 155)
 
-[node name="ShallowsPortal" parent="." instance=ExtResource("16_portal")]
-position = Vector2(960, 1020)
+[node name="ShallowsPortal" parent="." instance=ExtResource("13_portal")]
+position = Vector2(1555, 1020)
 target_scene_path = "res://scenes/world/shallows.tscn"
 prompt_key = "PROMPT_ENTER_SHALLOWS"
 requires_interaction = false
-trigger_size = Vector2(380, 140)
+trigger_size = Vector2(210, 105)
 
-[node name="PlateauPortal" parent="." instance=ExtResource("16_portal")]
-position = Vector2(960, 240)
+[node name="PlateauPortal" parent="." instance=ExtResource("13_portal")]
+position = Vector2(1435, 290)
 target_scene_path = "res://scenes/world/plateau.tscn"
 prompt_key = "PROMPT_ENTER_PLATEAU"
 requires_interaction = false
-trigger_size = Vector2(260, 120)
+trigger_size = Vector2(140, 95)
 
 [node name="Signposts" type="Node2D" parent="."]
+y_sort_enabled = true
 
 [node name="SignpostEast" type="Sprite2D" parent="Signposts"]
-position = Vector2(1660, 460)
-scale = Vector2(0.65, 0.65)
-texture = ExtResource("17_sign")
+position = Vector2(1680, 590)
+scale = Vector2(0.55, 0.55)
+texture = ExtResource("14_sign")
 
 [node name="LabelEast" type="Label" parent="Signposts/SignpostEast"]
-offset_left = -160.0
-offset_top = -68.0
-offset_right = 160.0
-offset_bottom = -40.0
-theme_override_colors/font_color = Color(0.95, 0.95, 0.8, 1)
-theme_override_font_sizes/font_size = 18
+offset_left = -250.0
+offset_top = -124.0
+offset_right = 250.0
+offset_bottom = -80.0
+theme_override_colors/font_color = Color(0.98, 0.94, 0.82, 1)
+theme_override_font_sizes/font_size = 24
+theme_override_styles/normal = SubResource("StyleBoxFlat_sign_label")
 text = "PROMPT_SIGN_EAST"
 horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="SignpostSouth" type="Sprite2D" parent="Signposts"]
-position = Vector2(1060, 930)
-scale = Vector2(0.65, 0.65)
-texture = ExtResource("17_sign")
+position = Vector2(1375, 895)
+scale = Vector2(0.55, 0.55)
+texture = ExtResource("14_sign")
 
 [node name="LabelSouth" type="Label" parent="Signposts/SignpostSouth"]
-offset_left = -140.0
-offset_top = -68.0
-offset_right = 140.0
-offset_bottom = -40.0
-theme_override_colors/font_color = Color(0.95, 0.95, 0.8, 1)
-theme_override_font_sizes/font_size = 18
+offset_left = -220.0
+offset_top = -124.0
+offset_right = 220.0
+offset_bottom = -80.0
+theme_override_colors/font_color = Color(0.98, 0.94, 0.82, 1)
+theme_override_font_sizes/font_size = 24
+theme_override_styles/normal = SubResource("StyleBoxFlat_sign_label")
 text = "PROMPT_SIGN_SOUTH"
 horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="SignpostNorth" type="Sprite2D" parent="Signposts"]
-position = Vector2(860, 310)
-scale = Vector2(0.65, 0.65)
-texture = ExtResource("17_sign")
+position = Vector2(1425, 365)
+scale = Vector2(0.55, 0.55)
+texture = ExtResource("14_sign")
 
 [node name="LabelNorth" type="Label" parent="Signposts/SignpostNorth"]
-offset_left = -140.0
-offset_top = -68.0
-offset_right = 140.0
-offset_bottom = -40.0
-theme_override_colors/font_color = Color(0.95, 0.95, 0.8, 1)
-theme_override_font_sizes/font_size = 18
+offset_left = -220.0
+offset_top = -124.0
+offset_right = 220.0
+offset_bottom = -80.0
+theme_override_colors/font_color = Color(0.98, 0.94, 0.82, 1)
+theme_override_font_sizes/font_size = 24
+theme_override_styles/normal = SubResource("StyleBoxFlat_sign_label")
 text = "PROMPT_SIGN_NORTH"
 horizontal_alignment = 1
-
-[node name="PauseLayer" type="CanvasLayer" parent="."]
-process_mode = 3
-
-[node name="PauseOverlay" type="Control" parent="PauseLayer"]
-unique_name_in_owner = true
-visible = false
-layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="Dim" type="ColorRect" parent="PauseLayer/PauseOverlay"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-color = Color(0, 0, 0, 0.6)
-
-[node name="Center" type="CenterContainer" parent="PauseLayer/PauseOverlay"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="Box" type="VBoxContainer" parent="PauseLayer/PauseOverlay/Center"]
-custom_minimum_size = Vector2(400, 0)
-layout_mode = 2
-theme_override_constants/separation = 20
-
-[node name="Title" type="Label" parent="PauseLayer/PauseOverlay/Center/Box"]
-layout_mode = 2
-theme_override_colors/font_color = Color(0.22, 0.84, 0.96, 1)
-theme_override_font_sizes/font_size = 48
-text = "GAME_PAUSED"
-horizontal_alignment = 1
-
-[node name="ResumeButton" type="Button" parent="PauseLayer/PauseOverlay/Center/Box"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 56)
-layout_mode = 2
-theme_override_font_sizes/font_size = 24
-text = "MENU_RESUME"
-
-[node name="QuitMenuButton" type="Button" parent="PauseLayer/PauseOverlay/Center/Box"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 56)
-layout_mode = 2
-theme_override_font_sizes/font_size = 24
-text = "MENU_QUIT"
+vertical_alignment = 1

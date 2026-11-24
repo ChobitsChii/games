@@ -35,9 +35,11 @@ size = Vector2(280, 520)
 size = Vector2(280, 520)
 
 [node name="CryptBlade" type="Node2D"]
+y_sort_enabled = true
 script = ExtResource("1_crypt")
 
 [node name="Environment" type="Node2D" parent="."]
+z_index = -10
 
 [node name="Background" type="Sprite2D" parent="Environment"]
 position = Vector2(960, 540)
@@ -74,6 +76,7 @@ position = Vector2(1420, 540)
 shape = SubResource("RectangleShape2D_chasm_e")
 
 [node name="Props" type="Node2D" parent="."]
+y_sort_enabled = true
 
 [node name="Pot1" parent="Props" instance=ExtResource("7_pot")]
 position = Vector2(240, 780)
@@ -85,6 +88,7 @@ position = Vector2(280, 780)
 position = Vector2(1660, 780)
 
 [node name="Traps" type="Node2D" parent="."]
+y_sort_enabled = true
 
 [node name="SpikeTrap1" parent="Traps" instance=ExtResource("9_spike")]
 position = Vector2(840, 680)
@@ -98,6 +102,7 @@ position = Vector2(960, 580)
 cycle_offset = 1.4
 
 [node name="Interactables" type="Node2D" parent="."]
+y_sort_enabled = true
 
 [node name="TetherPostChasmW1" parent="Interactables" instance=ExtResource("8_post")]
 position = Vector2(340, 540)
@@ -153,6 +158,7 @@ target_scene_path = "res://scenes/world/shallows.tscn"
 prompt_key = "PROMPT_EXIT_TO_SHALLOWS"
 
 [node name="Enemies" type="Node2D" parent="."]
+y_sort_enabled = true
 
 [node name="BoneWarrior1" parent="Enemies" instance=ExtResource("14_bone")]
 position = Vector2(800, 780)

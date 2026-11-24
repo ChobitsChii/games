@@ -32,9 +32,11 @@ normal = Vector2(-1, 0)
 size = Vector2(260, 480)
 
 [node name="BastionWind" type="Node2D"]
+y_sort_enabled = true
 script = ExtResource("1_bastion")
 
 [node name="Environment" type="Node2D" parent="."]
+z_index = -10
 
 [node name="Background" type="Sprite2D" parent="Environment"]
 position = Vector2(960, 540)
@@ -68,6 +70,7 @@ position = Vector2(1360, 540)
 shape = SubResource("RectangleShape2D_sky_abyss")
 
 [node name="Props" type="Node2D" parent="."]
+y_sort_enabled = true
 
 [node name="Pot1" parent="Props" instance=ExtResource("7_pot")]
 position = Vector2(260, 780)
@@ -79,6 +82,7 @@ position = Vector2(300, 780)
 position = Vector2(1660, 780)
 
 [node name="Vents" type="Node2D" parent="."]
+y_sort_enabled = true
 
 [node name="WindVent1" parent="Vents" instance=ExtResource("8_vent")]
 position = Vector2(400, 600)
@@ -93,6 +97,7 @@ position = Vector2(960, 480)
 blow_direction = Vector2(1, 0)
 
 [node name="Interactables" type="Node2D" parent="."]
+y_sort_enabled = true
 
 [node name="CrackedWallCave" parent="Interactables" instance=ExtResource("9_cracked")]
 position = Vector2(280, 240)
@@ -136,6 +141,7 @@ target_scene_path = "res://scenes/world/plateau.tscn"
 prompt_key = "PROMPT_EXIT_TO_PLATEAU"
 
 [node name="Enemies" type="Node2D" parent="."]
+y_sort_enabled = true
 
 [node name="BoneWarrior1" parent="Enemies" instance=ExtResource("14_bone")]
 position = Vector2(760, 780)

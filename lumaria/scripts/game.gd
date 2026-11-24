@@ -11,9 +11,6 @@ extends Node2D
 @onready var camera: Camera2D = $Camera2D
 @onready var dialogue_box: DialogueBox = $DialogueBox
 @onready var inventory_menu: InventoryMenu = $InventoryMenu
-@onready var pause_overlay: Control = %PauseOverlay
-@onready var resume_btn: Button = %ResumeButton
-@onready var quit_btn: Button = %QuitMenuButton
 
 static var spawn_entry_point: String = "start"
 
@@ -29,16 +26,16 @@ func _ready() -> void:
 	# Spielerposition gemäß Eintrittspunkt setzen
 	match spawn_entry_point:
 		"east":
-			player.position = Vector2(1690, 550)
+			player.position = Vector2(1690, 610)
 			player.set_facing(Vector2.LEFT)
 		"south":
-			player.position = Vector2(960, 890)
+			player.position = Vector2(1520, 895)
 			player.set_facing(Vector2.UP)
 		"north":
-			player.position = Vector2(960, 360)
+			player.position = Vector2(1385, 455)
 			player.set_facing(Vector2.DOWN)
 		"start", _:
-			player.position = Vector2(960, 680)
+			player.position = Vector2(1026, 735)
 			player.set_facing(Vector2.DOWN)
 	spawn_entry_point = "start"
 
@@ -53,8 +50,6 @@ func _ready() -> void:
 	AudioManager.play_music("village")
 	EventBus.room_transition_requested.emit("ROOM_OAKHAVEN", "start")
 
-	resume_btn.pressed.connect(_toggle_pause.bind(false))
-	quit_btn.pressed.connect(_on_quit_to_menu)
 	inventory_menu.closed.connect(_on_inventory_closed)
 
 	# Inventar-Events
@@ -148,30 +143,7 @@ func add_trauma(amount: float) -> void:
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("inventory"):
-		if not inventory_menu.visible and not dialogue_box.is_dialogue_active():
+		if not inventory_menu.visible and not dialogue_box.is_dialogue_active() and not hud.is_pause_menu_open() and not hud.is_game_over_open():
 			inventory_menu.open(inventory)
 		elif inventory_menu.visible:
 			inventory_menu.close()
-	elif event.is_action_pressed("pause"):
-		_toggle_pause(not get_tree().paused)
-
-
-func _toggle_pause(should_pause: bool) -> void:
-	get_tree().paused = should_pause
-	pause_overlay.visible = should_pause
-	if should_pause:
-		resume_btn.grab_focus()
-
-
-func _notification(what: int) -> void:
-	if what == NOTIFICATION_WM_GO_BACK_REQUEST:
-		if inventory_menu != null and inventory_menu.visible:
-			inventory_menu.close()
-		else:
-			_toggle_pause(not get_tree().paused)
-
-
-func _on_quit_to_menu() -> void:
-	SaveSlotManager.save_active_slot(scene_file_path)
-	get_tree().paused = false
-	get_tree().change_scene_to_file("res://scenes/main_menu.tscn")

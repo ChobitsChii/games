@@ -32,9 +32,11 @@ size = Vector2(180, 520)
 radius = 65.0
 
 [node name="SunkenShallows" type="Node2D"]
+y_sort_enabled = true
 script = ExtResource("1_shallows")
 
 [node name="Environment" type="Node2D" parent="."]
+z_index = -10
 
 [node name="Background" type="Sprite2D" parent="Environment"]
 position = Vector2(960, 540)
@@ -67,10 +69,11 @@ position = Vector2(960, 560)
 shape = SubResource("RectangleShape2D_water_chasm")
 
 [node name="SeaStackRock" type="CollisionShape2D" parent="Environment/Obstacles"]
-position = Vector2(960, 220)
+position = Vector2(960, 310)
 shape = SubResource("CircleShape2D_sea_stack")
 
 [node name="Props" type="Node2D" parent="."]
+y_sort_enabled = true
 
 [node name="Pot1" parent="Props" instance=ExtResource("7_pot")]
 position = Vector2(380, 420)
@@ -88,6 +91,7 @@ position = Vector2(1380, 540)
 position = Vector2(1440, 560)
 
 [node name="Interactables" type="Node2D" parent="."]
+y_sort_enabled = true
 
 [node name="TetherPostWest" parent="Interactables" instance=ExtResource("9_post")]
 position = Vector2(810, 560)
@@ -115,6 +119,7 @@ target_scene_path = "res://scenes/world/crypt_blade.tscn"
 prompt_key = "PROMPT_ENTER_CRYPT"
 
 [node name="Enemies" type="Node2D" parent="."]
+y_sort_enabled = true
 
 [node name="Scout1" parent="Enemies" instance=ExtResource("11_scout")]
 position = Vector2(520, 620)
@@ -123,10 +128,10 @@ position = Vector2(520, 620)
 position = Vector2(1560, 500)
 
 [node name="Player" parent="." instance=ExtResource("3_player")]
-position = Vector2(960, 240)
+position = Vector2(960, 165)
 
 [node name="Camera2D" type="Camera2D" parent="."]
-position = Vector2(960, 240)
+position = Vector2(960, 165)
 limit_left = 0
 limit_top = 0
 limit_right = 1920
