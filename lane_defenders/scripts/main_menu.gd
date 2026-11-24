@@ -8,10 +8,12 @@ extends Control
 @onready var _almanac_button: Button = %AlmanacButton
 @onready var _credits_button: Button = %CreditsButton
 @onready var _language_button: Button = %LanguageButton
+@onready var _theme_button: Button = %ThemeButton
 @onready var _display_button: Button = %DisplayButton
 @onready var _music_button: Button = %MusicButton
 @onready var _sfx_button: Button = %SfxButton
 @onready var _quit_button: Button = %QuitButton
+@onready var _bg_texture: TextureRect = $BackgroundTexture
 
 @onready var _how_to_play_overlay: Control = %HowToPlayOverlay
 @onready var _close_how_button: Button = %CloseHowButton
@@ -30,6 +32,7 @@ func _ready() -> void:
 	_credits_button.pressed.connect(_toggle_credits.bind(true))
 	_close_credits_button.pressed.connect(_toggle_credits.bind(false))
 	_language_button.pressed.connect(LocaleService.cycle_language)
+	_theme_button.pressed.connect(_on_theme_pressed)
 	_display_button.pressed.connect(DisplayService.cycle_mode)
 	_music_button.pressed.connect(_on_music_pressed)
 	_sfx_button.pressed.connect(_on_sfx_pressed)
@@ -69,9 +72,18 @@ func _on_display_mode_changed(_mode: int) -> void:
 
 func _refresh() -> void:
 	_language_button.text = "%s: %s" % [tr("COMMON_LANGUAGE"), LocaleService.get_language_name()]
+	_theme_button.text = "%s: %s" % [tr("SETTINGS_THEME"), tr(LaneDefendersTheme.get_label_key())]
 	_display_button.text = "%s: %s" % [tr("COMMON_DISPLAY_MODE"), tr(DisplayService.get_mode_key())]
 	_music_button.text = AudioService.format_volume_label("COMMON_VOLUME_MUSIC", "Music")
 	_sfx_button.text = AudioService.format_volume_label("COMMON_VOLUME_SFX", "Sfx")
+	var bg_path := LaneDefendersTheme.get_menu_bg_path()
+	if _bg_texture != null and ResourceLoader.exists(bg_path):
+		_bg_texture.texture = load(bg_path)
+
+
+func _on_theme_pressed() -> void:
+	LaneDefendersTheme.cycle(true)
+	_refresh()
 
 
 func _on_music_pressed() -> void:

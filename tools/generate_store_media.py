@@ -275,10 +275,11 @@ func _ready() -> void:
     },
     "lane_defenders": {
         "files": [
-            "01-main-menu.webp",
-            "02-meadow-battle.webp",
-            "03-magma-world.webp",
-            "04-level-select.webp",
+            "01-main-menu-towers.webp",
+            "02-towers-battle.webp",
+            "03-chibi-heroes-battle.webp",
+            "04-magma-heroes.webp",
+            "05-level-select.webp",
         ],
         "script": """extends Node
 
@@ -296,7 +297,8 @@ func _ready() -> void:
 \tLocaleService.set_language("de", false)
 \tAudioServer.set_bus_mute(0, true)
 
-\t# 1. Hauptmenü
+\t# 1. Hauptmenü (Fantasy-Burg-Türme / Default)
+\tLaneDefendersTheme.set_current("towers", false)
 \tvar menu := (load("res://scenes/main_menu.tscn") as PackedScene).instantiate()
 \tadd_child(menu)
 \tawait _wait_frames(14)
@@ -304,18 +306,8 @@ func _ready() -> void:
 \tmenu.queue_free()
 \tawait _wait_frames(3)
 
-\t# 4. Welt-/Levelauswahl (alle Welten kurz für Übersicht sichtbar markieren)
-\tfor w in range(1, 5):
-\t\tfor i in range(1, 6):
-\t\t\tSaveService.set_value("lane_defenders", "unlocked_%d-%d" % [w, i], true)
-\tvar lsel := (load("res://scenes/level_select.tscn") as PackedScene).instantiate()
-\tadd_child(lsel)
-\tawait _wait_frames(10)
-\tawait _snap("{OUT_DIR}/04.png")
-\tlsel.queue_free()
-\tawait _wait_frames(3)
-
-\t# 2. Grüne Wiese Kampf (Level 1-2)
+\t# 2. Grüne Wiese Kampf mit Burg-Türmen (Level 1-2)
+\tLaneDefendersTheme.set_current("towers", false)
 \tSaveService.set_value("session", "selected_level", "1-2")
 \tvar g1 := (load("res://scenes/game.tscn") as PackedScene).instantiate()
 \tg1.autoplay = true
@@ -325,14 +317,38 @@ func _ready() -> void:
 \tg1.queue_free()
 \tawait _wait_frames(3)
 
-\t# 3. Magma-Ödland (Level 4-2)
-\tSaveService.set_value("session", "selected_level", "4-2")
+\t# 3. Grüne Wiese Kampf mit Chibi-Burghelden (Level 1-2)
+\tLaneDefendersTheme.set_current("heroes", false)
+\tSaveService.set_value("session", "selected_level", "1-2")
 \tvar g2 := (load("res://scenes/game.tscn") as PackedScene).instantiate()
 \tg2.autoplay = true
 \tadd_child(g2)
 \tawait _wait_frames(180)
 \tawait _snap("{OUT_DIR}/03.png")
 \tg2.queue_free()
+\tawait _wait_frames(3)
+
+\t# 4. Magma-Ödland mit Chibi-Burghelden (Level 4-2)
+\tLaneDefendersTheme.set_current("heroes", false)
+\tSaveService.set_value("session", "selected_level", "4-2")
+\tvar g3 := (load("res://scenes/game.tscn") as PackedScene).instantiate()
+\tg3.autoplay = true
+\tadd_child(g3)
+\tawait _wait_frames(180)
+\tawait _snap("{OUT_DIR}/04.png")
+\tg3.queue_free()
+\tawait _wait_frames(3)
+
+\t# 5. Welt-/Levelauswahl (Chibi-Burghelden Design)
+\tLaneDefendersTheme.set_current("heroes", false)
+\tfor w in range(1, 5):
+\t\tfor i in range(1, 6):
+\t\t\tSaveService.set_value("lane_defenders", "unlocked_%d-%d" % [w, i], true)
+\tvar lsel := (load("res://scenes/level_select.tscn") as PackedScene).instantiate()
+\tadd_child(lsel)
+\tawait _wait_frames(10)
+\tawait _snap("{OUT_DIR}/05.png")
+\tlsel.queue_free()
 \tawait _wait_frames(2)
 \tget_tree().quit(0)
 """,

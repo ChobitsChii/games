@@ -44,7 +44,7 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="Box" type="VBoxContainer" parent="Center"]
-custom_minimum_size = Vector2(620, 0)
+custom_minimum_size = Vector2(700, 0)
 layout_mode = 2
 theme_override_constants/separation = 16
 
@@ -93,10 +93,21 @@ text = "MENU_CREDITS"
 custom_minimum_size = Vector2(0, 12)
 layout_mode = 2
 
-[node name="LanguageButton" type="Button" parent="Center/Box"]
+[node name="OptionsRow" type="HBoxContainer" parent="Center/Box"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="LanguageButton" type="Button" parent="Center/Box/OptionsRow"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 64)
 layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="ThemeButton" type="Button" parent="Center/Box/OptionsRow"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 64)
+layout_mode = 2
+size_flags_horizontal = 3
 
 [node name="DisplayButton" type="Button" parent="Center/Box"]
 unique_name_in_owner = true

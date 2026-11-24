@@ -12,7 +12,7 @@ HUD_WAVE,Welle %d / %d,Wave %d / %d
 HUD_FINAL_WAVE,GROSSE SCHLUSSWELLE!,FINAL WAVE INCOMING!
 HUD_LEVEL,Level %s,Level %s
 HUD_SHOVEL,Schaufel,Shovel
-HUD_SHOVEL_DESC,"Schaufel: Gräbt eine Einheit aus (+50 % Sonnen-Erstattung).","Shovel: Digs up a unit (refunds 50% sun)."
+HUD_SHOVEL_DESC,"Schaufel: Entfernt eine Einheit (+50 % Mana-Erstattung).","Shovel: Removes a unit (refunds 50% mana)."
 HUD_PAUSE,Pause,Pause
 HUD_WIN,LEVEL GESCHAFFT!,LEVEL COMPLETE!
 HUD_LOSE,BASIS ÜBERRANNT!,BASE OVERRUN!
@@ -54,17 +54,34 @@ MENU_ALMANAC,Lexikon,Lexicon
 MENU_ALMANAC_TITLE,Einheiten- & Gegner-Lexikon,Unit & Enemy Lexicon
 MENU_ALMANAC_UNITS,Verteidigungseinheiten,Defense Units
 MENU_ALMANAC_ENEMIES,Goblin-Invasoren,Goblin Invaders
-UNIT_STAT_COST,Kosten: %d Sonnen | Abklingzeit: %.1f s | Leben: %d,Cost: %d Suns | Cooldown: %.1fs | Health: %d
+UNIT_STAT_COST,Kosten: %d Mana | Abklingzeit: %.1f s | Leben: %d,Cost: %d Mana | Cooldown: %.1fs | Health: %d
 ENEMY_STAT_INFO,Leben: %d | Geschwindigkeit: %.0f,Health: %d | Speed: %.0f
 LEVEL_LOCKED,Gesperrt,Locked
 LEVEL_STARS,%d / 3 Sterne,%d / 3 Stars
-TUTORIAL_STEP_1,"Sammle Sonnen (klicke oder fahre mit der Maus darüber) und wähle eine Karte, um Einheiten auf dem Rasen zu platzieren!","Collect suns (click or hover over them) and choose a card to place units on the lawn!"
-TUTORIAL_STEP_2,Platziere Schützen auf den Bahnen, um Gegner aufzuhalten.,Place shooters in lanes to stop incoming enemies.
-TUTORIAL_STEP_3,Jede Einheit hat Abklingzeit und Energiekosten.,Each unit requires energy and has a cooldown.
+TUTORIAL_STEP_1,"Sammle Mana-Kristalle (klicke oder fahre mit der Maus darüber) und wähle eine Karte, um Verteidiger auf dem Burgfeld zu platzieren!","Collect mana crystals (click or hover over them) and choose a card to place defenders on the battlefield!"
+TUTORIAL_STEP_2,Platziere Verteidiger auf den Bahnen, um Gegner aufzuhalten.,Place defenders in lanes to stop incoming enemies.
+TUTORIAL_STEP_3,Jede Einheit hat Abklingzeit und Mana-Kosten.,Each unit requires mana and has a cooldown.
 TUTORIAL_GOT_IT,Verstanden!,Got it!
 SETTINGS_SFX,Effekte,SFX
 SETTINGS_MUSIC,Musik,Music
 SETTINGS_AUTO_COLLECT,Energie automatisch sammeln,Auto-collect energy
+SETTINGS_THEME,Design,Style
+SETTINGS_THEME_TOWERS,Burg-Türme,Castle Towers
+SETTINGS_THEME_HEROES,Chibi-Helden,Chibi Heroes
+UNIT_TOWERS_GENERATOR,Runen-Schrein,Rune Shrine
+UNIT_TOWERS_SHOOTER,Arkan-Turm,Arcane Tower
+UNIT_TOWERS_DOUBLE_SHOOTER,Doppel-Balliste,Twin Ballista
+UNIT_TOWERS_FROST,Eis-Obelisk,Ice Obelisk
+UNIT_TOWERS_WALL,Schildwall,Shield Wall
+UNIT_TOWERS_MINE,Pulverfass,Powder Keg
+UNIT_TOWERS_AREA_LAUNCHER,Katapult,Catapult
+UNIT_HEROES_GENERATOR,Mana-Alchemist,Mana Alchemist
+UNIT_HEROES_SHOOTER,Bogenschütze,Castle Archer
+UNIT_HEROES_DOUBLE_SHOOTER,Doppel-Armbrust,Twin Crossbow
+UNIT_HEROES_FROST,Frostmagier,Frost Mage
+UNIT_HEROES_WALL,Schild-Ritter,Shield Knight
+UNIT_HEROES_MINE,Spreng-Zwerg,Sapper Dwarf
+UNIT_HEROES_AREA_LAUNCHER,Katapult-Pionier,Siege Pioneer
 CREDITS_TITLE,Mitwirkende,Credits
 CREDITS_BACK,Zurück,Back
 CREDITS_DEVELOPMENT,Entwicklung & Spieldesign,Development & Game Design
@@ -83,11 +100,11 @@ HUD_SAVE_SCREENSHOT,Sieg-Screenshot speichern,Save Victory Screenshot
 HUD_OPEN_SCREENSHOTS,Screenshot-Ordner,Screenshot Folder
 HUD_SCREENSHOT_SAVED,Screenshot gespeichert!,Screenshot saved!
 TUTORIAL_GOAL,Ziel des Spiels,Game Objective
-TUTORIAL_GOAL_DESC,"Verteidige deinen Garten vor den Goblin-Wellen! Erreichen Goblins die linke Kante, verlierst du Leben.","Defend your garden against incoming goblin waves! If goblins reach the left edge, you lose lives."
-TUTORIAL_ENERGY,Sonnenenergie & Baukosten,Sun Energy & Costs
-TUTORIAL_ENERGY_DESC,"Sammle herabfallende Sonnen oder pflanze Sonnen-Generatoren (+25 Sonnen alle 15 s). Jede Einheit hat feste Baukosten (Generator: 50, Schütze: 100, Mauer: 50 usw.). Die Kosten steigen beim Bauen nicht an!","Collect falling suns or plant sun generators (+25 suns every 15s). Each unit has fixed building costs (Generator: 50, Shooter: 100, Wall: 50 etc.). Costs never increase when building!"
+TUTORIAL_GOAL_DESC,"Verteidige deine Burg vor den Goblin-Wellen! Erreichen Goblins die linke Kante, verlierst du Leben.","Defend your castle against incoming goblin waves! If goblins reach the left edge, you lose lives."
+TUTORIAL_ENERGY,Mana-Energie & Baukosten,Mana Energy & Costs
+TUTORIAL_ENERGY_DESC,"Sammle herabfallende Mana-Kristalle oder baue Mana-Generatoren (+25 Mana alle 15 s). Jede Einheit hat feste Baukosten (z. B. Generator: 50, Schütze: 100, Mauer: 50). Die Kosten steigen beim Bauen nicht an!","Collect falling mana crystals or place mana generators (+25 mana every 15s). Each unit has fixed building costs (e.g. Generator: 50, Shooter: 100, Wall: 50). Costs never increase when building!"
 TUTORIAL_CONTROLS,Steuerung & Schaufel,Controls & Shovel
-TUTORIAL_CONTROLS_DESC,"Wähle Karten per Mausklick oder Zifferntaste (1-7) und klicke auf ein freies Feld. Mit der Schaufel kannst du Einheiten ausgraben und erhältst 50 % der Sonnen zurück. Rechtsklick bricht die Auswahl ab.","Select cards by clicking or pressing 1-7 and place them on empty cells. Use the shovel to dig up units and refund 50% sun energy. Right-click cancels selection."
+TUTORIAL_CONTROLS_DESC,"Wähle Karten per Mausklick oder Zifferntaste (1-7) und klicke auf ein freies Feld. Mit der Schaufel kannst du Einheiten abbauen und erhältst 50 % des Manas zurück. Rechtsklick bricht die Auswahl ab.","Select cards by clicking or pressing 1-7 and place them on empty cells. Use the shovel to remove units and refund 50% mana. Right-click cancels selection."
 TUTORIAL_SAVE,Automatisches Speichern,Automatic Saving
 TUTORIAL_SAVE_DESC,"Dein Spielfortschritt (freigeschaltete Level und erreichte Sterne) wird nach jedem gemeisterten Level automatisch gespeichert.","Your game progress (unlocked levels and star ratings) is automatically saved after every completed level."
 MSG_CELL_OCCUPIED,Besetzt!,Occupied!
@@ -97,4 +114,4 @@ MSG_INVALID_UNIT,Ungültige Einheit!,Invalid unit!
 MSG_INVALID_CELL,Ungültiges Feld!,Invalid cell!
 MSG_SELECT_UNIT_FIRST,Wähle zuerst eine Karte oben!,Select a card above first!
 MSG_COOLDOWN_TIME,Abklingzeit: noch %.1fs,Cooldown: %.1fs left
-MSG_NEED_ENERGY,Kostet %d Sonnen (du hast %d),Costs %d suns (you have %d)
+MSG_NEED_ENERGY,Kostet %d Mana (du hast %d),Costs %d mana (you have %d)

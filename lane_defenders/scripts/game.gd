@@ -253,7 +253,7 @@ func _set_ghost_texture(tex_path: String, target_size: float) -> void:
 
 func _update_ghost_view(mpos: Vector2) -> void:
 	if selected_unit_data != null:
-		var tex_path := "res://assets/units/%s.png" % selected_unit_data.id
+		var tex_path := LaneDefendersTheme.get_unit_texture_path(selected_unit_data.id)
 		_set_ghost_texture(tex_path, 105.0)
 		_ghost_sprite.visible = _ghost_sprite.texture != null
 
@@ -421,7 +421,7 @@ func _handle_cell_interaction(lane: int, col: int) -> void:
 		var err := model.can_place_unit(lane, col, selected_unit_data)
 		if err == "":
 			model.try_place_unit(lane, col, selected_unit_data)
-			_spawn_floating_text(model.grid.get_cell_center(lane, col), "🌱", Color.GREEN)
+			_spawn_floating_text(model.grid.get_cell_center(lane, col), "-%d" % selected_unit_data.cost, Color("64ffda"))
 			if not Input.is_key_pressed(KEY_SHIFT) or not model.can_afford(selected_unit_data):
 				selected_unit_data = null
 		else:

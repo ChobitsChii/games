@@ -39,17 +39,18 @@ func setup(data: UnitData, slot: int) -> void:
 func update_display() -> void:
 	if unit_data == null or not is_inside_tree():
 		return
+	var unit_title := tr(LaneDefendersTheme.get_unit_name_key(unit_data.id))
 	if _name_label:
-		_name_label.text = tr(unit_data.name_key)
+		_name_label.text = unit_title
 	if _cost_label:
 		_cost_label.text = "%d" % unit_data.cost
 	if _slot_label:
 		_slot_label.text = "[%d]" % slot_index
 	if _icon_rect:
-		var tex_path := "res://assets/units/%s.png" % unit_data.id
+		var tex_path := LaneDefendersTheme.get_unit_texture_path(unit_data.id)
 		if ResourceLoader.exists(tex_path):
 			_icon_rect.texture = load(tex_path)
-	var tip := "%s (%d)\n%s" % [tr(unit_data.name_key), unit_data.cost, tr(unit_data.desc_key)]
+	var tip := "%s (%d)\n%s" % [unit_title, unit_data.cost, tr(unit_data.desc_key)]
 	tooltip_text = tip
 	if _button:
 		_button.tooltip_text = tip

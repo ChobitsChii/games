@@ -21,7 +21,7 @@ func _exit_tree() -> void:
 func setup(p_unit: GridModel.GridUnit) -> void:
 	unit = p_unit
 	if unit and unit.unit_data:
-		var tex_path := "res://assets/units/%s.png" % unit.unit_data.id
+		var tex_path := LaneDefendersTheme.get_unit_texture_path(unit.unit_data.id)
 		if ResourceLoader.exists(tex_path):
 			var tex: Texture2D = load(tex_path)
 			if tex != null:

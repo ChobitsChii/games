@@ -9,7 +9,7 @@ Mini-Tower-Defense (Lane-basiert) mit modernem Flat-Cartoon-Look. Godot 4.7 (GDS
 | Platzieren | Linksklick auf Zelle oder `Leertaste`/`Enter`/Gamepad `A` auf Cursor |
 | Mehrfach-Platzieren | `Shift` gedrückt halten beim Platzieren |
 | Schaufel / Einheit entfernen | `X`, Gamepad `Y` oder Klick auf Schaufel-Button |
-| Energie einsammeln | Linksklick auf fallende/erzeugte Sonnen |
+| Energie einsammeln | Linksklick auf fallende/erzeugte Mana-Kristalle |
 | Auswahl abbrechen | Rechtsklick, `Esc` oder Gamepad `B` |
 | Spielfeld-Cursor | Pfeiltasten, `WASD` oder Gamepad D-Pad/Stick |
 | Pause | `Esc`, `P` oder Gamepad `Start` |
@@ -29,7 +29,7 @@ tools/build_all.sh lane_defenders          # Exporte nach build/
 Der Seed steht beim Start in der Konsole. Bitte bei Fehlermeldungen angeben.
 
 ## Spielinhalte
-- **7 Einheiten:** Generator, Schütze, Doppelschütze, Frostturm, Mauer, Mine, Flächenwerfer mit detaillierten Info-Tooltips (Kosten, Cooldown, Flächenschaden über 3 Lanes etc.)
+- **2 auswählbare HD-Fantasy-Designs (7 Einheiten):** **Fantasy-Burg-Türme** (Default: Runen-Schrein, Arkan-Turm, Doppel-Balliste, Eis-Obelisk, Schildwall, Pulverfass, Katapult) und **Chibi-Burghelden** (im Hauptmenü umschaltbar: Mana-Alchemist, Bogenschütze, Doppel-Armbrust, Frostmagier, Schild-Ritter, Spreng-Zwerg, Katapult-Pionier) mit detaillierten Info-Tooltips (Kosten, Cooldown, Flächenschaden über 3 Lanes etc.)
 - **6 Gegnertypen:** Läufer, Schneller Läufer, Panzer, Springer, Schild-Träger, Giga-Boss
 - **20 Level in 4 Welten mit einzigartigen Schlachtfeld-Hintergründen:**
   - Welt 1: Grüne Wiese (inkl. Bosskampf in 1-5)

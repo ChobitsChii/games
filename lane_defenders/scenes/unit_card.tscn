@@ -1,7 +1,7 @@
 [gd_scene format=3]
 
 [ext_resource type="Script" path="res://scripts/ui/unit_card.gd" id="1_card"]
-[ext_resource type="Texture2D" path="res://assets/ui/sun.png" id="2_sun"]
+[ext_resource type="Texture2D" path="res://assets/ui/mana_crystal.png" id="2_sun"]
 
 [node name="UnitCard" type="PanelContainer"]
 custom_minimum_size = Vector2(110, 138)

@@ -13,6 +13,7 @@ const ENEMIES := ["runner", "fast_runner", "tank", "jumper", "shield", "boss"]
 
 var _populated: bool = false
 var _populated_locale: String = ""
+var _populated_theme: String = ""
 
 
 func _ready() -> void:
@@ -25,10 +26,12 @@ func is_populated() -> bool:
 
 func open() -> void:
 	var current_locale := TranslationServer.get_locale()
-	if not _populated or _populated_locale != current_locale:
+	var current_theme := LaneDefendersTheme.get_current()
+	if not _populated or _populated_locale != current_locale or _populated_theme != current_theme:
 		_populate()
 		_populated = true
 		_populated_locale = current_locale
+		_populated_theme = current_theme
 	visible = true
 	if _close_button != null and _close_button.is_inside_tree():
 		_close_button.grab_focus()
@@ -80,7 +83,7 @@ func _create_unit_card(udata: UnitData) -> Control:
 	icon.custom_minimum_size = Vector2(80, 80)
 	icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 	icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-	var tex_path := "res://assets/units/%s.png" % udata.id
+	var tex_path := LaneDefendersTheme.get_unit_texture_path(udata.id)
 	if ResourceLoader.exists(tex_path):
 		icon.texture = load(tex_path)
 	hbox.add_child(icon)
@@ -91,7 +94,7 @@ func _create_unit_card(udata: UnitData) -> Control:
 	hbox.add_child(vbox)
 
 	var name_lbl := Label.new()
-	name_lbl.text = tr(udata.name_key)
+	name_lbl.text = tr(LaneDefendersTheme.get_unit_name_key(udata.id))
 	name_lbl.add_theme_font_size_override("font_size", 22)
 	name_lbl.add_theme_color_override("font_color", Color("3ee087"))
 	vbox.add_child(name_lbl)

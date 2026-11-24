@@ -11,6 +11,9 @@ extends Control
 
 func _ready() -> void:
 	theme = ThemeFactory.build(LaneDefendersConfig.PALETTE)
+	var bg_path := LaneDefendersTheme.get_menu_bg_path()
+	if has_node("BackgroundTexture") and ResourceLoader.exists(bg_path):
+		($BackgroundTexture as TextureRect).texture = load(bg_path)
 	_back_button.pressed.connect(_on_back_pressed)
 	_populate_levels()
 	_back_button.grab_focus()

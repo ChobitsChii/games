@@ -9,11 +9,13 @@ var is_animating_out: bool = false
 var _sprite: Sprite2D
 var _sun_tex: Texture2D
 var _pulse_tween: Tween = null
+var _bob_time: float = 0.0
 
 
 func _ready() -> void:
-	if ResourceLoader.exists("res://assets/ui/sun.png"):
-		_sun_tex = load("res://assets/ui/sun.png")
+	var energy_path := LaneDefendersTheme.get_energy_texture_path()
+	if ResourceLoader.exists(energy_path):
+		_sun_tex = load(energy_path)
 		if _sun_tex != null and _sun_tex.get_width() > 0 and _sun_tex.get_height() > 0:
 			_sprite = Sprite2D.new()
 			_sprite.texture = _sun_tex
@@ -46,7 +48,8 @@ func _process(delta: float) -> void:
 	if drop and not is_animating_out:
 		position = drop.position
 	if _sprite:
-		_sprite.rotation += delta * 0.8
+		_bob_time += delta
+		_sprite.rotation = sin(_bob_time * 2.4) * 0.12
 	else:
 		queue_redraw()
 

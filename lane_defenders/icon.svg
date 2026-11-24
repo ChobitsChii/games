@@ -1,32 +1,41 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256">
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
   <defs>
     <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#1b3820"/>
-      <stop offset="1" stop-color="#0e1f13"/>
+      <stop offset="0" stop-color="#173826"/>
+      <stop offset="1" stop-color="#0b1d13"/>
     </linearGradient>
     <linearGradient id="shield_g" x1="0" y1="0" x2="1" y2="1">
       <stop offset="0" stop-color="#3ddc84"/>
-      <stop offset="1" stop-color="#0a9446"/>
+      <stop offset="1" stop-color="#0a8f46"/>
     </linearGradient>
-    <linearGradient id="sun_g" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#ffe600"/>
-      <stop offset="1" stop-color="#ff9900"/>
+    <linearGradient id="crystal_l" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#b8ffff"/>
+      <stop offset="1" stop-color="#00bcd4"/>
     </linearGradient>
-    <linearGradient id="cannon_g" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#4fc3f7"/>
-      <stop offset="1" stop-color="#0288d1"/>
+    <linearGradient id="crystal_r" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#4dd0e1"/>
+      <stop offset="1" stop-color="#00838f"/>
+    </linearGradient>
+    <linearGradient id="gold_g" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffe57f"/>
+      <stop offset="1" stop-color="#ffb300"/>
     </linearGradient>
   </defs>
-  <rect width="256" height="256" rx="48" fill="url(#bg)"/>
-  <!-- Energy Sun -->
-  <circle cx="64" cy="64" r="24" fill="url(#sun_g)"/>
-  <circle cx="64" cy="64" r="28" stroke="#ffe600" stroke-width="3" stroke-dasharray="6,4" fill="none"/>
-  <!-- Lane lines -->
-  <line x1="32" y1="120" x2="224" y2="120" stroke="#2e5936" stroke-width="4" stroke-dasharray="12,12"/>
-  <line x1="32" y1="180" x2="224" y2="180" stroke="#2e5936" stroke-width="4" stroke-dasharray="12,12"/>
-  <!-- Shield emblem -->
-  <path d="M 128 72 L 184 96 C 184 156 128 196 128 196 C 128 196 72 156 72 96 Z" fill="url(#shield_g)" stroke="#7cf7a8" stroke-width="4"/>
-  <!-- Cannon turret center -->
-  <circle cx="128" cy="128" r="20" fill="url(#cannon_g)" stroke="#b3e5fc" stroke-width="3"/>
-  <rect x="124" y="94" width="8" height="24" rx="4" fill="url(#cannon_g)"/>
+  <rect width="512" height="512" rx="96" fill="url(#bg)"/>
+  <!-- Subtle turf lanes -->
+  <line x1="60" y1="224" x2="452" y2="224" stroke="#285838" stroke-width="8" stroke-dasharray="24,20" stroke-linecap="round"/>
+  <line x1="60" y1="348" x2="452" y2="348" stroke="#285838" stroke-width="8" stroke-dasharray="24,20" stroke-linecap="round"/>
+  <!-- Mana crystal (top-left emblem) -->
+  <polygon points="116,52 158,108 116,164 74,108" fill="url(#crystal_l)" stroke="#e0f7fa" stroke-width="5" stroke-linejoin="round"/>
+  <polygon points="116,52 158,108 116,164" fill="url(#crystal_r)" opacity="0.65"/>
+  <polygon points="116,74 136,108 116,142 96,108" fill="#e0ffff" opacity="0.55"/>
+  <!-- Sparkles -->
+  <path d="M 176 70 L 181 83 L 194 88 L 181 93 L 176 106 L 171 93 L 158 88 L 171 83 Z" fill="#ffe57f"/>
+  <!-- Castle shield emblem -->
+  <path d="M 256 128 L 382 178 C 382 308 256 404 256 404 C 256 404 130 308 130 178 Z" fill="url(#shield_g)" stroke="#8cf7b6" stroke-width="10" stroke-linejoin="round"/>
+  <path d="M 256 150 L 360 192 C 358 298 256 380 256 380 C 256 380 154 298 152 192 Z" fill="none" stroke="#0c5e31" stroke-width="6"/>
+  <!-- Golden castle tower crest inside shield -->
+  <path d="M 206 206 L 226 206 L 226 220 L 244 220 L 244 206 L 268 206 L 268 220 L 286 220 L 286 206 L 306 206 L 306 238 L 296 248 L 296 312 L 216 312 L 216 248 L 206 238 Z" fill="url(#gold_g)" stroke="#4a2e00" stroke-width="6" stroke-linejoin="round"/>
+  <path d="M 240 312 L 240 278 C 240 267 272 267 272 278 L 272 312 Z" fill="#143a24" stroke="#4a2e00" stroke-width="5"/>
+  <circle cx="256" cy="242" r="9" fill="#4dd0e1" stroke="#004d40" stroke-width="4"/>
 </svg>
