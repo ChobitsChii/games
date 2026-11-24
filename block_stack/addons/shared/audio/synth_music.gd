@@ -5,6 +5,7 @@ extends RefCounted
 
 const SAMPLE_RATE := 22050
 const LOOP_DURATION := 4.0
+const GUARD_FRAMES := 32
 
 
 static func _snap_freq(hz: float) -> float:
@@ -15,7 +16,7 @@ static func _snap_freq(hz: float) -> float:
 static func create_theme(theme_name: String) -> AudioStreamWAV:
 	var num_samples := int(SAMPLE_RATE * LOOP_DURATION)
 	var data := PackedByteArray()
-	data.resize(num_samples * 2)
+	data.resize((num_samples + GUARD_FRAMES) * 2)
 
 	match theme_name:
 		"space":
@@ -148,14 +149,17 @@ static func create_theme(theme_name: String) -> AudioStreamWAV:
 				var val := clampi(int(amp * 15000.0), -32767, 32767)
 				data.encode_s16(i * 2, val)
 
+	for g in range(GUARD_FRAMES):
+		data.encode_s16((num_samples + g) * 2, data.decode_s16(g * 2))
+
 	var stream := AudioStreamWAV.new()
 	stream.format = AudioStreamWAV.FORMAT_16_BITS
 	stream.mix_rate = SAMPLE_RATE
 	stream.stereo = false
+	stream.data = data
 	stream.loop_mode = AudioStreamWAV.LOOP_FORWARD
 	stream.loop_begin = 0
-	stream.loop_end = num_samples
-	stream.data = data
+	stream.loop_end = num_samples - 1
 	return stream
 
 

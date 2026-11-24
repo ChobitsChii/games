@@ -64,9 +64,16 @@ func test_rendered_stream_format_and_loop() -> void:
 	assert_true(_stream != null, "Stream vorhanden")
 	assert_eq(_stream.format, AudioStreamWAV.FORMAT_16_BITS, "Format")
 	assert_eq(_stream.mix_rate, MusicSynth.RATE, "Abtastrate")
-	assert_eq(_stream.data.size(), frames * 2, "Datenmenge")
+	assert_eq(_stream.data.size(), (frames + MusicRenderer.GUARD_FRAMES) * 2, "Datenmenge mit Guard-Frames")
 	assert_eq(_stream.loop_mode, AudioStreamWAV.LOOP_FORWARD, "Schleife")
-	assert_eq(_stream.loop_end, frames, "Schleifenende")
+	assert_eq(_stream.loop_begin, 0, "Schleifenbeginn")
+	assert_eq(_stream.loop_end, frames - 1, "Schleifenende strikt im Puffer")
+	for g in range(MusicRenderer.GUARD_FRAMES):
+		assert_eq(
+			_stream.data.decode_s16((frames + g) * 2),
+			_stream.data.decode_s16(g * 2),
+			"Guard-Sample %d stimmt mit Loop-Start überein" % g
+		)
 
 
 func test_rendered_music_is_audible_and_not_clipping() -> void:

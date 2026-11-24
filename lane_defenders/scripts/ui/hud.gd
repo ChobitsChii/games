@@ -52,6 +52,8 @@ signal main_menu_requested
 var card_scene: PackedScene = preload("res://scenes/unit_card.tscn")
 var _cards: Array[UnitCard] = []
 var is_shovel_active: bool = false
+var _last_energy: int = -1
+var _last_lives: int = -1
 
 
 func _ready() -> void:
@@ -113,9 +115,11 @@ func setup_cards(available_units: Array[UnitData]) -> void:
 
 
 func update_hud(model: GameModel, selected_unit: UnitData) -> void:
-	if _energy_label:
+	if _energy_label and model.energy != _last_energy:
+		_last_energy = model.energy
 		_energy_label.text = tr("HUD_ENERGY") % model.energy
-	if _lives_label:
+	if _lives_label and model.lives != _last_lives:
+		_last_lives = model.lives
 		_lives_label.text = tr("HUD_LIVES") % model.lives
 	if _wave_progress_bar:
 		_wave_progress_bar.value = model.wave_director.get_progress() * 100.0

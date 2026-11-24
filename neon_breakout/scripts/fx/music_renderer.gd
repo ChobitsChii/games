@@ -7,6 +7,7 @@ extends RefCounted
 enum Phase { EVENTS, MIX, ENCODE, DONE }
 
 const CHUNK := 4000
+const GUARD_FRAMES := 32
 ## Wie stark die Bassdrum die übrigen Stimmen "wegdrückt" (Pumpen) und wie schnell sie zurückkommen.
 const DUCK_DEPTH := 0.55
 const DUCK_SPEED := 9.0
@@ -142,7 +143,7 @@ func _mix_chunk() -> void:
 	_cursor = end
 	if _cursor >= _length:
 		_cursor = 0
-		_data.resize(_length * 2)
+		_data.resize((_length + GUARD_FRAMES) * 2)
 		phase = Phase.ENCODE
 
 
@@ -153,6 +154,8 @@ func _encode_chunk() -> void:
 		_data.encode_s16(i * 2, int(clampf(_mixed[i] * scale, -1.0, 1.0) * 32767.0))
 	_cursor = end
 	if _cursor >= _length:
+		for g in range(GUARD_FRAMES):
+			_data.encode_s16((_length + g) * 2, _data.decode_s16(g * 2))
 		_stream = AudioStreamWAV.new()
 		_stream.format = AudioStreamWAV.FORMAT_16_BITS
 		_stream.mix_rate = MusicSynth.RATE
@@ -160,5 +163,5 @@ func _encode_chunk() -> void:
 		_stream.data = _data
 		_stream.loop_mode = AudioStreamWAV.LOOP_FORWARD
 		_stream.loop_begin = 0
-		_stream.loop_end = _length
+		_stream.loop_end = _length - 1
 		phase = Phase.DONE

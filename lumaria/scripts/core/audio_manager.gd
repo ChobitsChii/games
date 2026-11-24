@@ -7,6 +7,7 @@ extends Node
 var _sounds: Dictionary = {}
 var _pool: Array[AudioStreamPlayer] = []
 const POOL_SIZE := 8
+const MUSIC_GUARD_FRAMES := 32
 
 var _music_player: AudioStreamPlayer = null
 var _current_track: String = ""
@@ -141,7 +142,7 @@ func _get_or_create_music_stream(track_name: String) -> AudioStreamWAV:
 	var duration := 4.0
 	var num_samples := int(sample_rate * duration)
 	var data := PackedByteArray()
-	data.resize(num_samples * 2)
+	data.resize((num_samples + MUSIC_GUARD_FRAMES) * 2)
 
 	match track_name:
 		"village":
@@ -200,14 +201,17 @@ func _get_or_create_music_stream(track_name: String) -> AudioStreamWAV:
 				var s := sin(t * TAU * 220.0) * 0.3
 				data.encode_s16(i * 2, clampi(int(s * 14000.0), -32767, 32767))
 
+	for g in range(MUSIC_GUARD_FRAMES):
+		data.encode_s16((num_samples + g) * 2, data.decode_s16(g * 2))
+
 	var stream := AudioStreamWAV.new()
 	stream.format = AudioStreamWAV.FORMAT_16_BITS
 	stream.mix_rate = sample_rate
 	stream.stereo = false
+	stream.data = data
 	stream.loop_mode = AudioStreamWAV.LOOP_FORWARD
 	stream.loop_begin = 0
-	stream.loop_end = num_samples
-	stream.data = data
+	stream.loop_end = num_samples - 1
 
 	_music_cache[track_name] = stream
 	return stream

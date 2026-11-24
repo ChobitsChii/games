@@ -90,6 +90,7 @@ func _ready() -> void:
 
 	# Board Layer Redraw verbinden
 	_board_draw.draw.connect(_draw_board)
+	_board_draw.queue_redraw()
 
 
 func _start_music() -> void:
@@ -111,6 +112,7 @@ func _setup_model_callbacks() -> void:
 		_units_container.add_child(view)
 		_unit_views[key] = view
 		sfx.play_place()
+		_board_draw.queue_redraw()
 
 	model.on_unit_removed = func(lane: int, col: int) -> void:
 		var key := "%d_%d" % [lane, col]
@@ -118,6 +120,7 @@ func _setup_model_callbacks() -> void:
 			var view: UnitView = _unit_views[key]
 			_unit_views.erase(key)
 			view.queue_free()
+		_board_draw.queue_redraw()
 
 	model.on_unit_damaged = func(u: GridModel.GridUnit, _dmg: int) -> void:
 		var key := "%d_%d" % [u.lane, u.col]
@@ -312,8 +315,6 @@ func _physics_process(delta: float) -> void:
 			_drop_views.erase(d_id)
 			if is_instance_valid(dv):
 				dv.fade_out_and_free()
-
-	_board_draw.queue_redraw()
 
 
 func _unhandled_input(event: InputEvent) -> void:

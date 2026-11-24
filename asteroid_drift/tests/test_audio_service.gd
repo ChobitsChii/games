@@ -3,13 +3,46 @@ extends TestCase
 
 
 func test_synth_music_themes_are_valid_seamless_loops() -> void:
+	var expected_frames := int(SharedSynthMusic.SAMPLE_RATE * SharedSynthMusic.LOOP_DURATION)
 	for theme_name: String in ["space", "lounge", "puzzle", "meadow", "crypt"]:
 		var stream := SharedSynthMusic.create_theme(theme_name)
 		assert_true(stream != null, "Theme '%s' erzeugt Stream" % theme_name)
 		assert_eq(stream.loop_mode, AudioStreamWAV.LOOP_FORWARD, "Theme '%s' loopt vorwärts" % theme_name)
 		assert_eq(stream.mix_rate, SharedSynthMusic.SAMPLE_RATE, "Sample-Rate 22050")
-		assert_true(stream.loop_end > 0, "Theme '%s' hat gültiges Loop-Ende" % theme_name)
-		assert_true(stream.data.size() == stream.loop_end * 2, "Theme '%s' Datengröße passt zu 16-bit Samples" % theme_name)
+		assert_eq(stream.loop_begin, 0, "Theme '%s' Loop-Beginn ist 0" % theme_name)
+		assert_eq(stream.loop_end, expected_frames - 1, "Theme '%s' Loop-Ende liegt strikt im Puffer" % theme_name)
+		assert_eq(
+			stream.data.size(),
+			(expected_frames + SharedSynthMusic.GUARD_FRAMES) * 2,
+			"Theme '%s' Datengröße inklusive Guard-Frames" % theme_name
+		)
+		for g in range(SharedSynthMusic.GUARD_FRAMES):
+			assert_eq(
+				stream.data.decode_s16((expected_frames + g) * 2),
+				stream.data.decode_s16(g * 2),
+				"Theme '%s' Guard-Sample %d stimmt mit Loop-Start überein" % [theme_name, g]
+			)
+
+	# Prüfe echtes Resampling-Playback (48 kHz Ratio wie auf Android) über zwei Loop-Übergänge (> 8.5 s)
+	for theme_name: String in ["meadow", "space"]:
+		var stream := SharedSynthMusic.create_theme(theme_name)
+		var pb := stream.instantiate_playback()
+		assert_true(pb != null, "Playback für '%s' instanziiert" % theme_name)
+		pb.start(0.0)
+		var max_after_first_wrap := 0.0
+		var max_after_second_wrap := 0.0
+		for step in range(420):
+			var buf := pb.mix_audio(44100.0 / 48000.0, 1024)
+			assert_true(pb.is_playing(), "Theme '%s' spielt bei Schritt %d weiter" % [theme_name, step])
+			if step >= 200 and step < 210:
+				for frame in buf:
+					max_after_first_wrap = maxf(max_after_first_wrap, absf(frame.x))
+			elif step >= 410:
+				for frame in buf:
+					max_after_second_wrap = maxf(max_after_second_wrap, absf(frame.x))
+		assert_true(max_after_first_wrap > 0.01, "Theme '%s' liefert Audio nach erstem 4s-Loop-Wrap" % theme_name)
+		assert_true(max_after_second_wrap > 0.01, "Theme '%s' liefert Audio nach zweitem 8s-Loop-Wrap" % theme_name)
+		pb.stop()
 
 
 func test_synth_music_tones_and_sweeps() -> void:
