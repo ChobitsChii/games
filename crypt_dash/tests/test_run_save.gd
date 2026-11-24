@@ -70,3 +70,28 @@ func test_invalid_save_rejected() -> void:
 	SaveService.set_value("crypt_dash", "active_run", {"version": 1, "seed": 1, "floor": 5, "hp": 10})
 	assert_false(RunSaveManager.has_saved_run(), "Ungültige Etage abgelehnt")
 	RunSaveManager.clear_run()
+
+
+func test_dirty_check_and_batching_skips_redundant_writes() -> void:
+	SaveService.set_test_mode(true)
+	var dungeon := DungeonGenerator.generate_floor(999, 1)
+	var visited := {dungeon.start_room_coords: true}
+	var picked: Array[ItemData] = []
+	var payload := RunSaveManager.serialize_run(
+		999, 1, dungeon.start_room_coords, 12, "daggers", picked, dungeon, visited
+	)
+
+	assert_true(RunSaveManager.save_run(payload), "Erster Save schreibt auf Disk")
+	assert_eq(SaveService.flush_count, 1, "Genau 1 Flush nach erstem Save")
+
+	assert_false(RunSaveManager.save_run(payload.duplicate(true)), "Unveränderter Save überspringt Schreibvorgang")
+	assert_eq(SaveService.flush_count, 1, "Weiterhin nur 1 Flush bei identischen Daten")
+
+	assert_false(SaveService.set_value("crypt_dash", "souls", 77, false), "Batch-Set ohne Flush schreibt noch nicht")
+	assert_eq(SaveService.flush_count, 1, "Flush-Zähler bleibt vor finalem Save unverändert")
+
+	payload["hp"] = 8
+	assert_true(RunSaveManager.save_run(payload), "Geänderter Run flusht gebündelte Änderungen")
+	assert_eq(SaveService.flush_count, 2, "Genau 1 gemeinsamer Flush für Souls + Run")
+	assert_eq(int(SaveService.get_value("crypt_dash", "souls", 0)), 77, "Gebündelte Seelen wurden mitgespeichert")
+	RunSaveManager.clear_run()

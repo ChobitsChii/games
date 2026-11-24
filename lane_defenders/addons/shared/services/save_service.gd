@@ -8,7 +8,9 @@ const SETTINGS_PATH := "user://settings.cfg"
 
 var _config := ConfigFile.new()
 var _loaded := false
+var _dirty := false
 var is_test_mode := false
+var flush_count: int = 0
 
 
 func _init() -> void:
@@ -34,19 +36,35 @@ func get_value(section: String, key: String, default: Variant = null) -> Variant
 	return _config.get_value(section, key, default)
 
 
-func set_value(section: String, key: String, value: Variant) -> void:
+func set_value(section: String, key: String, value: Variant, flush: bool = true) -> bool:
 	_ensure_loaded()
+	if _config.has_section_key(section, key):
+		var prev: Variant = _config.get_value(section, key)
+		if typeof(prev) == typeof(value) and prev == value:
+			if flush and _dirty:
+				return save()
+			return false
 	_config.set_value(section, key, value)
-	if not is_test_mode:
-		save()
+	_dirty = true
+	if flush:
+		return save()
+	return false
 
 
-func save() -> void:
+func save() -> bool:
+	if not _dirty:
+		return false
 	if is_test_mode:
-		return
+		_dirty = false
+		flush_count += 1
+		return true
 	var err := _config.save(SETTINGS_PATH)
 	if err != OK:
 		push_warning("SaveService: %s konnte nicht gespeichert werden (Fehler %d)" % [SETTINGS_PATH, err])
+		return false
+	_dirty = false
+	flush_count += 1
+	return true
 
 
 ## Schaltet isolierten Test-Modus ein oder aus, um Spieler-Spielstände zu schützen.
@@ -54,4 +72,6 @@ func set_test_mode(enabled: bool) -> void:
 	is_test_mode = enabled
 	_config = ConfigFile.new()
 	_loaded = true
+	_dirty = false
+	flush_count = 0
 

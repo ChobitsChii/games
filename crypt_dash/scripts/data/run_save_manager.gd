@@ -66,8 +66,8 @@ static func serialize_run(
 	}
 
 
-static func save_run(data: Dictionary) -> void:
-	SaveService.set_value(SAVE_SECTION, SAVE_KEY, data)
+static func save_run(data: Dictionary) -> bool:
+	return SaveService.set_value(SAVE_SECTION, SAVE_KEY, data, true)
 
 
 static func load_run() -> Dictionary:
@@ -91,7 +91,7 @@ static func has_saved_run() -> bool:
 
 
 static func clear_run() -> void:
-	SaveService.set_value(SAVE_SECTION, SAVE_KEY, {})
+	SaveService.set_value(SAVE_SECTION, SAVE_KEY, {}, true)
 
 
 static func restore_items(item_ids: Array) -> Array[ItemData]:

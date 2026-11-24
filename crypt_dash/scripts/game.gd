@@ -3,6 +3,25 @@ extends Node2D
 ## Haupt-Spielszene für Crypt Dash.
 ## Verwaltet den aktiven Dungeon-Floor, Kamera-Zoom, CanvasModulate-Beleuchtung, Atmosphäre-Shader, Spieler, HUD & Modals.
 
+class SaveBadgeIcon extends Control:
+	func _init() -> void:
+		custom_minimum_size = Vector2(22.0, 22.0)
+		mouse_filter = Control.MOUSE_FILTER_IGNORE
+
+	func _draw() -> void:
+		var c := size * 0.5
+		draw_circle(c, 10.5, Color(0.20, 0.83, 0.60, 0.22))
+		draw_arc(c, 8.5, 0.0, TAU, 24, Color("34d399"), 2.0, true)
+		var pts := PackedVector2Array([
+			c + Vector2(-4.0, 0.5),
+			c + Vector2(-1.0, 3.5),
+			c + Vector2(4.5, -3.5),
+		])
+		draw_polyline(pts, Color("ecfdf5"), 2.2, true)
+
+
+const SAVE_TOAST_DURATION := 2.4
+
 @export var autoplay: bool = false
 
 var dungeon: DungeonGenerator.DungeonFloor
@@ -54,6 +73,7 @@ var _shake_timer: float = 0.0
 var _shake_intensity: float = 0.0
 var _run_ended: bool = false
 var _quitting: bool = false
+var _saved_toast_container: CenterContainer
 var _saved_toast_label: Label
 var _saved_toast_timer: float = 0.0
 var _spawn_grace_timer: float = 0.0
@@ -265,6 +285,7 @@ func _save_active_run(show_toast: bool = true) -> void:
 		return
 	if dungeon == null or player == null or not is_instance_valid(player) or player.current_hp <= 0:
 		return
+	SaveService.set_value("crypt_dash", "souls", souls_collected, false)
 	var visited := _minimap.visited_rooms if _minimap != null else {}
 	var data := RunSaveManager.serialize_run(
 		seed_value,
@@ -276,11 +297,20 @@ func _save_active_run(show_toast: bool = true) -> void:
 		dungeon,
 		visited
 	)
-	RunSaveManager.save_run(data)
-	if show_toast and _saved_toast_label != null:
-		_saved_toast_label.text = tr("HUD_SAVED")
-		_saved_toast_label.modulate.a = 1.0
-		_saved_toast_timer = 1.4
+	var wrote := RunSaveManager.save_run(data)
+	if show_toast and wrote:
+		_show_saved_toast()
+
+
+func _show_saved_toast() -> void:
+	if _saved_toast_container == null or _saved_toast_label == null:
+		return
+	_saved_toast_label.text = tr("HUD_SAVED")
+	_saved_toast_timer = SAVE_TOAST_DURATION
+	_saved_toast_container.visible = true
+	_saved_toast_container.modulate.a = 0.0
+	_saved_toast_container.offset_top = 72.0
+	_saved_toast_container.offset_bottom = 118.0
 
 
 var _room_transition_cooldown: float = 0.0
@@ -348,13 +378,11 @@ func _on_door_entered(dir: String) -> void:
 	if dungeon.rooms.has(next_coords):
 		CryptAudio.play_door_open()
 		_load_room(next_coords, enter_from)
-		_save_active_run(false)
 
 
 func _on_enemy_died(_enemy: Node2D, souls: int) -> void:
 	CryptAudio.play_enemy_die()
 	souls_collected += souls
-	SaveService.set_value("crypt_dash", "souls", souls_collected)
 	EventBus.souls_changed.emit(souls_collected)
 	_update_hud()
 
@@ -368,8 +396,6 @@ func _unhandled_input(event: InputEvent) -> void:
 
 func _toggle_pause() -> void:
 	var is_paused := not get_tree().paused
-	if is_paused:
-		_save_active_run(false)
 	get_tree().paused = is_paused
 	_pause_modal.visible = is_paused
 
@@ -397,7 +423,10 @@ func _request_quit() -> void:
 	get_tree().quit()
 
 
-func _on_room_cleared(_coords: Vector2i) -> void:
+func _on_room_cleared(coords: Vector2i) -> void:
+	var rm := dungeon.get_room(coords) if dungeon != null else null
+	if rm != null and (rm.type == DungeonGenerator.RoomType.START or rm.type == DungeonGenerator.RoomType.TREASURE):
+		return
 	_save_active_run(true)
 
 
@@ -410,6 +439,7 @@ func _on_floor_completed(_f_num: int) -> void:
 
 func _on_game_over() -> void:
 	_run_ended = true
+	SaveService.set_value("crypt_dash", "souls", souls_collected, false)
 	RunSaveManager.clear_run()
 	CryptAudio.play_game_over()
 	get_tree().paused = true
@@ -418,6 +448,7 @@ func _on_game_over() -> void:
 
 func _show_victory() -> void:
 	_run_ended = true
+	SaveService.set_value("crypt_dash", "souls", souls_collected, false)
 	RunSaveManager.clear_run()
 	CryptAudio.play_victory()
 	get_tree().paused = true
@@ -448,8 +479,24 @@ func _process(delta: float) -> void:
 
 	if _saved_toast_timer > 0.0:
 		_saved_toast_timer = maxf(0.0, _saved_toast_timer - delta)
-		if _saved_toast_label != null:
-			_saved_toast_label.modulate.a = clampf(_saved_toast_timer / 0.5, 0.0, 1.0)
+		if _saved_toast_container != null:
+			var elapsed := SAVE_TOAST_DURATION - _saved_toast_timer
+			if _saved_toast_timer <= 0.0:
+				_saved_toast_container.modulate.a = 0.0
+				_saved_toast_container.visible = false
+			elif elapsed < 0.18:
+				var t := clampf(elapsed / 0.18, 0.0, 1.0)
+				_saved_toast_container.modulate.a = t
+				_saved_toast_container.offset_top = lerpf(72.0, 82.0, t)
+				_saved_toast_container.offset_bottom = _saved_toast_container.offset_top + 46.0
+			elif _saved_toast_timer < 0.55:
+				_saved_toast_container.modulate.a = clampf(_saved_toast_timer / 0.55, 0.0, 1.0)
+				_saved_toast_container.offset_top = 82.0
+				_saved_toast_container.offset_bottom = 128.0
+			else:
+				_saved_toast_container.modulate.a = 1.0
+				_saved_toast_container.offset_top = 82.0
+				_saved_toast_container.offset_bottom = 128.0
 
 	if _fade_alpha > 0.0:
 		_fade_alpha = maxf(0.0, _fade_alpha - delta * 4.2)
@@ -622,16 +669,47 @@ func _setup_ui() -> void:
 	# 4. Unten Mitte: Boss-HP-Balken
 	_setup_boss_bar()
 
-	# 5. Unten Links: Dezenter Autosave-Hinweis
+	# 5. Oben Mitte (unter Etagen-Banner): Deutliches Smaragd-Autosave-Badge
+	_saved_toast_container = CenterContainer.new()
+	_saved_toast_container.set_anchors_preset(Control.PRESET_TOP_WIDE)
+	_saved_toast_container.offset_top = 82.0
+	_saved_toast_container.offset_bottom = 128.0
+	_saved_toast_container.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_saved_toast_container.visible = false
+	_saved_toast_container.modulate.a = 0.0
+	_hud_root.add_child(_saved_toast_container)
+
+	var toast_panel := PanelContainer.new()
+	toast_panel.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	var toast_style := CryptTheme.make_glass_card(
+		Color(0.04, 0.14, 0.14, 0.94),
+		Color("34d399"),
+		2, 12, Color(0.0, 0.0, 0.0, 0.65), 10
+	)
+	toast_style.content_margin_left = 16
+	toast_style.content_margin_right = 16
+	toast_style.content_margin_top = 7
+	toast_style.content_margin_bottom = 7
+	toast_panel.add_theme_stylebox_override("panel", toast_style)
+	_saved_toast_container.add_child(toast_panel)
+
+	var toast_hbox := HBoxContainer.new()
+	toast_hbox.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	toast_hbox.add_theme_constant_override("separation", 10)
+	toast_panel.add_child(toast_hbox)
+
+	toast_hbox.add_child(SaveBadgeIcon.new())
+
 	_saved_toast_label = Label.new()
-	_saved_toast_label.position = Vector2(26.0, 1080.0 - 44.0)
-	_saved_toast_label.modulate.a = 0.0
 	_saved_toast_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	_saved_toast_label.add_theme_font_size_override("font_size", 16)
-	_saved_toast_label.add_theme_color_override("font_color", Color("94a3b8"))
+	var toast_font := CryptTheme.get_semibold_font()
+	if toast_font != null:
+		_saved_toast_label.add_theme_font_override("font", toast_font)
+	_saved_toast_label.add_theme_font_size_override("font_size", 18)
+	_saved_toast_label.add_theme_color_override("font_color", Color("ecfdf5"))
 	_saved_toast_label.add_theme_color_override("font_outline_color", Color("020617"))
 	_saved_toast_label.add_theme_constant_override("outline_size", 3)
-	_hud_root.add_child(_saved_toast_label)
+	toast_hbox.add_child(_saved_toast_label)
 
 	# Modale Fenster
 	_setup_item_modal()
@@ -1023,8 +1101,8 @@ func _setup_pause_modal() -> void:
 	hint.text = "PAUSE_AUTOSAVE_HINT"
 	hint.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	hint.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	hint.add_theme_font_size_override("font_size", 16)
-	hint.add_theme_color_override("font_color", Color("94a3b8"))
+	hint.add_theme_font_size_override("font_size", 17)
+	hint.add_theme_color_override("font_color", Color("a7f3d0"))
 	vbox.add_child(hint)
 
 	var resume_btn := Button.new()

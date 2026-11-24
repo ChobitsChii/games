@@ -95,12 +95,12 @@ static func try_buy_or_equip(weapon_id: String) -> bool:
 	if souls < cost:
 		return false
 
-	SaveService.set_value("crypt_dash", "souls", souls - cost)
+	SaveService.set_value("crypt_dash", "souls", souls - cost, false)
 	var unlocked := get_unlocked_ids()
 	if not unlocked.has(weapon_id):
 		unlocked.append(weapon_id)
-	SaveService.set_value("crypt_dash", "weapons_unlocked", unlocked)
-	SaveService.set_value("crypt_dash", "weapon_equipped", weapon_id)
+	SaveService.set_value("crypt_dash", "weapons_unlocked", unlocked, false)
+	SaveService.set_value("crypt_dash", "weapon_equipped", weapon_id, true)
 	return true
 
 

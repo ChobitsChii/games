@@ -267,8 +267,8 @@ func _buy_upgrade(key: String, cost_base: int) -> void:
 	var cost := cost_base * (current_lvl + 1)
 	if souls >= cost and current_lvl < 5:
 		souls -= cost
-		SaveService.set_value("crypt_dash", "souls", souls)
-		SaveService.set_value("crypt_dash", key, current_lvl + 1)
+		SaveService.set_value("crypt_dash", "souls", souls, false)
+		SaveService.set_value("crypt_dash", key, current_lvl + 1, true)
 		CryptAudio.play_item_pickup()
 		_refresh_upgrades_ui()
 
