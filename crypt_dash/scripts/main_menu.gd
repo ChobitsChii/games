@@ -2,6 +2,7 @@ class_name MainMenu
 extends Control
 ## Hauptmenü von Crypt Dash mit Dark-Fantasy-Theme, schwebenden Partikeln, Altar der Seelen und Waffen-Icons.
 
+@onready var _continue_button: Button = %ContinueButton
 @onready var _play_button: Button = %PlayButton
 @onready var _upgrades_button: Button = %UpgradesButton
 @onready var _how_to_play_button: Button = %HowToPlayButton
@@ -30,11 +31,17 @@ extends Control
 @onready var _weapon_twins_btn: Button = %WeaponTwinsBtn
 @onready var _weapon_staff_btn: Button = %WeaponStaffBtn
 
+var _quitting: bool = false
+
 
 func _ready() -> void:
 	theme = CryptTheme.build()
 	_apply_visual_polish()
 
+	if not SaveService.is_test_mode and DisplayServer.get_name() != "headless":
+		get_tree().set_auto_accept_quit(false)
+
+	_continue_button.pressed.connect(_on_continue_pressed)
 	_play_button.pressed.connect(_on_play_pressed)
 	_upgrades_button.pressed.connect(_open_upgrades)
 	_close_upgrades_button.connect("pressed", _close_upgrades)
@@ -49,7 +56,7 @@ func _ready() -> void:
 	_display_button.pressed.connect(DisplayService.cycle_mode)
 	_music_button.pressed.connect(_on_music_pressed)
 	_sfx_button.pressed.connect(_on_sfx_pressed)
-	_quit_button.pressed.connect(get_tree().quit)
+	_quit_button.pressed.connect(_request_quit)
 	_quit_button.visible = not OS.has_feature("web") and not OS.has_feature("android")
 	_display_button.visible = not OS.has_feature("android")
 
@@ -59,7 +66,10 @@ func _ready() -> void:
 	_setup_upgrade_buttons()
 	_refresh()
 	AudioService.play_music_theme("crypt")
-	_play_button.grab_focus()
+	if _continue_button.visible:
+		_continue_button.grab_focus()
+	else:
+		_play_button.grab_focus()
 
 
 func _apply_visual_polish() -> void:
@@ -152,11 +162,41 @@ func _on_display_mode_changed(_mode: int) -> void:
 
 
 func _refresh() -> void:
+	var saved := RunSaveManager.load_run()
+	if not saved.is_empty():
+		_continue_button.visible = true
+		_continue_button.text = tr("MENU_CONTINUE_FMT") % int(saved.get("floor", 1))
+		_play_button.text = tr("MENU_NEW_RUN")
+	else:
+		_continue_button.visible = false
+		_play_button.text = tr("MENU_PLAY")
 	_language_button.text = "%s: %s" % [tr("COMMON_LANGUAGE"), LocaleService.get_language_name()]
 	_display_button.text = "%s: %s" % [tr("COMMON_DISPLAY_MODE"), tr(DisplayService.get_mode_key())]
 	_music_button.text = AudioService.format_volume_label("COMMON_VOLUME_MUSIC", "Music")
 	_sfx_button.text = AudioService.format_volume_label("COMMON_VOLUME_SFX", "Sfx")
 	_refresh_upgrades_ui()
+
+
+func _notification(what: int) -> void:
+	if what == NOTIFICATION_WM_CLOSE_REQUEST:
+		_request_quit()
+
+
+func _request_quit() -> void:
+	if _quitting:
+		return
+	_quitting = true
+	CryptAudio.stop_all()
+	AudioService.stop_all()
+	await get_tree().process_frame
+	await get_tree().process_frame
+	get_tree().quit()
+
+
+func _on_continue_pressed() -> void:
+	CryptAudio.play_click()
+	EventBus.resume_saved_run = true
+	get_tree().change_scene_to_file("res://scenes/game.tscn")
 
 
 func _on_music_pressed() -> void:
@@ -173,6 +213,8 @@ func _on_sfx_pressed() -> void:
 
 func _on_play_pressed() -> void:
 	CryptAudio.play_click()
+	EventBus.resume_saved_run = false
+	RunSaveManager.clear_run()
 	get_tree().change_scene_to_file("res://scenes/game.tscn")
 
 

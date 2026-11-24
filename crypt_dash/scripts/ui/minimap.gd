@@ -33,6 +33,11 @@ func set_current_room(coords: Vector2i) -> void:
 	queue_redraw()
 
 
+func set_visited_rooms(visited: Dictionary) -> void:
+	visited_rooms = visited.duplicate()
+	queue_redraw()
+
+
 func _draw() -> void:
 	if dungeon == null:
 		return

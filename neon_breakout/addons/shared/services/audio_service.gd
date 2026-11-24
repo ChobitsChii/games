@@ -141,6 +141,13 @@ func stop_all() -> void:
 	_shutting_down = true
 	stop_music()
 	_theme_cache.clear()
+	AudioServer.lock()
+	AudioServer.unlock()
+
+
+func _notification(what: int) -> void:
+	if what == NOTIFICATION_WM_CLOSE_REQUEST:
+		stop_all()
 
 
 func _exit_tree() -> void:

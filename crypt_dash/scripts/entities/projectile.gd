@@ -17,6 +17,7 @@ var _hitbox: HitboxComponent
 var _trail: Line2D
 var _trail_points: PackedVector2Array = PackedVector2Array()
 var _light: PointLight2D
+var _destroyed: bool = false
 
 
 func _ready() -> void:
@@ -30,10 +31,12 @@ func _ready() -> void:
 	_hitbox.is_player = is_player
 	_hitbox.source_node = self
 	_hitbox.hit_landed.connect(func(_target: Node2D) -> void:
+		if _destroyed:
+			return
 		var col := tint if is_player else Color("f87171")
 		CryptVfx.spawn_burst(get_parent(), global_position, col, 6, 140.0, 3.2)
 		if not pierce:
-			queue_free()
+			_destroy()
 	)
 	var shape := CollisionShape2D.new()
 	var circle := CircleShape2D.new()
@@ -84,11 +87,11 @@ func _physics_process(delta: float) -> void:
 			or global_position.y < 48.0 or global_position.y > float(CryptDashConfig.ROOM_PIXEL_HEIGHT) - 48.0:
 		var col := tint if is_player else Color("f87171")
 		CryptVfx.spawn_burst(get_parent(), global_position, col, 6, 120.0, 3.0)
-		queue_free()
+		_destroy()
 		return
 
 	if _time_alive >= life_time:
-		queue_free()
+		_destroy()
 		return
 
 	queue_redraw()
@@ -152,6 +155,19 @@ func _draw() -> void:
 
 
 func _on_body_entered(_body: Node2D) -> void:
+	if _destroyed:
+		return
 	var col := tint if is_player else Color("f87171")
 	CryptVfx.spawn_burst(get_parent(), global_position, col, 7, 145.0, 3.2)
+	_destroy()
+
+
+func _destroy() -> void:
+	if _destroyed:
+		return
+	_destroyed = true
+	set_deferred("monitoring", false)
+	if _hitbox != null and is_instance_valid(_hitbox):
+		_hitbox.set_deferred("monitoring", false)
+		_hitbox.set_deferred("monitorable", false)
 	queue_free()

@@ -17,3 +17,5 @@ signal boss_defeated
 signal game_won
 signal game_over
 signal screen_shake_requested(intensity: float, duration: float)
+
+var resume_saved_run: bool = false

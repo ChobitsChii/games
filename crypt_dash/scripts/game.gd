@@ -52,6 +52,11 @@ var _touch_controls: CanvasLayer
 
 var _shake_timer: float = 0.0
 var _shake_intensity: float = 0.0
+var _run_ended: bool = false
+var _quitting: bool = false
+var _saved_toast_label: Label
+var _saved_toast_timer: float = 0.0
+var _spawn_grace_timer: float = 0.0
 
 var _heart_full_tex: Texture2D
 var _heart_half_tex: Texture2D
@@ -62,6 +67,9 @@ func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	_parse_cmdline_args()
 	_load_meta_progress()
+
+	if not autoplay and not SaveService.is_test_mode and DisplayServer.get_name() != "headless":
+		get_tree().set_auto_accept_quit(false)
 
 	_heart_full_tex = CryptAssets.get_texture("res://assets/icons/icon_heart_full.png")
 	_heart_half_tex = CryptAssets.get_texture("res://assets/icons/icon_heart_half.png")
@@ -75,11 +83,19 @@ func _ready() -> void:
 	EventBus.boss_spawned.connect(_on_boss_spawned)
 	EventBus.boss_health_changed.connect(_on_boss_health_changed)
 	EventBus.boss_defeated.connect(_on_boss_defeated)
+	EventBus.room_cleared.connect(_on_room_cleared)
 
 	_setup_camera_and_atmosphere()
 	_setup_ui()
 	AudioService.play_music_theme("crypt")
-	_start_floor(current_floor_num)
+
+	var should_resume := EventBus.resume_saved_run and not autoplay and RunSaveManager.has_saved_run()
+	EventBus.resume_saved_run = false
+	if should_resume:
+		_resume_from_save(RunSaveManager.load_run())
+	else:
+		_start_floor(current_floor_num)
+		_save_active_run(false)
 
 
 func _parse_cmdline_args() -> void:
@@ -175,6 +191,96 @@ func _start_floor(floor_num: int) -> void:
 	player.global_position = Vector2(CryptDashConfig.ROOM_PIXEL_WIDTH / 2.0, CryptDashConfig.ROOM_PIXEL_HEIGHT / 2.0)
 	_load_room(current_room_coords, "center")
 	_update_hud()
+	if floor_num > 1:
+		_save_active_run(true)
+
+
+func _resume_from_save(data: Dictionary) -> void:
+	seed_value = int(data.get("seed", seed_value))
+	current_floor_num = clampi(int(data.get("floor", 1)), 1, 3)
+	var raw_items: Variant = data.get("item_ids", [])
+	collected_items = RunSaveManager.restore_items(raw_items if raw_items is Array else [])
+	if data.has("weapon_id"):
+		var wid := str(data["weapon_id"])
+		if WeaponCatalog.is_unlocked(wid):
+			SaveService.set_value("crypt_dash", "weapon_equipped", wid)
+
+	dungeon = DungeonGenerator.generate_floor(seed_value, current_floor_num)
+	var visited := RunSaveManager.apply_floor_state(dungeon, data)
+
+	var theme_data := CryptAssets.get_floor_theme(current_floor_num)
+	if _world_modulate != null:
+		_world_modulate.color = theme_data.get("modulate", Color(0.62, 0.68, 0.82, 1.0))
+	if _atmosphere_mat != null:
+		_atmosphere_mat.set_shader_parameter("fog_color", theme_data.get("fog_color", Color(0.08, 0.16, 0.26, 1.0)))
+		_atmosphere_mat.set_shader_parameter("fog_strength", float(theme_data.get("fog_strength", 0.14)))
+
+	if player == null:
+		player = Player.new()
+		player.add_to_group("player")
+		player.autoplay = autoplay
+		player.meta_upgrades = meta_upgrades
+		player.items = collected_items
+		player.health_changed.connect(_on_player_health_changed)
+		player.dash_cooldown_progress.connect(_on_dash_progress)
+		_world_node.add_child(player)
+
+	var saved_hp := clampi(int(data.get("hp", player.max_hp)), 1, player.max_hp)
+	player.current_hp = saved_hp
+	if player._health != null:
+		player._health.current_health = saved_hp
+	_on_player_health_changed(player.current_hp, player.max_hp)
+	_refresh_relics_hud()
+
+	var target_coords := Vector2i(
+		int(data.get("room_x", dungeon.start_room_coords.x)),
+		int(data.get("room_y", dungeon.start_room_coords.y))
+	)
+	if not dungeon.rooms.has(target_coords):
+		target_coords = dungeon.start_room_coords
+	current_room_coords = target_coords
+
+	if _minimap != null:
+		_minimap.set_dungeon(dungeon)
+		_minimap.set_visited_rooms(visited)
+
+	var cur_room := dungeon.get_room(current_room_coords)
+	var spawn_from := "center"
+	if cur_room != null and ((cur_room.type == DungeonGenerator.RoomType.TREASURE and not cur_room.chest_opened) or (cur_room.type == DungeonGenerator.RoomType.BOSS and cur_room.cleared)):
+		for d: String in ["south", "north", "west", "east"]:
+			if bool(cur_room.doors.get(d, false)):
+				spawn_from = d
+				break
+
+	_load_room(current_room_coords, spawn_from)
+	_update_hud()
+
+	if cur_room != null and not cur_room.cleared and player._hurtbox != null:
+		player._hurtbox.invulnerable = true
+		_spawn_grace_timer = 0.85
+
+
+func _save_active_run(show_toast: bool = true) -> void:
+	if autoplay or SaveService.is_test_mode or _run_ended:
+		return
+	if dungeon == null or player == null or not is_instance_valid(player) or player.current_hp <= 0:
+		return
+	var visited := _minimap.visited_rooms if _minimap != null else {}
+	var data := RunSaveManager.serialize_run(
+		seed_value,
+		current_floor_num,
+		current_room_coords,
+		player.current_hp,
+		WeaponCatalog.get_equipped_id(),
+		collected_items,
+		dungeon,
+		visited
+	)
+	RunSaveManager.save_run(data)
+	if show_toast and _saved_toast_label != null:
+		_saved_toast_label.text = tr("HUD_SAVED")
+		_saved_toast_label.modulate.a = 1.0
+		_saved_toast_timer = 1.4
 
 
 var _room_transition_cooldown: float = 0.0
@@ -197,13 +303,6 @@ func _load_room(coords: Vector2i, enter_from: String) -> void:
 		if child is Projectile:
 			child.queue_free()
 
-	var r_data: DungeonGenerator.DungeonRoom = dungeon.get_room(coords)
-	current_room_instance = RoomTemplate.new()
-	current_room_instance.setup_room(r_data, current_floor_num)
-	current_room_instance.door_entered.connect(_on_door_entered)
-	_world_node.add_child(current_room_instance)
-	EventBus.room_entered.emit(coords)
-
 	var w := CryptDashConfig.ROOM_PIXEL_WIDTH
 	var h := CryptDashConfig.ROOM_PIXEL_HEIGHT
 	match enter_from:
@@ -217,6 +316,13 @@ func _load_room(coords: Vector2i, enter_from: String) -> void:
 			player.global_position = Vector2(w - 140.0, h / 2.0)
 		"center":
 			player.global_position = Vector2(w / 2.0, h / 2.0)
+
+	var r_data: DungeonGenerator.DungeonRoom = dungeon.get_room(coords)
+	current_room_instance = RoomTemplate.new()
+	current_room_instance.setup_room(r_data, current_floor_num)
+	current_room_instance.door_entered.connect(_on_door_entered)
+	_world_node.add_child(current_room_instance)
+	EventBus.room_entered.emit(coords)
 
 
 func _on_door_entered(dir: String) -> void:
@@ -242,6 +348,7 @@ func _on_door_entered(dir: String) -> void:
 	if dungeon.rooms.has(next_coords):
 		CryptAudio.play_door_open()
 		_load_room(next_coords, enter_from)
+		_save_active_run(false)
 
 
 func _on_enemy_died(_enemy: Node2D, souls: int) -> void:
@@ -261,6 +368,8 @@ func _unhandled_input(event: InputEvent) -> void:
 
 func _toggle_pause() -> void:
 	var is_paused := not get_tree().paused
+	if is_paused:
+		_save_active_run(false)
 	get_tree().paused = is_paused
 	_pause_modal.visible = is_paused
 
@@ -269,6 +378,27 @@ func _notification(what: int) -> void:
 	if what == NOTIFICATION_WM_GO_BACK_REQUEST:
 		if not _game_over_modal.visible and not _victory_modal.visible and not _item_selection_modal.visible:
 			_toggle_pause()
+	elif what == NOTIFICATION_APPLICATION_PAUSED:
+		_save_active_run(false)
+	elif what == NOTIFICATION_WM_CLOSE_REQUEST:
+		if not autoplay and not SaveService.is_test_mode:
+			_save_active_run(false)
+			_request_quit()
+
+
+func _request_quit() -> void:
+	if _quitting:
+		return
+	_quitting = true
+	CryptAudio.stop_all()
+	AudioService.stop_all()
+	await get_tree().process_frame
+	await get_tree().process_frame
+	get_tree().quit()
+
+
+func _on_room_cleared(_coords: Vector2i) -> void:
+	_save_active_run(true)
 
 
 func _on_floor_completed(_f_num: int) -> void:
@@ -279,12 +409,16 @@ func _on_floor_completed(_f_num: int) -> void:
 
 
 func _on_game_over() -> void:
+	_run_ended = true
+	RunSaveManager.clear_run()
 	CryptAudio.play_game_over()
 	get_tree().paused = true
 	_game_over_modal.visible = true
 
 
 func _show_victory() -> void:
+	_run_ended = true
+	RunSaveManager.clear_run()
 	CryptAudio.play_victory()
 	get_tree().paused = true
 	_victory_modal.visible = true
@@ -305,6 +439,17 @@ func _process(delta: float) -> void:
 
 	if _room_transition_cooldown > 0.0:
 		_room_transition_cooldown -= delta
+
+	if _spawn_grace_timer > 0.0:
+		_spawn_grace_timer = maxf(0.0, _spawn_grace_timer - delta)
+		if _spawn_grace_timer <= 0.0 and player != null and is_instance_valid(player) and not player.is_dashing:
+			if player._hurtbox != null:
+				player._hurtbox.invulnerable = false
+
+	if _saved_toast_timer > 0.0:
+		_saved_toast_timer = maxf(0.0, _saved_toast_timer - delta)
+		if _saved_toast_label != null:
+			_saved_toast_label.modulate.a = clampf(_saved_toast_timer / 0.5, 0.0, 1.0)
 
 	if _fade_alpha > 0.0:
 		_fade_alpha = maxf(0.0, _fade_alpha - delta * 4.2)
@@ -476,6 +621,17 @@ func _setup_ui() -> void:
 
 	# 4. Unten Mitte: Boss-HP-Balken
 	_setup_boss_bar()
+
+	# 5. Unten Links: Dezenter Autosave-Hinweis
+	_saved_toast_label = Label.new()
+	_saved_toast_label.position = Vector2(26.0, 1080.0 - 44.0)
+	_saved_toast_label.modulate.a = 0.0
+	_saved_toast_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_saved_toast_label.add_theme_font_size_override("font_size", 16)
+	_saved_toast_label.add_theme_color_override("font_color", Color("94a3b8"))
+	_saved_toast_label.add_theme_color_override("font_outline_color", Color("020617"))
+	_saved_toast_label.add_theme_constant_override("outline_size", 3)
+	_hud_root.add_child(_saved_toast_label)
 
 	# Modale Fenster
 	_setup_item_modal()
@@ -716,6 +872,7 @@ func _pick_item(item: ItemData) -> void:
 	_item_selection_modal.visible = false
 	if not autoplay:
 		get_tree().paused = false
+	_save_active_run(true)
 
 
 func _refresh_relics_hud() -> void:
@@ -806,6 +963,7 @@ func _setup_game_over_modal() -> void:
 	retry_btn.text = "BTN_RETRY"
 	retry_btn.custom_minimum_size = Vector2(300.0, 56.0)
 	retry_btn.pressed.connect(func() -> void:
+		RunSaveManager.clear_run()
 		get_tree().paused = false
 		get_tree().reload_current_scene()
 	)
@@ -861,6 +1019,14 @@ func _setup_pause_modal() -> void:
 	CryptTheme.style_display_label(title, 46, Color("38bdf8"))
 	vbox.add_child(title)
 
+	var hint := Label.new()
+	hint.text = "PAUSE_AUTOSAVE_HINT"
+	hint.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	hint.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	hint.add_theme_font_size_override("font_size", 16)
+	hint.add_theme_color_override("font_color", Color("94a3b8"))
+	vbox.add_child(hint)
+
 	var resume_btn := Button.new()
 	resume_btn.text = "COMMON_RESUME"
 	resume_btn.custom_minimum_size = Vector2(300.0, 56.0)
@@ -871,6 +1037,7 @@ func _setup_pause_modal() -> void:
 	menu_btn.text = "COMMON_MAIN_MENU"
 	menu_btn.custom_minimum_size = Vector2(300.0, 56.0)
 	menu_btn.pressed.connect(func() -> void:
+		_save_active_run(false)
 		get_tree().paused = false
 		get_tree().change_scene_to_file("res://scenes/main_menu.tscn")
 	)
@@ -933,6 +1100,8 @@ func _exit_tree() -> void:
 		EventBus.boss_health_changed.disconnect(_on_boss_health_changed)
 	if EventBus.boss_defeated.is_connected(_on_boss_defeated):
 		EventBus.boss_defeated.disconnect(_on_boss_defeated)
+	if EventBus.room_cleared.is_connected(_on_room_cleared):
+		EventBus.room_cleared.disconnect(_on_room_cleared)
 
 
 func _on_item_collected(_id: String) -> void:

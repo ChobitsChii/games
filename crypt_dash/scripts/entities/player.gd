@@ -296,4 +296,4 @@ func _on_health_changed(c: int, m: int) -> void:
 
 func _on_died() -> void:
 	player_died.emit()
-	EventBus.game_over.emit()
+	EventBus.game_over.emit.call_deferred()

@@ -28,6 +28,7 @@ var _floor_decals: Array[Dictionary] = []
 
 class FloorExitNode extends Area2D:
 	var floor_num: int = 1
+	var triggered: bool = false
 	var _time: float = 0.0
 	var _sprite: Sprite2D
 	var _light: PointLight2D
@@ -98,6 +99,7 @@ class FloorExitNode extends Area2D:
 
 
 class PedestalNode extends Area2D:
+	var collected: bool = false
 	var _time: float = 0.0
 	var _sprite: Sprite2D
 	var _shadow: Sprite2D
@@ -470,7 +472,7 @@ func _spawn_room_contents() -> void:
 		boss.max_health = 50 + (floor_num - 1) * 25
 		boss.global_position = Vector2(CryptDashConfig.ROOM_PIXEL_WIDTH / 2.0, CryptDashConfig.ROOM_PIXEL_HEIGHT / 2.0)
 		boss.boss_died.connect(func(_name: String) -> void:
-			_mark_room_cleared()
+			_mark_room_cleared.call_deferred()
 		)
 		add_child(boss)
 		spawned_enemies.append(boss)
@@ -544,9 +546,11 @@ func _spawn_pedestal() -> void:
 	var pedestal := PedestalNode.new()
 	pedestal.position = center
 	pedestal.body_entered.connect(func(body: Node2D) -> void:
-		if body is Player:
+		if not pedestal.collected and body is Player and body.global_position.distance_to(pedestal.global_position) <= 96.0:
+			pedestal.collected = true
 			room_data.chest_opened = true
-			EventBus.item_collected.emit("treasure_opened")
+			pedestal.set_deferred("monitoring", false)
+			EventBus.item_collected.emit.call_deferred("treasure_opened")
 			pedestal.queue_free()
 	)
 	add_child(pedestal)
@@ -558,8 +562,10 @@ func _spawn_floor_exit() -> void:
 	exit_node.floor_num = floor_num
 	exit_node.position = center
 	exit_node.body_entered.connect(func(body: Node2D) -> void:
-		if body is Player:
-			EventBus.floor_completed.emit(floor_num)
+		if not exit_node.triggered and body is Player and body.global_position.distance_to(exit_node.global_position) <= 96.0:
+			exit_node.triggered = true
+			exit_node.set_deferred("monitoring", false)
+			EventBus.floor_completed.emit.call_deferred(floor_num)
 	)
 	add_child(exit_node)
 
