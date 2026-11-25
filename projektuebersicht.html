@@ -1439,14 +1439,14 @@
 
 	<main>
 		<section class="hero">
-			<div class="hero-eyebrow">Godot 4.7.2 · GDScript · Linux, Windows, Web, Android &amp; Chii Arcade (v1) · Galaxy S10 verifiziert · Stand: 23.11.2026</div>
+			<div class="hero-eyebrow">Godot 4.7.2 · GDScript · Linux, Windows, Web, Android &amp; Chii Arcade v1 · Project Hub Sync · Stand: 25.11.2026</div>
 			<h1 id="main-heading" tabindex="-1">Projektübersicht: Mini-Games Repository</h1>
 			<p class="hero-lead">
-				Vollständige Bestandsaufnahme aller sieben Godot-Spiele im Repository <code>games/</code> –
-				abgeglichen mit den Plänen (<code>plans/01</code>–<code>07</code>), Format- &amp; Touch-Analyse,
-				Android-Signierschlüsseln (inkl. NAS-Backup unter <code>/media/nas.home/Development-Backups/games/</code>),
+				Vollständige Bestandsaufnahme aller sieben Godot-Spiele im Repository <code>games/</code> (<code>HEAD 477c234</code>) –
+				abgeglichen mit den Plänen (<code>plans/01</code>–<code>07</code>), dem übergreifenden Android-15-Audio-Loop-Fix,
+				den HD-Visual-/Gameplay-Überarbeitungen bis <strong>25.11.2026</strong>, Android-Signierschlüsseln (inkl. NAS-Backup unter <code>/media/nas.home/Development-Backups/games/</code>),
 				Chii-Arcade-v1-Store-Release (<code>catalog-v1.json</code>, Cert-Pinning, WebP-Cover &amp; Linux-Screenshots),
-				Echtgeräte-End-to-End-Test auf einem <strong>Samsung Galaxy S10 (<code>SM-G973F</code>, Android 12)</strong>
+				<strong>Project Hub MCP Sync</strong> (Bereich <code>Game-Dev</code>, IDs <code>#64</code>–<code>#70</code>)
 				sowie dem Gesamtdurchlauf von <code>tools/run_tests.sh</code>.
 			</p>
 
@@ -1457,34 +1457,34 @@
 					<span class="kpi-note">16:9 Querformat gesperrt (<code>Sensor Landscape</code>) · Web, Win, Linux, Android APK &amp; Chii Arcade v1</span>
 				</div>
 				<div class="kpi-card">
-					<span class="kpi-label">Android &amp; Chii Arcade v1</span>
-					<span class="kpi-value">7 / 7 S10 OK</span>
-					<span class="kpi-note">Bulk-Update 3/3 auf S10 OK · Scharfe 512px-Icons · Lane Defenders VRAM-Fix &amp; 0 Crashes</span>
+					<span class="kpi-label">Store &amp; Project Hub</span>
+					<span class="kpi-value">7 / 7 Live</span>
+					<span class="kpi-note">Chii Arcade v1 (<code>catalog-v1.json</code>) aktuell · Galaxy S10 verifiziert · Project Hub IDs <code>#64–#70</code></span>
 				</div>
 				<div class="kpi-card">
 					<span class="kpi-label">Live-Testergebnis</span>
-					<span class="kpi-value">269 / 269</span>
+					<span class="kpi-value">280 / 280</span>
 					<span class="kpi-note">0 Fehler · 0 Warnungen · 0 Exit-Leaks · 7/7 Smoke-Tests (Seed 42) grün</span>
 				</div>
 				<div class="kpi-card">
-					<span class="kpi-label">Feinschliff &amp; Branding</span>
-					<span class="kpi-value">100 % Einheitlich</span>
-					<span class="kpi-note">7/7 Boot-Logos &amp; Splash-Screens (DE/EN) + dynamisches Chii-Arcade-Badge</span>
+					<span class="kpi-label">Grafik &amp; Audio-Qualität</span>
+					<span class="kpi-value">7 / 7 Gehärtet</span>
+					<span class="kpi-note">Android-15-<code>AudioStreamWAV</code>-Loop-Fix (7/7) · 3 HD-Visual-Overhauls · 512px-Vektor-Icons</span>
 				</div>
 			</div>
 
 			<div class="summary-callout">
 				<p>
-					<strong>Kurzfazit:</strong> Alle <strong>7 Spiele sind nun für alle 4 Plattformen (Linux, Windows, Web &amp; signiertes Android-Release) fertig gebaut</strong>, fest auf <strong>16:9-Querformat</strong> (<code>window/handheld/orientation=4</code>, <em>Sensor Landscape</em>) gesperrt und mit je einem eigenen Android-Release-Signierschlüssel (<code>~/.local/share/chii-arcade/signing/games/&lt;spiel&gt;/&lt;spiel&gt;-release.p12</code>) signiert sowie auf dem NAS unter <code>/media/nas.home/Development-Backups/games/</code> gesichert.
+					<strong>Kurzfazit (Stand 25.11.2026):</strong> Alle <strong>7 Spiele sind als aktuelle Vollversionen für alle 4 Plattformen (Linux, Windows, Web &amp; signiertes Android-Release) live</strong>, fest auf <strong>16:9-Querformat</strong> (<code>window/handheld/orientation=4</code>, <em>Sensor Landscape</em>) gesperrt, mit eigenen Release-Keystores signiert, in Chii Arcade v1 (<code>catalog-v1.json</code>) veröffentlicht und zusätzlich im <strong>Project Hub</strong> (Bereich <code>Game-Dev</code>, Projekte <code>#64</code> bis <code>#70</code>, Status <em>Abgeschlossen / Veröffentlicht</em>) synchronisiert.
 				</p>
 				<p>
-					<strong>Android-Only Touch-Integration (7 / 7 Spiele):</strong> Neben den 3 direkt per Tap/Drag spielbaren Titeln (<em>Neon Breakout</em>, <em>Connect Four Deluxe</em>, <em>Lane Defenders</em>) besitzen nun auch <em>Asteroid Drift</em>, <em>Block Stack</em>, <em>Crypt Dash</em> (virtueller Twin-Stick + Dash) und <em>Lumaria</em> (virtueller 8-Wege-Stick + 6 Action-RPG-Buttons + Inventar/Pause) eine maßgeschneiderte Multi-Touch-Oberfläche über <code>SharedTouchControls</code> (<code>shared/ui/touch_controls.gd</code>), die <strong>ausschließlich auf Android</strong> (<code>OS.has_feature("android")</code>) eingeblendet wird und auf dem PC unter Windows, Linux und Desktop-Web komplett unsichtbar bleibt.
+					<strong>Übergreifender Android-15-Audio-Loop-Fix (<code>10c3304</code>, 7 / 7 Spiele):</strong> Alle 7 Spiele erhielten den gemeinsamen Fix gegen <code>AudioStreamWAV</code>-Forward-Loop-PCM-Overreads unter Android 15 (<code>SharedSynthMusic</code> in <code>shared/audio/synth_music.gd</code> sowie spieleeigene Audio-Renderer wie <code>LumariaAudioManager</code> und <code>MusicRenderer</code> nutzen nun 32 Guard-Frames bzw. Puffer-Invarianz mit striktem <code>loop_end = expected_frames - 1</code>). In <code>lumaria</code>, <code>neon_breakout</code> und <code>asteroid_drift</code> sichern dedizierte Audio-Loop-Unit-Tests das nahtlose Weiterlaufen nach dem 4-Sekunden-Wrap ab.
 				</p>
 				<p>
-					<strong>Chii Arcade (v1) Store-Release (7 / 7 Spiele):</strong> Alle 7 Spiele besitzen nun eine <code>chii-arcade.json</code> inklusive deutschem Store-Text, jeweils ein <code>1280×720</code>-WebP-Cover und 4 unter Linux per <code>xvfb-run</code> aufgenommene Gameplay-Screenshots (<code>&lt;spiel&gt;/store-media/</code>), sind mit ihren Release-Zertifikaten und <code>&lt;queries&gt;</code>-Einträgen in Chii Arcade v1 gepinnt (<code>TrustedGameCertificates.kt</code> / <code>AndroidManifest.xml</code>) und über GitHub Releases sowie <code>catalog-v1.json</code> ausgeliefert. <em>Chii Arcade Platform (v2)</em> blieb dabei ausdrücklich unberührt.
+					<strong>HD-Redesigns &amp; Feature-Sprünge (24.–25.11.2026):</strong> <em>Lane Defenders</em> (<code>v1.6.0</code>) bietet jetzt zwei im Hauptmenü wählbare HD-Fantasy-Designs (<em>Fantasy-Burg-Türme</em> &amp; <em>Chibi-Burghelden</em>). <em>Crypt Dash</em> (<code>v1.2.0</code>–<code>v1.3.1</code>) erhielt ein komplettes Dark-Fantasy-Visual-Overhaul mit 2.5D-Räumen, Beleuchtung &amp; VFX sowie ein Run-Autosave-/Resume-System mit minimierten SSD-Schreibzugriffen und Leak-Fixes. <em>Lumaria</em> (<code>v1.1.0</code>) wurde optisch und spielerisch umfassend überarbeitet (HD-Kaelen, Lyra/NPCs, Gegner, Bosse &amp; alle 6 Zonen, Kristall-HUD, ausgerichtete Oakhaven-Pfade sowie Combat-/Pause-Korrekturen).
 				</p>
 				<p>
-					<strong>Echtgeräte-Test auf Samsung Galaxy S10 (<code>SM-G973F</code>, Android 12, 2280×1080):</strong> Über den behobenen Bulk-Updater von <code>Chii Arcade v1.0.17</code> („Alle Spiele aktualisieren“) wurden alle 3 aktualisierten Titel – <em>Asteroid Drift</em> <code>v1.0.7</code>, <em>Lane Defenders</em> <code>v1.5.6</code> und <em>Lumaria</em> <code>v1.0.3</code> – regulär über die Store-UI inklusive Google-Play-Protect-Prüfung eingespielt (<em>„3 aktualisiert · 0 übersprungen“</em>). Dabei wurden die unscharfen App-Icons von <em>Asteroid Drift</em> und <em>Lumaria</em> durch neue 512×512-Vektor-SVGs ohne <code>&lt;feGaussianBlur&gt;</code>-Filter (ThorVG-Rasterizer-Bug) ersetzt und <em>Lane Defenders</em> intensiv gehärtet (APK von <code>74,5 MB</code> auf <code>64,6 MB</code> reduziert, ETC2/S3TC-VRAM-Kompression für die 5 Full-HD-Hintergründe mit spürbarer Speicher-Entlastung auf dem S10: Graphics <code>~100 → ~68 MB</code>, GL mtrack <code>~75 → ~44 MB</code>, <code>heart.png</code>/<code>sun.png</code>-Mipmap-Fix, Lazy-Almanach &amp; Lebenszyklus-Schutzprüfungen, <strong>0 Fatal-/Script-Errors im <code>adb logcat</code></strong>).
+					<strong>Android-Only Touch-UI, Store-Media &amp; Hardware-Basis:</strong> Die berührungsoptimierten Overlays über <code>SharedTouchControls</code> (nur unter Android aktiv), <code>512×512</code>-Vektor-Icons ohne SVG-Blur-Filter (<code>Asteroid Drift</code> &amp; <code>Lumaria</code>), ETC2/S3TC-VRAM-Kompression und Store-Media-Assets (WebP-Cover + 4–5 Screenshots pro Spiel) sind vollständig in allen 7 Releases aktiv. Auf dem <strong>Samsung Galaxy S10 (<code>SM-G973F</code>, Android 12)</strong> wurden Installation und Sammelaktualisierung regulär über <code>Chii Arcade v1.0.17</code> geprüft.
 				</p>
 			</div>
 		</section>
@@ -1500,7 +1500,7 @@
 
 			<div tabindex="0" role="region" aria-labelledby="comparison-caption" class="table-wrapper">
 				<table class="comparison-table">
-					<caption id="comparison-caption">Statusmatrix der 7 Godot-Projekte in games/ (Stand: 23.11.2026)</caption>
+					<caption id="comparison-caption">Statusmatrix der 7 Godot-Projekte in games/ (Stand: 25.11.2026 · Chii Arcade v1 &amp; Project Hub #64–#70)</caption>
 					<thead>
 						<tr>
 							<th scope="col">Projekt</th>
@@ -1519,13 +1519,13 @@
 					<tbody>
 						<tr>
 							<th scope="row"><a href="#proj-neon-breakout">01 · Neon Breakout</a></th>
-							<td class="num"><code>v1.1.2</code></td>
+							<td class="num"><code>v1.1.3</code></td>
 							<td>
 								<div class="platform-badges">
 									<span class="badge badge-ok"><span aria-hidden="true">✓</span> Web · Win · Linux</span>
-									<span class="badge badge-ok"><span aria-hidden="true">✓</span> Android (Signed APK)</span>
+									<span class="badge badge-ok"><span aria-hidden="true">✓</span> Android (<code>56,7 MB</code>)</span>
 									<span class="badge badge-ok"><span aria-hidden="true">✓</span> Chii Arcade v1</span>
-									<span class="badge badge-ok"><span aria-hidden="true">✓</span> Galaxy S10 OK</span>
+									<span class="badge badge-ok"><span aria-hidden="true">✓</span> Project Hub #64</span>
 								</div>
 								<span class="cell-sub">16:9 Querformat gesperrt · Touch-Drag/Tap &amp; HUD-Pause</span>
 							</td>
@@ -1540,19 +1540,19 @@
 							<td><span class="badge badge-ok"><span aria-hidden="true">✓</span> Abgeschlossen (M0–M8)</span></td>
 							<td class="num">9 / 9 ✅</td>
 							<td class="num">90 Tests · 0 Leaks</td>
-							<td class="num">23.11.2026</td>
-							<td>Keine (Android Signed APK live, Touch-Pause, Boot-Logo &amp; <code>F3</code> aktiv)</td>
+							<td class="num">24.11.2026</td>
+							<td>Keine (Android-15-<code>AudioStreamWAV</code>-Loop-Fix live, <code>Code 10103</code>, Touch-Pause, Boot-Logo &amp; <code>F3</code>)</td>
 							<td>Optional Post-Launch: Level-Editor oder Daily Seed</td>
 						</tr>
 						<tr>
 							<th scope="row"><a href="#proj-asteroid-drift">02 · Asteroid Drift</a></th>
-							<td class="num"><code>v1.0.7</code></td>
+							<td class="num"><code>v1.0.8</code></td>
 							<td>
 								<div class="platform-badges">
 									<span class="badge badge-ok"><span aria-hidden="true">✓</span> Web · Win · Linux</span>
-									<span class="badge badge-ok"><span aria-hidden="true">✓</span> Android (Signed APK)</span>
+									<span class="badge badge-ok"><span aria-hidden="true">✓</span> Android (<code>55,4 MB</code>)</span>
 									<span class="badge badge-ok"><span aria-hidden="true">✓</span> Chii Arcade v1</span>
-									<span class="badge badge-ok"><span aria-hidden="true">✓</span> Galaxy S10 OK</span>
+									<span class="badge badge-ok"><span aria-hidden="true">✓</span> Project Hub #65</span>
 								</div>
 								<span class="cell-sub">16:9 Querformat gesperrt · Android-Only Touch-UI (Links/Rechts, Schub, Feuer, Warp, Pause)</span>
 							</td>
@@ -1564,22 +1564,22 @@
 								<span class="badge badge-ok"><span aria-hidden="true">✓</span> Eigenes Spiel-Logo</span>
 								<span class="cell-sub">Sci-Fi-Logo <em>„ASTEROID DRIFT“</em> + 512px-<code>icon.svg</code></span>
 							</td>
-							<td><span class="badge badge-ok"><span aria-hidden="true">✓</span> Abgeschlossen + Touch/Icon-Fix</span></td>
+							<td><span class="badge badge-ok"><span aria-hidden="true">✓</span> Abgeschlossen + Audio/Icon-Fix</span></td>
 							<td class="num">8 / 8 ✅</td>
 							<td class="num">28 Tests · 0 Leaks</td>
-							<td class="num">23.11.2026</td>
-							<td>Keine (Galaxy S10 <code>v1.0.7</code> per Bulk-Update geprüft: scharfes 512×512-Icon ohne Blur-Filter, Touch-HUD ohne Überlappung)</td>
+							<td class="num">24.11.2026</td>
+							<td>Keine (<code>v1.0.8</code> / <code>Code 10008</code> live mit Android-15-Audio-Loop-Fix &amp; scharfem 512px-Icon)</td>
 							<td>Optional Post-Launch: Survival-Modus &amp; Boss-Begegnungen</td>
 						</tr>
 						<tr>
 							<th scope="row"><a href="#proj-vier-gewinnt">03 · Connect Four Deluxe</a></th>
-							<td class="num"><code>v1.2.1</code></td>
+							<td class="num"><code>v1.2.2</code></td>
 							<td>
 								<div class="platform-badges">
 									<span class="badge badge-ok"><span aria-hidden="true">✓</span> Web · Win · Linux</span>
-									<span class="badge badge-ok"><span aria-hidden="true">✓</span> Android (Signed APK)</span>
+									<span class="badge badge-ok"><span aria-hidden="true">✓</span> Android (<code>60,8 MB</code>)</span>
 									<span class="badge badge-ok"><span aria-hidden="true">✓</span> Chii Arcade v1</span>
-									<span class="badge badge-ok"><span aria-hidden="true">✓</span> Galaxy S10 OK</span>
+									<span class="badge badge-ok"><span aria-hidden="true">✓</span> Project Hub #66</span>
 								</div>
 								<span class="cell-sub">16:9 Querformat gesperrt · Nativ 100 % Touch-spielbar (Spalten-Tap)</span>
 							</td>
@@ -1591,22 +1591,22 @@
 								<span class="badge badge-ok"><span aria-hidden="true">✓</span> Eigenes Spiel-Logo</span>
 								<span class="cell-sub">2.5D-Logo <em>„CONNECT FOUR DELUXE“</em> + <code>icon.svg</code></span>
 							</td>
-							<td><span class="badge badge-ok"><span aria-hidden="true">✓</span> Abgeschlossen + Audio/F3</span></td>
+							<td><span class="badge badge-ok"><span aria-hidden="true">✓</span> Abgeschlossen + Audio-Loop-Fix</span></td>
 							<td class="num">7 / 7 ✅</td>
 							<td class="num">24 Tests · 0 Leaks</td>
-							<td class="num">23.11.2026</td>
-							<td>Keine (Android Signed APK live, Start-Logo, Lounge-Musik &amp; <code>F3</code> aktiv)</td>
+							<td class="num">24.11.2026</td>
+							<td>Keine (<code>v1.2.2</code> / <code>Code 10202</code> live mit Android-15-Audio-Loop-Fix, Lounge-Musik &amp; <code>F3</code>)</td>
 							<td>Optional: „Pop Out“ / 8×7-Brett / 4. KI-Stufe</td>
 						</tr>
 						<tr>
 							<th scope="row"><a href="#proj-block-stack">04 · Block Stack</a></th>
-							<td class="num"><code>v1.2.0</code></td>
+							<td class="num"><code>v1.2.1</code></td>
 							<td>
 								<div class="platform-badges">
 									<span class="badge badge-ok"><span aria-hidden="true">✓</span> Web · Win · Linux</span>
-									<span class="badge badge-ok"><span aria-hidden="true">✓</span> Android (Signed APK)</span>
+									<span class="badge badge-ok"><span aria-hidden="true">✓</span> Android (<code>60,2 MB</code>)</span>
 									<span class="badge badge-ok"><span aria-hidden="true">✓</span> Chii Arcade v1</span>
-									<span class="badge badge-ok"><span aria-hidden="true">✓</span> Galaxy S10 OK</span>
+									<span class="badge badge-ok"><span aria-hidden="true">✓</span> Project Hub #67</span>
 								</div>
 								<span class="cell-sub">16:9 Querformat gesperrt · Android-Only Touch-UI (L/R mit DAS/ARR, Soft/Hard Drop, Rot L/R, Hold)</span>
 							</td>
@@ -1618,22 +1618,22 @@
 								<span class="badge badge-ok"><span aria-hidden="true">✓</span> Eigenes Spiel-Logo</span>
 								<span class="cell-sub">3D-Neon-Logo <em>„BLOCK STACK“</em> + <code>icon.svg</code></span>
 							</td>
-							<td><span class="badge badge-ok"><span aria-hidden="true">✓</span> Abgeschlossen + Touch/Optionen</span></td>
+							<td><span class="badge badge-ok"><span aria-hidden="true">✓</span> Abgeschlossen + Touch/Audio-Fix</span></td>
 							<td class="num">8 / 8 ✅</td>
 							<td class="num">26 Tests · 0 Leaks</td>
-							<td class="num">23.11.2026</td>
-							<td>Keine (Android Signed APK live, Android-Only Touch-Pad, DAS/ARR, Farbblind &amp; Musik)</td>
+							<td class="num">24.11.2026</td>
+							<td>Keine (<code>v1.2.1</code> / <code>Code 10201</code> live mit Android-15-Audio-Loop-Fix, DAS/ARR, Farbblind &amp; Touch-Pad)</td>
 							<td>Optional Post-Launch: Zen-Modus &amp; Replays</td>
 						</tr>
 						<tr>
 							<th scope="row"><a href="#proj-lane-defenders">05 · Lane Defenders</a></th>
-							<td class="num"><code>v1.5.6</code></td>
+							<td class="num"><code>v1.6.0</code></td>
 							<td>
 								<div class="platform-badges">
 									<span class="badge badge-ok"><span aria-hidden="true">✓</span> Web · Win · Linux</span>
-									<span class="badge badge-ok"><span aria-hidden="true">✓</span> Android (Signed APK)</span>
+									<span class="badge badge-ok"><span aria-hidden="true">✓</span> Android (<code>65,8 MB</code>)</span>
 									<span class="badge badge-ok"><span aria-hidden="true">✓</span> Chii Arcade v1</span>
-									<span class="badge badge-ok"><span aria-hidden="true">✓</span> Galaxy S10 OK</span>
+									<span class="badge badge-ok"><span aria-hidden="true">✓</span> Project Hub #68</span>
 								</div>
 								<span class="cell-sub">16:9 Querformat gesperrt · Nativ 100 % Touch-spielbar (Karten- &amp; Raster-Tap)</span>
 							</td>
@@ -1643,24 +1643,24 @@
 							</td>
 							<td>
 								<span class="badge badge-ok"><span aria-hidden="true">✓</span> Eigenes Spiel-Logo</span>
-								<span class="cell-sub">Comic-Logo <em>„LANE DEFENDERS“</em> + <code>icon.svg</code></span>
+								<span class="cell-sub">HD-Logo <em>„LANE DEFENDERS“</em> + <code>icon.svg</code></span>
 							</td>
-							<td><span class="badge badge-ok"><span aria-hidden="true">✓</span> Abgeschlossen + Stabilitäts-/VRAM-Fix</span></td>
+							<td><span class="badge badge-ok"><span aria-hidden="true">✓</span> HD-Themes &amp; Stabilitäts-Release</span></td>
 							<td class="num">8 / 8 ✅</td>
-							<td class="num">25 Tests · 0 Leaks</td>
-							<td class="num">23.11.2026</td>
-							<td>Keine auf S10 (Galaxy S10 <code>v1.5.6</code> geprüft: VRAM-Kompression, Lazy-Almanach, Mipmap-/Lifecycle-Fixes, <code>64,6 MB</code> APK; Nokia-G42-Rückmeldung offen)</td>
+							<td class="num">27 Tests · 0 Leaks</td>
+							<td class="num">24.11.2026</td>
+							<td>Keine (<code>v1.6.0</code> / <code>Code 10600</code> live: VRAM-Hardening + Audio-Loop-Fix + wählbare Themes <em>Castle Towers</em> &amp; <em>Chibi Heroes</em>)</td>
 							<td>Optional: Endlos-Modus &amp; Einheiten-Upgrades</td>
 						</tr>
 						<tr>
 							<th scope="row"><a href="#proj-crypt-dash">06 · Crypt Dash</a></th>
-							<td class="num"><code>v1.1.5</code></td>
+							<td class="num"><code>v1.3.1</code></td>
 							<td>
 								<div class="platform-badges">
 									<span class="badge badge-ok"><span aria-hidden="true">✓</span> Web · Win · Linux</span>
-									<span class="badge badge-ok"><span aria-hidden="true">✓</span> Android (Signed APK)</span>
+									<span class="badge badge-ok"><span aria-hidden="true">✓</span> Android (<code>65,1 MB</code>)</span>
 									<span class="badge badge-ok"><span aria-hidden="true">✓</span> Chii Arcade v1</span>
-									<span class="badge badge-ok"><span aria-hidden="true">✓</span> Galaxy S10 OK</span>
+									<span class="badge badge-ok"><span aria-hidden="true">✓</span> Project Hub #69</span>
 								</div>
 								<span class="cell-sub">16:9 Querformat gesperrt · Android-Only Twin-Stick (Bewegungs-Stick + 360°-Ziel-Stick + Dash)</span>
 							</td>
@@ -1672,22 +1672,22 @@
 								<span class="badge badge-ok"><span aria-hidden="true">✓</span> Eigenes Spiel-Logo</span>
 								<span class="cell-sub">Runen-Logo <em>„CRYPT DASH“</em> + <code>icon.svg</code></span>
 							</td>
-							<td><span class="badge badge-ok"><span aria-hidden="true">✓</span> Abgeschlossen + Touch/Waffen</span></td>
+							<td><span class="badge badge-ok"><span aria-hidden="true">✓</span> Dark-Fantasy &amp; Autosave live</span></td>
 							<td class="num">9 / 9 ✅</td>
-							<td class="num">15 Tests · 0 Leaks</td>
-							<td class="num">23.11.2026</td>
-							<td>Keine (Galaxy S10 <code>v1.1.5</code> per Bulk-Update geprüft, Shutdown-/Signal-Leaks behoben, Twin-Stick-Touch-UI)</td>
+							<td class="num">18 Tests · 0 Leaks</td>
+							<td class="num">24.11.2026</td>
+							<td>Keine (<code>v1.3.1</code> / <code>Code 10301</code> live: Dark-Fantasy-2.5D-Overhaul, Run-Autosave/Resume, Query-Flush- &amp; Audio-Fix)</td>
 							<td>Optional Post-Launch: Weitere Klassen &amp; Händler-Raum</td>
 						</tr>
 						<tr>
 							<th scope="row"><a href="#proj-lumaria">07 · Lumaria</a></th>
-							<td class="num"><code>v1.0.3</code></td>
+							<td class="num"><code>v1.1.0</code></td>
 							<td>
 								<div class="platform-badges">
 									<span class="badge badge-ok"><span aria-hidden="true">✓</span> Web · Win · Linux</span>
-									<span class="badge badge-ok"><span aria-hidden="true">✓</span> Android (Signed APK)</span>
+									<span class="badge badge-ok"><span aria-hidden="true">✓</span> Android (<code>72,9 MB</code>)</span>
 									<span class="badge badge-ok"><span aria-hidden="true">✓</span> Chii Arcade v1</span>
-									<span class="badge badge-ok"><span aria-hidden="true">✓</span> Galaxy S10 OK</span>
+									<span class="badge badge-ok"><span aria-hidden="true">✓</span> Project Hub #70</span>
 								</div>
 								<span class="cell-sub">16:9 Querformat gesperrt · Android-Only Virtual Gamepad (Stick + Schwert/Rolle/Schild/Aktion/G1/G2)</span>
 							</td>
@@ -1699,11 +1699,11 @@
 								<span class="badge badge-ok"><span aria-hidden="true">✓</span> Eigenes Spiel-Logo</span>
 								<span class="cell-sub">Kristall-Logo <em>„LUMARIA“</em> + 512px-<code>icon.svg</code></span>
 							</td>
-							<td><span class="badge badge-ok"><span aria-hidden="true">✓</span> Abgeschlossen + Touch/Icon-Fix</span></td>
+							<td><span class="badge badge-ok"><span aria-hidden="true">✓</span> HD-Fantasy-Redesign live</span></td>
 							<td class="num">9 / 9 ✅</td>
-							<td class="num">61 Tests · 0 Leaks</td>
-							<td class="num">23.11.2026</td>
-							<td>Keine (Galaxy S10 <code>v1.0.3</code> per Bulk-Update geprüft: scharfes 512×512-Icon ohne Blur-Filter, Virtual Gamepad ohne Überlappung)</td>
+							<td class="num">67 Tests · 0 Leaks</td>
+							<td class="num">25.11.2026</td>
+							<td>Keine (<code>v1.1.0</code> / <code>Code 10100</code> live: HD-Kaelen/Lyra/NPCs/Gegner/Bosse/6 Zonen, Kristall-HUD, Parry &amp; Audio-Fix)</td>
 							<td>Optional Post-Launch: Boss-Rush-Arena &amp; New Game+</td>
 						</tr>
 					</tbody>
@@ -1729,10 +1729,10 @@
 
 					<div class="filter-pills" role="group" aria-label="Schnellfilter">
 						<button type="button" class="btn-filter" data-filter="all" aria-pressed="true">Alle (7)</button>
-						<button type="button" class="btn-filter" data-filter="feature-update" aria-pressed="false">Neue Features (3)</button>
+						<button type="button" class="btn-filter" data-filter="feature-update" aria-pressed="false">Neue Features (4)</button>
 						<button type="button" class="btn-filter" data-filter="a11y" aria-pressed="false">Barrierefreiheit (2)</button>
 						<button type="button" class="btn-filter" data-filter="complex" aria-pressed="false">Großprojekte ⭐⭐⭐+ (3)</button>
-						<button type="button" class="btn-filter" data-filter="release-pending" aria-pressed="false">Neuer Release fällig (7)</button>
+						<button type="button" class="btn-filter" data-filter="touch-overlay" aria-pressed="false">Touch-HUD-Overlay (4)</button>
 					</div>
 
 					<button type="button" class="btn-toggle-all" commandfor="projects-list" command="--toggle-all" aria-expanded="false">
@@ -1747,27 +1747,27 @@
 			<div id="projects-list" class="projects-list">
 
 				<!-- 01: Neon Breakout -->
-				<article id="proj-neon-breakout" class="project-card" data-tags="release-pending">
+				<article id="proj-neon-breakout" class="project-card" data-tags="">
 					<header class="card-top">
 						<img src="neon_breakout/icon.svg" alt="" width="56" height="56" class="game-icon">
 						<div class="card-title-block">
 							<div class="card-title-row">
 								<span class="plan-num">Plan 01</span>
 								<h3>Neon Breakout</h3>
-								<span class="badge badge-mono">v1.1.2</span>
+								<span class="badge badge-mono">v1.1.3</span>
 								<span class="badge badge-ok"><span aria-hidden="true">✓</span> Abgeschlossen (Vollversion)</span>
 							</div>
 							<div class="card-badges">
 								<span class="badge badge-info">Arcade / Breakout</span>
 								<span class="badge badge-mono">Aufwand: ⭐</span>
 								<span class="badge badge-ok"><span aria-hidden="true">✓</span> 90 Tests · 0 Leaks</span>
-								<span class="badge badge-ok"><span aria-hidden="true">✓</span> Portal/README &amp; F3-Overlay aktuell</span>
+								<span class="badge badge-ok"><span aria-hidden="true">✓</span> Android-15-Audio-Fix &amp; Chii Arcade v1</span>
 							</div>
 						</div>
 					</header>
 
 					<p class="card-summary">
-						Modernes Synthwave-/Neon-Breakout (M0–M8) mit 7 Spielmodi und synthetisierter Musik. Portal-Beschreibung, Root-README, lokaler Tag <code>neon_breakout-v1.1.2</code> sowie das gemeinsame <code>F3</code>-Debug-Overlay wurden nun ebenfalls angeglichen.
+						Modernes Synthwave-/Neon-Breakout (M0–M8) mit 7 Spielmodi, 10 Leveln, 6 Power-Ups und synthetisierter Chiptune-Musik. Aktuell live als <code>v1.1.3</code> (<code>Code 10103</code>, <code>56,7 MB</code> APK) inklusive Android-15-<code>AudioStreamWAV</code>-Loop-Fix (<code>10c3304</code>), <code>F3</code>-Debug-Overlay und Project-Hub-Sync (<code>#64</code>).
 					</p>
 
 					<div class="progress-row">
@@ -1782,15 +1782,15 @@
 							<ul>
 								<li><strong>Vollständig fertig (M0–M8):</strong> Alle 10 ASCII-Level, 6 Power-Ups (inkl. Multiball bis 8 Bälle &amp; Laser) und Combo-Multiplikator bis ×4.</li>
 								<li><strong>7 Spielmodi:</strong> Klassisch, Zeitangriff, Endlos, Chaos, 3-Phasen-Bosskampf, Zen &amp; Demo-Autopilot mit Tipps.</li>
-								<li><strong>Doku &amp; Repo-Abgleich erledigt:</strong> <code>README.md</code>, <code>tools/build_web_portal.sh</code>, Tag <code>neon_breakout-v1.1.2</code> und zentrales <code>F3</code>-Debug-Overlay (via <code>DisplayService</code>) nachgezogen.</li>
-								<li><strong>Top-Qualität:</strong> 90 Unit-Tests + Smoke-Test laufen komplett fehler- und leakfrei.</li>
+								<li><strong>Android-15-Audio-Fix &amp; Store-Sync (<code>v1.1.3</code>):</strong> Guard-Frame-Schutz gegen <code>AudioStreamWAV</code>-Forward-Loop-PCM-Overreads in <code>MusicRenderer</code>/<code>SharedSynthMusic</code> (<code>test_music.gd</code> erweitert), <code>F3</code>-Overlay sowie Eintrag im Chii-Arcade-v1-Katalog und Project Hub (<code>#64</code>).</li>
+								<li><strong>Top-Qualität:</strong> 90 Unit-Tests + Smoke-Test + alle 7 Modus-Tests laufen komplett fehler- und leakfrei.</li>
 							</ul>
 						</div>
 
 						<div class="pillar pillar-missing">
 							<div class="pillar-title"><span aria-hidden="true">•</span> Verbleibend (nur optional)</div>
 							<ul>
-								<li><strong>Keine offenen Fehler:</strong> Technik, Portal-Beschreibung, Credits und Tags sind vollständig synchron.</li>
+								<li><strong>Keine offenen Fehler:</strong> Technik, Portal-Beschreibung, Android-Audio, Credits und Releases sind vollständig synchron.</li>
 								<li><strong>Optionale Plan-Ideen:</strong> Level-Editor, tägliches Seed-Level (Daily Seed) oder zusätzliche Themen-Skins sind als reine Post-Launch-Ideen gelistet.</li>
 							</ul>
 						</div>
@@ -1798,7 +1798,7 @@
 						<div class="pillar pillar-next">
 							<div class="pillar-title"><span aria-hidden="true">→</span> Als Nächstes geplant</div>
 							<ul>
-								<li><strong>Portal-Deploy:</strong> Bei Bedarf Web-Portal neu deployen, damit die aktualisierte M0–M8-Beschreibung online erscheint.</li>
+								<li><strong>Released &amp; live (<code>v1.1.3</code>):</strong> Signiertes Android-APK (<code>10103</code>, <code>56,7 MB</code>), Desktop/Web-Portal, Chii Arcade v1 und Project Hub (<code>#64</code>) sind auf dem Stand vom 24.11.2026.</li>
 								<li><strong>Optional:</strong> Level-Editor oder Daily Seed als eigenständiges Update <code>v1.2.0</code>.</li>
 							</ul>
 						</div>
@@ -1824,13 +1824,14 @@
 							<div>
 								<p class="details-subheading">Kennzahlen</p>
 								<dl class="meta-dl">
-									<dt>Plattformen &amp; Format</dt><dd><strong>Web, Windows, Linux &amp; Android (Signed Release APK: <code>de.chobitschii.neon_breakout</code>)</strong> · 16:9 Querformat gesperrt (<code>Sensor Landscape</code>)</dd>
+									<dt>Plattformen &amp; Format</dt><dd><strong>Web, Windows, Linux &amp; Android (Signed Release APK: <code>de.chobitschii.neon_breakout</code>, <code>56,7 MB</code>)</strong> · 16:9 Querformat gesperrt (<code>Sensor Landscape</code>)</dd>
 									<dt>Touch / Mobile</dt><dd>Touch-Drag &amp; Tap steuert sofort den Schläger, Tap startet Ball / feuert Laser, Touch-Pause-Button im HUD + Hardware-Back-Unterstützung</dd>
 									<dt>Splash &amp; Start-Logo</dt><dd>Boot-Splash + interaktive <code>splash_screen.tscn</code> (<code>NEON BREAKOUT</code>-Logo, DE/EN-Prompt + Chii-Arcade-Badge)</dd>
-									<dt>Letztes Update</dt><dd>23.11.2026 (Portal/README-Sync, Tag &amp; shared F3-Overlay)</dd>
-									<dt>Umfang</dt><dd>56 Skripte (38 in <code>scripts/</code>), 10 Szenen, 10 Level-Dateien</dd>
+									<dt>Letztes Update</dt><dd>24.11.2026 (<code>v1.1.3</code> / <code>Code 10103</code>: Android-15-<code>AudioStreamWAV</code>-Loop-Fix)</dd>
+									<dt>Project Hub</dt><dd>Bereich <code>Game-Dev</code> · Projekt <code>#64</code> (Meilenstein <code>#21</code> · Abgeschlossen / Veröffentlicht)</dd>
+									<dt>Umfang</dt><dd>58 Skripte (38 in <code>scripts/</code>), 10 Spielszenen, 10 Level-Dateien</dd>
 									<dt>Lokalisierung</dt><dd>91 Zeilen in <code>neon_breakout.csv</code> (+ <code>common.csv</code>)</dd>
-									<dt>Teststatus</dt><dd>90/90 Unit-Tests + Smoke-Test grün (0 Leaks)</dd>
+									<dt>Teststatus</dt><dd>90/90 Unit-Tests + Smoke-Test + 7 Modus-Tests grün (0 Leaks)</dd>
 								</dl>
 							</div>
 						</div>
@@ -1854,27 +1855,27 @@
 				</article>
 
 				<!-- 02: Asteroid Drift -->
-				<article id="proj-asteroid-drift" class="project-card" data-tags="release-pending">
+				<article id="proj-asteroid-drift" class="project-card" data-tags="touch-overlay">
 					<header class="card-top">
 						<img src="asteroid_drift/icon.svg" alt="" width="56" height="56" class="game-icon">
 						<div class="card-title-block">
 							<div class="card-title-row">
 								<span class="plan-num">Plan 02</span>
 								<h3>Asteroid Drift</h3>
-								<span class="badge badge-mono">v1.0.7</span>
+								<span class="badge badge-mono">v1.0.8</span>
 								<span class="badge badge-ok"><span aria-hidden="true">✓</span> Abgeschlossen (Vollversion)</span>
 							</div>
 							<div class="card-badges">
 								<span class="badge badge-info">Arcade-Shooter</span>
 								<span class="badge badge-mono">Aufwand: ⭐⭐</span>
 								<span class="badge badge-ok"><span aria-hidden="true">✓</span> 28 Tests · 0 Leaks</span>
-								<span class="badge badge-ok"><span aria-hidden="true">✓</span> Space-Musik &amp; 512px-Vektor-Icon</span>
+								<span class="badge badge-ok"><span aria-hidden="true">✓</span> 512px-Vektor-Icon &amp; Android-15-Audio-Fix</span>
 							</div>
 						</div>
 					</header>
 
 					<p class="card-summary">
-						Sci-Fi-Weltraum-Shooter im modernen Flat-Vektor-Stil mit Trägheitsphysik, Bildschirm-Wrap-around, prozeduralen Asteroiden, UFO-Gegnern, Annäherungsminen und Deckbau-Upgrade-Karten – jetzt mit synthetisierter Space-Musik, Audio-Reglern, gestochen scharfem 512×512-App-Icon, <code>F3</code>-Overlay und leakfreiem Beenden.
+						Sci-Fi-Weltraum-Shooter im modernen Flat-Vektor-Stil mit Trägheitsphysik, Bildschirm-Wrap-around, prozeduralen Asteroiden, UFO-Gegnern, Annäherungsminen und Deckbau-Upgrade-Karten – in <code>v1.0.8</code> (<code>Code 10008</code>, <code>55,4 MB</code> APK) jetzt inklusive Android-15-<code>AudioStreamWAV</code>-Loop-Fix, gestochen scharfem 512×512-Icon, Space-Musik und leakfreiem Beenden.
 					</p>
 
 					<div class="progress-row">
@@ -1888,9 +1889,9 @@
 							<div class="pillar-title"><span aria-hidden="true">✓</span> Status &amp; Erreicht</div>
 							<ul>
 								<li><strong>Komplett spielbar (M0–M7):</strong> Schiff mit Trägheitsphysik, Hyperspace-Sprung, Schild, 10+ Wellen, UFOs, Minen &amp; 6 Tech-Karten.</li>
-								<li><strong>Neu — Musik &amp; Audio-Menü:</strong> Synthetisierter nahtloser Space-Ambient-Loop (<code>SharedSynthMusic</code>), eigene Musik-/Effekt-Lautstärke-Buttons &amp; Bus-Routing (<code>AudioService</code>).</li>
-								<li><strong>Alle 30 Exit-Leaks behoben:</strong> Sauberes <code>AudioManager.stop_all()</code>, Testmodus-Schutz &amp; Cleanup beim Beenden; zusätzlich 4 neue Tests in <code>test_audio_service.gd</code>.</li>
-								<li><strong>Doku &amp; Technik synchron (<code>v1.0.7</code>):</strong> App-Icon in <a href="asteroid_drift/icon.svg"><code>asteroid_drift/icon.svg</code></a> auf <code>512×512</code> hochskaliert und ohne <code>&lt;feGaussianBlur&gt;</code>/<code>&lt;feMerge&gt;</code> neu aufgebaut (Godot-ThorVG-Rasterizer-Fix), <code>store-media/*</code> aus den Exporten ausgeschlossen, Android-HUD-Margin (<code>140px</code>) ergänzt und auf dem Galaxy S10 via Chii Arcade <code>v1.0.17</code> geprüft (28/28 Tests, 0 Leaks).</li>
+								<li><strong>Android-15-Audio-Loop-Fix &amp; Space-Musik (<code>v1.0.8</code>):</strong> Nahtloser Space-Ambient-Loop über <code>SharedSynthMusic</code> + 32 Guard-Frames gegen PCM-Overreads unter Android 15 (abgesichert in <code>test_audio_service.gd</code>) sowie Bus-Routing über <code>AudioService</code>.</li>
+								<li><strong>Scharfes 512×512-Icon &amp; Mobile-Polish (<code>v1.0.7</code>):</strong> <a href="asteroid_drift/icon.svg"><code>asteroid_drift/icon.svg</code></a> ohne <code>&lt;feGaussianBlur&gt;</code>/<code>&lt;feMerge&gt;</code> (ThorVG-Rasterizer-Fix), Android-HUD-Margin (<code>140px</code>) und verifizierter Bulk-Update-Test auf Galaxy S10.</li>
+								<li><strong>Sauberer Testlauf:</strong> Alle früheren Exit-Leaks behoben; 28/28 Unit-Tests + Smoke-Test laufen komplett ohne Leaks.</li>
 							</ul>
 						</div>
 
@@ -1905,7 +1906,7 @@
 						<div class="pillar pillar-next">
 							<div class="pillar-title"><span aria-hidden="true">→</span> Als Nächstes geplant</div>
 							<ul>
-								<li><strong>Released &amp; verifiziert (<code>v1.0.7</code>):</strong> Signiertes Android-APK (<code>10007</code>) mit neuem 512×512-Icon, Desktop/Web, Chii-Arcade-v1-Katalog und NAS-Backup live; auf Galaxy S10 geprüft.</li>
+								<li><strong>Released &amp; live (<code>v1.0.8</code>):</strong> Signiertes Android-APK (<code>10008</code>, <code>55,4 MB</code>), Desktop/Web, Chii-Arcade-v1-Katalog, NAS-Backup und Project Hub (<code>#65</code>) sind live.</li>
 								<li><strong>Optional:</strong> Survival-Modus oder Boss-Welle als späteres Inhalts-Update.</li>
 							</ul>
 						</div>
@@ -1930,11 +1931,12 @@
 							<div>
 								<p class="details-subheading">Kennzahlen</p>
 								<dl class="meta-dl">
-									<dt>Plattformen &amp; Format</dt><dd><strong>Web, Windows, Linux &amp; Android (Signed Release APK: <code>de.chobitschii.asteroid_drift</code>)</strong> · 16:9 Querformat gesperrt (<code>Sensor Landscape</code>)</dd>
+									<dt>Plattformen &amp; Format</dt><dd><strong>Web, Windows, Linux &amp; Android (Signed Release APK: <code>de.chobitschii.asteroid_drift</code>, <code>55,4 MB</code>)</strong> · 16:9 Querformat gesperrt (<code>Sensor Landscape</code>)</dd>
 									<dt>Touch / Mobile</dt><dd>Android-Only Touch-Overlay (<code>SharedTouchControls</code>: Links/Rechts-Steuerung unten links, Schub/Feuer/Warp unten rechts, Pause oben rechts; auf PC unsichtbar)</dd>
 									<dt>Splash &amp; Start-Logo</dt><dd>Boot-Splash + interaktive <code>splash_screen.tscn</code> (<code>ASTEROID DRIFT</code>-Logo, DE/EN-Prompt + Chii-Arcade-Badge)</dd>
-									<dt>Letztes Update</dt><dd>23.11.2026 (Start-Logo, <code>SharedSplashScreen</code>, <code>AudioService</code>/Space-Musik)</dd>
-									<dt>Umfang</dt><dd>32 Skripte (16 eigene), 11 Szenen, 15 OGG-SFX + Synth-Musik</dd>
+									<dt>Letztes Update</dt><dd>24.11.2026 (<code>v1.0.8</code> / <code>Code 10008</code>: Android-15-Audio-Loop-Fix &amp; 512px-Icon)</dd>
+									<dt>Project Hub</dt><dd>Bereich <code>Game-Dev</code> · Projekt <code>#65</code> (Meilenstein <code>#22</code> · Abgeschlossen / Veröffentlicht)</dd>
+									<dt>Umfang</dt><dd>33 Skripte (16 eigene), 10 Spielszenen, 15 OGG-SFX + Synth-Musik</dd>
 									<dt>Lokalisierung</dt><dd>65 Zeilen in <code>asteroid_drift.csv</code> (+ <code>common.csv</code>)</dd>
 									<dt>Teststatus</dt><dd>28/28 Unit-Tests + Smoke-Test grün (0 Leaks)</dd>
 								</dl>
@@ -1960,28 +1962,28 @@
 				</article>
 
 				<!-- 03: Connect Four Deluxe -->
-				<article id="proj-vier-gewinnt" class="project-card" data-tags="a11y release-pending">
+				<article id="proj-vier-gewinnt" class="project-card" data-tags="a11y">
 					<header class="card-top">
 						<img src="vier_gewinnt/icon.svg" alt="" width="56" height="56" class="game-icon">
 						<div class="card-title-block">
 							<div class="card-title-row">
 								<span class="plan-num">Plan 03</span>
 								<h3>Connect Four Deluxe (Vier gewinnt)</h3>
-								<span class="badge badge-mono">v1.2.1</span>
+								<span class="badge badge-mono">v1.2.2</span>
 								<span class="badge badge-ok"><span aria-hidden="true">✓</span> Abgeschlossen (Vollversion)</span>
 							</div>
 							<div class="card-badges">
 								<span class="badge badge-info">Brettspiel / Strategie</span>
 								<span class="badge badge-mono">Aufwand: ⭐⭐</span>
 								<span class="badge badge-ok"><span aria-hidden="true">✓</span> 24 Tests · 0 Leaks</span>
-								<span class="badge badge-ok"><span aria-hidden="true">✓</span> Lounge-Musik &amp; Audio-Regler</span>
+								<span class="badge badge-ok"><span aria-hidden="true">✓</span> Lounge-Musik &amp; Audio-Loop-Fix</span>
 								<span class="badge badge-info">Farbblind-Modus</span>
 							</div>
 						</div>
 					</header>
 
 					<p class="card-summary">
-						Hochwertiges „Vier gewinnt“ mit 2.5D-Optik, prozeduralem Sound, Farbenblindheitsmodus (Ring/Punkt-Muster), Hot-Seat-Modus und 64-Bit-Bitboard-KI – jetzt abgerundet durch sanfte Lounge-Musik, Musik-/SFX-Schalter und das <code>F3</code>-Debug-Overlay.
+						Hochwertiges „Vier gewinnt“ mit 2.5D-Optik, prozeduralem Sound, Farbenblindheitsmodus (Ring/Punkt-Muster), Hot-Seat-Modus und 64-Bit-Bitboard-KI – abgerundet durch sanfte Lounge-Musik, <code>F3</code>-Debug-Overlay und den Android-15-<code>AudioStreamWAV</code>-Loop-Fix in Release <code>v1.2.2</code> (<code>Code 10202</code>, <code>60,8 MB</code> APK).
 					</p>
 
 					<div class="progress-row">
@@ -1994,9 +1996,9 @@
 						<div class="pillar pillar-done">
 							<div class="pillar-title"><span aria-hidden="true">✓</span> Status &amp; Erreicht</div>
 							<ul>
-								<li><strong>Vollständig fertig (M0–M6):</strong> Sehr runder Release-Stand (<code>v1.2.1</code>) ohne bekannte Fehler.</li>
+								<li><strong>Vollständig fertig (M0–M6):</strong> Runder Release-Stand (<code>v1.2.2</code>) ohne bekannte Fehler.</li>
 								<li><strong>Starke KI &amp; Komfort:</strong> 3 KI-Stufen (Schwer schlägt Mittel im 50-Partien-Test zu 95,6 %), Hot-Seat, Zug-Tipp, Undo, Statistik, Farbenblindheitsmodus.</li>
-								<li><strong>Neu — Lounge-Musik &amp; Audio-Optionen:</strong> Warme synthetisierte Lounge-Begleitung + separate Musik-/Effekt-Regler im Hauptmenü über <code>AudioService</code> sowie <code>F3</code>-Overlay.</li>
+								<li><strong>Lounge-Musik &amp; Android-15-Audio-Fix (<code>v1.2.2</code>):</strong> Warme synthetisierte Lounge-Begleitung über <code>SharedSynthMusic</code> inklusive Guard-Frames gegen PCM-Overreads unter Android 15, Musik-/SFX-Regler (<code>AudioService</code>) sowie <code>F3</code>-Overlay.</li>
 								<li><strong>Sauberer Testlauf:</strong> 24/24 Tests + Smoke-Test ohne Leaks.</li>
 							</ul>
 						</div>
@@ -2004,7 +2006,7 @@
 						<div class="pillar pillar-missing">
 							<div class="pillar-title"><span aria-hidden="true">•</span> Verbleibend (nur optional)</div>
 							<ul>
-								<li><strong>Keine offenen Bugs:</strong> Alles technisch Wesentliche und das Audio-Menü sind integriert.</li>
+								<li><strong>Keine offenen Bugs:</strong> Audio-Fix, Audio-Menü, Store-Media und Plattform-Builds sind vollständig live.</li>
 								<li><strong>Optionale Plan-Ideen:</strong> 4. KI-Stufe („Unmöglich“), Brettvarianten (8×7, 5 in Reihe) oder „Pop Out“-Modus.</li>
 							</ul>
 						</div>
@@ -2012,7 +2014,7 @@
 						<div class="pillar pillar-next">
 							<div class="pillar-title"><span aria-hidden="true">→</span> Als Nächstes geplant</div>
 							<ul>
-								<li><strong>Release-Update:</strong> Bei Bedarf Patch-Release über <code>tools/release_game.sh vier_gewinnt patch</code> für Lounge-Musik &amp; <code>F3</code>-Overlay.</li>
+								<li><strong>Released &amp; live (<code>v1.2.2</code>):</strong> Signiertes Android-APK (<code>10202</code>, <code>60,8 MB</code>), Web/Desktop-Builds, Chii Arcade v1 und Project Hub (<code>#66</code>) sind veröffentlicht.</li>
 								<li><strong>Optional:</strong> Spielvarianten („Pop Out“ / 8×7) als Content-Erweiterung.</li>
 							</ul>
 						</div>
@@ -2036,11 +2038,12 @@
 							<div>
 								<p class="details-subheading">Kennzahlen</p>
 								<dl class="meta-dl">
-									<dt>Plattformen &amp; Format</dt><dd><strong>Web, Windows, Linux &amp; Android (Signed Release APK: <code>de.chobitschii.vier_gewinnt</code>)</strong> · 16:9 Querformat gesperrt (<code>Sensor Landscape</code>)</dd>
+									<dt>Plattformen &amp; Format</dt><dd><strong>Web, Windows, Linux &amp; Android (Signed Release APK: <code>de.chobitschii.vier_gewinnt</code>, <code>60,8 MB</code>)</strong> · 16:9 Querformat gesperrt (<code>Sensor Landscape</code>)</dd>
 									<dt>Touch / Mobile</dt><dd>Nativ 100 % Touch-spielbar (Spalten-Tap wirft Spielstein ein, sämtliche HUD- &amp; Menü-Aktionen sind große Touch-Buttons + Android-Back-Pause)</dd>
 									<dt>Splash &amp; Start-Logo</dt><dd>Boot-Splash + interaktive <code>splash_screen.tscn</code> (<code>CONNECT FOUR DELUXE</code>-Logo, DE/EN-Prompt + Chii-Arcade-Badge)</dd>
-									<dt>Letztes Update</dt><dd>23.11.2026 (<code>AudioService</code>, Lounge-Musik, Cleanup, <code>F3</code>)</dd>
-									<dt>Umfang</dt><dd>22 Skripte (10 eigene), 5 Szenen</dd>
+									<dt>Letztes Update</dt><dd>24.11.2026 (<code>v1.2.2</code> / <code>Code 10202</code>: Android-15-Audio-Loop-Fix)</dd>
+									<dt>Project Hub</dt><dd>Bereich <code>Game-Dev</code> · Projekt <code>#66</code> (Meilenstein <code>#23</code> · Abgeschlossen / Veröffentlicht)</dd>
+									<dt>Umfang</dt><dd>24 Skripte (10 eigene), 5 Spielszenen</dd>
 									<dt>Lokalisierung</dt><dd>44 Zeilen in <code>vier_gewinnt.csv</code> (+ <code>common.csv</code>)</dd>
 									<dt>Teststatus</dt><dd>24/24 Unit-Tests (inkl. 50-Partien-KI-Benchmark) + Smoke-Test grün (0 Leaks)</dd>
 								</dl>
@@ -2066,27 +2069,27 @@
 				</article>
 
 				<!-- 04: Block Stack -->
-				<article id="proj-block-stack" class="project-card" data-tags="feature-update a11y release-pending">
+				<article id="proj-block-stack" class="project-card" data-tags="feature-update a11y touch-overlay">
 					<header class="card-top">
 						<img src="block_stack/icon.svg" alt="" width="56" height="56" class="game-icon">
 						<div class="card-title-block">
 							<div class="card-title-row">
 								<span class="plan-num">Plan 04</span>
 								<h3>Block Stack</h3>
-								<span class="badge badge-mono">v1.2.0</span>
+								<span class="badge badge-mono">v1.2.1</span>
 								<span class="badge badge-ok"><span aria-hidden="true">✓</span> Abgeschlossen (Vollversion)</span>
 							</div>
 							<div class="card-badges">
 								<span class="badge badge-info">Puzzle / Tetris-Like</span>
 								<span class="badge badge-mono">Aufwand: ⭐⭐</span>
 								<span class="badge badge-ok"><span aria-hidden="true">✓</span> 26 Tests · 0 Leaks</span>
-								<span class="badge badge-ok"><span aria-hidden="true">✓</span> DAS/ARR-Menü &amp; Farbblind-Modus</span>
+								<span class="badge badge-ok"><span aria-hidden="true">✓</span> DAS/ARR, Farbblind &amp; Audio-Fix</span>
 							</div>
 						</div>
 					</header>
 
 					<p class="card-summary">
-						Modernes Guideline-Puzzle in Glas-/Neon-Optik mit SRS-Wall-Kicks, 7-Bag-Zufall, Hold, Ghost Piece, T-Spin-Erkennung und CPU-Duell – jetzt inklusive Optionsmenü für DAS/ARR, Vektor-Symbolen für Farbenblindheit, Puzzle-Musik und Audio-Reglern.
+						Modernes Guideline-Puzzle in Glas-/Neon-Optik mit SRS-Wall-Kicks, 7-Bag-Zufall, Hold, Ghost Piece, T-Spin-Erkennung und CPU-Duell – in <code>v1.2.1</code> (<code>Code 10201</code>, <code>60,2 MB</code> APK) komplett live mit DAS/ARR-Optionsmenü, Vektor-Symbolen für Farbenblindheit, Android-Touch-Pad und Android-15-Audio-Loop-Fix.
 					</p>
 
 					<div class="progress-row">
@@ -2100,16 +2103,16 @@
 							<div class="pillar-title"><span aria-hidden="true">✓</span> Status &amp; Erreicht</div>
 							<ul>
 								<li><strong>Komplett spielbar (M0–M7):</strong> Alle 4 Modi – Marathon, Sprint (40 Reihen), Ultra (2 Min.) und CPU-Duell mit Müllreihen-Verrechnung.</li>
-								<li><strong>Neu — Optionsmenü (DAS / ARR / Audio):</strong> Über <code>HandlingSettings</code> Presets für DAS (<code>100–240 ms</code>) und ARR (<code>0–80 ms</code>, inkl. Sofort-Schub-Fix bei <code>0 ms</code>) sowie Musik-/SFX-Regler.</li>
-								<li><strong>Neu — Farbblind-Symbole &amp; Musik:</strong> Eindeutige kontrastreiche Vektor-Glyphen (<code>draw_piece_symbol</code>) auf Spielstein-, Hold- &amp; Next-Blöcken sowie nahtlose Puzzle-Synth-Musik.</li>
-								<li><strong>Verifiziert:</strong> 26/26 Unit-Tests (+ <code>test_settings.gd</code>), visueller <code>xvfb-run</code>-UI-Check &amp; Smoke-Test mit 0 Leaks.</li>
+								<li><strong>Optionsmenü (DAS / ARR / Audio) &amp; Audio-Fix (<code>v1.2.1</code>):</strong> Über <code>HandlingSettings</code> Presets für DAS (<code>100–240 ms</code>) und ARR (<code>0–80 ms</code>, inkl. Sofort-Schub-Fix bei <code>0 ms</code>), Musik-/SFX-Regler sowie Android-15-<code>AudioStreamWAV</code>-Loop-Fix in <code>SharedSynthMusic</code>.</li>
+								<li><strong>Farbblind-Symbole &amp; Musik:</strong> Eindeutige kontrastreiche Vektor-Glyphen (<code>draw_piece_symbol</code>) auf Spielstein-, Hold- &amp; Next-Blöcken sowie nahtlose Puzzle-Synth-Musik.</li>
+								<li><strong>Verifiziert:</strong> 26/26 Unit-Tests (+ <code>test_settings.gd</code>), visueller UI-Check &amp; Smoke-Test mit 0 Leaks.</li>
 							</ul>
 						</div>
 
 						<div class="pillar pillar-missing">
 							<div class="pillar-title"><span aria-hidden="true">•</span> Verbleibend (nur optional)</div>
 							<ul>
-								<li><strong>Keine offenen Lücken:</strong> Alle geplanten Options- und Barrierefreiheits-Punkte sind umgesetzt.</li>
+								<li><strong>Keine offenen Lücken:</strong> Alle Options-, Barrierefreiheits- und Audio-Release-Punkte sind veröffentlicht.</li>
 								<li><strong>Optionale Plan-Ideen:</strong> Replays (Seed + Eingabeprotokoll), Zen-Modus, Puzzle-Modus oder wählbare Themen-Skins.</li>
 							</ul>
 						</div>
@@ -2117,7 +2120,7 @@
 						<div class="pillar pillar-next">
 							<div class="pillar-title"><span aria-hidden="true">→</span> Als Nächstes geplant</div>
 							<ul>
-								<li><strong>Release-Update:</strong> Neues Feature-Release via <code>tools/release_game.sh block_stack minor</code> erstellen (Optionsmenü, Farbblind-Modus, Musik).</li>
+								<li><strong>Released &amp; live (<code>v1.2.1</code>):</strong> Signiertes Android-APK (<code>10201</code>, <code>60,2 MB</code>), Web/Desktop-Builds, Chii Arcade v1 und Project Hub (<code>#67</code>) sind live.</li>
 								<li><strong>Optional:</strong> Replay-Aufzeichnung oder Zen-Modus als späteres Update.</li>
 							</ul>
 						</div>
@@ -2142,11 +2145,12 @@
 							<div>
 								<p class="details-subheading">Kennzahlen</p>
 								<dl class="meta-dl">
-									<dt>Plattformen &amp; Format</dt><dd><strong>Web, Windows, Linux &amp; Android (Signed Release APK: <code>de.chobitschii.block_stack</code>)</strong> · 16:9 Querformat gesperrt (<code>Sensor Landscape</code>)</dd>
+									<dt>Plattformen &amp; Format</dt><dd><strong>Web, Windows, Linux &amp; Android (Signed Release APK: <code>de.chobitschii.block_stack</code>, <code>60,2 MB</code>)</strong> · 16:9 Querformat gesperrt (<code>Sensor Landscape</code>)</dd>
 									<dt>Touch / Mobile</dt><dd>Android-Only Touch-Overlay (<code>SharedTouchControls</code>: Links/Rechts mit nativem DAS/ARR, Soft/Hard Drop, Drehen CCW/CW, Hold &amp; Pause; auf PC unsichtbar)</dd>
 									<dt>Splash &amp; Start-Logo</dt><dd>Boot-Splash + interaktive <code>splash_screen.tscn</code> (<code>BLOCK STACK</code>-Logo, DE/EN-Prompt + Chii-Arcade-Badge)</dd>
-									<dt>Letztes Update</dt><dd>23.11.2026 (Optionsmenü DAS/ARR, Farbblind-Symbole, Musik)</dd>
-									<dt>Umfang</dt><dd>31 Skripte (15 eigene), 4 Szenen, SVG-Tasten-Icons</dd>
+									<dt>Letztes Update</dt><dd>24.11.2026 (<code>v1.2.1</code> / <code>Code 10201</code>: Android-15-Audio-Loop-Fix)</dd>
+									<dt>Project Hub</dt><dd>Bereich <code>Game-Dev</code> · Projekt <code>#67</code> (Meilenstein <code>#24</code> · Abgeschlossen / Veröffentlicht)</dd>
+									<dt>Umfang</dt><dd>33 Skripte (15 eigene), 4 Spielszenen, SVG-Tasten-Icons</dd>
 									<dt>Lokalisierung</dt><dd>83 Zeilen in <code>block_stack.csv</code> (+ <code>common.csv</code>)</dd>
 									<dt>Teststatus</dt><dd>26/26 Unit-Tests + Smoke-Test grün (0 Leaks)</dd>
 								</dl>
@@ -2172,31 +2176,31 @@
 				</article>
 
 				<!-- 05: Lane Defenders -->
-				<article id="proj-lane-defenders" class="project-card" data-tags="complex release-pending">
+				<article id="proj-lane-defenders" class="project-card" data-tags="feature-update complex">
 					<header class="card-top">
 						<img src="lane_defenders/icon.svg" alt="" width="56" height="56" class="game-icon">
 						<div class="card-title-block">
 							<div class="card-title-row">
 								<span class="plan-num">Plan 05</span>
 								<h3>Lane Defenders</h3>
-								<span class="badge badge-mono">v1.5.6</span>
-								<span class="badge badge-ok"><span aria-hidden="true">✓</span> Abgeschlossen &amp; Erweitert</span>
+								<span class="badge badge-mono">v1.6.0</span>
+								<span class="badge badge-ok"><span aria-hidden="true">✓</span> HD-Themes &amp; Stabilitäts-Release</span>
 							</div>
 							<div class="card-badges">
 								<span class="badge badge-info">Tower Defense (5 Lanes)</span>
 								<span class="badge badge-mono">Aufwand: ⭐⭐⭐</span>
-								<span class="badge badge-ok"><span aria-hidden="true">✓</span> 25 Tests · 0 Leaks</span>
-								<span class="badge badge-ok"><span aria-hidden="true">✓</span> VRAM-Kompression &amp; Android-Hardening</span>
+								<span class="badge badge-ok"><span aria-hidden="true">✓</span> 27 Tests · 0 Leaks</span>
+								<span class="badge badge-ok"><span aria-hidden="true">✓</span> Castle Towers &amp; Chibi Heroes</span>
 							</div>
 						</div>
 					</header>
 
 					<p class="card-summary">
-						Umfangreichstes Release-Portfolio (16 Versionen bis <code>v1.5.6</code>): Flat-Cartoon-Tower-Defense auf 5×9 Feldern mit 4 Welten, 20 Leveln, 4 Bossen, Lexikon und Bot-Test – nun inklusive Meadow-Musik, <code>F3</code>-Overlay, ETC2/S3TC-VRAM-Kompression (<code>64,6 MB</code> APK statt <code>74,5 MB</code>), Lazy-Almanach, Mipmap- und Lebenszyklus-Hardening sowie 0 Exit-Leaks.
+						Umfangreichstes Release-Portfolio (aktuell <code>v1.6.0</code>, <code>Code 10600</code>, <code>65,8 MB</code> APK): Taktisches 5×9-Lane-Tower-Defense durch 4 Welten, 20 Level und 4 Bosse – ab sofort mit zwei im Hauptmenü wählbaren HD-Fantasy-Designs (<em>Fantasy-Burg-Türme</em> &amp; <em>Chibi-Burghelden</em>), Android-15-Audio-Loop-Fix (<code>v1.5.7</code>) sowie ETC2/S3TC-VRAM-Kompression und Lazy-Almanach (<code>v1.5.6</code>).
 					</p>
 
 					<div class="progress-row">
-						<label for="prog-lane"><strong>Meilensteine:</strong> M0–M7 + Inhalts-Updates v1.1–v1.5 (8 / 8 erledigt)</label>
+						<label for="prog-lane"><strong>Meilensteine:</strong> M0–M7 + Inhalts-Updates v1.1–v1.6 (8 / 8 erledigt)</label>
 						<progress id="prog-lane" value="8" max="8"></progress>
 						<span>100 %+</span>
 					</div>
@@ -2205,16 +2209,16 @@
 						<div class="pillar pillar-done">
 							<div class="pillar-title"><span aria-hidden="true">✓</span> Status &amp; Erreicht</div>
 							<ul>
-								<li><strong>Über Plan hinaus erweitert:</strong> <strong>20 Level in 4 Welten</strong> (Grüne Wiese, Dunkler Pfad, Winterwald, Magma-Ödland), 7 Einheiten, 6 Gegner, 4 Welt-Bosse, Lexikon, Autosave &amp; Bot-Test.</li>
-								<li><strong>Stabilität &amp; Speicher-Hardening (<code>v1.5.6</code>):</strong> Doppelte <code>battlefield.png</code> &amp; <code>store-media/*</code> aus APK entfernt (<code>74,5 → 64,6 MB</code>), 5 Full-HD-Hintergründe auf <code>compress/mode=2</code> (ETC2/S3TC) umgestellt, <code>heart.png</code>/<code>sun.png</code> auf <code>mipmaps/generate=false</code> vereinheitlicht, Lazy-Initialisierung im <code>AlmanacModal</code>, Signal-/Tween-/Div0-/Deferred-Tutorial-Guards &amp; 3 neue UI-Tests (<code>test_ui_safety.gd</code>). Auf Galaxy S10 verifiziert (Graphics <code>~100 → ~68 MB</code>, GL mtrack <code>~75 → ~44 MB</code>, 0 Logcat-Fehler).</li>
-								<li><strong>Alle 42 Exit-Leaks behoben:</strong> Vorherige 42 ObjectDB-/8 Resource-Leaks beim Beenden (<code>sound_effects.gd</code> + <code>smoke.gd</code>) komplett beseitigt.</li>
+								<li><strong>Neu — Zwei HD-Fantasy-Designs (<code>v1.6.0</code>, <code>b62f4d0</code>):</strong> Über <code>LaneDefendersTheme</code> im Hauptmenü direkt umschaltbar zwischen <em>Fantasy-Burg-Türmen</em> (Default: Runen-Schrein, Arkan-Turm, Doppel-Balliste, Eis-Obelisk, Schildwall, Pulverfass, Katapult) und <em>Chibi-Burghelden</em> (Mana-Alchemist, Bogenschütze, Doppel-Armbrust, Frostmagier, Schild-Ritter, Spreng-Zwerg, Katapult-Pionier) inkl. aktualisierter 5 Store-Screenshots.</li>
+								<li><strong>Android-15-Audio-Fix &amp; VRAM-Hardening (<code>v1.5.6</code>–<code>v1.5.7</code>):</strong> ETC2/S3TC-VRAM-Kompression für die 5 Full-HD-Hintergründe, <code>mipmaps/generate=false</code> für HUD-Icons, Lazy-Initialisierung im <code>AlmanacModal</code>, Signal-/Tween-/Div0-Guards sowie <code>AudioStreamWAV</code>-Guard-Frames (<code>10c3304</code>).</li>
+								<li><strong>Über Plan hinaus &amp; 0 Exit-Leaks:</strong> 20 Level in 4 Welten, 7 Einheiten, 6 Gegner, 4 Welt-Bosse, Lexikon, Autosave, Bot-Test &amp; 27/27 Unit-Tests (inkl. 5 Tests in <code>test_ui_safety.gd</code>).</li>
 							</ul>
 						</div>
 
 						<div class="pillar pillar-missing">
 							<div class="pillar-title"><span aria-hidden="true">•</span> Verbleibend (nur optional)</div>
 							<ul>
-								<li><strong>Keine offenen Bugs:</strong> Smoke-Test, Balancing-Bot und Doku-Texte sind komplett fehler- und leakfrei.</li>
+								<li><strong>Keine offenen Bugs:</strong> Smoke-Test, Balancing-Bot, Theme-Umschaltung und Doku-Texte sind komplett fehler- und leakfrei.</li>
 								<li><strong>Optionale Plan-Ideen:</strong> Endlos-Modus, Tagesaufgaben oder Einheiten-Upgrades im Kampf.</li>
 							</ul>
 						</div>
@@ -2222,7 +2226,7 @@
 						<div class="pillar pillar-next">
 							<div class="pillar-title"><span aria-hidden="true">→</span> Als Nächstes geplant</div>
 							<ul>
-								<li><strong>Released &amp; verifiziert (<code>v1.5.6</code>):</strong> Signiertes Android-APK (<code>10506</code>, <code>64,6 MB</code>) auf Galaxy S10 geprüft; Feedback vom Nokia G42 (Adreno 619) abwarten.</li>
+								<li><strong>Released &amp; live (<code>v1.6.0</code>):</strong> Signiertes Android-APK (<code>10600</code>, <code>65,8 MB</code>), Desktop/Web, Chii Arcade v1 (5 Store-Screenshots) und Project Hub (<code>#68</code>) sind live.</li>
 								<li><strong>Optional:</strong> Endlos-Modus als späteres Feature-Update.</li>
 							</ul>
 						</div>
@@ -2241,19 +2245,20 @@
 									<li>✅ M4: Alle 7 Einheiten, 6 Gegner, Karten-UI</li>
 									<li>✅ M5: 4 Welten (20 Level &amp; 4 Bosse)</li>
 									<li>✅ M6: Autosave, Levelwahl, Tutorial, Lexikon</li>
-									<li>✅ M7+: Juice, SFX, Meadow-Musik, Bot-Test, Export</li>
+									<li>✅ M7+: Meadow-Musik, VRAM-Hardening &amp; Dual-HD-Themes (<code>v1.6.0</code>)</li>
 								</ul>
 							</div>
 							<div>
 								<p class="details-subheading">Kennzahlen</p>
 								<dl class="meta-dl">
-									<dt>Plattformen &amp; Format</dt><dd><strong>Web, Windows, Linux &amp; Android (Signed Release APK: <code>de.chobitschii.lane_defenders</code>)</strong> · 16:9 Querformat gesperrt (<code>Sensor Landscape</code>)</dd>
-									<dt>Touch / Mobile</dt><dd>Nativ 100 % Touch-spielbar (Einheiten-Karten, Schaufel, 5×9-Rasenfeld-Tap &amp; Sonnen-Einsammeln per Tap/Wischen + Android-Back-Pause)</dd>
+									<dt>Plattformen &amp; Format</dt><dd><strong>Web, Windows, Linux &amp; Android (Signed Release APK: <code>de.chobitschii.lane_defenders</code>, <code>65,8 MB</code>)</strong> · 16:9 Querformat gesperrt (<code>Sensor Landscape</code>)</dd>
+									<dt>Touch / Mobile</dt><dd>Nativ 100 % Touch-spielbar (Einheiten-Karten, Schaufel, 5×9-Rasenfeld-Tap &amp; Sonnen-/Mana-Einsammeln per Tap/Wischen + Android-Back-Pause)</dd>
 									<dt>Splash &amp; Start-Logo</dt><dd>Boot-Splash + interaktive <code>splash_screen.tscn</code> (<code>LANE DEFENDERS</code>-Logo, DE/EN-Prompt + Chii-Arcade-Badge)</dd>
-									<dt>Letztes Update</dt><dd>23.11.2026 (<code>v1.5.6</code>: Android-Hardening, ETC2-VRAM, Lazy-Almanach, Mipmap-Fix)</dd>
-									<dt>Umfang</dt><dd>32 Skripte (18 eigene), 7 Szenen, 33 <code>.tres</code>-Datenressourcen</dd>
-									<dt>Lokalisierung</dt><dd>100 Zeilen in <code>lane_defenders.csv</code> (+ <code>common.csv</code>)</dd>
-									<dt>Teststatus</dt><dd>25/25 Unit-Tests (inkl. Bot- &amp; UI-Safety-Tests) + Smoke-Test grün (0 Leaks)</dd>
+									<dt>Letztes Update</dt><dd>24.11.2026 (<code>v1.6.0</code> / <code>Code 10600</code>: <em>Castle Towers</em> &amp; <em>Chibi Heroes</em> HD-Themes + Audio-Loop-Fix)</dd>
+									<dt>Project Hub</dt><dd>Bereich <code>Game-Dev</code> · Projekt <code>#68</code> (Meilenstein <code>#25</code> · Abgeschlossen / Veröffentlicht)</dd>
+									<dt>Umfang</dt><dd>36 Skripte (19 eigene), 7 Spielszenen, 33 <code>.tres</code>-Datenressourcen, 2 HD-Design-Sets</dd>
+									<dt>Lokalisierung</dt><dd>117 Zeilen in <code>lane_defenders.csv</code> (+ <code>common.csv</code>)</dd>
+									<dt>Teststatus</dt><dd>27/27 Unit-Tests (inkl. Bot- &amp; UI-/Theme-Safety-Tests) + Smoke-Test grün (0 Leaks)</dd>
 								</dl>
 							</div>
 						</div>
@@ -2277,31 +2282,31 @@
 				</article>
 
 				<!-- 06: Crypt Dash -->
-				<article id="proj-crypt-dash" class="project-card" data-tags="feature-update complex release-pending">
+				<article id="proj-crypt-dash" class="project-card" data-tags="feature-update complex touch-overlay">
 					<header class="card-top">
 						<img src="crypt_dash/icon.svg" alt="" width="56" height="56" class="game-icon">
 						<div class="card-title-block">
 							<div class="card-title-row">
 								<span class="plan-num">Plan 06</span>
 								<h3>Crypt Dash</h3>
-								<span class="badge badge-mono">v1.1.5</span>
-								<span class="badge badge-ok"><span aria-hidden="true">✓</span> Abgeschlossen (Vollversion)</span>
+								<span class="badge badge-mono">v1.3.1</span>
+								<span class="badge badge-ok"><span aria-hidden="true">✓</span> Dark-Fantasy &amp; Autosave</span>
 							</div>
 							<div class="card-badges">
 								<span class="badge badge-info">Top-Down-Roguelite</span>
 								<span class="badge badge-mono">Aufwand: ⭐⭐⭐</span>
-								<span class="badge badge-ok"><span aria-hidden="true">✓</span> 15 Tests · 0 Leaks</span>
-								<span class="badge badge-ok"><span aria-hidden="true">✓</span> CryptAudio, Musik &amp; 3 Startwaffen</span>
+								<span class="badge badge-ok"><span aria-hidden="true">✓</span> 18 Tests · 0 Leaks</span>
+								<span class="badge badge-ok"><span aria-hidden="true">✓</span> 2.5D-Overhaul &amp; Run-Resume</span>
 							</div>
 						</div>
 					</header>
 
 					<p class="card-summary">
-						Atmosphärischer Top-Down-Dungeon-Crawler mit prozeduralen Gruft-Etagen (1000+ Seeds getestet), Dash, 15 Relikten, Multi-Phasen-Bossen und Seelen-Altar – jetzt ergänzt um prozedurale Audio-SFX (<code>CryptAudio</code>), düstere Gruft-Musik, 3 freischaltbare Startwaffen im Altar und 0 Leaks.
+						Atmosphärischer Top-Down-Dungeon-Crawler mit prozeduralen Gruft-Etagen (1000+ Seeds getestet), Dash, 15 Relikten, Multi-Phasen-Bossen und Seelen-Altar – mit <code>v1.2.0</code>–<code>v1.3.1</code> (<code>Code 10301</code>, <code>65,1 MB</code> APK) massiv aufgewertet durch Dark-Fantasy-Sprites, 2.5D-Räume mit Licht &amp; VFX, Run-Autosave/Resume, Query-Flush-/Audio-Exit-Leak-Fixes und Android-15-Audio-Loop-Fix.
 					</p>
 
 					<div class="progress-row">
-						<label for="prog-crypt"><strong>Meilensteine:</strong> M0–M8 vollständig abgeschlossen &amp; mit ✅ markiert (9 / 9)</label>
+						<label for="prog-crypt"><strong>Meilensteine:</strong> M0–M8 + Overhaul &amp; Run-Autosave (9 / 9 erledigt)</label>
 						<progress id="prog-crypt" value="9" max="9"></progress>
 						<span>100 %</span>
 					</div>
@@ -2310,17 +2315,17 @@
 						<div class="pillar pillar-done">
 							<div class="pillar-title"><span aria-hidden="true">✓</span> Status &amp; Erreicht</div>
 							<ul>
-								<li><strong>Kompletter Run + Builds:</strong> 3 prozedurale Etagen, Minimap, 5 Gegnertypen, Multi-Phasen-Bosse, 15 Relikte, Bestiarium &amp; Guide.</li>
-								<li><strong>Neu — Audio &amp; Musik:</strong> Neuer Autoload <code>CryptAudio</code> für Wurf-/Treffer-/Dash-/Boss-/Pickup-SFX + düsterer Crypt-Musik-Loop und Lautstärkeschalter (<code>AudioService</code>).</li>
-								<li><strong>Neu — 3 Startwaffen im Seelen-Altar:</strong> <code>WeaponCatalog</code> mit <em>Schattendolche</em> (frei), <em>Zwillingsreißer</em> (12 Seelen, 2er-Salve) &amp; <em>Arkanstab</em> (20 Seelen, Piercing).</li>
-								<li><strong>Doku &amp; Leaks erledigt (<code>v1.1.5</code>):</strong> <code>plans/06_crypt_dash.md</code> M0–M8 mit <code>✅</code> markiert, zyklische Resource-Leaks in <code>ItemData</code>/<code>BossPhase</code>, Headless-Shutdown-/<code>SharedTouchControls</code>-/<code>EventBus</code>-Leaks sowie <code>MainMenu</code>-Signalverbindungen (<code>_exit_tree()</code>) sauber behoben (0 ObjectDB-Leaks!).</li>
+								<li><strong>Neu — Dark-Fantasy Visual Overhaul (<code>v1.2.0</code>, <code>006dc03</code>):</strong> Neue Dark-Fantasy-Sprites, tiefere 2.5D-Grufträume, stimmungsvolle Beleuchtung, Kampf-VFX und thematisch gestaltete Menüs &amp; UI.</li>
+								<li><strong>Neu — Run-Autosave &amp; Minimal-Write-Persistenz (<code>v1.3.0</code>, <code>28a3c3d</code>, <code>86752fb</code>):</strong> <code>RunSaveManager</code> sichert laufende Runs (Etage, Seed, Raumzustand, geöffnete Truhen, HP, Waffe, Relikte) inklusive gebündeltem Dirty-Check über <code>SaveService</code> für minimale SSD-/Flash-Schreibzugriffe, klarem Autosave-Indikator und 3 Tests in <code>test_run_save.gd</code>.</li>
+								<li><strong>Technik &amp; Audio komplett bereinigt (<code>v1.3.1</code>):</strong> <code>CryptAudio</code> + 3 Startwaffen im Seelen-Altar (<em>Schattendolche</em>, <em>Zwillingsreißer</em>, <em>Arkanstab</em>), Physics-Query-Flush- und Audio-Exit-Leak-Fix sowie Android-15-<code>AudioStreamWAV</code>-Loop-Fix (<code>10c3304</code>).</li>
+								<li><strong>Verifiziert:</strong> 18/18 Unit-Tests (inkl. 1000-Seed-, Waffen- &amp; Run-Save-Tests) + Smoke-Test mit 0 ObjectDB-Leaks.</li>
 							</ul>
 						</div>
 
 						<div class="pillar pillar-missing">
 							<div class="pillar-title"><span aria-hidden="true">•</span> Verbleibend (nur optional)</div>
 							<ul>
-								<li><strong>Keine offenen Lücken:</strong> Plan-Haken, Audio/Musik, Startwaffen und Leak-Fixes sind komplett abgeschlossen.</li>
+								<li><strong>Keine offenen Lücken:</strong> Plan-Haken, Visual-Overhaul, Run-Autosave, Audio/Musik und Leak-Fixes sind komplett abgeschlossen.</li>
 								<li><strong>Optionale Plan-Ideen:</strong> Weitere Klassen, Daily Seed, Händler-Raum, Geheimräume oder Co-op.</li>
 							</ul>
 						</div>
@@ -2328,7 +2333,7 @@
 						<div class="pillar pillar-next">
 							<div class="pillar-title"><span aria-hidden="true">→</span> Als Nächstes geplant</div>
 							<ul>
-								<li><strong>Released &amp; verifiziert (<code>v1.1.5</code>):</strong> Signiertes Android-APK (<code>10105</code>), Linux/Windows/Web, Chii-Arcade-Katalog und NAS-Backup sind live; per Bulk-Update auf dem Galaxy S10 getestet.</li>
+								<li><strong>Released &amp; live (<code>v1.3.1</code>):</strong> Signiertes Android-APK (<code>10301</code>, <code>65,1 MB</code>), Linux/Windows/Web, Chii Arcade v1 und Project Hub (<code>#69</code>) sind live.</li>
 								<li><strong>Optional:</strong> Händler-Raum oder zusätzliche Charakterklassen als späteres Update.</li>
 							</ul>
 						</div>
@@ -2348,19 +2353,20 @@
 									<li>✅ M5: 5 Gegnertypen &amp; Boss-System</li>
 									<li>✅ M6: 3 Etagen &amp; Multi-Phasen-Bosse</li>
 									<li>✅ M7: Seelen-Altar, Stat-Upgrades &amp; 3 Startwaffen</li>
-									<li>✅ M8: Almanach, <code>CryptAudio</code>/Musik, Export</li>
+									<li>✅ M8+: Almanach, 2.5D-Overhaul, Run-Autosave &amp; Audio-Fix (<code>v1.3.1</code>)</li>
 								</ul>
 							</div>
 							<div>
 								<p class="details-subheading">Kennzahlen</p>
 								<dl class="meta-dl">
-									<dt>Plattformen &amp; Format</dt><dd><strong>Web, Windows, Linux &amp; Android (Signed Release APK: <code>de.chobitschii.crypt_dash</code>)</strong> · 16:9 Querformat gesperrt (<code>Sensor Landscape</code>)</dd>
+									<dt>Plattformen &amp; Format</dt><dd><strong>Web, Windows, Linux &amp; Android (Signed Release APK: <code>de.chobitschii.crypt_dash</code>, <code>65,1 MB</code>)</strong> · 16:9 Querformat gesperrt (<code>Sensor Landscape</code>)</dd>
 									<dt>Touch / Mobile</dt><dd>Android-Only Twin-Stick-Overlay (<code>SharedTouchControls</code>: 360°-Bewegungs-Stick links, 360°-Ziel-/Feuer-Stick + Auto-Aim &amp; Dash rechts, Pause oben; auf PC unsichtbar)</dd>
 									<dt>Splash &amp; Start-Logo</dt><dd>Boot-Splash + interaktive <code>splash_screen.tscn</code> (<code>CRYPT DASH</code>-Logo, DE/EN-Prompt + Chii-Arcade-Badge)</dd>
-									<dt>Letztes Update</dt><dd>23.11.2026 (<code>v1.1.5</code>: Shutdown-/<code>MainMenu</code>-Leak-Fix, Bulk-Update-Test auf S10, <code>CryptAudio</code> &amp; 3 Startwaffen)</dd>
-									<dt>Umfang</dt><dd>41 Skripte (27 eigene), 4 Szenen</dd>
-									<dt>Lokalisierung</dt><dd>115 Zeilen in <code>crypt_dash.csv</code> (+ <code>common.csv</code>)</dd>
-									<dt>Teststatus</dt><dd>15/15 Unit-Tests (inkl. 1000-Seed- &amp; Waffentests) + Smoke-Test grün (0 Leaks)</dd>
+									<dt>Letztes Update</dt><dd>24.11.2026 (<code>v1.3.1</code> / <code>Code 10301</code>: Dark-Fantasy-2.5D-Overhaul, Run-Autosave, Audio-Loop-Fix)</dd>
+									<dt>Project Hub</dt><dd>Bereich <code>Game-Dev</code> · Projekt <code>#69</code> (Meilenstein <code>#26</code> · Abgeschlossen / Veröffentlicht)</dd>
+									<dt>Umfang</dt><dd>49 Skripte (32 eigene), 4 Spielszenen, Dark-Fantasy-Assets</dd>
+									<dt>Lokalisierung</dt><dd>124 Zeilen in <code>crypt_dash.csv</code> (+ <code>common.csv</code>)</dd>
+									<dt>Teststatus</dt><dd>18/18 Unit-Tests (inkl. 1000-Seed-, Run-Save- &amp; Waffentests) + Smoke-Test grün (0 Leaks)</dd>
 								</dl>
 							</div>
 						</div>
@@ -2384,31 +2390,31 @@
 				</article>
 
 				<!-- 07: Lumaria -->
-				<article id="proj-lumaria" class="project-card" data-tags="feature-update complex release-pending">
+				<article id="proj-lumaria" class="project-card" data-tags="feature-update complex touch-overlay">
 					<header class="card-top">
 						<img src="lumaria/icon.svg" alt="" width="56" height="56" class="game-icon">
 						<div class="card-title-block">
 							<div class="card-title-row">
 								<span class="plan-num">Plan 07</span>
 								<h3>Lumaria: The Prismatic Odyssey</h3>
-								<span class="badge badge-mono">v1.0.3</span>
-								<span class="badge badge-ok"><span aria-hidden="true">✓</span> Abgeschlossen (Vollversion)</span>
+								<span class="badge badge-mono">v1.1.0</span>
+								<span class="badge badge-ok"><span aria-hidden="true">✓</span> HD-Fantasy-Redesign (v1.1.0)</span>
 							</div>
 							<div class="card-badges">
 								<span class="badge badge-info">Action-Adventure / RPG</span>
 								<span class="badge badge-mono">Aufwand: ⭐⭐⭐⭐</span>
-								<span class="badge badge-ok"><span aria-hidden="true">✓</span> 61 Tests · 0 Leaks</span>
-								<span class="badge badge-ok"><span aria-hidden="true">✓</span> Icon-Fix, 3 Save-Slots &amp; Prisma-Bogen</span>
+								<span class="badge badge-ok"><span aria-hidden="true">✓</span> 67 Tests · 0 Leaks</span>
+								<span class="badge badge-ok"><span aria-hidden="true">✓</span> HD-Redesign, Kristall-HUD &amp; Audio-Fix</span>
 							</div>
 						</div>
 					</header>
 
 					<p class="card-summary">
-						Größtes Spiel im Repository (73 Skripte, 40 Szenen, 61 Unit-Tests): Hochauflösendes Zelda-artiges Top-Down-Action-Adventure ohne Pixel-Art mit 3 Dungeons, 4 Bossen und Turm-Showdown – jetzt mit repariertem Browser-Icon, 3-Slot-Speicherstandsystem, funktionalem Prisma-Bogen, Audio-Reglern und 0 Leaks.
+						Größtes Spiel im Repository (77 Skripte, 40 Szenen, 67 Unit-Tests): Hochauflösendes Zelda-artiges Top-Down-Action-Adventure ohne Pixel-Art mit 3 Dungeons, 4 Bossen und Turm-Showdown – in <code>v1.1.0</code> (<code>Code 10100</code>, <code>72,9 MB</code> APK) komplett veredelt mit neuem HD-Fantasy-Redesign für Kaelen, Lyra, NPCs, Gegner, Bosse und alle 6 Zonen, Leucht-Kristallsphären-HUD, Parry-/Schadensmodell-Korrekturen und Android-15-Audio-Loop-Fix.
 					</p>
 
 					<div class="progress-row">
-						<label for="prog-lumaria"><strong>Meilensteine:</strong> M0–M8 (9 / 9 erledigt)</label>
+						<label for="prog-lumaria"><strong>Meilensteine:</strong> M0–M8 + HD-Fantasy-Update v1.1.0 (9 / 9 erledigt)</label>
 						<progress id="prog-lumaria" value="9" max="9"></progress>
 						<span>100 %</span>
 					</div>
@@ -2417,17 +2423,17 @@
 						<div class="pillar pillar-done">
 							<div class="pillar-title"><span aria-hidden="true">✓</span> Status &amp; Erreicht</div>
 							<ul>
-								<li><strong>App- &amp; Browser-Icon repariert (<code>v1.0.3</code>):</strong> Doppeltes XML-Attribut sowie SVG-<code>&lt;feGaussianBlur&gt;</code>/<code>&lt;feComposite&gt;</code>-Filter in <a href="lumaria/icon.svg"><code>lumaria/icon.svg</code></a> durch geschichtete Vektor-Auren ersetzt (gestochen scharfes <code>432×432</code>-Android-Icon ohne ThorVG-Blur), <code>store-media/*</code> vom Export ausgeschlossen und auf dem Galaxy S10 verifiziert.</li>
-								<li><strong>Neu — 3-Slot-Speichersystem:</strong> <code>SaveSlotManager</code> über <code>SaveService</code> inkl. Hauptmenü-Overlay (Fortschrittsanzeige, Laden, Löschen), Autosave beim Zonenwechsel, Truhen, Bossen &amp; Inventar sowie <code>QuestManager</code>-Serialisierung.</li>
-								<li><strong>Neu — Funktionsfähiger Prisma-Bogen:</strong> Vektor-Projektil <code>PrismArrow</code> (schaltet Kristallschalter, mäht Gras, zerbricht Krüge, trifft Gegner/Bosse), von Alchemistin Lyra freigeschaltet &amp; im Inventar ausrüstbar.</li>
-								<li><strong>Stabilität &amp; Audio:</strong> Musik-/SFX-Schalter (<code>AudioService</code>), Android-HUD-Margin (<code>256px</code>) für Beutel/Pause-Buttons, <code>config/version = "1.0.3"</code>, Anzeigename in <code>build_all.sh</code>, 61/61 Tests &amp; Smoke-Test mit 0 Leaks.</li>
+								<li><strong>Neu — Komplettes HD-Fantasy-Redesign (<code>v1.1.0</code>, <code>ab7fc28</code>, <code>258eb15</code>):</strong> Sauber freigestellte 4-Wege-Kaelen-Sprites inkl. Rückenansicht, ganzfigurige HD-NPCs für Morwen, Thalon &amp; Alchemistin Lyra, neu gestaltete HD-Gegner (<em>Moss Scout</em>, <em>Thorn Spitter</em>, <em>Bone Warrior</em>) &amp; alle 4 Bosse (<em>Floragorg</em>, <em>Carapax</em>, <em>Zephyros</em>, <em>Malakor</em>) mit weichen Bodenschatten sowie 6 überarbeitete <code>1920×1080</code>-Gebiets-Hintergründe (<em>Wurzel-Schrein</em>, <em>Untiefen</em>, <em>Klingen-Krypta</em>, <em>Plateau</em>, <em>Sturm-Bastion</em>, <em>Ewiger Turm</em>).</li>
+								<li><strong>Neu — Kristall-HUD, Navigation &amp; Combat-/Pause-Fixes:</strong> Leucht-Kristallsphären-HUD (<code>VitalityContainer</code>), lokalisierte <code>[Q]</code>/<code>[R]</code>-Gadget-Icons, ausgerichtete begehbare Oakhaven-Pfade mit passenden Wegweisern/Kollidern, korrigierte Portal-Spawns, echtes Schadensmodell &amp; Parry-Heilung (+1 Viertel), Y-Sorting sowie Pausen-/Game-Over-Overlays in allen 7 Weltszenen (abgesichert in <code>test_paket1_fixes.gd</code>).</li>
+								<li><strong>Android-15-Audio-Fix &amp; 512px-Icon (<code>v1.0.3</code>–<code>v1.0.4</code>):</strong> 32 Guard-Frames im <code>LumariaAudioManager</code> (<code>test_audio_loop.gd</code>), scharfes Vektor-Icon ohne SVG-Blur-Filter in <a href="lumaria/icon.svg"><code>lumaria/icon.svg</code></a>, 3-Slot-Speichersystem &amp; funktionaler Prisma-Bogen.</li>
+								<li><strong>Top-Testquote:</strong> 67/67 Unit-Tests + Smoke-Test laufen komplett ohne Leaks.</li>
 							</ul>
 						</div>
 
 						<div class="pillar pillar-missing">
 							<div class="pillar-title"><span aria-hidden="true">•</span> Verbleibend (nur Konzept-/Post-Launch-Ideen)</div>
 							<ul>
-								<li><strong>Keine offenen Technik-Lücken:</strong> Icon, 3 Save-Slots, Prisma-Bogen, Audio-Regler, Tooling und Exit-Leaks sind komplett behoben.</li>
+								<li><strong>Keine offenen Technik-Lücken:</strong> HD-Sprites, Zonen, Icon, Audio-Loops, 3 Save-Slots, Prisma-Bogen und Exit-Leaks sind komplett abgeschlossen.</li>
 								<li><strong>Optionale Post-Launch-/Konzept-Ideen (Plan Kap. 15):</strong> 4. Erd-Prisma-Dungeon, Titanen-Armreif, Lyra als spielbare Heldin, New Game+, Boss-Rush-Arena, Angeln an den Untiefen, Relikt-Skins.</li>
 							</ul>
 						</div>
@@ -2435,7 +2441,7 @@
 						<div class="pillar pillar-next">
 							<div class="pillar-title"><span aria-hidden="true">→</span> Als Nächstes geplant</div>
 							<ul>
-								<li><strong>Released &amp; verifiziert (<code>v1.0.3</code>):</strong> Signiertes Android-APK (<code>10003</code>) mit neuem 512×512-Icon ohne Blur-Filter, Desktop/Web, Chii Arcade v1 &amp; NAS-Backup live; auf Galaxy S10 geprüft.</li>
+								<li><strong>Released &amp; live (<code>v1.1.0</code>):</strong> Signiertes Android-APK (<code>10100</code>, <code>72,9 MB</code>), Desktop/Web, Chii Arcade v1 (5 Store-Screenshots) und Project Hub (<code>#70</code>) sind am 25.11.2026 veröffentlicht.</li>
 								<li><strong>Optional danach:</strong> Boss-Rush-Arena oder New Game+ als Post-Launch-Bonus.</li>
 							</ul>
 						</div>
@@ -2455,19 +2461,20 @@
 									<li>✅ M5: Dungeon 1 (Wurzel-Schrein) &amp; Floragorg</li>
 									<li>✅ M6: Untiefen, Fangseil, Klingen-Krypta &amp; Carapax</li>
 									<li>✅ M7: Plateau, Bomben, Sturm-Bastion, Turm &amp; Malakor</li>
-									<li>✅ M8+: Polish, 3-Slot-Saves, Prisma-Bogen, Audio &amp; Icon-Fix</li>
+									<li>✅ M8+: 3-Slot-Saves, Prisma-Bogen, Audio-Fix &amp; HD-Redesign (<code>v1.1.0</code>)</li>
 								</ul>
 							</div>
 							<div>
 								<p class="details-subheading">Kennzahlen</p>
 								<dl class="meta-dl">
-									<dt>Plattformen &amp; Format</dt><dd><strong>Web, Windows, Linux &amp; Android (Signed Release APK: <code>de.chobitschii.lumaria</code>)</strong> · 16:9 Querformat gesperrt (<code>Sensor Landscape</code>)</dd>
+									<dt>Plattformen &amp; Format</dt><dd><strong>Web, Windows, Linux &amp; Android (Signed Release APK: <code>de.chobitschii.lumaria</code>, <code>72,9 MB</code>)</strong> · 16:9 Querformat gesperrt (<code>Sensor Landscape</code>)</dd>
 									<dt>Touch / Mobile</dt><dd>Android-Only Virtual Gamepad (<code>SharedTouchControls</code>: 8-Wege-Stick links, Schwert Tap/Charge, Rolle, Schild, Aktion, Gadget 1/2, Inventar &amp; Pause rechts; auf PC unsichtbar)</dd>
 									<dt>Splash &amp; Start-Logo</dt><dd>Boot-Splash + interaktive <code>splash_screen.tscn</code> (<code>LUMARIA</code>-Logo, DE/EN-Prompt + Chii-Arcade-Badge)</dd>
-									<dt>Letztes Update</dt><dd>23.11.2026 (<code>v1.0.3</code>: 512px-Icon ohne SVG-Blur-Filter, <code>store-media</code> exkludiert)</dd>
-									<dt>Umfang</dt><dd>73 Skripte (51 eigene), 40 Szenen, 8 OGG-SFX + Musik</dd>
-									<dt>Lokalisierung</dt><dd>136 Zeilen in <code>lumaria.csv</code> (+ <code>common.csv</code>)</dd>
-									<dt>Teststatus</dt><dd>61/61 Unit-Tests (inkl. <code>test_save_slots.gd</code>) + Smoke-Test grün (0 Leaks)</dd>
+									<dt>Letztes Update</dt><dd>25.11.2026 (<code>v1.1.0</code> / <code>Code 10100</code>: HD-Fantasy-Redesign, Kristall-HUD, Combat-/Pause-Fixes)</dd>
+									<dt>Project Hub</dt><dd>Bereich <code>Game-Dev</code> · Projekt <code>#70</code> (Meilenstein <code>#27</code> · Abgeschlossen / Veröffentlicht)</dd>
+									<dt>Umfang</dt><dd>77 Skripte (51 eigene), 40 Spielszenen, 8 OGG-SFX + Musik, HD-Fantasy-Sprites &amp; 6 Zonen</dd>
+									<dt>Lokalisierung</dt><dd>137 Zeilen in <code>lumaria.csv</code> (+ <code>common.csv</code>)</dd>
+									<dt>Teststatus</dt><dd>67/67 Unit-Tests (inkl. <code>test_paket1_fixes.gd</code>, <code>test_audio_loop.gd</code> &amp; <code>test_save_slots.gd</code>) + Smoke-Test grün (0 Leaks)</dd>
 								</dl>
 							</div>
 						</div>
@@ -2503,7 +2510,7 @@
 			<div class="section-head">
 				<div>
 					<h2 id="repo-heading">3. Übergreifender Repo- &amp; Infrastruktur-Status</h2>
-					<p class="section-desc">Gemeinsame Dienste in <code>shared/</code>, Automatisierung in <code>tools/</code> und der aktuelle Bereinigungsstand im gesamten Repository.</p>
+					<p class="section-desc">Gemeinsame Dienste in <code>shared/</code>, Automatisierung in <code>tools/</code>, Android-15-Audio-Schutz, Project Hub MCP Sync und der aktuelle Bereinigungsstand im gesamten Repository.</p>
 				</div>
 			</div>
 
@@ -2512,20 +2519,19 @@
 					<h3><span aria-hidden="true">✓</span> Was repo-weit stabil &amp; bereinigt ist</h3>
 					<ul>
 						<li><strong>Automatisierte 4-Plattform-Pipeline &amp; NAS-Backup:</strong> <code>tools/run_tests.sh</code>, <code>sync_shared.sh</code>, <code>setup_android_signing.sh</code>, <code>backup_to_nas.sh</code>, <code>build_all.sh</code>, <code>package_release.sh</code> und <code>release_game.sh</code> unterstützen Linux, Windows, Web &amp; signierte Android-Release-APKs (<code>apksigner</code>-verifiziert).</li>
-						<li><strong>Android-Signierung &amp; Format-Sperre (7/7 Spiele):</strong> Alle 7 Spiele sind auf <strong>16:9 Querformat</strong> (<code>window/handheld/orientation=4</code>, <em>Sensor Landscape</em>) gesperrt und besitzen je einen eigenen RSA-3072 PKCS12-Release-Keystore unter <code>~/.local/share/chii-arcade/signing/games/&lt;spiel&gt;/&lt;spiel&gt;-release.p12</code> – automatisch gesichert auf <code>/media/nas.home/Development-Backups/games/</code>.</li>
-						<li><strong>7 / 7 signierte Android-Releases &amp; Chii Arcade v1 Live-Release:</strong> Alle 7 Spiele sind als voll signierte Release-APKs gebaut, auf dem NAS gesichert, auf GitHub Releases veröffentlicht und mit <code>chii-arcade.json</code>, <code>cover.webp</code> (1280×720) sowie je 4 unter Linux aufgenommenen Gameplay-Screenshots im Chii-Arcade-v1-Katalog (<code>catalog-v1.json</code>) gelistet (inkl. Cert-Pinning in <code>TrustedGameCertificates.kt</code> &amp; <code>&lt;queries&gt;</code> im Manifest; Chii Arcade v2 blieb unberührt).</li>
-						<li><strong>0 Leaks &amp; 100 % Testquote:</strong> <strong>269 / 269 Unit-Tests</strong> und <strong>7 / 7 Smoke-Tests</strong> (deterministischer <code>SMOKE_SEED=42</code> in <code>tools/run_tests.sh</code>) ohne Warnungen, Fehler oder ObjectDB-/Resource-Leaks.</li>
+						<li><strong>Android-15-Audio-Loop-Schutz (7/7 Spiele, <code>10c3304</code>):</strong> <code>SharedSynthMusic</code> (<code>shared/audio/synth_music.gd</code>), <code>MusicRenderer</code> (<code>neon_breakout</code>) und <code>LumariaAudioManager</code> (<code>lumaria</code>) ergänzen 32 Guard-Frames hinter <code>loop_end = expected_frames - 1</code> und verhindern PCM-Overreads unter Android 15; <code>SaveService</code> unterstützt zudem gebündeltes Flushen (<code>dirty-check</code>).</li>
+						<li><strong>Android-Signierung, Chii Arcade v1 &amp; Project Hub MCP Sync (7/7 Spiele):</strong> Alle 7 Spiele sind auf <strong>16:9 Querformat</strong> gesperrt, als voll signierte Release-APKs im Chii-Arcade-v1-Katalog (<code>catalog-v1.json</code>, Stand <code>2026-11-25T02:29Z</code>) inklusive Cert-Pinning &amp; WebP-Store-Media veröffentlicht (v2 unberührt) und sauber als Projekte <code>#64–#70</code> (Meilensteine <code>#21–#27</code>) in den Bereich <code>Game-Dev</code> des <strong>Project Hub</strong> eingetragen (fremde Projekte wie #28 unberührt).</li>
+						<li><strong>0 Leaks &amp; 100 % Testquote:</strong> <strong>280 / 280 Unit-Tests</strong> und <strong>7 / 7 Smoke-Tests</strong> (deterministischer <code>SMOKE_SEED=42</code> in <code>tools/run_tests.sh</code>) ohne Warnungen, Fehler oder ObjectDB-/Resource-Leaks.</li>
 					</ul>
 				</div>
 
 				<div class="panel">
-					<h3><span aria-hidden="true">✓</span> Android-Only Touch-UI in allen 7 Spielen aktiv</h3>
+					<h3><span aria-hidden="true">✓</span> Touch-UI, HD-Überarbeitungen &amp; Live-Verifikation</h3>
 					<ul>
-						<li><strong>Strikt auf Android begrenzt:</strong> <code>SharedTouchControls</code> (<code>shared/ui/touch_controls.gd</code>) prüft <code>OS.has_feature("android")</code> – auf Windows, Linux und Desktop-Web bleibt das Touch-Overlay komplett unsichtbar und inaktiv.</li>
-						<li><strong>02 · Asteroid Drift &amp; 04 · Block Stack:</strong> Multi-Touch-Vektor-Buttons für Drehen Links/Rechts, Schub, Feuer, Hyperspace &amp; Pause bzw. Links/Rechts (mit nativem DAS/ARR), Soft/Hard Drop, Drehen CCW/CW, Hold &amp; Pause.</li>
-						<li><strong>06 · Crypt Dash &amp; 07 · Lumaria:</strong> Virtuelles Twin-Stick-HUD (Bewegungs-Stick + 360°-Ziel-/Feuer-Stick + Dash) bzw. Action-RPG-Gamepad (8-Wege-Stick + Schwert inkl. Wirbel-Charge, Rolle, Schild, Interaktion, Gadget 1 &amp; 2, Inventar &amp; Pause).</li>
-						<li><strong>Alle 7 signierten Release-APKs gebaut &amp; gesichert:</strong> Alle 7 Spiele liegen als <code>apksigner</code>-verifizierte Full-Release-APKs lokal, auf dem NAS (<code>/media/nas.home/Development-Backups/games/android-releases/</code>) und in den GitHub-Releases bereit.</li>
-						<li><strong>Galaxy S10 (<code>SM-G973F</code>, Android 12) Live-Praxistest bestanden:</strong> Chii Arcade <code>v1.0.17</code> per 3er-Sammelaktualisierung für <em>Asteroid Drift</em> <code>v1.0.7</code>, <em>Lane Defenders</em> <code>v1.5.6</code> und <em>Lumaria</em> <code>v1.0.3</code> regulär inklusive Play-Protect-Scan durchlaufen (<em>„3 aktualisiert · 0 übersprungen“</em>); gestochen scharfe App-Icons und reduzierter Speicherbedarf bei <code>0</code> Logcat-Fehlern verifiziert.</li>
+						<li><strong>Strikt auf Android begrenzte Touch-Overlays:</strong> <code>SharedTouchControls</code> (<code>shared/ui/touch_controls.gd</code>) prüft <code>OS.has_feature("android")</code> – auf Windows, Linux und Desktop-Web bleibt das Touch-Overlay komplett unsichtbar (aktiv für <em>Asteroid Drift</em>, <em>Block Stack</em>, <em>Crypt Dash</em> &amp; <em>Lumaria</em>; native Tap-Steuerung in <em>Neon Breakout</em>, <em>Connect Four Deluxe</em> &amp; <em>Lane Defenders</em>).</li>
+						<li><strong>HD-Design- &amp; Gameplay-Schub (24.–25.11.2026):</strong> <em>Lane Defenders</em> <code>v1.6.0</code> (2 wählbare Designs <em>Castle Towers</em> &amp; <em>Chibi Heroes</em>), <em>Crypt Dash</em> <code>v1.2.0–v1.3.1</code> (Dark-Fantasy-2.5D-Räume + Run-Autosave/Resume) und <em>Lumaria</em> <code>v1.1.0</code> (HD-Sprites/Bosse/6 Zonen, Kristall-HUD &amp; Parry-Fixes).</li>
+						<li><strong>Alle 7 signierten Release-APKs bereit:</strong> <code>neon_breakout v1.1.3</code> (<code>56,7 MB</code>), <code>asteroid_drift v1.0.8</code> (<code>55,4 MB</code>), <code>vier_gewinnt v1.2.2</code> (<code>60,8 MB</code>), <code>block_stack v1.2.1</code> (<code>60,2 MB</code>), <code>lane_defenders v1.6.0</code> (<code>65,8 MB</code>), <code>crypt_dash v1.3.1</code> (<code>65,1 MB</code>), <code>lumaria v1.1.0</code> (<code>72,9 MB</code>).</li>
+						<li><strong>Galaxy S10 (<code>SM-G973F</code>, Android 12) Basis-Verifikation:</strong> Store-Installation &amp; Bulk-Update über <code>Chii Arcade v1.0.17</code> inklusive Play-Protect-Scan, 512px-Icons und VRAM-Entlastung mit <code>0</code> Logcat-Fehlern bestätigt.</li>
 					</ul>
 				</div>
 			</div>
@@ -2536,18 +2542,18 @@
 			<div class="section-head">
 				<div>
 					<h2 id="roadmap-heading">4. Empfohlene nächste Schritte (Roadmap)</h2>
-					<p class="section-desc">Nachdem alle Bugs, Doku-Drifts und Kern-Finetunings abgearbeitet sind, bleiben nur noch Releases und optionale Erweiterungen.</p>
+					<p class="section-desc">Alle Bugs, Audio-/VRAM-Hardening-Punkte, HD-Überarbeitungen, Store-Releases und der Project-Hub-Abgleich sind abgeschlossen.</p>
 				</div>
 			</div>
 
 			<div class="roadmap-grid">
 				<div class="roadmap-step">
-					<span class="badge badge-ok"><span aria-hidden="true">1</span> Abgeschlossen · Releases, Web &amp; Chii Arcade v1</span>
-					<h3>Alle 4 Plattformen &amp; Store v1 live</h3>
+					<span class="badge badge-ok"><span aria-hidden="true">1</span> Abgeschlossen · Releases, Store v1 &amp; Project Hub</span>
+					<h3>Alle 4 Plattformen, Store v1 &amp; Hub aktuell</h3>
 					<ul>
-						<li><strong>Desktop, Web &amp; Android (7 / 7):</strong> Alle 7 Titel inkl. signierter Release-APKs (mit NAS-Backup) sind über GitHub Releases und das Web-Portal verfügbar.</li>
-						<li><strong>Chii Arcade (v1):</strong> Alle 7 Spiele sind über <code>chii_arcade_publish.py</code> &amp; <code>chii_arcade_publish_media.py</code> inkl. Cover-Artwork und je 4 Screenshots in <code>catalog-v1.json</code> veröffentlicht.</li>
-						<li><strong>Ausblick Plattform v2:</strong> Sobald Chii Arcade Platform (v2) bereit ist, können die 7 Spiele dorthin übernommen werden.</li>
+						<li><strong>Desktop, Web &amp; Android (7 / 7):</strong> Alle 7 Titel in ihren neuesten Ständen (<code>24.–25.11.2026</code>) über GitHub Releases und das Web-Portal verfügbar.</li>
+						<li><strong>Chii Arcade (v1) &amp; Project Hub:</strong> Vollständige Metadaten, Cover und 4–5 Screenshots in <code>catalog-v1.json</code> live; im Project Hub als <code>#64–#70</code> (Bereich <code>Game-Dev</code>) gepflegt.</li>
+						<li><strong>Ausblick Plattform v2:</strong> Sobald Chii Arcade Platform (v2) bereit ist, können die 7 Spiele nahtlos übernommen werden.</li>
 					</ul>
 				</div>
 
@@ -2565,8 +2571,8 @@
 					<span class="badge badge-next"><span aria-hidden="true">3</span> Ausblick · Neues Projekt</span>
 					<h3>Freie Bahn für Plan 08</h3>
 					<ul>
-						<li>Alle 7 bisherigen Spiele sind technisch sauber, zweisprachig, testgesichert und wartungsarm abgeschlossen.</li>
-						<li>Dank erweitertem <code>shared/</code>-Fundament (<code>AudioService</code>, <code>SharedSynthMusic</code>, <code>F3</code>-Overlay) startet ein potenzielles 8. Spiel sofort auf einer noch stärkeren Basis.</li>
+						<li>Alle 7 bisherigen Spiele sind technisch sauber, zweisprachig, testgesichert (280/280 Tests) und wartungsarm abgeschlossen.</li>
+						<li>Dank erweitertem <code>shared/</code>-Fundament (<code>AudioService</code>, Android-15-sichere <code>SharedSynthMusic</code>, gebündeltem <code>SaveService</code>, <code>F3</code>-Overlay) startet ein potenzielles 8. Spiel sofort auf einer noch stärkeren Basis.</li>
 					</ul>
 				</div>
 			</div>
@@ -2576,8 +2582,8 @@
 	<footer class="site-footer">
 		<div class="footer-inner">
 			<p>
-				Aktualisiert am <strong>23.11.2026</strong> aus <code>/home/jennifer/development/games</code> ·
-				Live verifiziert mit <code>tools/run_tests.sh</code> (Seed 42), Chii Arcade v1 Release-Pipeline &amp; Samsung Galaxy S10 (<code>SM-G973F</code>, Android 12) ADB-Praxistest (Godot 4.7.2, 269/269 Tests grün, 0 Leaks).
+				Aktualisiert am <strong>25.11.2026</strong> aus <code>/home/jennifer/development/games</code> (<code>HEAD 477c234</code>) ·
+				Live verifiziert mit <code>tools/run_tests.sh</code> (Seed 42), Chii Arcade v1 (<code>catalog-v1.json</code>) &amp; Project Hub MCP Sync (<code>Game-Dev #64–#70</code>) (Godot 4.7.2, 280/280 Tests grün, 7/7 Smoke-Tests ok, 0 Leaks).
 			</p>
 			<div class="footer-links">
 				<a href="README.md">Repo-README</a>
