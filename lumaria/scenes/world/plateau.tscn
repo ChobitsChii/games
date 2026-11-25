@@ -96,11 +96,11 @@ chest_id = "chest_bombs"
 item_type = "bombs"
 
 [node name="ExitToOakhaven" parent="Interactables" instance=ExtResource("12_portal")]
-position = Vector2(960, 995)
+position = Vector2(960, 1005)
 target_scene_path = "res://scenes/game.tscn"
 prompt_key = "PROMPT_EXIT_DUNGEON"
 entry_point_id = "north"
-trigger_size = Vector2(260, 100)
+trigger_size = Vector2(260, 70)
 
 [node name="EnterBastion" parent="Interactables" instance=ExtResource("12_portal")]
 position = Vector2(1740, 540)

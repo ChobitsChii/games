@@ -107,11 +107,11 @@ chest_id = "chest_tether"
 item_type = "tether"
 
 [node name="ExitToOakhaven" parent="Interactables" instance=ExtResource("13_portal")]
-position = Vector2(960, 110)
+position = Vector2(960, 82)
 target_scene_path = "res://scenes/game.tscn"
 prompt_key = "PROMPT_EXIT_DUNGEON"
 entry_point_id = "south"
-trigger_size = Vector2(260, 100)
+trigger_size = Vector2(240, 56)
 
 [node name="EnterBladeCrypt" parent="Interactables" instance=ExtResource("13_portal")]
 position = Vector2(1500, 780)
@@ -128,10 +128,10 @@ position = Vector2(520, 620)
 position = Vector2(1560, 500)
 
 [node name="Player" parent="." instance=ExtResource("3_player")]
-position = Vector2(960, 165)
+position = Vector2(640, 130)
 
 [node name="Camera2D" type="Camera2D" parent="."]
-position = Vector2(960, 165)
+position = Vector2(640, 130)
 limit_left = 0
 limit_top = 0
 limit_right = 1920

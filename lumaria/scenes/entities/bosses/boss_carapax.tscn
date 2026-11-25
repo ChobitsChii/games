@@ -1,4 +1,6 @@
-[gd_scene load_steps=6 format=3]
+[gd_scene load_steps=7 format=3]
+
+[ext_resource type="Texture2D" path="res://assets/vfx/soft_shadow.png" id="99_shadow"]
 
 [ext_resource type="Script" path="res://scripts/entities/boss_carapax.gd" id="1_carapax"]
 [ext_resource type="Texture2D" path="res://assets/characters/enemies/boss_carapax.png" id="2_tex"]
@@ -16,6 +18,12 @@ radius = 76.0
 collision_layer = 4
 collision_mask = 3
 script = ExtResource("1_carapax")
+
+[node name="Shadow" type="Sprite2D" parent="."]
+position = Vector2(0, 78)
+scale = Vector2(1.65, 0.95)
+modulate = Color(1, 1, 1, 0.52)
+texture = ExtResource("99_shadow")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 scale = Vector2(0.55, 0.55)

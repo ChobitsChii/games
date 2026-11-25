@@ -1,7 +1,8 @@
-[gd_scene load_steps=6 format=3]
+[gd_scene load_steps=7 format=3]
 
 [ext_resource type="Script" path="res://scripts/entities/boss_floragorg.gd" id="1_boss"]
 [ext_resource type="Texture2D" path="res://assets/characters/enemies/boss_floragorg.png" id="2_tex"]
+[ext_resource type="Texture2D" path="res://assets/vfx/soft_shadow.png" id="99_shadow"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_col"]
 radius = 70.0
@@ -18,12 +19,11 @@ collision_layer = 16
 collision_mask = 3
 script = ExtResource("1_boss")
 
-[node name="Shadow" type="ColorRect" parent="."]
-offset_left = -90.0
-offset_top = 30.0
-offset_right = 90.0
-offset_bottom = 70.0
-color = Color(0, 0, 0, 0.4)
+[node name="Shadow" type="Sprite2D" parent="."]
+position = Vector2(0, 82)
+scale = Vector2(1.85, 1.05)
+modulate = Color(1, 1, 1, 0.55)
+texture = ExtResource("99_shadow")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(0, -10)

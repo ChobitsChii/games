@@ -420,6 +420,7 @@ func _ready() -> void:
             "02-oakhaven-village.webp",
             "03-npc-dialogue.webp",
             "04-shrine-dungeon.webp",
+            "05-shallows-adventure.webp",
         ],
         "script": """extends Node
 
@@ -466,6 +467,14 @@ func _ready() -> void:
 \tawait _wait_frames(40)
 \tawait _snap("{OUT_DIR}/04.png")
 \tshrine.queue_free()
+\tawait _wait_frames(2)
+
+\t# 5. Versunkene Untiefen (Shallows Adventure)
+\tvar shallows := (load("res://scenes/world/shallows.tscn") as PackedScene).instantiate()
+\tadd_child(shallows)
+\tawait _wait_frames(40)
+\tawait _snap("{OUT_DIR}/05.png")
+\tshallows.queue_free()
 \tawait _wait_frames(2)
 \tget_tree().quit(0)
 """,

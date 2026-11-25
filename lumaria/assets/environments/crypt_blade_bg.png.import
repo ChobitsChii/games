@@ -3,19 +3,21 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://dr0u5hd4y47x1"
-path="res://.godot/imported/crypt_blade_bg.png-c7c167c51c157d0a6163ae601e17cd90.ctex"
+path.s3tc="res://.godot/imported/crypt_blade_bg.png-c7c167c51c157d0a6163ae601e17cd90.s3tc.ctex"
+path.etc2="res://.godot/imported/crypt_blade_bg.png-c7c167c51c157d0a6163ae601e17cd90.etc2.ctex"
 metadata={
-"vram_texture": false
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
+"vram_texture": true
 }
 
 [deps]
 
 source_file="res://assets/environments/crypt_blade_bg.png"
-dest_files=["res://.godot/imported/crypt_blade_bg.png-c7c167c51c157d0a6163ae601e17cd90.ctex"]
+dest_files=["res://.godot/imported/crypt_blade_bg.png-c7c167c51c157d0a6163ae601e17cd90.s3tc.ctex", "res://.godot/imported/crypt_blade_bg.png-c7c167c51c157d0a6163ae601e17cd90.etc2.ctex"]
 
 [params]
 
-compress/mode=0
+compress/mode=2
 compress/high_quality=false
 compress/lossy_quality=0.7
 compress/uastc_level=0

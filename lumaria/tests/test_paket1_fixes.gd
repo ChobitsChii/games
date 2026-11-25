@@ -143,3 +143,39 @@ func test_all_world_scenes_instantiate_with_y_sort_and_hud() -> void:
 	tree.root.add_child(game_scene)
 	assert_true(game_scene.get_node_or_null("Enemies") == null, "Dorf Eichenhafen enthält keine feindlichen Gegner")
 	_cleanup_tree(game_scene)
+
+
+func _collect_walkthrough_portals(node: Node, out: Array[RoomTransitionTrigger]) -> void:
+	if node is RoomTransitionTrigger:
+		var trig := node as RoomTransitionTrigger
+		if not trig.requires_interaction:
+			out.append(trig)
+	for child: Node in node.get_children():
+		_collect_walkthrough_portals(child, out)
+
+
+func test_player_spawn_clear_of_walkthrough_portals() -> void:
+	SaveService.set_test_mode(true)
+	SaveSlotManager.reset_runtime()
+	var tree := Engine.get_main_loop() as SceneTree
+
+	for scene_path: String in WORLD_SCENES:
+		var inst := (load(scene_path) as PackedScene).instantiate() as Node2D
+		tree.root.add_child(inst)
+		var player := inst.get_node_or_null("Player") as Player
+		assert_true(player != null, scene_path + " enthält Player")
+		var player_rect := Rect2(player.global_position + Vector2(-24.0, -46.0), Vector2(48.0, 64.0))
+
+		var portals: Array[RoomTransitionTrigger] = []
+		_collect_walkthrough_portals(inst, portals)
+		for trigger: RoomTransitionTrigger in portals:
+			var col := trigger.get_node_or_null("CollisionShape2D") as CollisionShape2D
+			var rect_shape := col.shape as RectangleShape2D if col != null else null
+			assert_true(rect_shape != null, scene_path + " Portal hat RectangleShape2D: " + trigger.name)
+			var size := rect_shape.size
+			var portal_rect := Rect2(trigger.global_position - size * 0.5, size)
+			assert_false(
+				player_rect.intersects(portal_rect),
+				"%s: Player-Spawn %s überlappt Portal %s" % [scene_path, str(player.global_position), trigger.name]
+			)
+		_cleanup_tree(inst)
