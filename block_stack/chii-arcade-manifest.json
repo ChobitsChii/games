@@ -1,0 +1,126 @@
+{
+  "schema_version": 2,
+  "game": {
+    "stable_id": "block-stack",
+    "slug": "block-stack",
+    "category_id": "puzzle",
+    "status": "available",
+    "platforms": [
+      "android",
+      "linux",
+      "windows",
+      "browser"
+    ],
+    "translations": {
+      "de": {
+        "title": "Block Stack",
+        "description": "Modernes Guideline-Blockpuzzle in Glas-Neon-Optik mit Marathon, Sprint, Ultra, CPU-Duell und Farbenblindheitsmodus.",
+        "detail_description": "Schnelles, modernes Guideline-Blockpuzzle in edler Glas- und Neon-Optik mit präzisen SRS-Wall-Kicks, fairem 7-Bag-Zufallsgenerator, Hold-Funktion, Ghost Piece sowie T-Spin-, Back-to-Back- und Combo-Wertung. Spiele in 4 Modi: Marathon (15 Geschwindigkeitsstufen), 40-Reihen-Sprint gegen die Uhr, 2-Minuten-Ultra-Highscorejagd oder im direkten Duell gegen die Dellacherie-CPU mit Müllreihen-Angriffen und -Kontern. Im Optionsmenü lassen sich DAS- und ARR-Verzögerungen sowie eindeutige Vektor-Symbole für Farbenblindheit frei anpassen. Mit Puzzle-Synth-Musik sowie Steuerung per Tastatur, Gamepad oder Multi-Touch, auf Deutsch und Englisch – vollständig offline, werbefrei und ohne Käufe.",
+        "teaser": "Modernes Guideline-Blockpuzzle in Glas-Neon-Optik mit Marathon, Sprint, Ultra, CPU-Duell und Farbenblindheitsmodus.",
+        "symbol": "🟦"
+      },
+      "en": {
+        "title": "Block Stack",
+        "description": "Modern guideline block puzzle in glass-neon style with Marathon, Sprint, Ultra, CPU Duel, and colourblind mode.",
+        "detail_description": "Fast, modern guideline falling-block puzzle in sleek glass and neon style featuring accurate SRS wall kicks, a fair 7-bag randomizer, Hold, Ghost Piece, plus T-Spin, Back-to-Back, and Combo scoring. Play across 4 modes: Marathon (15 speed levels), 40-Line Sprint against the clock, 2-minute Ultra high-score chase, or head-to-head Duel against the Dellacherie CPU with garbage-line attacks and counters. Fine-tune DAS and ARR handling delays or toggle distinct vector symbols for colourblindness in the options menu. With puzzle synth music and keyboard, gamepad, or multi-touch controls in German and English – completely offline, ad-free, and with no in-app purchases.",
+        "teaser": "Modern guideline block puzzle in glass-neon style with Marathon, Sprint, Ultra, CPU Duel, and colourblind mode.",
+        "symbol": "🟦"
+      }
+    }
+  },
+  "builds": [
+    {
+      "platform": "android",
+      "version": "1.2.1",
+      "channel": "stable",
+      "download_url": "https://github.com/ChobitsChii/games/releases/download/block-stack-v1.2.1/block_stack-v1.2.1-android.apk",
+      "sha256": "55c5614bf323bf91aaa0c886ff112a5dcb2bf40c32a0d8133c4d63ce17314277",
+      "file_size": 60203222,
+      "released_at": "2026-11-24T12:13:01Z",
+      "android": {
+        "package_name": "de.chobitschii.block_stack",
+        "version_code": 10201,
+        "signing_certificate_sha256": "197d0294c7084604ca30a4790b9ee03b2f3a6d73b65d7ff924c48b7904c493fa"
+      }
+    },
+    {
+      "platform": "linux",
+      "version": "1.2.1",
+      "channel": "stable",
+      "download_url": "https://github.com/ChobitsChii/games/releases/download/block-stack-v1.2.1/block_stack-v1.2.1-linux-x86_64.zip",
+      "sha256": "2c4fca94685764458bf2866d2da3e2453c210da79d7dc82caf2e6c67b61b9ff7",
+      "file_size": 34027594,
+      "released_at": "2026-11-24T11:19:32Z"
+    },
+    {
+      "platform": "windows",
+      "version": "1.2.1",
+      "channel": "stable",
+      "download_url": "https://github.com/ChobitsChii/games/releases/download/block-stack-v1.2.1/block_stack-v1.2.1-windows-x86_64.zip",
+      "sha256": "b5247ffffa073e347704d162c2476f85f5a5fd475af113228ca807ab733266e4",
+      "file_size": 43607522,
+      "released_at": "2026-11-24T11:19:32Z"
+    },
+    {
+      "platform": "browser",
+      "version": "1.2.1",
+      "channel": "stable",
+      "download_url": "https://github.com/ChobitsChii/games/releases/download/block-stack-v1.2.1/block_stack-v1.2.1-web.zip",
+      "sha256": "3a0cf4fed73c92d09c718714e54739be070a0fd3d1c9de6cb8f03a9692758d7d",
+      "file_size": 17758223,
+      "released_at": "2026-11-24T11:19:32Z"
+    }
+  ],
+  "media": [
+    {
+      "kind": "cover",
+      "path": null,
+      "android_url": "https://chobitschii.github.io/chii-arcade/assets/block-stack/cover-39d0fbdbfc95.webp",
+      "alt_text": {
+        "de": "Block-Stack-Cover: Glas- und Neon-Tetrominos vor dunklem Hintergrund",
+        "en": "Block Stack cover: glass and neon tetrominoes over a dark backdrop"
+      },
+      "position": 0
+    },
+    {
+      "kind": "screenshot",
+      "path": null,
+      "android_url": "https://chobitschii.github.io/chii-arcade/assets/block-stack/screenshot-01-d516861336c2.webp",
+      "alt_text": {
+        "de": "Hauptmenü von Block Stack mit den Modi Marathon, Sprint, Ultra und Duell vs. CPU",
+        "en": "Block Stack main menu featuring Marathon, Sprint, Ultra, and Duel vs CPU"
+      },
+      "position": 10
+    },
+    {
+      "kind": "screenshot",
+      "path": null,
+      "android_url": "https://chobitschii.github.io/chii-arcade/assets/block-stack/screenshot-02-adec48eac1d0.webp",
+      "alt_text": {
+        "de": "Marathon-Modus mit gestapelten Blöcken, Ghost Piece und Farbenblind-Symbolen",
+        "en": "Marathon mode showing stacked blocks, ghost piece, and colourblind symbols"
+      },
+      "position": 20
+    },
+    {
+      "kind": "screenshot",
+      "path": null,
+      "android_url": "https://chobitschii.github.io/chii-arcade/assets/block-stack/screenshot-03-7e165da17994.webp",
+      "alt_text": {
+        "de": "CPU-Duell gegen die Dellacherie-KI auf zwei parallelen Spielfeldern",
+        "en": "CPU Duel against the Dellacherie AI across two side-by-side playfields"
+      },
+      "position": 30
+    },
+    {
+      "kind": "screenshot",
+      "path": null,
+      "android_url": "https://chobitschii.github.io/chii-arcade/assets/block-stack/screenshot-04-2d7d7a5d3b13.webp",
+      "alt_text": {
+        "de": "Optionsmenü mit DAS-/ARR-Verzögerungen und Farbenblindheitsmodus",
+        "en": "Options menu with DAS/ARR handling delays and colourblind mode toggle"
+      },
+      "position": 40
+    }
+  ]
+}

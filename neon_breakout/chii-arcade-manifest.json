@@ -1,0 +1,133 @@
+{
+  "schema_version": 2,
+  "game": {
+    "stable_id": "neon-breakout",
+    "slug": "neon-breakout",
+    "category_id": "arcade",
+    "category": {
+      "id": "arcade",
+      "translations": {
+        "de": "Arcade",
+        "en": "Arcade"
+      }
+    },
+    "status": "available",
+    "platforms": [
+      "android",
+      "linux",
+      "windows",
+      "browser"
+    ],
+    "translations": {
+      "de": {
+        "title": "Neon Breakout",
+        "description": "Moderner Synthwave-Breakout mit 10 Leveln, 7 Spielmodi, 6 Power-ups, Bosskämpfen und dynamischer Chiptune-Musik.",
+        "detail_description": "Erlebe einen modernen, hochauflösenden Synthwave-Breakout ohne Pixel-Art mit dynamischer Chiptune-Musik und 7 abwechslungsreichen Spielmodi: Klassisch (10 handgebaute Level, 3 Leben, Bestenliste), Zeitangriff (Richtzeiten & Zeitbonus), Endlos (nachrückende Blockreihen), Chaos (umgekehrte Steuerung, Geisterblöcke, Turbo-Ball, Mini-Schläger, Power-up-Regen, doppelte Punkte), Bosskampf (3-Phasen-Boss mit eigenen Angriffsmustern), Zen (entspanntes Spielen ohne Lebensverlust) sowie Demo-Autopilot mit Live-Strategietipps. Sammle 6 Power-ups (Breiter Schläger, Multiball bis 8 Bälle, Laser, Klebrig, Langsam, Extraleben) und baue deinen Combo-Multiplikator bis ×4 aus. Steuerbar per Touch, Maus, Tastatur oder Gamepad, auf Deutsch und Englisch – vollständig offline, werbefrei und ohne Käufe.",
+        "teaser": "Moderner Synthwave-Breakout mit 7 Spielmodi, 10 Leveln, 6 Power-ups, Bosskämpfen und dynamischer Chiptune-Musik.",
+        "symbol": "🧱"
+      },
+      "en": {
+        "title": "Neon Breakout",
+        "description": "A modern synthwave Breakout game with 10 levels, 7 game modes, 6 power-ups, boss fights, and dynamic chiptune music.",
+        "detail_description": "Experience a modern, high-resolution synthwave Breakout game without pixel art, featuring dynamic synthesised chiptune music and 7 distinct game modes: Classic (10 handcrafted levels, 3 lives, high scores), Time Attack (par times and time bonus), Endless (advancing brick rows), Chaos (reversed controls, ghost bricks, turbo ball, mini paddle, power-up rain, and double points), Boss Fight (3-phase boss with attack patterns), Zen (relaxed play with no lives lost), and a Demo autopilot with live strategy tips. Collect 6 power-ups (Wide Paddle, Multiball up to 8 balls, Laser, Sticky, Slow, Extra Life) and build your combo multiplier up to ×4. Playable with touch, mouse, keyboard, or gamepad in German and English – completely offline, ad-free, and with no in-app purchases.",
+        "teaser": "Modern synthwave Breakout with 7 game modes, 10 levels, 6 power-ups, boss fights, and dynamic chiptune music.",
+        "symbol": "🧱"
+      }
+    }
+  },
+  "builds": [
+    {
+      "platform": "android",
+      "version": "1.1.3",
+      "channel": "stable",
+      "download_url": "https://github.com/ChobitsChii/games/releases/download/neon-breakout-v1.1.3/neon_breakout-v1.1.3-android.apk",
+      "sha256": "79648af7ab5fce904b9f402a14017e75f06de4790bf32559926f5636add2e153",
+      "file_size": 56685505,
+      "released_at": "2026-11-24T12:13:53Z",
+      "android": {
+        "package_name": "de.chobitschii.neon_breakout",
+        "version_code": 10103,
+        "signing_certificate_sha256": "2c1f8ff473aab180526b20ec99b919ecbba1131925b87dc41f63e0ca7d51245b"
+      }
+    },
+    {
+      "platform": "linux",
+      "version": "1.1.3",
+      "channel": "stable",
+      "download_url": "https://github.com/ChobitsChii/games/releases/download/neon-breakout-v1.1.3/neon_breakout-v1.1.3-linux-x86_64.zip",
+      "sha256": "5ef0c25a35e2bd76f4c1abea9bc2b308e464147a051b43b89daa279b7ffce52d",
+      "file_size": 30603590,
+      "released_at": "2026-11-24T11:31:02Z"
+    },
+    {
+      "platform": "windows",
+      "version": "1.1.3",
+      "channel": "stable",
+      "download_url": "https://github.com/ChobitsChii/games/releases/download/neon-breakout-v1.1.3/neon_breakout-v1.1.3-windows-x86_64.zip",
+      "sha256": "9550f5e3b80432640e672ddd22b1aea824b7e8f99d74eadca0dbf8b3c93277c1",
+      "file_size": 40184070,
+      "released_at": "2026-11-24T11:31:02Z"
+    },
+    {
+      "platform": "browser",
+      "version": "1.1.3",
+      "channel": "stable",
+      "download_url": "https://github.com/ChobitsChii/games/releases/download/neon-breakout-v1.1.3/neon_breakout-v1.1.3-web.zip",
+      "sha256": "39d29ee789d6f421a51d20de186d8cd08034685497b635d78e17c55335458b9d",
+      "file_size": 12925323,
+      "released_at": "2026-11-24T11:31:02Z"
+    }
+  ],
+  "media": [
+    {
+      "kind": "cover",
+      "path": null,
+      "android_url": "https://chobitschii.github.io/chii-arcade/assets/neon-breakout/cover-4c0b180a46f8.webp",
+      "alt_text": {
+        "de": "Neon-Breakout-Cover: Leuchtender Titel „NEON BREAKOUT – Synthwave Arcade Edition“ über einem Neon-Gitter mit farbigen Blöcken, Ball und blauem Schläger",
+        "en": "Neon Breakout cover: glowing 'NEON BREAKOUT – Synthwave Arcade Edition' title over a neon grid with colourful bricks, ball, and cyan paddle"
+      },
+      "position": 0
+    },
+    {
+      "kind": "screenshot",
+      "path": null,
+      "android_url": "https://chobitschii.github.io/chii-arcade/assets/neon-breakout/screenshot-01-eb33c15892ce.webp",
+      "alt_text": {
+        "de": "Hauptmenü von Neon Breakout mit leuchtendem Titel und Menüpunkten für Spielen, Spielmodi, Optionen, Credits und Beenden",
+        "en": "Neon Breakout main menu with glowing title and menu buttons for Play, Game Modes, Options, Credits, and Quit"
+      },
+      "position": 10
+    },
+    {
+      "kind": "screenshot",
+      "path": null,
+      "android_url": "https://chobitschii.github.io/chii-arcade/assets/neon-breakout/screenshot-02-409997cb5eb8.webp",
+      "alt_text": {
+        "de": "Klassisches Gameplay in Level 1 mit leuchtenden Blöcken, zwei Multiball-Bällen mit Schweif und aktivem Power-up „Breiter Schläger“",
+        "en": "Classic gameplay in Level 1 showing glowing bricks, two multiball orbs with trails, and an active Wide Paddle power-up"
+      },
+      "position": 20
+    },
+    {
+      "kind": "screenshot",
+      "path": null,
+      "android_url": "https://chobitschii.github.io/chii-arcade/assets/neon-breakout/screenshot-03-8d866e611439.webp",
+      "alt_text": {
+        "de": "Bosskampf-Modus in Neon Breakout mit pinkfarbenem Boss, Lebensleiste, Geschoss und abprallendem Ball am blauen Schläger",
+        "en": "Boss fight mode in Neon Breakout featuring a pink boss with health bar, incoming projectile, and rebounding ball off the cyan paddle"
+      },
+      "position": 30
+    },
+    {
+      "kind": "screenshot",
+      "path": null,
+      "android_url": "https://chobitschii.github.io/chii-arcade/assets/neon-breakout/screenshot-04-080fe73bf0d0.webp",
+      "alt_text": {
+        "de": "Spielmodus-Auswahl von Neon Breakout mit Klassisch, Zeitangriff, Endlos, Chaos, Bosskampf, Zen und Demo",
+        "en": "Neon Breakout game mode selection screen listing Classic, Time Attack, Endless, Chaos, Boss Fight, Zen, and Demo"
+      },
+      "position": 40
+    }
+  ]
+}

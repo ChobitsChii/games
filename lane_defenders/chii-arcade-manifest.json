@@ -1,0 +1,143 @@
+{
+  "schema_version": 2,
+  "game": {
+    "stable_id": "lane-defenders",
+    "slug": "lane-defenders",
+    "category_id": "tower-defense",
+    "category": {
+      "id": "tower-defense",
+      "translations": {
+        "de": "Tower Defense",
+        "en": "Tower Defense"
+      }
+    },
+    "status": "available",
+    "platforms": [
+      "android",
+      "linux",
+      "windows",
+      "browser"
+    ],
+    "translations": {
+      "de": {
+        "title": "Lane Defenders",
+        "description": "Taktisches 5-Lanes-Tower-Defense durch 4 Welten, 20 Level und 4 epische Bosskämpfe mit 7 Einheiten und Lexikon.",
+        "detail_description": "Verteidige dein 5×9-Burgfeld in diesem farbenfrohen, taktischen Lane-Tower-Defense durch 4 abwechslungsreiche Welten (Grüne Wiese, Dunkler Pfad, Winterwald und Magma-Ödland) mit insgesamt 20 Leveln und 4 großen Welt-Bossen. Sammle Mana-Kristalle, baue eine clevere Wirtschaft mit Mana-Generatoren auf und kombiniere 7 Verteidigungseinheiten gegen 6 spezialisierte Goblin-Typen. Wähle im Menü frei zwischen zwei eigenständigen HD-Fantasy-Designs: Fantasy-Burg-Türme (Default) oder niedliche Chibi-Burghelden! Mit interaktivem In-Game-Lexikon, automatischer Fortschrittsspeicherung, fröhlicher Meadow-Musik sowie Bedienung per Maus, Tastatur, Gamepad oder Touch, auf Deutsch und Englisch – vollständig offline, werbefrei und ohne Käufe.",
+        "teaser": "Taktisches 5-Lanes-Tower-Defense durch 4 Welten, 20 Level und 4 epische Bosskämpfe mit 7 Einheiten und Lexikon.",
+        "symbol": "🛡️"
+      },
+      "en": {
+        "title": "Lane Defenders",
+        "description": "Tactical 5-lane tower defence across 4 worlds, 20 levels, and 4 boss fights with 7 units and an in-game almanac.",
+        "detail_description": "Defend your 5×9 castle grid in this colourful tactical lane tower defence adventure across 4 distinct worlds (Green Meadow, Dark Path, Winter Forest, and Magma Wasteland) featuring 20 handcrafted levels and 4 major world bosses. Gather mana crystals, build a smart economy with mana generators, and combine 7 defensive units against 6 specialised goblin types. Freely switch between two complete HD fantasy themes in the menu: Castle Towers (default) or Chibi Castle Heroes! Includes an interactive in-game almanac, automatic progress saving, upbeat meadow music, and mouse, keyboard, gamepad, or touch controls in German and English – completely offline, ad-free, and with no in-app purchases.",
+        "teaser": "Tactical 5-lane tower defence across 4 worlds, 20 levels, and 4 boss fights with 7 units and an almanac.",
+        "symbol": "🛡️"
+      }
+    }
+  },
+  "builds": [
+    {
+      "platform": "android",
+      "version": "1.6.0",
+      "channel": "stable",
+      "download_url": "https://github.com/ChobitsChii/games/releases/download/lane-defenders-v1.6.0/lane_defenders-v1.6.0-android.apk",
+      "sha256": "f41aad9eeefbaed5e400b43d4035c020f816d77e93fe545b77256b713b903719",
+      "file_size": 65818378,
+      "released_at": "2026-11-24T20:55:11Z",
+      "android": {
+        "package_name": "de.chobitschii.lane_defenders",
+        "version_code": 10600,
+        "signing_certificate_sha256": "776ecbdcc7bc00c7a8b826289ea252ee4781933b1f5a23e2128b1e26c6fd0bab"
+      }
+    },
+    {
+      "platform": "linux",
+      "version": "1.6.0",
+      "channel": "stable",
+      "download_url": "https://github.com/ChobitsChii/games/releases/download/lane-defenders-v1.6.0/lane_defenders-v1.6.0-linux-x86_64.zip",
+      "sha256": "1515dfa1a20466aa4ec038eec89637399d02b0a672dbb8afea30619dc6f3e398",
+      "file_size": 37277278,
+      "released_at": "2026-11-24T20:53:55Z"
+    },
+    {
+      "platform": "windows",
+      "version": "1.6.0",
+      "channel": "stable",
+      "download_url": "https://github.com/ChobitsChii/games/releases/download/lane-defenders-v1.6.0/lane_defenders-v1.6.0-windows-x86_64.zip",
+      "sha256": "b4b7611e33bfb9d6388741c0bfb04e5ed76011aff279f44cbe555a4580433a27",
+      "file_size": 46858474,
+      "released_at": "2026-11-24T20:53:55Z"
+    },
+    {
+      "platform": "browser",
+      "version": "1.6.0",
+      "channel": "stable",
+      "download_url": "https://github.com/ChobitsChii/games/releases/download/lane-defenders-v1.6.0/lane_defenders-v1.6.0-web.zip",
+      "sha256": "1a50b2de6e0fc37b2749650998bacef67e7186d7e819516fdef2049d371641a9",
+      "file_size": 20583166,
+      "released_at": "2026-11-24T20:53:55Z"
+    }
+  ],
+  "media": [
+    {
+      "kind": "cover",
+      "path": null,
+      "android_url": "https://chobitschii.github.io/chii-arcade/assets/lane-defenders/cover-24f037adcdcc.webp",
+      "alt_text": {
+        "de": "Lane-Defenders-Cover: Fantasy-Burgtürme und Goblins auf der grünen Wiese",
+        "en": "Lane Defenders cover: fantasy castle towers and goblins on the green meadow"
+      },
+      "position": 0
+    },
+    {
+      "kind": "screenshot",
+      "path": null,
+      "android_url": "https://chobitschii.github.io/chii-arcade/assets/lane-defenders/screenshot-01-28389b949059.webp",
+      "alt_text": {
+        "de": "Hauptmenü von Lane Defenders im Fantasy-Burg-Türme-Design",
+        "en": "Lane Defenders main menu in the Castle Towers fantasy theme"
+      },
+      "position": 10
+    },
+    {
+      "kind": "screenshot",
+      "path": null,
+      "android_url": "https://chobitschii.github.io/chii-arcade/assets/lane-defenders/screenshot-02-2e27f51914b3.webp",
+      "alt_text": {
+        "de": "Kampf auf der Grünen Wiese mit platzierten Burg-Türmen gegen Goblin-Wellen",
+        "en": "Battle on the Green Meadow with Castle Towers defending against goblin waves"
+      },
+      "position": 20
+    },
+    {
+      "kind": "screenshot",
+      "path": null,
+      "android_url": "https://chobitschii.github.io/chii-arcade/assets/lane-defenders/screenshot-03-85216c5d5de8.webp",
+      "alt_text": {
+        "de": "Kampf auf der Grünen Wiese im alternativen Chibi-Burghelden-Design",
+        "en": "Battle on the Green Meadow using the alternative Chibi Castle Heroes theme"
+      },
+      "position": 30
+    },
+    {
+      "kind": "screenshot",
+      "path": null,
+      "android_url": "https://chobitschii.github.io/chii-arcade/assets/lane-defenders/screenshot-04-aeb179e1bc15.webp",
+      "alt_text": {
+        "de": "Welt 4 (Magma-Ödland) mit Chibi-Burghelden gegen anstürmende Gegner",
+        "en": "World 4 (Magma Wasteland) with Chibi Castle Heroes fighting incoming enemies"
+      },
+      "position": 40
+    },
+    {
+      "kind": "screenshot",
+      "path": null,
+      "android_url": "https://chobitschii.github.io/chii-arcade/assets/lane-defenders/screenshot-05-1141fd40f350.webp",
+      "alt_text": {
+        "de": "Welt- und Levelauswahl für alle 20 Level in 4 Welten",
+        "en": "World and level selection screen covering all 20 levels across 4 worlds"
+      },
+      "position": 50
+    }
+  ]
+}

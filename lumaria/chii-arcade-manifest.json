@@ -1,0 +1,136 @@
+{
+  "schema_version": 2,
+  "game": {
+    "stable_id": "lumaria-the-prismatic-odyssey",
+    "slug": "lumaria-the-prismatic-odyssey",
+    "category_id": "adventure-rpg",
+    "status": "available",
+    "platforms": [
+      "android",
+      "linux",
+      "windows",
+      "browser"
+    ],
+    "translations": {
+      "de": {
+        "title": "Lumaria: The Prismatic Odyssey",
+        "description": "Top-Down-Action-Adventure mit Schwertkombos, 4 Prisma-Gadgets, Dorf Oakhaven, 3 Dungeons und 4 mehrphasigen Bossen.",
+        "detail_description": "Begib dich in Lumaria: The Prismatic Odyssey auf ein hochauflösendes Top-Down-Action-Adventure, um die gestohlenen Lichtprismen zurückzuerobern. Erkunde das friedliche Dorf Oakhaven mit illustrierten NPC-Porträtdialogen, durchquere gefährliche Außengebiete und meistere 3 verzweigte Rätsel-Dungeons (Wurzel-Schrein, Klingen-Krypta, Sturm-Bastion) bis zum großen Finale im Ewigen Turm gegen Malakor. Kämpfe mit 3er-Schwertkombos, aufgeladenem 360°-Rundumschlag, Ausweichrolle und präzisem Schild-Parry und setze 4 freischaltbare Prisma-Gadgets ein: Prisma-Bumerang, Kinetisches Fangseil (Hookshot), Schallbomben und Prisma-Bogen. Mit 3 separaten Speicherplätzen sowie Steuerung per Maus/Tastatur, Gamepad oder virtuellem Touch-Gamepad, auf Deutsch und Englisch – vollständig offline, werbefrei und ohne Käufe.",
+        "teaser": "Top-Down-Action-Adventure mit Schwertkombos, 4 Prisma-Gadgets, Dorf Oakhaven, 3 Dungeons und 4 mehrphasigen Bossen.",
+        "symbol": "💎"
+      },
+      "en": {
+        "title": "Lumaria: The Prismatic Odyssey",
+        "description": "Top-down action-adventure with sword combos, 4 prismatic gadgets, Oakhaven village, 3 dungeons, and 4 multi-phase bosses.",
+        "detail_description": "Embark on a high-resolution top-down action-adventure in Lumaria: The Prismatic Odyssey to reclaim the stolen light prisms. Explore the peaceful village of Oakhaven with illustrated NPC portrait dialogues, traverse dangerous overworld zones, and conquer 3 intricate puzzle dungeons (Root Shrine, Blade Crypt, and Storm Bastion) on your way to the grand finale against Malakor in the Eternal Tower. Fight with 3-hit sword combos, a charged 360° spin attack, dodge roll, and timed shield parry while wielding 4 unlockable prismatic gadgets: Prismatic Boomerang, Kinetic Hookshot, Sonic Bombs, and Prismatic Bow. Includes 3 save slots and mouse/keyboard, gamepad, or virtual touch-gamepad controls in German and English – completely offline, ad-free, and with no in-app purchases.",
+        "teaser": "Top-down action-adventure with sword combos, 4 prismatic gadgets, Oakhaven village, 3 dungeons, and 4 multi-phase bosses.",
+        "symbol": "💎"
+      }
+    }
+  },
+  "builds": [
+    {
+      "platform": "android",
+      "version": "1.1.0",
+      "channel": "stable",
+      "download_url": "https://github.com/ChobitsChii/games/releases/download/lumaria-v1.1.0/lumaria-v1.1.0-android.apk",
+      "sha256": "8333f2fc49d95deb25cf505c61ee87ab88ba56e575f45af9315272bdd71a0bcb",
+      "file_size": 72928758,
+      "released_at": "2026-11-25T02:27:56Z",
+      "android": {
+        "package_name": "de.chobitschii.lumaria",
+        "version_code": 10100,
+        "signing_certificate_sha256": "ca0d843d9013e0445624280ed786bde834de12d3e0f07c92592d3851510474db"
+      }
+    },
+    {
+      "platform": "linux",
+      "version": "1.1.0",
+      "channel": "stable",
+      "download_url": "https://github.com/ChobitsChii/games/releases/download/lumaria-v1.1.0/lumaria-v1.1.0-linux-x86_64.zip",
+      "sha256": "2c881179e1d9a11c9307396c0ef8ccff0ffc82da356d7109f27868e420a9b00c",
+      "file_size": 44157807,
+      "released_at": "2026-11-25T02:27:56Z"
+    },
+    {
+      "platform": "windows",
+      "version": "1.1.0",
+      "channel": "stable",
+      "download_url": "https://github.com/ChobitsChii/games/releases/download/lumaria-v1.1.0/lumaria-v1.1.0-windows-x86_64.zip",
+      "sha256": "b1112c7121a830e8dfc8114de87447e309618a463bdab249eec9d0756272ce96",
+      "file_size": 53739761,
+      "released_at": "2026-11-25T02:27:56Z"
+    },
+    {
+      "platform": "browser",
+      "version": "1.1.0",
+      "channel": "stable",
+      "download_url": "https://github.com/ChobitsChii/games/releases/download/lumaria-v1.1.0/lumaria-v1.1.0-web.zip",
+      "sha256": "b03e4938197caee28c7225dcce268298e46c38895bc232c5d74c75622eb33924",
+      "file_size": 29178475,
+      "released_at": "2026-11-25T02:27:56Z"
+    }
+  ],
+  "media": [
+    {
+      "kind": "cover",
+      "path": null,
+      "android_url": "https://chobitschii.github.io/chii-arcade/assets/lumaria/cover-7d0f0d014504.webp",
+      "alt_text": {
+        "de": "Cover von Lumaria: The Prismatic Odyssey mit leuchtenden Prismen über einer Fantasy-Landschaft",
+        "en": "Lumaria: The Prismatic Odyssey cover featuring glowing prisms above a fantasy landscape"
+      },
+      "position": 0
+    },
+    {
+      "kind": "screenshot",
+      "path": null,
+      "android_url": "https://chobitschii.github.io/chii-arcade/assets/lumaria/screenshot-01-816421dd7d3a.webp",
+      "alt_text": {
+        "de": "Hauptmenü von Lumaria: The Prismatic Odyssey",
+        "en": "Main menu of Lumaria: The Prismatic Odyssey"
+      },
+      "position": 10
+    },
+    {
+      "kind": "screenshot",
+      "path": null,
+      "android_url": "https://chobitschii.github.io/chii-arcade/assets/lumaria/screenshot-02-6935df1051ab.webp",
+      "alt_text": {
+        "de": "Das Dorf Oakhaven auf der Oberwelt von Lumaria",
+        "en": "Oakhaven village on the overworld of Lumaria"
+      },
+      "position": 20
+    },
+    {
+      "kind": "screenshot",
+      "path": null,
+      "android_url": "https://chobitschii.github.io/chii-arcade/assets/lumaria/screenshot-03-ceda981e2b03.webp",
+      "alt_text": {
+        "de": "Illustrierter NPC-Porträtdialog mit Lyra in Oakhaven",
+        "en": "Illustrated NPC portrait dialogue with Lyra in Oakhaven"
+      },
+      "position": 30
+    },
+    {
+      "kind": "screenshot",
+      "path": null,
+      "android_url": "https://chobitschii.github.io/chii-arcade/assets/lumaria/screenshot-04-cac2b5ff6f74.webp",
+      "alt_text": {
+        "de": "Rätsel- und Kampfpassagen im Wurzel-Schrein-Dungeon",
+        "en": "Puzzle and combat exploration inside the Root Shrine dungeon"
+      },
+      "position": 40
+    },
+    {
+      "kind": "screenshot",
+      "path": null,
+      "android_url": "https://chobitschii.github.io/chii-arcade/assets/lumaria/screenshot-05-b50e0d01c22e.webp",
+      "alt_text": {
+        "de": "Erkundung der Versunkenen Untiefen in der Oberwelt",
+        "en": "Exploring the Sunken Shallows overworld zone"
+      },
+      "position": 50
+    }
+  ]
+}

@@ -1,0 +1,133 @@
+{
+  "schema_version": 2,
+  "game": {
+    "stable_id": "vier-gewinnt",
+    "slug": "vier-gewinnt",
+    "category_id": "strategy",
+    "category": {
+      "id": "strategy",
+      "translations": {
+        "de": "Strategie",
+        "en": "Strategy"
+      }
+    },
+    "status": "available",
+    "platforms": [
+      "android",
+      "linux",
+      "windows",
+      "browser"
+    ],
+    "translations": {
+      "de": {
+        "title": "Connect Four Deluxe",
+        "description": "Klassisches Vier Gewinnt in edler 2.5D-Optik mit starker Bitboard-KI, Hot-Seat-Modus, Zug-Tipps und Farbenblindheitsmodus.",
+        "detail_description": "Das klassische Strategiespiel Vier Gewinnt in hochwertiger 2.5D-Optik auf dem 7×6-Spielbrett. Fordere die schnelle 64-Bit-Bitboard-KI in drei Schwierigkeitsstufen (Leicht, Mittel und Schwer mit Alpha-Beta-Suche und Transpositionstabelle) heraus oder spiele lokal zu zweit im Hot-Seat-Modus. Ein integrierter Zug-Tipp-Berater, eine Zug-Rücknahme (Undo), dauerhaft gespeicherte Spielstatistiken, ein zuschaltbarer Farbenblindheitsmodus mit klaren Ring- und Punktmustern sowie entspannte Lounge-Musik sorgen für höchsten Spielkomfort. Bedienbar per direktem Spalten-Klick/-Tap, Tastatur oder Gamepad, auf Deutsch und Englisch – vollständig offline, werbefrei und ohne Käufe.",
+        "teaser": "Klassisches Vier Gewinnt in edler 2.5D-Optik mit starker Bitboard-KI, Hot-Seat-Modus, Zug-Tipps und Farbenblindheitsmodus.",
+        "symbol": "🟡"
+      },
+      "en": {
+        "title": "Connect Four Deluxe",
+        "description": "Classic Connect Four in refined 2.5D visuals with a fast bitboard AI, local hotseat mode, move hints, and colourblind mode.",
+        "detail_description": "The classic strategy board game Connect Four in sleek 2.5D presentation on a 7×6 board. Challenge the fast 64-bit bitboard AI across three difficulty levels (Easy, Medium, and Hard powered by alpha-beta search and a transposition table) or play locally with two players in hotseat mode. Includes a built-in move hint advisor, move undo, persistent match statistics, a toggleable colourblind mode with distinct ring and dot patterns, and relaxed lounge music. Playable via direct column click or tap, keyboard, or gamepad in German and English – completely offline, ad-free, and with no in-app purchases.",
+        "teaser": "Classic Connect Four in refined 2.5D visuals with bitboard AI, hotseat mode, move hints, and colourblind mode.",
+        "symbol": "🟡"
+      }
+    }
+  },
+  "builds": [
+    {
+      "platform": "android",
+      "version": "1.2.2",
+      "channel": "stable",
+      "download_url": "https://github.com/ChobitsChii/games/releases/download/vier-gewinnt-v1.2.2/vier_gewinnt-v1.2.2-android.apk",
+      "sha256": "5644eacdbfee72371883c968d258e5c61a33484ec4eb696f134dbb7231428d3f",
+      "file_size": 60832198,
+      "released_at": "2026-11-24T12:13:18Z",
+      "android": {
+        "package_name": "de.chobitschii.vier_gewinnt",
+        "version_code": 10202,
+        "signing_certificate_sha256": "6bca48784ed9cf871a1c07dc27be5f1defb0d87150bfb8c16ab72f200b998c57"
+      }
+    },
+    {
+      "platform": "linux",
+      "version": "1.2.2",
+      "channel": "stable",
+      "download_url": "https://github.com/ChobitsChii/games/releases/download/vier_gewinnt-v1.2.2/vier_gewinnt-v1.2.2-linux-x86_64.zip",
+      "sha256": "f10627022eeb8f9d51835497f6d8a44f57e957118654a0673590f98bce0def92",
+      "file_size": 34573301,
+      "released_at": "2026-11-24T11:23:14Z"
+    },
+    {
+      "platform": "windows",
+      "version": "1.2.2",
+      "channel": "stable",
+      "download_url": "https://github.com/ChobitsChii/games/releases/download/vier_gewinnt-v1.2.2/vier_gewinnt-v1.2.2-windows-x86_64.zip",
+      "sha256": "5dcc58b26dc25ab46f9b19e23f0d58b870c7f15123f810fd7563f2fffa842747",
+      "file_size": 44153324,
+      "released_at": "2026-11-24T11:23:14Z"
+    },
+    {
+      "platform": "browser",
+      "version": "1.2.2",
+      "channel": "stable",
+      "download_url": "https://github.com/ChobitsChii/games/releases/download/vier_gewinnt-v1.2.2/vier_gewinnt-v1.2.2-web.zip",
+      "sha256": "464a4496fce0acd460de66bb2b91c3abec5403b8cf5e00776b826b32dfac6adb",
+      "file_size": 18178356,
+      "released_at": "2026-11-24T11:23:14Z"
+    }
+  ],
+  "media": [
+    {
+      "kind": "cover",
+      "path": null,
+      "android_url": "https://chobitschii.github.io/chii-arcade/assets/vier-gewinnt/cover-3e6d0709833d.webp",
+      "alt_text": {
+        "de": "Connect-Four-Deluxe-Cover: 2.5D-Spielbrett mit roten und gelben Spielsteinen",
+        "en": "Connect Four Deluxe cover: 2.5D game board with red and yellow discs"
+      },
+      "position": 0
+    },
+    {
+      "kind": "screenshot",
+      "path": null,
+      "android_url": "https://chobitschii.github.io/chii-arcade/assets/vier-gewinnt/screenshot-01-32b5f490957f.webp",
+      "alt_text": {
+        "de": "Hauptmenü von Connect Four Deluxe mit Modus-, Schwierigkeits- und Startspielerwahl",
+        "en": "Connect Four Deluxe main menu with mode, difficulty, and first-player options"
+      },
+      "position": 10
+    },
+    {
+      "kind": "screenshot",
+      "path": null,
+      "android_url": "https://chobitschii.github.io/chii-arcade/assets/vier-gewinnt/screenshot-02-1d778e947ae8.webp",
+      "alt_text": {
+        "de": "Laufende Partie auf dem 7×6-Spielbrett in 2.5D-Optik",
+        "en": "Ongoing match on the 7×6 board in 2.5D presentation"
+      },
+      "position": 20
+    },
+    {
+      "kind": "screenshot",
+      "path": null,
+      "android_url": "https://chobitschii.github.io/chii-arcade/assets/vier-gewinnt/screenshot-03-9f4444344fac.webp",
+      "alt_text": {
+        "de": "Farbenblindheitsmodus mit Ring- und Punktmustern sowie aktivem Zug-Tipp",
+        "en": "Colourblind mode with ring and dot patterns plus an active move hint"
+      },
+      "position": 30
+    },
+    {
+      "kind": "screenshot",
+      "path": null,
+      "android_url": "https://chobitschii.github.io/chii-arcade/assets/vier-gewinnt/screenshot-04-e5ec7eeb8bf0.webp",
+      "alt_text": {
+        "de": "Statistik-Dialog mit gespeicherten Siegen, Unentschieden und Niederlagen",
+        "en": "Statistics modal showing saved wins, draws, and losses"
+      },
+      "position": 40
+    }
+  ]
+}

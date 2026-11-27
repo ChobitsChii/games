@@ -1,0 +1,133 @@
+{
+  "schema_version": 2,
+  "game": {
+    "stable_id": "crypt-dash",
+    "slug": "crypt-dash",
+    "category_id": "roguelite",
+    "category": {
+      "id": "roguelite",
+      "translations": {
+        "de": "Roguelite",
+        "en": "Roguelite"
+      }
+    },
+    "status": "available",
+    "platforms": [
+      "android",
+      "linux",
+      "windows",
+      "browser"
+    ],
+    "translations": {
+      "de": {
+        "title": "Crypt Dash",
+        "description": "Schneller Top-Down-Dungeon-Crawler mit prozeduralen Gruft-Etagen, Dash-Manövern, 15 Relikten, 3 Startwaffen und Bossen.",
+        "detail_description": "Stürze dich in ein atmosphärisches Top-Down-Action-Roguelite durch 3 prozedural generierte Gruft-Etagen voller Monster, Fallen und mehrphasiger Etagen-Bosse. Nutze präzise Dash-Manöver mit Unverwundbarkeits-Frames, sammle 15 kombinierbare Relikte für mächtige Synergien und investiere erbeutete Seelen am Altar der Seelen in dauerhafte Status-Upgrades sowie 3 freischaltbare Startwaffen (Schattendolche, Zwillingsreißer mit Doppelsalve und Arkanstab mit durchschlagenden Projektilen). Inklusive Bestiarium & Kompendium, düsterer Gruft-Musik sowie Steuerung per Maus/Tastatur, Gamepad oder Twin-Stick-Touch-Overlay, auf Deutsch und Englisch – vollständig offline, werbefrei und ohne Käufe.",
+        "teaser": "Schneller Top-Down-Dungeon-Crawler mit prozeduralen Gruft-Etagen, Dash-Manövern, 15 Relikten, 3 Startwaffen und Bossen.",
+        "symbol": "⚔️"
+      },
+      "en": {
+        "title": "Crypt Dash",
+        "description": "Fast top-down dungeon crawler with procedural crypt floors, dash manoeuvres, 15 relics, 3 starting weapons, and bosses.",
+        "detail_description": "Dive into an atmospheric dark-fantasy top-down action roguelite across 3 procedurally generated crypt floors packed with monsters, traps, and multi-phase floor bosses. Execute precision dashes with invincibility frames, collect 15 combinable relics for powerful synergies, and spend collected souls at the Soul Altar on permanent stat upgrades and 3 unlockable starting weapons (Shadow Daggers, Twin Rippers with double burst, and Arcane Staff with piercing projectiles). Includes a bestiary and almanac, moody crypt music, and mouse/keyboard, gamepad, or twin-stick touch controls in German and English – completely offline, ad-free, and with no in-app purchases.",
+        "teaser": "Fast top-down dungeon crawler with procedural crypt floors, dash manoeuvres, 15 relics, 3 starting weapons, and bosses.",
+        "symbol": "⚔️"
+      }
+    }
+  },
+  "builds": [
+    {
+      "platform": "android",
+      "version": "1.3.1",
+      "channel": "stable",
+      "download_url": "https://github.com/ChobitsChii/games/releases/download/crypt-dash-v1.3.1/crypt_dash-v1.3.1-android.apk",
+      "sha256": "b574d82be06a8611e58322bcd1056e1c7d693aa58f4aa7d6ff716e095474ad69",
+      "file_size": 65076861,
+      "released_at": "2026-11-24T12:13:37Z",
+      "android": {
+        "package_name": "de.chobitschii.crypt_dash",
+        "version_code": 10301,
+        "signing_certificate_sha256": "3ccebe94fa10c7bd87cb2bf65550db66aea072c94a0c86a15cf145b0fe81b00b"
+      }
+    },
+    {
+      "platform": "linux",
+      "version": "1.3.1",
+      "channel": "stable",
+      "download_url": "https://github.com/ChobitsChii/games/releases/download/crypt-dash-v1.3.1/crypt_dash-v1.3.1-linux-x86_64.zip",
+      "sha256": "0c2fc47a8dfeec42d13452753033e65696f99e2f334cc3c3d8e545465131fe9b",
+      "file_size": 38763113,
+      "released_at": "2026-11-24T11:27:20Z"
+    },
+    {
+      "platform": "windows",
+      "version": "1.3.1",
+      "channel": "stable",
+      "download_url": "https://github.com/ChobitsChii/games/releases/download/crypt-dash-v1.3.1/crypt_dash-v1.3.1-windows-x86_64.zip",
+      "sha256": "e753ae9c3241e051dc2214d153c84641d0c00bfec311a49e5ab49c876508dbe4",
+      "file_size": 48343913,
+      "released_at": "2026-11-24T11:27:20Z"
+    },
+    {
+      "platform": "browser",
+      "version": "1.3.1",
+      "channel": "stable",
+      "download_url": "https://github.com/ChobitsChii/games/releases/download/crypt-dash-v1.3.1/crypt_dash-v1.3.1-web.zip",
+      "sha256": "543f291c6838eee83d00978d16fb28feec8e02201b837705ea4d937e4a0da3a3",
+      "file_size": 22303112,
+      "released_at": "2026-11-24T11:27:20Z"
+    }
+  ],
+  "media": [
+    {
+      "kind": "cover",
+      "path": null,
+      "android_url": "https://chobitschii.github.io/chii-arcade/assets/crypt-dash/cover-f60fa8597ed7.webp",
+      "alt_text": {
+        "de": "Crypt-Dash-Cover: Düstere Dark-Fantasy-Krypta mit leuchtenden Runen",
+        "en": "Crypt Dash cover: atmospheric dark-fantasy crypt with glowing runes"
+      },
+      "position": 0
+    },
+    {
+      "kind": "screenshot",
+      "path": null,
+      "android_url": "https://chobitschii.github.io/chii-arcade/assets/crypt-dash/screenshot-01-b0879ddc052b.webp",
+      "alt_text": {
+        "de": "Hauptmenü von Crypt Dash mit Run-Start, Altar der Seelen und Gruft-Lexikon",
+        "en": "Crypt Dash main menu with Start Run, Soul Altar, and Crypt Almanac"
+      },
+      "position": 10
+    },
+    {
+      "kind": "screenshot",
+      "path": null,
+      "android_url": "https://chobitschii.github.io/chii-arcade/assets/crypt-dash/screenshot-02-cdc3677e9be4.webp",
+      "alt_text": {
+        "de": "Dungeon-Kampf in einer prozeduralen Gruft in 2.5D-Optik",
+        "en": "Dungeon combat inside a procedurally generated 2.5D crypt room"
+      },
+      "position": 20
+    },
+    {
+      "kind": "screenshot",
+      "path": null,
+      "android_url": "https://chobitschii.github.io/chii-arcade/assets/crypt-dash/screenshot-03-fa2e9d071dde.webp",
+      "alt_text": {
+        "de": "Altar der Seelen mit dauerhaften Status-Upgrades und Startwaffen-Auswahl",
+        "en": "Soul Altar screen with permanent stat upgrades and starting weapon selection"
+      },
+      "position": 30
+    },
+    {
+      "kind": "screenshot",
+      "path": null,
+      "android_url": "https://chobitschii.github.io/chii-arcade/assets/crypt-dash/screenshot-04-a922e6ec6c72.webp",
+      "alt_text": {
+        "de": "Gruft-Lexikon mit Bestiarium und Relikt-Übersicht",
+        "en": "Crypt Almanac showing the bestiary and relic compendium"
+      },
+      "position": 40
+    }
+  ]
+}
