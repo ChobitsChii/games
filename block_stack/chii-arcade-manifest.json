@@ -66,6 +66,7 @@
       "version": "1.2.1",
       "channel": "stable",
       "download_url": "https://github.com/ChobitsChii/games/releases/download/block-stack-v1.2.1/block_stack-v1.2.1-web.zip",
+      "play_url": "https://chobitschii.github.io/games/block_stack/",
       "sha256": "3a0cf4fed73c92d09c718714e54739be070a0fd3d1c9de6cb8f03a9692758d7d",
       "file_size": 17758223,
       "released_at": "2026-11-24T11:19:32Z"

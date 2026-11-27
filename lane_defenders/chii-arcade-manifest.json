@@ -73,6 +73,7 @@
       "version": "1.6.0",
       "channel": "stable",
       "download_url": "https://github.com/ChobitsChii/games/releases/download/lane-defenders-v1.6.0/lane_defenders-v1.6.0-web.zip",
+      "play_url": "https://chobitschii.github.io/games/lane_defenders/",
       "sha256": "1a50b2de6e0fc37b2749650998bacef67e7186d7e819516fdef2049d371641a9",
       "file_size": 20583166,
       "released_at": "2026-11-24T20:53:55Z"

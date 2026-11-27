@@ -73,6 +73,7 @@
       "version": "1.0.8",
       "channel": "stable",
       "download_url": "https://github.com/ChobitsChii/games/releases/download/asteroid-drift-v1.0.8/asteroid_drift-v1.0.8-web.zip",
+      "play_url": "https://chobitschii.github.io/games/asteroid_drift/",
       "sha256": "69e38649995af0a04ec83ac4d3e6fe7353706470233530866dbfc44aa2d385bf",
       "file_size": 11242125,
       "released_at": "2026-11-24T11:15:33Z"

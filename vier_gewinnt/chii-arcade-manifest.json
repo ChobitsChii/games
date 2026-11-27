@@ -73,6 +73,7 @@
       "version": "1.2.2",
       "channel": "stable",
       "download_url": "https://github.com/ChobitsChii/games/releases/download/vier_gewinnt-v1.2.2/vier_gewinnt-v1.2.2-web.zip",
+      "play_url": "https://chobitschii.github.io/games/vier_gewinnt/",
       "sha256": "464a4496fce0acd460de66bb2b91c3abec5403b8cf5e00776b826b32dfac6adb",
       "file_size": 18178356,
       "released_at": "2026-11-24T11:23:14Z"

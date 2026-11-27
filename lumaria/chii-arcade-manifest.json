@@ -66,6 +66,7 @@
       "version": "1.1.0",
       "channel": "stable",
       "download_url": "https://github.com/ChobitsChii/games/releases/download/lumaria-v1.1.0/lumaria-v1.1.0-web.zip",
+      "play_url": "https://chobitschii.github.io/games/lumaria/",
       "sha256": "b03e4938197caee28c7225dcce268298e46c38895bc232c5d74c75622eb33924",
       "file_size": 29178475,
       "released_at": "2026-11-25T02:27:56Z"

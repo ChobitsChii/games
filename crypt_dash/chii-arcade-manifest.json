@@ -73,6 +73,7 @@
       "version": "1.3.1",
       "channel": "stable",
       "download_url": "https://github.com/ChobitsChii/games/releases/download/crypt-dash-v1.3.1/crypt_dash-v1.3.1-web.zip",
+      "play_url": "https://chobitschii.github.io/games/crypt_dash/",
       "sha256": "543f291c6838eee83d00978d16fb28feec8e02201b837705ea4d937e4a0da3a3",
       "file_size": 22303112,
       "released_at": "2026-11-24T11:27:20Z"
