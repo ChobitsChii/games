@@ -54,7 +54,7 @@
       "platform": "linux",
       "version": "1.6.0",
       "channel": "stable",
-      "download_url": "https://github.com/ChobitsChii/games/releases/download/lane-defenders-v1.6.0/lane_defenders-v1.6.0-linux-x86_64.zip",
+      "download_url": "https://github.com/ChobitsChii/games/releases/download/lane_defenders-v1.6.0/lane_defenders-v1.6.0-linux-x86_64.zip",
       "sha256": "1515dfa1a20466aa4ec038eec89637399d02b0a672dbb8afea30619dc6f3e398",
       "file_size": 37277278,
       "released_at": "2026-11-24T20:53:55Z"
@@ -63,7 +63,7 @@
       "platform": "windows",
       "version": "1.6.0",
       "channel": "stable",
-      "download_url": "https://github.com/ChobitsChii/games/releases/download/lane-defenders-v1.6.0/lane_defenders-v1.6.0-windows-x86_64.zip",
+      "download_url": "https://github.com/ChobitsChii/games/releases/download/lane_defenders-v1.6.0/lane_defenders-v1.6.0-windows-x86_64.zip",
       "sha256": "b4b7611e33bfb9d6388741c0bfb04e5ed76011aff279f44cbe555a4580433a27",
       "file_size": 46858474,
       "released_at": "2026-11-24T20:53:55Z"
@@ -72,7 +72,7 @@
       "platform": "browser",
       "version": "1.6.0",
       "channel": "stable",
-      "download_url": "https://github.com/ChobitsChii/games/releases/download/lane-defenders-v1.6.0/lane_defenders-v1.6.0-web.zip",
+      "download_url": "https://github.com/ChobitsChii/games/releases/download/lane_defenders-v1.6.0/lane_defenders-v1.6.0-web.zip",
       "play_url": "https://chobitschii.github.io/games/lane_defenders/",
       "sha256": "1a50b2de6e0fc37b2749650998bacef67e7186d7e819516fdef2049d371641a9",
       "file_size": 20583166,

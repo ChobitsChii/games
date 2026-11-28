@@ -54,7 +54,7 @@
       "platform": "linux",
       "version": "1.1.3",
       "channel": "stable",
-      "download_url": "https://github.com/ChobitsChii/games/releases/download/neon-breakout-v1.1.3/neon_breakout-v1.1.3-linux-x86_64.zip",
+      "download_url": "https://github.com/ChobitsChii/games/releases/download/neon_breakout-v1.1.3/neon_breakout-v1.1.3-linux-x86_64.zip",
       "sha256": "5ef0c25a35e2bd76f4c1abea9bc2b308e464147a051b43b89daa279b7ffce52d",
       "file_size": 30603590,
       "released_at": "2026-11-24T11:31:02Z"
@@ -63,7 +63,7 @@
       "platform": "windows",
       "version": "1.1.3",
       "channel": "stable",
-      "download_url": "https://github.com/ChobitsChii/games/releases/download/neon-breakout-v1.1.3/neon_breakout-v1.1.3-windows-x86_64.zip",
+      "download_url": "https://github.com/ChobitsChii/games/releases/download/neon_breakout-v1.1.3/neon_breakout-v1.1.3-windows-x86_64.zip",
       "sha256": "9550f5e3b80432640e672ddd22b1aea824b7e8f99d74eadca0dbf8b3c93277c1",
       "file_size": 40184070,
       "released_at": "2026-11-24T11:31:02Z"
@@ -72,7 +72,8 @@
       "platform": "browser",
       "version": "1.1.3",
       "channel": "stable",
-      "download_url": "https://github.com/ChobitsChii/games/releases/download/neon-breakout-v1.1.3/neon_breakout-v1.1.3-web.zip",
+      "download_url": "https://github.com/ChobitsChii/games/releases/download/neon_breakout-v1.1.3/neon_breakout-v1.1.3-web.zip",
+      "play_url": "https://chobitschii.github.io/games/neon_breakout/",
       "sha256": "39d29ee789d6f421a51d20de186d8cd08034685497b635d78e17c55335458b9d",
       "file_size": 12925323,
       "released_at": "2026-11-24T11:31:02Z"

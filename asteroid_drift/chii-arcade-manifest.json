@@ -54,7 +54,7 @@
       "platform": "linux",
       "version": "1.0.8",
       "channel": "stable",
-      "download_url": "https://github.com/ChobitsChii/games/releases/download/asteroid-drift-v1.0.8/asteroid_drift-v1.0.8-linux-x86_64.zip",
+      "download_url": "https://github.com/ChobitsChii/games/releases/download/asteroid_drift-v1.0.8/asteroid_drift-v1.0.8-linux-x86_64.zip",
       "sha256": "3811935ed0fb51dc6b2eafe0d7748c7d92bc6a489c2049b13375547f5962e012",
       "file_size": 29067361,
       "released_at": "2026-11-24T11:15:33Z"
@@ -63,7 +63,7 @@
       "platform": "windows",
       "version": "1.0.8",
       "channel": "stable",
-      "download_url": "https://github.com/ChobitsChii/games/releases/download/asteroid-drift-v1.0.8/asteroid_drift-v1.0.8-windows-x86_64.zip",
+      "download_url": "https://github.com/ChobitsChii/games/releases/download/asteroid_drift-v1.0.8/asteroid_drift-v1.0.8-windows-x86_64.zip",
       "sha256": "e0d4f56a1bbe1cf94a549ee43347e3f0dc8154ae2b1aaa7fc551208e56d45e8c",
       "file_size": 38648042,
       "released_at": "2026-11-24T11:15:33Z"
@@ -72,7 +72,7 @@
       "platform": "browser",
       "version": "1.0.8",
       "channel": "stable",
-      "download_url": "https://github.com/ChobitsChii/games/releases/download/asteroid-drift-v1.0.8/asteroid_drift-v1.0.8-web.zip",
+      "download_url": "https://github.com/ChobitsChii/games/releases/download/asteroid_drift-v1.0.8/asteroid_drift-v1.0.8-web.zip",
       "play_url": "https://chobitschii.github.io/games/asteroid_drift/",
       "sha256": "69e38649995af0a04ec83ac4d3e6fe7353706470233530866dbfc44aa2d385bf",
       "file_size": 11242125,
